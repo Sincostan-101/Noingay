@@ -50,20 +50,23 @@ button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 .wrap{--gut:clamp(16px,3vw,40px);--edge:24px;padding:20px var(--gut) 64px var(--edge);display:flex;flex-direction:column;gap:22px}
 .page{width:100%;max-width:760px;display:flex;flex-direction:column;gap:18px}
-.page.wide{max-width:1200px}
+.page.wide{max-width:1200px;align-self:center}
 .list.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:700px){.list.grid2{grid-template-columns:1fr}}
 .voicepick{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 6px 3px 12px;font-size:13px;font-weight:600;color:var(--muted)}
 .voicepick select{border:0;background:transparent;color:var(--ink);font:inherit;max-width:190px;padding:3px 2px}
 
 /* Header */
-.top{display:grid;grid-template-columns:1fr auto 1fr;grid-template-areas:"brand title right";align-items:center;gap:12px}
-.top .brand{grid-area:brand;justify-self:start;white-space:nowrap}
-.top .section-title{grid-area:title;justify-self:center;margin:0;font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.02em;color:var(--accent)}
-.top .topright{grid-area:right;justify-self:end}
-@media (max-width:760px){
-  .top{grid-template-columns:1fr auto;grid-template-areas:"brand right" "title title"}
-  .top .brand{font-size:18px}
+.top{display:grid;grid-template-columns:calc(220px + var(--gut) - var(--edge)) minmax(0,1fr);gap:28px;align-items:center}
+.top .brand{justify-self:start;white-space:nowrap;position:relative;z-index:1}
+.top-main{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+.top-main .section-title{grid-column:2;margin:0;font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.02em;color:var(--accent);white-space:nowrap}
+.top-main .topright{grid-column:3;justify-self:end}
+@media (max-width:1100px){
+  .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+  .top-main{display:contents}
+  .top-main .topright{order:2}
+  .top-main .section-title{order:3;flex-basis:100%;text-align:center}
 }
 .layout{display:grid;grid-template-columns:calc(220px + var(--gut) - var(--edge)) minmax(0,1fr);gap:28px;align-items:start}
 .side{display:flex;flex-direction:column;gap:6px;position:sticky;top:16px}
@@ -94,9 +97,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .seg button{border:0;background:transparent;padding:7px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink)}
 
-.intro{text-align:center;max-width:720px;width:100%;align-self:center;padding:8px 0 4px}
+.intro{text-align:center;max-width:1200px;width:100%;align-self:center;padding:8px 0 4px}
 .intro .intro-h{font-size:clamp(24px,3.2vw,34px);line-height:1.25;margin:0 0 8px;text-wrap:balance;letter-spacing:-.02em}
-.intro p{margin:0 auto;color:var(--muted);max-width:56ch;text-wrap:balance}
+.intro p{margin:0 auto;color:var(--muted);max-width:80ch;text-wrap:balance}
 
 /* Lesson list */
 .list{display:grid;gap:12px}
@@ -677,6 +680,7 @@ function header(){
   const sec = SECTIONS.find(s => s.id === ui.section) || SECTIONS[0];
   return `<header class="top">
     <div class="brand"><span class="mark" aria-hidden="true">SFY</span>Study for yourself</div>
+    <div class="top-main">
     <h1 class="section-title">${esc(sec.name)}</h1>
     <div class="topright">
     <div class="seg" role="group" aria-label="Chọn ngôn ngữ">
@@ -684,7 +688,7 @@ function header(){
       <button data-act="lang" data-v="zh" aria-pressed="${L==="zh"}">中文</button>
     </div>
     <button class="themebtn" data-act="theme" aria-label="${dark?"Chuyển sang chế độ ban ngày":"Chuyển sang chế độ ban đêm"}">${dark?ICON_SUN+" Ban ngày":ICON_MOON+" Ban đêm"}</button>
-    </div></header>`;
+    </div></div></header>`;
 }
 function sidebar(){
   const open = !!store.prefs.menuOpen;
