@@ -52,6 +52,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 .wrap{padding:20px clamp(16px,3vw,40px) 64px;display:flex;flex-direction:column;gap:22px}
 .page{width:100%;max-width:760px;display:flex;flex-direction:column;gap:18px}
+.page.wide{max-width:1200px}
+.list.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:700px){.list.grid2{grid-template-columns:1fr}}
 .voicepick{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 6px 3px 12px;font-size:13px;font-weight:600;color:var(--muted)}
 .voicepick select{border:0;background:transparent;color:var(--ink);font:inherit;max-width:190px;padding:3px 2px}
 
@@ -645,9 +648,9 @@ function renderHome(){
       <h1>Học nói ${L==="zh"?"tiếng Trung":"tiếng Anh"} qua tình huống thật</h1>
       <p>Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
     </section>
-    <div class="page">
+    <div class="page wide">
     ${voiceWarn}
-    <div class="list">${cards}</div>
+    <div class="list grid2">${cards}</div>
     <div class="tip">Mỗi bài có 4 bước: <b>nghe</b>, <b>nói câu then chốt</b>, <b>đóng vai</b>, rồi mới tới <b>giải thích</b>. Nên học bằng Chrome trên điện thoại hoặc máy tính để dùng được micro chấm phát âm.</div>
     </div>`;
 }
