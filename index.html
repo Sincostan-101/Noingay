@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
 <title>Nói Ngay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,13 +12,13 @@
 <style>
 :root{
   /* Layout: logo trái, ngôn ngữ + chế độ đêm phải; tiêu đề giữa; bài học lưới 2 cột bám lề trái */
-  --bg:#ffffff;
-  --surface:#e8f6ed;
+  --bg:#fcf7ea;
+  --surface:#e5f2df;
   --ink:#123524;
   --muted:#4d6d5b;
-  --line:#c9e5d3;
+  --line:#d2e4cc;
   --accent:#23944f;
-  --accent-soft:#c6ebd3;
+  --accent-soft:#c8e8c6;
   --btn:#a5e6bc;
   --btn-ink:#0c3d21;
   --sun:#f4b400;
@@ -29,13 +31,13 @@
   --font-body:"Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --radius:14px;
-  color-scheme: light;
+  color-scheme: only light;
 }
 :root[data-theme="dark"]{
   --bg:#0b1410; --surface:#15281d; --ink:#e4f1e8; --muted:#97b0a1; --line:#25402f;
   --accent:#6ee39a; --accent-soft:#1d4a30; --btn:#2f7a4c; --btn-ink:#eafff1; --sun:#fbbf24;
   --good:#4ade80; --good-soft:#153524; --warn:#f0b24a; --warn-soft:#3a2d12;
-  --bad:#ff7a70; --bad-soft:#3d1b1a; color-scheme: dark;
+  --bad:#ff7a70; --bad-soft:#3d1b1a; color-scheme: only dark;
 }
 .topright{display:flex;align-items:center;gap:10px}
 .themebtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
@@ -373,7 +375,11 @@ function saveStore(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(store)
 let store = loadStore();
 store.progress = store.progress || {};
 store.prefs = Object.assign({lang:"en", slow:false, showVi:true, showPy:true, theme:"light"}, store.prefs || {});
-function applyTheme(){ document.documentElement.setAttribute("data-theme", store.prefs.theme === "dark" ? "dark" : "light"); }
+function applyTheme(){
+  const dark = store.prefs.theme === "dark";
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+  const m = document.querySelector('meta[name="color-scheme"]'); if(m) m.setAttribute("content", dark ? "only dark" : "only light");
+}
 applyTheme();
 function prog(id){ return store.progress[id] || (store.progress[id] = {listen:false, phrases:{}, role:false, roleScore:null}); }
 
