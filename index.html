@@ -50,7 +50,10 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-siz
 .zh{font-family:var(--font-zh)}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
-.wrap{max-width:720px;margin:0 auto;padding:16px 16px 64px;display:flex;flex-direction:column;gap:18px}
+.wrap{padding:20px clamp(16px,3vw,40px) 64px;display:flex;flex-direction:column;gap:22px}
+.page{width:100%;max-width:760px;display:flex;flex-direction:column;gap:18px}
+.voicepick{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 6px 3px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.voicepick select{border:0;background:transparent;color:var(--ink);font:inherit;max-width:190px;padding:3px 2px}
 
 /* Header */
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -60,8 +63,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .seg button{border:0;background:transparent;padding:7px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
 
-.intro h1{font-size:26px;line-height:1.25;margin:0 0 6px;text-wrap:balance;letter-spacing:-.02em}
-.intro p{margin:0;color:var(--muted);max-width:60ch}
+.intro{text-align:center;max-width:720px;width:100%;align-self:center;padding:8px 0 4px}
+.intro h1{font-size:clamp(24px,3.2vw,34px);line-height:1.25;margin:0 0 8px;text-wrap:balance;letter-spacing:-.02em}
+.intro p{margin:0 auto;color:var(--muted);max-width:56ch;text-wrap:balance}
 
 /* Lesson list */
 .list{display:grid;gap:12px}
@@ -376,11 +380,16 @@ function prog(id){ return store.progress[id] || (store.progress[id] = {listen:fa
 const TTS = {
   voices: [], current: null,
   load(){ try{ this.voices = speechSynthesis.getVoices() || []; }catch(e){ this.voices = []; } },
+  list(lang){
+    const base = LANG_INFO[lang].tts.toLowerCase().slice(0,2);
+    return this.voices.filter(v => (v.lang||"").replace("_","-").toLowerCase().startsWith(base));
+  },
   pick(lang){
     const pref = LANG_INFO[lang].tts.toLowerCase();
-    const base = pref.slice(0,2);
-    const list = this.voices.filter(v => (v.lang||"").replace("_","-").toLowerCase().startsWith(base));
+    const list = this.list(lang);
     if(!list.length) return null;
+    const chosen = (store.prefs.voice || {})[lang];
+    if(chosen){ const c = list.find(v => v.voiceURI === chosen); if(c) return c; }
     const exact = list.filter(v => v.lang.replace("_","-").toLowerCase() === pref);
     const pool = exact.length ? exact : list;
     return pool.find(v => /natural|google|neural|premium|enhanced/i.test(v.name)) || pool[0];
@@ -636,9 +645,11 @@ function renderHome(){
       <h1>Học nói ${L==="zh"?"tiếng Trung":"tiếng Anh"} qua tình huống thật</h1>
       <p>Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
     </section>
+    <div class="page">
     ${voiceWarn}
     <div class="list">${cards}</div>
-    <div class="tip">Mỗi bài có 4 bước: <b>nghe</b>, <b>nói câu then chốt</b>, <b>đóng vai</b>, rồi mới tới <b>giải thích</b>. Nên học bằng Chrome trên điện thoại hoặc máy tính để dùng được micro chấm phát âm.</div>`;
+    <div class="tip">Mỗi bài có 4 bước: <b>nghe</b>, <b>nói câu then chốt</b>, <b>đóng vai</b>, rồi mới tới <b>giải thích</b>. Nên học bằng Chrome trên điện thoại hoặc máy tính để dùng được micro chấm phát âm.</div>
+    </div>`;
 }
 function micStatus(lang){
   const m = Rec.mode(lang);
@@ -658,17 +669,20 @@ function renderLesson(){
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>
       <button class="chip" data-act="pref" data-v="showVi" aria-pressed="${store.prefs.showVi}">Nghĩa tiếng Việt</button>
       ${lang==="zh"?`<button class="chip" data-act="pref" data-v="showPy" aria-pressed="${store.prefs.showPy}">Bính âm</button>`:""}
+      ${voicePicker(lang)}
     </div>`;
   let body = "";
   if(st===0) body = renderListen(lesson, lang);
   if(st===1) body = renderPhrases(lesson, lang);
   if(st===2) body = renderRole(lesson, lang);
   if(st===3) body = renderNotes(lesson, lang);
-  return `<div><button class="back" data-act="home">← Tất cả bài học</button></div>
+  return header() + `<div class="page">
+    <div><button class="back" data-act="home">← Tất cả bài học</button></div>
     <div class="lesson-head"><h2>${esc(lesson.title)}</h2><p>${esc(lesson.scene)} Bạn là người bên phải.</p></div>
     <nav class="steps" aria-label="Các bước">${stepBtns}</nav>
     ${toggles}
-    ${body}`;
+    ${body}
+    </div>`;
 }
 function lineHtml(line, lang, key, opts){
   opts = opts || {};
@@ -791,6 +805,13 @@ function renderNotes(lesson, lang){
     <div class="next">${nxt?`<button class="btn" data-act="open" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>`:`<button class="btn ghost" data-act="home">Về danh sách bài</button>`}</div>`;
 }
 function renderMicStates(){ render(); }
+function voicePicker(lang){
+  const list = TTS.list(lang);
+  if(list.length < 2) return "";
+  const cur = TTS.pick(lang);
+  const opts = list.map(v => `<option value="${esc(v.voiceURI)}" ${cur && cur.voiceURI===v.voiceURI?"selected":""}>${esc(v.name.replace(/^(Microsoft|Google)\s+/,"").replace(/\s+Online \(Natural\)/," (Natural)"))} · ${esc(v.lang)}</option>`).join("");
+  return `<label class="voicepick" for="voice-sel">Giọng đọc <select id="voice-sel" data-act="voice">${opts}</select></label>`;
+}
 
 /* ===================== HÀNH ĐỘNG ===================== */
 function itemByKey(key){
@@ -860,7 +881,8 @@ document.addEventListener("click", (ev) => {
   const el = ev.target.closest("[data-act]");
   if(!el || el.tagName === "FORM") return;
   const act = el.dataset.act;
-  if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); render(); return; }
+  if(act === "voice") return;
+  if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.playAll=false; ui.playingKey=null; render(); return; }
   if(act === "open"){ TTS.stop(); Rec.stop(); ui.view="lesson"; ui.lessonId=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.rp=null; ui.playAll=false; ui.playingKey=null;
     const c = curLesson(); if(c){ store.prefs.lang = c.lang; saveStore(); } render(); window.scrollTo(0,0); return; }
   if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
@@ -885,6 +907,14 @@ document.addEventListener("click", (ev) => {
   if(act === "reveal"){ if(ui.rp){ ui.rp.revealed = true; render(); } return; }
   if(act === "rpnext"){ if(ui.rp){ ui.rp.idx++; rpAdvance(); } return; }
   if(act === "rpskip"){ if(ui.rp){ ui.rp.results[ui.rp.idx] = {skipped:true, score:0}; ui.rp.idx++; rpAdvance(); } return; }
+});
+document.addEventListener("change", (ev) => {
+  const sel = ev.target.closest("select[data-act='voice']");
+  if(!sel) return;
+  const c = curLesson(); if(!c) return;
+  store.prefs.voice = Object.assign({}, store.prefs.voice || {}, {[c.lang]: sel.value});
+  saveStore();
+  TTS.speak(c.lang==="zh" ? "你好，我是你的新声音。" : "Hi! This is your new voice.", c.lang);
 });
 document.addEventListener("submit", (ev) => {
   const f = ev.target.closest("form[data-act='typed']");
