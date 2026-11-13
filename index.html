@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="only light">
 <meta name="darkreader-lock">
-<title>SFY</title>
+<title>Study for yourself</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -83,7 +83,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   .side .side-h{display:none}
 }
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.02em}
-.brand .mark{width:34px;height:34px;border-radius:10px;background:var(--btn);color:var(--btn-ink);display:grid;place-items:center;font-size:18px}
+.brand .mark{min-width:34px;padding:0 8px;font-size:14px;letter-spacing:.04em;height:34px;border-radius:10px;background:var(--btn);color:var(--btn-ink);display:grid;place-items:center;font-size:18px}
 .seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px}
 .seg button{border:0;background:transparent;padding:7px 14px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink)}
@@ -669,7 +669,7 @@ function header(){
   const dark = store.prefs.theme === "dark";
   const sec = SECTIONS.find(s => s.id === ui.section) || SECTIONS[0];
   return `<header class="top">
-    <div class="brand" title="Study for yourself"><span class="mark" aria-hidden="true">S</span>SFY</div>
+    <div class="brand"><span class="mark" aria-hidden="true">SFY</span>Study for yourself</div>
     <h1 class="section-title">${esc(sec.name)}</h1>
     <div class="topright">
     <div class="seg" role="group" aria-label="Chọn ngôn ngữ">
