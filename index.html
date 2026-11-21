@@ -201,14 +201,27 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pomo-btn svg{width:16px;height:16px;flex:none}
 .pomo-btn.run{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .pomo-btn.brk{background:var(--good-soft);border-color:var(--good);color:var(--good)}
-.pomo-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:290px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 32px rgba(0,0,0,.14);padding:14px;display:flex;flex-direction:column;gap:12px}
+.pomo-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:310px;max-height:calc(100vh - 90px);overflow-y:auto;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 32px rgba(0,0,0,.14);padding:14px;display:flex;flex-direction:column;gap:12px}
 .pomo-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--bg);border-radius:999px;padding:4px}
 .pomo-modes button{border:0;background:transparent;border-radius:999px;padding:6px 4px;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
 .pomo-modes button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink)}
 .pomo-big{font-size:46px;font-weight:800;text-align:center;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
 .pomo-msg{font-size:13px;color:var(--muted);text-align:center}
+.pomo-tip{font-size:13px;line-height:1.45;background:var(--warn-soft);color:var(--ink);border-radius:10px;padding:8px 10px}
+.pomo-cfg{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.pomo-sub{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.pomo-presets{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pomo-presets button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:7px 6px;font-size:12px;font-weight:700;color:var(--ink)}
+.pomo-presets button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink);border-color:transparent}
+.pomo-field{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px}
+.pomo-num{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px}
+.pomo-num input{width:64px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 8px;font:inherit;text-align:right}
 .pomo-alert{font-size:14px;font-weight:700;text-align:center;background:var(--good-soft);color:var(--good);border-radius:10px;padding:8px}
 /* Phát âm */
+.grp-h{margin:14px 0 -4px;font-size:15px;font-weight:800;color:var(--accent);letter-spacing:.01em}
+.card h3.ipa{font-size:21px;letter-spacing:.01em}
+.lesson-head .grp-tag{margin:0 0 2px;font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
+.lesson-head h2.ipa-big{font-size:40px;line-height:1.15}
 .snd{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .snd-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .sym{min-width:56px;height:44px;padding:0 12px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:22px;font-weight:800;white-space:nowrap}
@@ -450,6 +463,7 @@ en: [
     snd("/uː/","u dài, như “u” tiếng Việt kéo dài","Chu môi tròn ra trước, lưỡi lùi về sau, giữ âm lâu.",["food=đồ ăn","blue=màu xanh dương","two=số hai"])],
    mistake:"Đọc “ship” và “sheep” giống hệt nhau. Hai từ này chỉ khác độ dài và độ căng của âm i, đọc sai là người nghe hiểu nhầm nghĩa.",
    pairs:["ship|sheep","sit|seat","live|leave","bit|beat","full|fool","pull|pool"],
+   pt:"01 01 01 01 23 23",
    speak:["ship=con tàu","sheep=con cừu","good=tốt","food=đồ ăn","Sit in this seat.=Ngồi vào ghế này đi."]},
  { id:"pen-ea", title:"e, a và â", sub:"/e/ /æ/ /ʌ/ /ɑː/",
    sounds:[
@@ -458,7 +472,8 @@ en: [
     snd("/ʌ/","gần “ă” hoặc “â” tiếng Việt","Miệng mở vừa, lưỡi thả lỏng ở giữa, phát âm ngắn và dứt khoát.",["cup=cái cốc","bus=xe buýt","love=yêu"]),
     snd("/ɑː/","“a” dài, miệng mở to","Hạ hàm và lưỡi xuống thấp, mở miệng rộng và kéo dài âm. Giọng Mỹ thêm “r” cong lưỡi ở các từ có chữ r.",["car=xe hơi","father=bố","start=bắt đầu"])],
    mistake:"Đọc /æ/ thành “a” hoặc “e” tiếng Việt, khiến “bad” và “bed” nghe như nhau.",
-   pairs:["bed|bad","men|man","cup|cap","hut|hat","head|had","cut|cat"],
+   pairs:["bed|bad","men|man","cup|cap","hut|hat","head|had","cut|cat","cut|cart","hat|heart"],
+   pt:"01 01 12 12 01 12 23 13",
    speak:["bad=tệ","cup=cái cốc","car=xe hơi","man=người đàn ông","My cat is black.=Con mèo của tôi màu đen."]},
  { id:"pen-o", title:"o, ơ và âm nhẹ ə", sub:"/ɒ/ /ɔː/ /ɜː/ /ə/",
    sounds:[
@@ -468,6 +483,7 @@ en: [
     snd("/ə/","“ơ” rất nhẹ và ngắn","Âm lướt, thả lỏng hoàn toàn, chỉ xuất hiện ở âm tiết không nhấn. Đây là âm gặp nhiều nhất trong tiếng Anh.",["about=về","banana=quả chuối","teacher=giáo viên"])],
    mistake:"Đọc mọi nguyên âm thật rõ như tiếng Việt. Âm tiết không nhấn thường đọc nhẹ thành /ə/: “banana” là bơ-NA-nơ, không phải ba-na-na.",
    pairs:["walk|work","short|shirt","born|burn","not|nut","shot|shut","ward|word"],
+   pt:"12 12 12 0 0 12",
    speak:["walk=đi bộ","work=làm việc","bird=con chim","about=về","Learn a new word.=Học một từ mới."]},
  { id:"pen-diph1", title:"Nguyên âm đôi: ây, ai, oi", sub:"/eɪ/ /aɪ/ /ɔɪ/",
    sounds:[
@@ -476,6 +492,7 @@ en: [
     snd("/ɔɪ/","như “oi” tiếng Việt","Tròn môi ở “o” rồi trượt sang “i”.",["boy=cậu bé","coin=đồng xu","enjoy=thích thú"])],
    mistake:"Đọc “name” thành “nem”, “late” thành “let”. Thiếu phần trượt sang “i” là thành từ khác.",
    pairs:["wait|wet","late|let","main|men","fine|fin","buy|boy","tile|toil"],
+   pt:"0 0 0 1 12 12",
    speak:["day=ngày","time=thời gian","boy=cậu bé","name=tên","My boy likes to play.=Con trai tôi thích chơi."]},
  { id:"pen-diph2", title:"Nguyên âm đôi: ao, âu, ia, eơ, uơ", sub:"/aʊ/ /əʊ/ /ɪə/ /eə/ /ʊə/",
    sounds:[
@@ -486,6 +503,7 @@ en: [
     snd("/ʊə/","như “u-ơ” đọc liền","Từ “u” trượt sang “ơ”. Âm này ngày càng ít dùng, nhiều người đọc thành /ɔː/.",["tour=chuyến du lịch","poor=nghèo","cure=chữa khỏi"])],
    mistake:"Đọc “go” thành “gô”, “home” thành “hôm”. Cuối âm phải tròn môi trượt sang “u”.",
    pairs:["now|no","town|tone","loud|load","hair|here","bear|beer","pair|peer"],
+   pt:"01 01 01 23 23 23",
    speak:["now=bây giờ","home=nhà","here=ở đây","where=ở đâu","Go down to the house.=Đi xuống ngôi nhà."]},
  { id:"pen-pbtdkg", title:"p b, t d, k g", sub:"/p/ /b/ /t/ /d/ /k/ /g/",
    sounds:[
@@ -496,7 +514,8 @@ en: [
     snd("/k/","như “k” nhưng bật hơi","Cuống lưỡi chạm vòm mềm rồi bật mạnh luồng hơi.",["key=chìa khóa","cat=con mèo","back=phía sau"]),
     snd("/g/","như “g” tiếng Việt, bật gọn","Cuống lưỡi chạm vòm mềm rồi bật ra, dây thanh rung.",["go=đi","bag=cái túi","dog=con chó"])],
    mistake:"Nuốt âm cuối: “bad” đọc thành “ba”, “cat” đọc thành “ca”. Âm cuối quyết định nghĩa của từ, phải đọc rõ.",
-   pairs:["pig|big","pea|bee","tie|die","cap|cab","cold|gold","back|bag"],
+   pairs:["pig|big","pea|bee","tie|die","cap|cab","cold|gold","back|bag","ten|den","bat|bad"],
+   pt:"01 01 23 01 45 45 23 23",
    speak:["pen=bút","big=to","tea=trà","cat=con mèo","Put the bag on the bed.=Đặt cái túi lên giường."]},
  { id:"pen-fvth", title:"f v và hai âm th", sub:"/f/ /v/ /θ/ /ð/",
    sounds:[
@@ -505,7 +524,8 @@ en: [
     snd("/θ/","không có trong tiếng Việt","Đặt đầu lưỡi giữa hai hàm răng rồi thổi hơi ra, không rung dây thanh. Không đọc thành “th” hay “t” tiếng Việt.",["think=nghĩ","three=số ba","mouth=miệng"]),
     snd("/ð/","không có trong tiếng Việt","Giống /θ/ (lưỡi giữa hai hàm răng) nhưng dây thanh rung. Nghe hơi giống “đ” kéo nhẹ.",["this=cái này","mother=mẹ","they=họ"])],
    mistake:"Đọc “think” thành “thinh” hoặc “sink”, “this” thành “đít”. Hãy soi gương: đầu lưỡi phải thò ra giữa hai hàm răng.",
-   pairs:["fan|van","few|view","think|sink","three|tree","they|day","thin|tin"],
+   pairs:["fan|van","few|view","think|sink","three|tree","they|day","thin|tin","though|dough"],
+   pt:"01 01 2 2 3 2 3",
    speak:["think=nghĩ","this=cái này","very=rất","mother=mẹ","I think this is fine.=Tôi nghĩ thế này là ổn."]},
  { id:"pen-szsh", title:"s z, sh và zh", sub:"/s/ /z/ /ʃ/ /ʒ/",
    sounds:[
@@ -515,6 +535,7 @@ en: [
     snd("/ʒ/","gần “gi” kéo dài","Giống /ʃ/ nhưng dây thanh rung.",["measure=đo lường","usually=thường xuyên","television=tivi"])],
    mistake:"Bỏ âm /s/ /z/ ở cuối từ: “cats” đọc thành “cat”, “is” đọc thành “i”. Mất âm cuối là mất số nhiều.",
    pairs:["sip|zip","sue|zoo","see|she","sip|ship","sort|short","bus|buzz"],
+   pt:"01 01 02 02 02 01",
    speak:["see=nhìn thấy","zoo=sở thú","she=cô ấy","usually=thường xuyên","She sells fish.=Cô ấy bán cá."]},
  { id:"pen-chjh", title:"ch, j và h", sub:"/tʃ/ /dʒ/ /h/",
    sounds:[
@@ -523,6 +544,7 @@ en: [
     snd("/h/","luồng hơi nhẹ","Chỉ thở nhẹ ra, không cọ xát ở cổ họng. Nhẹ hơn “h” tiếng Việt.",["hat=cái mũ","home=nhà","behind=phía sau"])],
    mistake:"Đọc /tʃ/ và /ʃ/ như nhau, khiến “chip” và “ship” nghe giống nhau. /tʃ/ có tiếng bật, /ʃ/ chỉ có tiếng xì.",
    pairs:["chip|ship","cheap|jeep","choke|joke","chin|gin","hat|at","heat|eat"],
+   pt:"0 01 01 01 2 2",
    speak:["chair=cái ghế","job=công việc","home=nhà","watch=xem","Change the cheap chair.=Đổi cái ghế rẻ tiền đi."]},
  { id:"pen-mnng", title:"m, n và ng", sub:"/m/ /n/ /ŋ/",
    sounds:[
@@ -531,6 +553,7 @@ en: [
     snd("/ŋ/","như “ng” tiếng Việt","Cuống lưỡi chạm vòm mềm. Ở cuối từ như “sing” không đọc thêm “g”.",["sing=hát","long=dài","morning=buổi sáng"])],
    mistake:"Đọc lẫn âm cuối /n/ và /ŋ/: “thin” và “thing” nghe như nhau. Ở /n/ đầu lưỡi chạm lợi, ở /ŋ/ đầu lưỡi thả xuống.",
    pairs:["sum|sun","thin|thing","ran|rang","sin|sing","ban|bang","come|cone"],
+   pt:"01 12 12 12 12 01",
    speak:["sun=mặt trời","sing=hát","man=người đàn ông","morning=buổi sáng","Sing a song in the morning.=Hát một bài vào buổi sáng."]},
  { id:"pen-lrwy", title:"l, r, w và y", sub:"/l/ /r/ /w/ /j/",
    sounds:[
@@ -539,7 +562,8 @@ en: [
     snd("/w/","gần “qu” hoặc “oa”","Chu môi tròn rồi mở ra thật nhanh. Không đọc thành “v”.",["we=chúng tôi","water=nước","window=cửa sổ"]),
     snd("/j/","như “y” trong “yêu”","Mặt lưỡi nâng sát vòm cứng rồi lướt sang nguyên âm phía sau.",["yes=vâng","you=bạn","year=năm"])],
    mistake:"Đọc “light” và “right” giống nhau, hoặc đọc /w/ thành “v” (“west” thành “vest”).",
-   pairs:["light|right","long|wrong","lead|read","glass|grass","vest|west","vine|wine"],
+   pairs:["light|right","long|wrong","lead|read","glass|grass","vest|west","vine|wine","yet|jet","year|ear"],
+   pt:"01 01 01 01 2 2 3 3",
    speak:["right=đúng","light=ánh sáng","water=nước","yes=vâng","Read the red letter.=Đọc lá thư màu đỏ."]}
 ],
 zh: [
@@ -552,6 +576,7 @@ zh: [
     snd("a","Thanh nhẹ: ngắn và nhẹ","Đọc thật ngắn, nhẹ, không dấu. Thường là âm tiết thứ hai của từ lặp hoặc trợ từ.",["妈妈 māma=mẹ","谢谢 xièxie=cảm ơn","哥哥 gēge=anh trai"])],
    mistake:"Đọc thanh 4 thành dấu huyền tiếng Việt (thấp và kéo dài). Thanh 4 phải bắt đầu từ cao và rơi xuống thật nhanh.",
    pairs:["妈 mā|马 mǎ","买 mǎi|卖 mài","汤 tāng|糖 táng","书 shū|树 shù","问 wèn|闻 wén","请 qǐng|晴 qíng"],
+   pt:"02 23 01 03 13 12",
    speak:["你好 nǐ hǎo=xin chào","谢谢 xièxie=cảm ơn","妈妈 māma=mẹ","再见 zàijiàn=tạm biệt","我是越南人 wǒ shì Yuènán rén=tôi là người Việt Nam"]},
  { id:"pzh-vowels", title:"Vận mẫu đơn: a o e i u ü", sub:"6 nguyên âm cơ bản",
    sounds:[
@@ -563,6 +588,7 @@ zh: [
     snd("ü","không có trong tiếng Việt","Đặt lưỡi như khi đọc “i” rồi chu môi tròn như “u”. Sau j q x y thì viết là u nhưng vẫn đọc là ü.",["鱼 yú=con cá","女 nǚ=nữ","去 qù=đi"])],
    mistake:"Đọc ü thành “uy” hoặc “i”. Giữ nguyên lưỡi của “i”, chỉ thay đổi môi, và không trượt âm.",
    pairs:["路 lù|绿 lǜ","怒 nù|女 nǚ","哥 gē|姑 gū","喝 hē|哈 hā","你 nǐ|女 nǚ","波 bō|八 bā"],
+   pt:"45 45 24 02 35 01",
    speak:["喝水 hē shuǐ=uống nước","女儿 nǚ'ér=con gái","绿色 lǜsè=màu xanh lá","我饿了 wǒ è le=tôi đói rồi","他是我哥哥 tā shì wǒ gēge=anh ấy là anh trai tôi"]},
  { id:"pzh-bpmf", title:"Thanh mẫu b p m f", sub:"Âm môi",
    sounds:[
@@ -572,6 +598,7 @@ zh: [
     snd("f","như “ph” tiếng Việt","Răng trên chạm nhẹ môi dưới, thổi hơi qua khe.",["饭 fàn=cơm","飞 fēi=bay","风 fēng=gió"])],
    mistake:"Đọc b thành “b” tiếng Việt (có rung) và p thành “p” không bật hơi. Trong tiếng Trung, b và p khác nhau ở luồng hơi, không phải ở độ rung.",
    pairs:["爸 bà|怕 pà","包 bāo|抛 pāo","饱 bǎo|跑 pǎo","白 bái|牌 pái","飞 fēi|杯 bēi","米 mǐ|比 bǐ"],
+   pt:"01 01 01 01 03 02",
    speak:["爸爸 bàba=bố","朋友 péngyou=bạn bè","妈妈 māma=mẹ","吃饭 chīfàn=ăn cơm","我不怕 wǒ bú pà=tôi không sợ"]},
  { id:"pzh-dtnl", title:"Thanh mẫu d t n l", sub:"Âm đầu lưỡi",
    sounds:[
@@ -581,6 +608,7 @@ zh: [
     snd("l","như “l” tiếng Việt","Đầu lưỡi chạm lợi trên, hơi đi ra hai bên lưỡi.",["来 lái=đến","老 lǎo=già","六 liù=sáu"])],
    mistake:"Đọc d thành “đ” tiếng Việt. Âm d của tiếng Trung gần với “t” tiếng Việt hơn, còn t thì gần với “th”.",
    pairs:["到 dào|套 tào","读 dú|图 tú","弟 dì|替 tì","男 nán|蓝 lán","你 nǐ|里 lǐ","脑 nǎo|老 lǎo"],
+   pt:"01 01 01 23 23 23",
    speak:["弟弟 dìdi=em trai","太好了 tài hǎo le=tốt quá","你来了 nǐ lái le=bạn đến rồi","老师 lǎoshī=thầy cô","南方 nánfāng=miền Nam"]},
  { id:"pzh-gkh", title:"Thanh mẫu g k h", sub:"Âm cuống lưỡi",
    sounds:[
@@ -589,6 +617,7 @@ zh: [
     snd("h","gần “kh” tiếng Việt","Cuống lưỡi nâng gần vòm mềm, hơi cọ xát đi ra. Mạnh hơn “h” tiếng Việt.",["好 hǎo=tốt","喝 hē=uống","火 huǒ=lửa"])],
    mistake:"Đọc h nhẹ như “h” tiếng Việt. Âm h tiếng Trung có tiếng cọ xát ở cuống lưỡi, gần với “kh”.",
    pairs:["哥 gē|科 kē","怪 guài|快 kuài","歌 gē|喝 hē","裤 kù|户 hù","狗 gǒu|口 kǒu","瓜 guā|花 huā"],
+   pt:"01 01 02 12 01 02",
    speak:["哥哥 gēge=anh trai","可以 kěyǐ=được","很好 hěn hǎo=rất tốt","喝咖啡 hē kāfēi=uống cà phê","好看 hǎokàn=đẹp"]},
  { id:"pzh-jqx", title:"Thanh mẫu j q x", sub:"Âm mặt lưỡi",
    sounds:[
@@ -597,6 +626,7 @@ zh: [
     snd("x","gần “x” tiếng Việt, khóe miệng kéo ra","Mặt lưỡi áp gần vòm cứng, kéo khóe miệng sang hai bên như cười, thổi hơi.",["谢 xiè=cảm ơn","小 xiǎo=nhỏ","西 xī=phía tây"])],
    mistake:"Sau j q x, chữ u thật ra là ü: 去 qù đọc với môi chu tròn như ü, không phải “khu”.",
    pairs:["鸡 jī|七 qī","见 jiàn|欠 qiàn","急 jí|席 xí","前 qián|闲 xián","西 xī|七 qī","机 jī|西 xī"],
+   pt:"01 01 02 12 12 02",
    speak:["谢谢 xièxie=cảm ơn","喜欢 xǐhuan=thích","去哪儿 qù nǎr=đi đâu","加油 jiāyóu=cố lên","多少钱 duōshao qián=bao nhiêu tiền"]},
  { id:"pzh-zhchshr", title:"Thanh mẫu zh ch sh r", sub:"Âm uốn lưỡi",
    sounds:[
@@ -606,6 +636,7 @@ zh: [
     snd("r","gần “r” uốn lưỡi nhẹ","Cong lưỡi như sh nhưng dây thanh rung, không rung đầu lưỡi.",["人 rén=người","热 rè=nóng","日 rì=ngày"])],
    mistake:"Không cong lưỡi, khiến zh ch sh nghe thành z c s. Hãy để đầu lưỡi cong lên chạm phần vòm phía sau lợi.",
    pairs:["知 zhī|吃 chī","找 zhǎo|吵 chǎo","是 shì|日 rì","山 shān|三 sān","中 zhōng|宗 zōng","是 shì|四 sì"],
+   pt:"01 01 23 2 0 2",
    speak:["中国 Zhōngguó=Trung Quốc","吃饭 chīfàn=ăn cơm","老师 lǎoshī=thầy cô","日本人 Rìběn rén=người Nhật","这是什么 zhè shì shénme=đây là gì"]},
  { id:"pzh-zcs", title:"Thanh mẫu z c s", sub:"Âm đầu lưỡi trước",
    sounds:[
@@ -614,6 +645,7 @@ zh: [
     snd("s","như “x” tiếng Việt","Đầu lưỡi gần sau răng trên, thổi hơi qua khe.",["四 sì=bốn","三 sān=ba","岁 suì=tuổi"])],
    mistake:"Trong zi ci si, chữ i không đọc là “i” mà gần như “ư”: 四 sì đọc gần “xư”.",
    pairs:["在 zài|菜 cài","字 zì|次 cì","早 zǎo|草 cǎo","四 sì|是 shì","三 sān|山 shān","租 zū|粗 cū"],
+   pt:"01 01 01 2 2 01",
    speak:["再见 zàijiàn=tạm biệt","早上好 zǎoshang hǎo=chào buổi sáng","菜单 càidān=thực đơn","名字 míngzi=tên","四川 Sìchuān=Tứ Xuyên"]},
  { id:"pzh-diph", title:"Vận mẫu kép: ai ei ao ou", sub:"4 vần ghép hai nguyên âm",
    sounds:[
@@ -623,6 +655,7 @@ zh: [
     snd("ou","như “âu” tiếng Việt","Bắt đầu ở “ô” rồi tròn môi trượt sang “u”.",["狗 gǒu=chó","走 zǒu=đi","肉 ròu=thịt"])],
    mistake:"Đọc ou thành “ô” hoặc “u”. Phải có cả hai phần và trượt từ phần đầu sang phần sau.",
    pairs:["卖 mài|妹 mèi","高 gāo|沟 gōu","来 lái|雷 léi","包 bāo|杯 bēi","早 zǎo|走 zǒu","该 gāi|高 gāo"],
+   pt:"01 23 01 12 23 02",
    speak:["我爱你 wǒ ài nǐ=anh yêu em","给我 gěi wǒ=đưa cho tôi","小猫 xiǎomāo=mèo con","走路 zǒulù=đi bộ","很高兴 hěn gāoxìng=rất vui"]},
  { id:"pzh-nasal", title:"Vận mẫu mũi: an en ang eng ong", sub:"Phân biệt -n và -ng",
    sounds:[
@@ -633,6 +666,7 @@ zh: [
     snd("ong","như “ung” tiếng Việt","Tròn môi, cuống lưỡi nâng lên, kết thúc bằng “ng”.",["中 zhōng=giữa","东 dōng=phía đông","红 hóng=đỏ"])],
    mistake:"Đọc lẫn -n và -ng: 山 shān (núi) thành 伤 shāng (bị thương). Ở -n đầu lưỡi chạm lợi, ở -ng đầu lưỡi thả xuống và cuống lưỡi nâng lên.",
    pairs:["山 shān|伤 shāng","盆 pén|朋 péng","饭 fàn|放 fàng","陈 chén|城 chéng","冬 dōng|灯 dēng","门 mén|忙 máng"],
+   pt:"02 13 02 13 34 12",
    speak:["晚上 wǎnshang=buổi tối","门口 ménkǒu=cửa ra vào","很忙 hěn máng=rất bận","朋友 péngyou=bạn bè","东西 dōngxi=đồ đạc"]},
  { id:"pzh-i", title:"Vần bắt đầu bằng i", sub:"ia ie iao iu ian in iang ing iong",
    sounds:[
@@ -647,6 +681,7 @@ zh: [
     snd("iong","như “i-ung” đọc liền","Lướt từ “i” sang “ung”.",["用 yòng=dùng","熊 xióng=gấu"])],
    mistake:"Đọc ian thành “ian” hoặc “an”. Trong vần này a đọc gần “ê”: 钱 qián nghe gần như “chiên”.",
    pairs:["心 xīn|星 xīng","林 lín|零 líng","先 xiān|香 xiāng","小 xiǎo|写 xiě","年 nián|娘 niáng","家 jiā|街 jiē"],
+   pt:"57 57 46 12 46 01",
    speak:["姐姐 jiějie=chị gái","想你 xiǎng nǐ=nhớ bạn","听音乐 tīng yīnyuè=nghe nhạc","有名 yǒumíng=nổi tiếng","前面 qiánmiàn=phía trước"]},
  { id:"pzh-uv", title:"Vần bắt đầu bằng u và ü", sub:"ua uo uai ui uan un uang üe üan ün",
    sounds:[
@@ -662,6 +697,7 @@ zh: [
     snd("ün","như “uyn” đọc liền","Bắt đầu bằng ü rồi kết thúc bằng “n”.",["云 yún=mây","裙 qún=váy"])],
    mistake:"Đọc 学 xué với môi không tròn. Nhớ rằng u sau x là ü: môi phải chu tròn ngay từ đầu.",
    pairs:["说 shuō|书 shū","换 huàn|黄 huáng","晚 wǎn|网 wǎng","学 xué|鞋 xié","远 yuǎn|眼 yǎn","花 huā|哈 hā"],
+   pt:"1 46 46 7 8 0",
    speak:["说话 shuōhuà=nói chuyện","快乐 kuàilè=vui vẻ","喝水 hē shuǐ=uống nước","学习 xuéxí=học tập","很远 hěn yuǎn=rất xa"]}
 ]};
 function pItem(str, lang){
@@ -670,12 +706,29 @@ function pItem(str, lang){
   if(lang === "zh"){ const sp = left.indexOf(" "); return {t:left.slice(0, sp), p:left.slice(sp+1), v}; }
   return {t:left, v};
 }
-const PRON = {};
-for(const lang of ["en","zh"]) PRON[lang] = PRON_RAW[lang].map(l => Object.assign({}, l, {
-  sounds: l.sounds.map(s => Object.assign({}, s, {ex: s.ex.map(e => pItem(e, lang))})),
-  pairs: l.pairs.map(p => p.split("|").map(x => pItem(x, lang))),
-  speak: l.speak.map(x => pItem(x, lang))
-}));
+/* Mỗi âm là một bài riêng. pt ghi cặp dễ nhầm nào luyện cho âm nào (số thứ tự âm trong nhóm). */
+const PRON_GROUPS = {}, PRON = {};
+for(const lang of ["en","zh"]){
+  PRON_GROUPS[lang] = PRON_RAW[lang];
+  PRON[lang] = [];
+  PRON_RAW[lang].forEach(g => {
+    const pairs = g.pairs.map(p => p.split("|").map(x => pItem(x, lang)));
+    const tags = (g.pt || "").split(" ");
+    const gspeak = g.speak.map(x => pItem(x, lang));
+    g.sounds.forEach((snd0, k) => {
+      const ex = snd0.ex.map(e => pItem(e, lang));
+      let mine = pairs.filter((_, n) => (tags[n] || "").includes(String(k)));
+      if(mine.length < 3) mine = mine.concat(pairs.filter(p => !mine.includes(p))).slice(0, 4);
+      PRON[lang].push({
+        id: `${g.id}-${k}`, group: g.id, groupTitle: g.title,
+        title: snd0.s, sub: snd0.vn,
+        sounds: [Object.assign({}, snd0, {ex})],
+        mistake: g.mistake, pairs: mine,
+        speak: lang === "en" ? ex.concat(gspeak.filter(x => x.t.includes(" "))) : gspeak
+      });
+    });
+  });
+}
 const PSTEP_NAMES = ["Nghe âm","Khẩu hình","Phân biệt","Nói thử"];
 
 const LANG_INFO = {
@@ -699,23 +752,39 @@ function applyTheme(){
 applyTheme();
 
 /* ===================== POMODORO ===================== */
-const POMO_MODES = {focus:{name:"Tập trung", min:25}, short:{name:"Nghỉ ngắn", min:5}, long:{name:"Nghỉ dài", min:15}};
+const POMO_MODES = {focus:{name:"Tập trung"}, short:{name:"Nghỉ ngắn"}, long:{name:"Nghỉ dài"}};
+/* Gợi ý cách chia giờ học/nghỉ */
+const POMO_PRESETS = [
+  {id:"classic", name:"Cổ điển 25/5", cfg:{focus:25, short:5, long:15, rounds:4}, note:"Phù hợp nhất cho người mới và các bài cần chú ý cao như phát âm, từ vựng."},
+  {id:"light", name:"Nhẹ nhàng 15/3", cfg:{focus:15, short:3, long:10, rounds:4}, note:"Khi mệt, buồn ngủ hoặc khó bắt đầu. Học ngắn để lấy đà."},
+  {id:"deep", name:"Tập trung sâu 50/10", cfg:{focus:50, short:10, long:30, rounds:3}, note:"Khi đã quen tập trung lâu, hợp với đọc hiểu hoặc ôn bài dài."},
+  {id:"ultra", name:"Nhịp 90/20", cfg:{focus:90, short:20, long:30, rounds:2}, note:"Theo chu kỳ tập trung khoảng 90 phút của cơ thể. Chỉ nên dùng khi đã quen học lâu."}
+];
+const POMO_LIMITS = {focus:[5,120], short:[1,30], long:[5,60], rounds:[2,8]};
+function pomoMin(m){ return store.pomo.cfg[m]; }
 function todayStr(){ const d = new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
-store.pomo = Object.assign({mode:"focus", running:false, endAt:0, left:POMO_MODES.focus.min*60, done:0, cycle:0, day:todayStr()}, store.pomo || {});
+store.pomo = Object.assign({mode:"focus", running:false, endAt:0, left:25*60, done:0, cycle:0, day:todayStr(), showCfg:false}, store.pomo || {});
+store.pomo.cfg = Object.assign({focus:25, short:5, long:15, rounds:4}, store.pomo.cfg || {});
 if(store.pomo.day !== todayStr()){ store.pomo.day = todayStr(); store.pomo.done = 0; }
 const Pomo = {
   left(){ const s = store.pomo; return s.running ? Math.max(0, Math.ceil((s.endAt - Date.now())/1000)) : s.left; },
   fmt(sec){ return String(Math.floor(sec/60)).padStart(2,"0") + ":" + String(sec%60).padStart(2,"0"); },
   start(){ const s = store.pomo; if(s.running) return; s.endAt = Date.now() + s.left*1000; s.running = true; saveStore(); },
   pause(){ const s = store.pomo; if(!s.running) return; s.left = this.left(); s.running = false; saveStore(); },
-  setMode(m){ const s = store.pomo; s.mode = m; s.running = false; s.left = POMO_MODES[m].min*60; saveStore(); },
+  setMode(m){ const s = store.pomo; s.mode = m; s.running = false; s.left = pomoMin(m)*60; saveStore(); },
+  setCfg(cfg){
+    const s = store.pomo, wasFull = !s.running && s.left === pomoMin(s.mode)*60;
+    for(const k in cfg){ const [lo,hi] = POMO_LIMITS[k]; const v = Math.round(+cfg[k]); if(!isNaN(v)) s.cfg[k] = Math.min(hi, Math.max(lo, v)); }
+    if(wasFull) s.left = pomoMin(s.mode)*60;
+    saveStore();
+  },
   reset(){ this.setMode(store.pomo.mode); },
   finish(){
     const s = store.pomo;
     if(s.mode === "focus"){
       s.done++; s.cycle++;
-      const longBreak = s.cycle % 4 === 0;
-      ui.pomoMsg = longBreak ? "Xong 4 lượt rồi! Nghỉ dài 15 phút nhé." : "Xong một lượt! Nghỉ 5 phút nhé.";
+      const longBreak = s.cycle % s.cfg.rounds === 0;
+      ui.pomoMsg = longBreak ? `Xong ${s.cfg.rounds} lượt rồi! Nghỉ dài ${s.cfg.long} phút nhé.` : `Xong một lượt! Nghỉ ${s.cfg.short} phút nhé.`;
       this.setMode(longBreak ? "long" : "short");
     } else {
       ui.pomoMsg = "Hết giờ nghỉ. Quay lại học thôi!";
@@ -1049,19 +1118,44 @@ function header(){
     ${pomoHtml()}
     </div></div></header>`;
 }
+function pomoTip(){
+  const s = store.pomo, h = new Date().getHours();
+  if(h >= 23 || h < 5) return "Đã khuya rồi. Học 1–2 lượt ngắn rồi đi ngủ: ngủ đủ giấc giúp não ghi nhớ bài vừa học.";
+  if(s.mode !== "focus") return "Giờ nghỉ: đứng dậy vận động, uống nước, nhìn ra xa để mắt thư giãn. Tránh lướt điện thoại vì sẽ khó quay lại tập trung.";
+  if(s.done >= 8) return "Hôm nay bạn đã học nhiều. Nên nghỉ dài hơn hoặc dừng lại, học quá sức sẽ nhớ kém đi.";
+  if(s.cfg.focus > 50 && s.done < 2) return "Mới bắt đầu thì nên học lượt ngắn (25 phút) để lấy đà, rồi mới tăng dần thời gian.";
+  if(s.cfg.short * 5 < s.cfg.focus) return `Giờ nghỉ hơi ngắn so với ${s.cfg.focus} phút học. Nên nghỉ khoảng 1/5 thời gian học (${Math.round(s.cfg.focus/5)} phút).`;
+  if(h >= 13 && h < 15) return "Đầu giờ chiều cơ thể dễ buồn ngủ. Thử chế độ Nhẹ nhàng 15/3 hoặc chợp mắt 10–20 phút trước khi học.";
+  return "Trong lượt học: tắt thông báo, để điện thoại xa tầm tay và chỉ làm một việc.";
+}
 function pomoHtml(){
-  const s = store.pomo;
+  const s = store.pomo, c = s.cfg;
   const cls = s.running ? (s.mode === "focus" ? "run" : "brk") : "";
   const time = Pomo.fmt(Pomo.left());
+  const curPreset = POMO_PRESETS.find(p => Object.keys(p.cfg).every(k => p.cfg[k] === c[k]));
+  const num = (k, label, unit) => `<label class="pomo-field"><span>${label}</span><span class="pomo-num"><input type="number" inputmode="numeric" min="${POMO_LIMITS[k][0]}" max="${POMO_LIMITS[k][1]}" value="${c[k]}" data-pomo-cfg="${k}"> ${unit}</span></label>`;
+  const cfgBox = s.showCfg ? `<div class="pomo-cfg">
+      <div class="pomo-sub">Gợi ý cách chia giờ</div>
+      <div class="pomo-presets">${POMO_PRESETS.map(p => `<button data-act="pomopreset" data-v="${p.id}" aria-pressed="${curPreset===p}">${p.name}</button>`).join("")}</div>
+      ${curPreset ? `<div class="pomo-msg" style="text-align:left">${esc(curPreset.note)}</div>` : ""}
+      <div class="pomo-sub">Tự chỉnh</div>
+      ${num("focus","Thời gian học","phút")}
+      ${num("short","Nghỉ ngắn","phút")}
+      ${num("long","Nghỉ dài","phút")}
+      ${num("rounds","Nghỉ dài sau","lượt học")}
+    </div>` : "";
   const panel = ui.pomoOpen ? `<div class="pomo-panel" role="dialog" aria-label="Đồng hồ Pomodoro">
       <div class="pomo-modes" role="group" aria-label="Chế độ">${Object.keys(POMO_MODES).map(k => `<button data-act="pomomode" data-v="${k}" aria-pressed="${s.mode===k}">${POMO_MODES[k].name}</button>`).join("")}</div>
       <div class="pomo-big" data-pomo-time>${time}</div>
       ${ui.pomoMsg ? `<div class="pomo-alert">${esc(ui.pomoMsg)}</div>` : ""}
       <div class="row" style="justify-content:center">
-        <button class="btn small" data-act="pomotoggle">${s.running ? "Tạm dừng" : (s.left < POMO_MODES[s.mode].min*60 ? "Tiếp tục" : "Bắt đầu")}</button>
+        <button class="btn small" data-act="pomotoggle">${s.running ? "Tạm dừng" : (s.left < pomoMin(s.mode)*60 ? "Tiếp tục" : "Bắt đầu")}</button>
         <button class="btn small ghost" data-act="pomoreset">Đặt lại</button>
       </div>
-      <div class="pomo-msg">Học ${POMO_MODES.focus.min} phút, nghỉ ${POMO_MODES.short.min} phút. Cứ 4 lượt học thì nghỉ dài ${POMO_MODES.long.min} phút.<br>Hôm nay bạn đã học <b>${s.done}</b> lượt.</div>
+      <div class="pomo-tip">${esc(pomoTip())}</div>
+      <div class="pomo-msg">Học ${c.focus} phút, nghỉ ${c.short} phút. Cứ ${c.rounds} lượt học thì nghỉ dài ${c.long} phút.<br>Hôm nay bạn đã học <b>${s.done}</b> lượt.</div>
+      <button class="linkbtn" data-act="pomocfg" style="align-self:center">${s.showCfg ? "Ẩn phần chỉnh thời gian" : "Chỉnh thời gian học và nghỉ"}</button>
+      ${cfgBox}
     </div>` : "";
   return `<div class="pomo"><button class="pomo-btn ${cls}" data-act="pomo" aria-expanded="${!!ui.pomoOpen}" aria-label="Đồng hồ Pomodoro: ${s.running ? POMO_MODES[s.mode].name : "đang dừng"}">${ICON_TOMATO}<span data-pomo-time>${time}</span></button>${panel}</div>`;
 }
@@ -1106,21 +1200,26 @@ function voiceWarn(L){
 /* ---------- Phát âm ---------- */
 function renderPronHome(){
   const L = store.prefs.lang;
-  const cards = PRON[L].map((les, i) => {
-    const dots = [0,2,3].map(s => `<span class="dot ${pStepDone(les,s)?"on":""}"></span>`).join("");
-    return `<button class="card" data-act="popen" data-id="${les.id}">
-      <span class="num">${i+1}</span>
-      <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.sub)}</p></span>
-      <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
+  let n = 0;
+  const cards = PRON_GROUPS[L].map(g => {
+    const items = PRON[L].filter(les => les.group === g.id).map(les => {
+      n++;
+      const dots = [0,2,3].map(s => `<span class="dot ${pStepDone(les,s)?"on":""}"></span>`).join("");
+      return `<button class="card" data-act="popen" data-id="${les.id}">
+        <span class="num">${n}</span>
+        <span><h3 class="ipa">${esc(les.title)}</h3><p class="sub">${esc(les.sub)}</p></span>
+        <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
+    }).join("");
+    return `<h3 class="grp-h">${esc(g.title)}</h3><div class="list grid2">${items}</div>`;
   }).join("");
   return `
     <section class="intro">
       <h2 class="intro-h">Phát âm ${L==="zh"?"tiếng Trung":"tiếng Anh"} từng âm một</h2>
-      <p>${L==="zh"?"Bắt đầu từ thanh điệu, rồi đến phụ âm đầu (thanh mẫu) và vần (vận mẫu) trong bính âm.":"Đi qua đủ 44 âm trong bảng phiên âm IPA, mỗi bài là một nhóm âm hay bị nhầm."} Nắm chắc từng âm rồi chuyển sang luyện nói câu giao tiếp.</p>
+      <p>${L==="zh"?"Bắt đầu từ thanh điệu, rồi đến phụ âm đầu (thanh mẫu) và vần (vận mẫu) trong bính âm, mỗi bài là một âm.":"Đi qua đủ 44 âm trong bảng phiên âm IPA, mỗi bài là một âm."} Nắm chắc từng âm rồi chuyển sang luyện nói câu giao tiếp.</p>
     </section>
     <div class="page wide">
     ${voiceWarn(L)}
-    <div class="list grid2">${cards}</div>
+    ${cards}
     <div class="tip">Mỗi bài có 4 bước: <b>nghe âm</b>, <b>xem cách đặt miệng và lưỡi</b>, <b>phân biệt các cặp âm dễ nhầm</b>, rồi <b>nói thử</b> vào micro. Học xong thì chuyển sang <button class="linkbtn" data-act="section" data-v="speak">Luyện nói</button> các câu giao tiếp.</div>
     </div>`;
 }
@@ -1142,7 +1241,7 @@ function renderPron(){
   if(st===3) body = renderPronSpeak(lesson, lang);
   return `<div class="page">
     <div><button class="back" data-act="home">← Tất cả bài phát âm</button></div>
-    <div class="lesson-head"><h2>${esc(lesson.title)}</h2><p>${esc(lesson.sub)}</p></div>
+    <div class="lesson-head"><p class="grp-tag">${esc(lesson.groupTitle)}</p><h2 class="ipa-big">${esc(lesson.title)}</h2><p>${esc(lesson.sub)}</p></div>
     <nav class="steps" aria-label="Các bước">${stepBtns}</nav>
     ${toggles}
     ${body}
@@ -1503,6 +1602,8 @@ document.addEventListener("click", (ev) => {
   if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
   if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
+  if(act === "pomocfg"){ store.pomo.showCfg = !store.pomo.showCfg; saveStore(); render(); return; }
+  if(act === "pomopreset"){ const pr = POMO_PRESETS.find(p => p.id === el.dataset.v); if(pr){ Pomo.setCfg(pr.cfg); render(); Pomo.tick(); } return; }
   if(act === "pomomode"){ Pomo.setMode(el.dataset.v); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "voice") return;
   if(act === "menu"){
@@ -1569,6 +1670,8 @@ document.addEventListener("click", (ev) => {
   if(act === "rpskip"){ if(ui.rp){ ui.rp.results[ui.rp.idx] = {skipped:true, score:0}; ui.rp.idx++; rpAdvance(); } return; }
 });
 document.addEventListener("change", (ev) => {
+  const pc = ev.target.closest("input[data-pomo-cfg]");
+  if(pc){ Pomo.setCfg({[pc.dataset.pomoCfg]: pc.value}); render(); Pomo.tick(); return; }
   const sel = ev.target.closest("select[data-act='voice']");
   if(!sel) return;
   const lang = curLang();
