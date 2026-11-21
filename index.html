@@ -39,7 +39,8 @@
   --good:#4ade80; --good-soft:#153524; --warn:#f0b24a; --warn-soft:#3a2d12;
   --bad:#ff7a70; --bad-soft:#3d1b1a; color-scheme: only dark;
 }
-.topright{display:flex;align-items:center;gap:10px}
+.topright{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.seg button,.themebtn{white-space:nowrap}
 .themebtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
 .themebtn svg{width:16px;height:16px}
 *{box-sizing:border-box}
@@ -133,7 +134,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted)}
 .chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
-.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;background:var(--btn);color:var(--btn-ink);display:inline-flex;align-items:center;gap:8px}
+.btn{white-space:nowrap;border:0;border-radius:12px;padding:11px 16px;font-weight:700;background:var(--btn);color:var(--btn-ink);display:inline-flex;align-items:center;gap:8px}
 .btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
 .btn.small{padding:7px 12px;font-size:14px;border-radius:10px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -194,6 +195,40 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .locked{background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);padding:20px;text-align:center;color:var(--muted)}
 .warnbox{background:var(--warn-soft);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:14px}
 .next{display:flex;justify-content:flex-end}
+/* Pomodoro */
+.pomo{position:relative}
+.pomo-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.pomo-btn svg{width:16px;height:16px;flex:none}
+.pomo-btn.run{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.pomo-btn.brk{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.pomo-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:290px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 32px rgba(0,0,0,.14);padding:14px;display:flex;flex-direction:column;gap:12px}
+.pomo-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--bg);border-radius:999px;padding:4px}
+.pomo-modes button{border:0;background:transparent;border-radius:999px;padding:6px 4px;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.pomo-modes button[aria-pressed="true"]{background:var(--btn);color:var(--btn-ink)}
+.pomo-big{font-size:46px;font-weight:800;text-align:center;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.pomo-msg{font-size:13px;color:var(--muted);text-align:center}
+.pomo-alert{font-size:14px;font-weight:700;text-align:center;background:var(--good-soft);color:var(--good);border-radius:10px;padding:8px}
+/* Phát âm */
+.snd{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.snd-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sym{min-width:56px;height:44px;padding:0 12px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:22px;font-weight:800;white-space:nowrap}
+.snd-vn{color:var(--ink);font-weight:600;font-size:15px;flex:1;min-width:180px}
+.exs{display:flex;flex-wrap:wrap;gap:8px}
+.ex{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 12px 8px 10px;display:inline-flex;align-items:center;gap:8px;text-align:left}
+.ex svg{width:14px;height:14px;flex:none;color:var(--accent)}
+.ex:hover{border-color:var(--accent)}
+.ex.playing{box-shadow:0 0 0 3px var(--sun)}
+.ex .t{font-size:16px}
+.ex .t.zh{font-size:19px}
+.ex .py{display:inline;font-size:13px;margin:0 0 0 4px}
+.ex .vi{display:block;font-size:12px;margin-top:0}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qopt{border:2px solid var(--line);background:var(--bg);border-radius:var(--radius);padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.qopt .t{font-size:22px}
+.qopt:hover:not(:disabled){border-color:var(--accent)}
+.qopt:disabled{cursor:default;color:var(--ink)}
+.qopt.right{border-color:var(--good);background:var(--good-soft)}
+.qopt.wrong{border-color:var(--bad);background:var(--bad-soft)}
 @media (max-width:420px){
   .steps button{font-size:12px;padding:8px 2px}
   .t{font-size:16px}
@@ -401,6 +436,248 @@ zh: [
     {h:"几点 là “mấy giờ”",b:"几 dùng để hỏi số lượng nhỏ. 几点开始？là mấy giờ bắt đầu, 几点结束？là mấy giờ kết thúc."}]}
 ]};
 
+/* ===================== NỘI DUNG PHÁT ÂM =====================
+   Ví dụ viết gọn: tiếng Anh "từ=nghĩa"; tiếng Trung "chữ bính_âm=nghĩa".
+   Cặp dễ nhầm: "A|B". */
+function snd(s, vn, tip, ex){ return {s, vn, tip, ex}; }
+const PRON_RAW = {
+en: [
+ { id:"pen-iu", title:"i và u: ngắn hay dài", sub:"/ɪ/ /iː/ /ʊ/ /uː/",
+   sounds:[
+    snd("/ɪ/","i ngắn, gần “i” trong “ích”","Miệng mở hé, lưỡi thả lỏng, phát âm thật ngắn và gọn. Không kéo dài như “i” tiếng Việt.",["ship=con tàu","sit=ngồi","big=to"]),
+    snd("/iː/","i dài, như “i” tiếng Việt kéo dài","Kéo hai khóe miệng sang hai bên như đang cười, lưỡi nâng cao, giữ âm lâu gấp đôi /ɪ/.",["sheep=con cừu","see=nhìn thấy","eat=ăn"]),
+    snd("/ʊ/","u ngắn, gần “u” trong “úp”","Môi hơi tròn nhưng thả lỏng, phát âm ngắn và bật nhanh.",["book=quyển sách","good=tốt","put=đặt"]),
+    snd("/uː/","u dài, như “u” tiếng Việt kéo dài","Chu môi tròn ra trước, lưỡi lùi về sau, giữ âm lâu.",["food=đồ ăn","blue=màu xanh dương","two=số hai"])],
+   mistake:"Đọc “ship” và “sheep” giống hệt nhau. Hai từ này chỉ khác độ dài và độ căng của âm i, đọc sai là người nghe hiểu nhầm nghĩa.",
+   pairs:["ship|sheep","sit|seat","live|leave","bit|beat","full|fool","pull|pool"],
+   speak:["ship=con tàu","sheep=con cừu","good=tốt","food=đồ ăn","Sit in this seat.=Ngồi vào ghế này đi."]},
+ { id:"pen-ea", title:"e, a và â", sub:"/e/ /æ/ /ʌ/ /ɑː/",
+   sounds:[
+    snd("/e/","như “e” tiếng Việt","Miệng mở vừa phải, lưỡi ở giữa, phát âm ngắn.",["bed=cái giường","red=màu đỏ","pen=bút"]),
+    snd("/æ/","nằm giữa “e” và “a”","Mở miệng rộng như khi đọc “a”, đồng thời kéo khóe miệng sang hai bên như khi đọc “e”. Âm này không có trong tiếng Việt.",["cat=con mèo","bad=tệ","man=người đàn ông"]),
+    snd("/ʌ/","gần “ă” hoặc “â” tiếng Việt","Miệng mở vừa, lưỡi thả lỏng ở giữa, phát âm ngắn và dứt khoát.",["cup=cái cốc","bus=xe buýt","love=yêu"]),
+    snd("/ɑː/","“a” dài, miệng mở to","Hạ hàm và lưỡi xuống thấp, mở miệng rộng và kéo dài âm. Giọng Mỹ thêm “r” cong lưỡi ở các từ có chữ r.",["car=xe hơi","father=bố","start=bắt đầu"])],
+   mistake:"Đọc /æ/ thành “a” hoặc “e” tiếng Việt, khiến “bad” và “bed” nghe như nhau.",
+   pairs:["bed|bad","men|man","cup|cap","hut|hat","head|had","cut|cat"],
+   speak:["bad=tệ","cup=cái cốc","car=xe hơi","man=người đàn ông","My cat is black.=Con mèo của tôi màu đen."]},
+ { id:"pen-o", title:"o, ơ và âm nhẹ ə", sub:"/ɒ/ /ɔː/ /ɜː/ /ə/",
+   sounds:[
+    snd("/ɒ/","“o” ngắn, miệng tròn","Mở miệng tròn, phát âm ngắn. Giọng Mỹ thường đọc âm này gần giống “a” dài /ɑː/.",["hot=nóng","stop=dừng","job=công việc"]),
+    snd("/ɔː/","“o” dài, như “o” tiếng Việt kéo dài","Tròn môi, lưỡi lùi về sau và giữ âm lâu.",["law=luật","walk=đi bộ","door=cửa"]),
+    snd("/ɜː/","“ơ” dài","Miệng hé, môi không tròn, lưỡi nằm giữa và kéo dài âm. Giọng Mỹ cong đầu lưỡi lên như có thêm “r”.",["bird=con chim","work=làm việc","learn=học"]),
+    snd("/ə/","“ơ” rất nhẹ và ngắn","Âm lướt, thả lỏng hoàn toàn, chỉ xuất hiện ở âm tiết không nhấn. Đây là âm gặp nhiều nhất trong tiếng Anh.",["about=về","banana=quả chuối","teacher=giáo viên"])],
+   mistake:"Đọc mọi nguyên âm thật rõ như tiếng Việt. Âm tiết không nhấn thường đọc nhẹ thành /ə/: “banana” là bơ-NA-nơ, không phải ba-na-na.",
+   pairs:["walk|work","short|shirt","born|burn","not|nut","shot|shut","ward|word"],
+   speak:["walk=đi bộ","work=làm việc","bird=con chim","about=về","Learn a new word.=Học một từ mới."]},
+ { id:"pen-diph1", title:"Nguyên âm đôi: ây, ai, oi", sub:"/eɪ/ /aɪ/ /ɔɪ/",
+   sounds:[
+    snd("/eɪ/","như “ây” tiếng Việt","Bắt đầu từ /e/ rồi trượt nhẹ sang /ɪ/. Phải trượt hết, không dừng ở “e”.",["day=ngày","name=tên","rain=mưa"]),
+    snd("/aɪ/","như “ai” tiếng Việt","Mở miệng ở “a” rồi trượt lên “i”.",["my=của tôi","time=thời gian","light=ánh sáng"]),
+    snd("/ɔɪ/","như “oi” tiếng Việt","Tròn môi ở “o” rồi trượt sang “i”.",["boy=cậu bé","coin=đồng xu","enjoy=thích thú"])],
+   mistake:"Đọc “name” thành “nem”, “late” thành “let”. Thiếu phần trượt sang “i” là thành từ khác.",
+   pairs:["wait|wet","late|let","main|men","fine|fin","buy|boy","tile|toil"],
+   speak:["day=ngày","time=thời gian","boy=cậu bé","name=tên","My boy likes to play.=Con trai tôi thích chơi."]},
+ { id:"pen-diph2", title:"Nguyên âm đôi: ao, âu, ia, eơ, uơ", sub:"/aʊ/ /əʊ/ /ɪə/ /eə/ /ʊə/",
+   sounds:[
+    snd("/aʊ/","như “ao” tiếng Việt","Mở miệng ở “a” rồi tròn môi trượt sang “u”.",["now=bây giờ","house=ngôi nhà","down=xuống"]),
+    snd("/əʊ/","như “âu” (giọng Anh) hoặc “ôu” (giọng Mỹ)","Bắt đầu ở “ơ” hoặc “ô” rồi tròn môi trượt sang “u”. Không đọc thành “ô” đơn.",["go=đi","home=nhà","phone=điện thoại"]),
+    snd("/ɪə/","như “ia” tiếng Việt","Từ “i” trượt sang “ơ”. Giọng Mỹ đọc thành “i” cộng r cong lưỡi.",["near=gần","here=ở đây","idea=ý tưởng"]),
+    snd("/eə/","như “e-ơ” đọc liền","Từ “e” trượt sang “ơ”. Giọng Mỹ đọc thành “e” cộng r cong lưỡi.",["hair=tóc","where=ở đâu","care=quan tâm"]),
+    snd("/ʊə/","như “u-ơ” đọc liền","Từ “u” trượt sang “ơ”. Âm này ngày càng ít dùng, nhiều người đọc thành /ɔː/.",["tour=chuyến du lịch","poor=nghèo","cure=chữa khỏi"])],
+   mistake:"Đọc “go” thành “gô”, “home” thành “hôm”. Cuối âm phải tròn môi trượt sang “u”.",
+   pairs:["now|no","town|tone","loud|load","hair|here","bear|beer","pair|peer"],
+   speak:["now=bây giờ","home=nhà","here=ở đây","where=ở đâu","Go down to the house.=Đi xuống ngôi nhà."]},
+ { id:"pen-pbtdkg", title:"p b, t d, k g", sub:"/p/ /b/ /t/ /d/ /k/ /g/",
+   sounds:[
+    snd("/p/","như “p” nhưng bật hơi","Ở đầu từ, mím môi rồi bật mạnh một luồng hơi. Đặt tay trước miệng sẽ thấy hơi phả ra.",["pen=bút","pay=trả tiền","stop=dừng"]),
+    snd("/b/","như “b” tiếng Việt","Mím môi rồi bật ra, dây thanh rung. Không bật hơi mạnh như /p/.",["big=to","job=công việc","baby=em bé"]),
+    snd("/t/","gần “th” tiếng Việt ở đầu từ","Đầu lưỡi chạm lợi sau răng trên (không chạm răng), bật hơi. Ở cuối từ vẫn phải chặn lưỡi rõ ràng.",["tea=trà","top=đỉnh","hat=cái mũ"]),
+    snd("/d/","gần “đ” nhưng đầu lưỡi đặt cao hơn","Đầu lưỡi chạm lợi trên rồi bật ra, dây thanh rung.",["do=làm","day=ngày","bed=cái giường"]),
+    snd("/k/","như “k” nhưng bật hơi","Cuống lưỡi chạm vòm mềm rồi bật mạnh luồng hơi.",["key=chìa khóa","cat=con mèo","back=phía sau"]),
+    snd("/g/","như “g” tiếng Việt, bật gọn","Cuống lưỡi chạm vòm mềm rồi bật ra, dây thanh rung.",["go=đi","bag=cái túi","dog=con chó"])],
+   mistake:"Nuốt âm cuối: “bad” đọc thành “ba”, “cat” đọc thành “ca”. Âm cuối quyết định nghĩa của từ, phải đọc rõ.",
+   pairs:["pig|big","pea|bee","tie|die","cap|cab","cold|gold","back|bag"],
+   speak:["pen=bút","big=to","tea=trà","cat=con mèo","Put the bag on the bed.=Đặt cái túi lên giường."]},
+ { id:"pen-fvth", title:"f v và hai âm th", sub:"/f/ /v/ /θ/ /ð/",
+   sounds:[
+    snd("/f/","như “ph” tiếng Việt","Răng trên chạm nhẹ môi dưới, thổi hơi qua khe.",["fish=con cá","coffee=cà phê","life=cuộc sống"]),
+    snd("/v/","như “v” tiếng Việt","Giống /f/ nhưng dây thanh rung. Ở cuối từ vẫn phải đọc rõ.",["very=rất","love=yêu","five=số năm"]),
+    snd("/θ/","không có trong tiếng Việt","Đặt đầu lưỡi giữa hai hàm răng rồi thổi hơi ra, không rung dây thanh. Không đọc thành “th” hay “t” tiếng Việt.",["think=nghĩ","three=số ba","mouth=miệng"]),
+    snd("/ð/","không có trong tiếng Việt","Giống /θ/ (lưỡi giữa hai hàm răng) nhưng dây thanh rung. Nghe hơi giống “đ” kéo nhẹ.",["this=cái này","mother=mẹ","they=họ"])],
+   mistake:"Đọc “think” thành “thinh” hoặc “sink”, “this” thành “đít”. Hãy soi gương: đầu lưỡi phải thò ra giữa hai hàm răng.",
+   pairs:["fan|van","few|view","think|sink","three|tree","they|day","thin|tin"],
+   speak:["think=nghĩ","this=cái này","very=rất","mother=mẹ","I think this is fine.=Tôi nghĩ thế này là ổn."]},
+ { id:"pen-szsh", title:"s z, sh và zh", sub:"/s/ /z/ /ʃ/ /ʒ/",
+   sounds:[
+    snd("/s/","như “x” tiếng Việt","Đầu lưỡi gần lợi trên, hơi rít qua khe hẹp.",["see=nhìn thấy","bus=xe buýt","city=thành phố"]),
+    snd("/z/","như /s/ nhưng có rung","Giữ vị trí như /s/ nhưng dây thanh rung, nghe như tiếng ong “zzz”.",["zoo=sở thú","easy=dễ","is=là"]),
+    snd("/ʃ/","như “s” uốn lưỡi, môi chu","Chu môi ra trước, lưỡi lùi nhẹ, thổi hơi như khi ra hiệu “suỵt”.",["she=cô ấy","fish=con cá","nation=quốc gia"]),
+    snd("/ʒ/","gần “gi” kéo dài","Giống /ʃ/ nhưng dây thanh rung.",["measure=đo lường","usually=thường xuyên","television=tivi"])],
+   mistake:"Bỏ âm /s/ /z/ ở cuối từ: “cats” đọc thành “cat”, “is” đọc thành “i”. Mất âm cuối là mất số nhiều.",
+   pairs:["sip|zip","sue|zoo","see|she","sip|ship","sort|short","bus|buzz"],
+   speak:["see=nhìn thấy","zoo=sở thú","she=cô ấy","usually=thường xuyên","She sells fish.=Cô ấy bán cá."]},
+ { id:"pen-chjh", title:"ch, j và h", sub:"/tʃ/ /dʒ/ /h/",
+   sounds:[
+    snd("/tʃ/","như “ch” nhưng chu môi","Chu môi, đầu lưỡi chạm lợi trên rồi bật ra với luồng hơi mạnh.",["chair=cái ghế","watch=xem","teacher=giáo viên"]),
+    snd("/dʒ/","gần “gi” bật mạnh","Giống /tʃ/ nhưng dây thanh rung.",["job=công việc","jam=mứt","orange=quả cam"]),
+    snd("/h/","luồng hơi nhẹ","Chỉ thở nhẹ ra, không cọ xát ở cổ họng. Nhẹ hơn “h” tiếng Việt.",["hat=cái mũ","home=nhà","behind=phía sau"])],
+   mistake:"Đọc /tʃ/ và /ʃ/ như nhau, khiến “chip” và “ship” nghe giống nhau. /tʃ/ có tiếng bật, /ʃ/ chỉ có tiếng xì.",
+   pairs:["chip|ship","cheap|jeep","choke|joke","chin|gin","hat|at","heat|eat"],
+   speak:["chair=cái ghế","job=công việc","home=nhà","watch=xem","Change the cheap chair.=Đổi cái ghế rẻ tiền đi."]},
+ { id:"pen-mnng", title:"m, n và ng", sub:"/m/ /n/ /ŋ/",
+   sounds:[
+    snd("/m/","như “m” tiếng Việt","Mím môi, hơi đi ra đằng mũi. Ở cuối từ phải giữ môi khép.",["man=người đàn ông","home=nhà","summer=mùa hè"]),
+    snd("/n/","như “n” tiếng Việt","Đầu lưỡi chạm lợi trên, hơi ra đằng mũi.",["no=không","sun=mặt trời","dinner=bữa tối"]),
+    snd("/ŋ/","như “ng” tiếng Việt","Cuống lưỡi chạm vòm mềm. Ở cuối từ như “sing” không đọc thêm “g”.",["sing=hát","long=dài","morning=buổi sáng"])],
+   mistake:"Đọc lẫn âm cuối /n/ và /ŋ/: “thin” và “thing” nghe như nhau. Ở /n/ đầu lưỡi chạm lợi, ở /ŋ/ đầu lưỡi thả xuống.",
+   pairs:["sum|sun","thin|thing","ran|rang","sin|sing","ban|bang","come|cone"],
+   speak:["sun=mặt trời","sing=hát","man=người đàn ông","morning=buổi sáng","Sing a song in the morning.=Hát một bài vào buổi sáng."]},
+ { id:"pen-lrwy", title:"l, r, w và y", sub:"/l/ /r/ /w/ /j/",
+   sounds:[
+    snd("/l/","như “l” tiếng Việt ở đầu từ","Đầu lưỡi chạm lợi trên. Ở cuối từ (như “feel”) lưỡi kéo về sau, nghe gần như “ồ” nhẹ.",["light=ánh sáng","hello=xin chào","feel=cảm thấy"]),
+    snd("/r/","khác “r” tiếng Việt","Cuộn đầu lưỡi về sau, không chạm vòm miệng và không rung lưỡi. Môi hơi tròn.",["red=màu đỏ","right=đúng","sorry=xin lỗi"]),
+    snd("/w/","gần “qu” hoặc “oa”","Chu môi tròn rồi mở ra thật nhanh. Không đọc thành “v”.",["we=chúng tôi","water=nước","window=cửa sổ"]),
+    snd("/j/","như “y” trong “yêu”","Mặt lưỡi nâng sát vòm cứng rồi lướt sang nguyên âm phía sau.",["yes=vâng","you=bạn","year=năm"])],
+   mistake:"Đọc “light” và “right” giống nhau, hoặc đọc /w/ thành “v” (“west” thành “vest”).",
+   pairs:["light|right","long|wrong","lead|read","glass|grass","vest|west","vine|wine"],
+   speak:["right=đúng","light=ánh sáng","water=nước","yes=vâng","Read the red letter.=Đọc lá thư màu đỏ."]}
+],
+zh: [
+ { id:"pzh-tones", title:"Bốn thanh điệu", sub:"Thanh 1, 2, 3, 4 và thanh nhẹ",
+   sounds:[
+    snd("ā","Thanh 1: cao và đều","Giữ giọng ở mức cao, bằng phẳng và hơi kéo dài, như hát một nốt cao. Cao hơn thanh ngang tiếng Việt.",["妈 mā=mẹ","书 shū=sách","飞 fēi=bay"]),
+    snd("á","Thanh 2: đi lên, gần dấu sắc","Bắt đầu ở giọng trung bình rồi đi lên cao, như khi hỏi lại “hả?”.",["麻 má=tê","茶 chá=trà","来 lái=đến"]),
+    snd("ǎ","Thanh 3: xuống thấp rồi lên, gần dấu hỏi","Hạ giọng xuống thật thấp rồi nhấc lên. Khi nói nhanh trong câu thường chỉ hạ thấp mà không lên lại.",["马 mǎ=con ngựa","好 hǎo=tốt","我 wǒ=tôi"]),
+    snd("à","Thanh 4: rơi mạnh và dứt khoát","Bắt đầu từ cao và rơi nhanh xuống thấp, dứt khoát như khi ra lệnh.",["骂 mà=mắng","是 shì=là","去 qù=đi"]),
+    snd("a","Thanh nhẹ: ngắn và nhẹ","Đọc thật ngắn, nhẹ, không dấu. Thường là âm tiết thứ hai của từ lặp hoặc trợ từ.",["妈妈 māma=mẹ","谢谢 xièxie=cảm ơn","哥哥 gēge=anh trai"])],
+   mistake:"Đọc thanh 4 thành dấu huyền tiếng Việt (thấp và kéo dài). Thanh 4 phải bắt đầu từ cao và rơi xuống thật nhanh.",
+   pairs:["妈 mā|马 mǎ","买 mǎi|卖 mài","汤 tāng|糖 táng","书 shū|树 shù","问 wèn|闻 wén","请 qǐng|晴 qíng"],
+   speak:["你好 nǐ hǎo=xin chào","谢谢 xièxie=cảm ơn","妈妈 māma=mẹ","再见 zàijiàn=tạm biệt","我是越南人 wǒ shì Yuènán rén=tôi là người Việt Nam"]},
+ { id:"pzh-vowels", title:"Vận mẫu đơn: a o e i u ü", sub:"6 nguyên âm cơ bản",
+   sounds:[
+    snd("a","như “a” tiếng Việt","Mở miệng to, lưỡi hạ thấp.",["八 bā=tám","他 tā=anh ấy","大 dà=to"]),
+    snd("o","gần “ô”, sau b p m f nghe như “ua”","Tròn môi, lưỡi lùi về sau. Khi đi sau b p m f có một chút “u” lướt ở đầu.",["我 wǒ=tôi","波 bō=sóng","佛 fó=Phật"]),
+    snd("e","gần “ưa” hoặc “ơ”","Miệng hé, môi không tròn, lưỡi lùi về sau. Không đọc thành “e” tiếng Việt.",["饿 è=đói","喝 hē=uống","哥 gē=anh trai"]),
+    snd("i","như “i” tiếng Việt","Kéo khóe miệng sang hai bên, lưỡi nâng cao.",["一 yī=một","你 nǐ=bạn","米 mǐ=gạo"]),
+    snd("u","như “u” tiếng Việt","Chu môi tròn ra trước, lưỡi lùi về sau.",["五 wǔ=năm","书 shū=sách","路 lù=con đường"]),
+    snd("ü","không có trong tiếng Việt","Đặt lưỡi như khi đọc “i” rồi chu môi tròn như “u”. Sau j q x y thì viết là u nhưng vẫn đọc là ü.",["鱼 yú=con cá","女 nǚ=nữ","去 qù=đi"])],
+   mistake:"Đọc ü thành “uy” hoặc “i”. Giữ nguyên lưỡi của “i”, chỉ thay đổi môi, và không trượt âm.",
+   pairs:["路 lù|绿 lǜ","怒 nù|女 nǚ","哥 gē|姑 gū","喝 hē|哈 hā","你 nǐ|女 nǚ","波 bō|八 bā"],
+   speak:["喝水 hē shuǐ=uống nước","女儿 nǚ'ér=con gái","绿色 lǜsè=màu xanh lá","我饿了 wǒ è le=tôi đói rồi","他是我哥哥 tā shì wǒ gēge=anh ấy là anh trai tôi"]},
+ { id:"pzh-bpmf", title:"Thanh mẫu b p m f", sub:"Âm môi",
+   sounds:[
+    snd("b","gần “p” tiếng Việt, không bật hơi","Mím môi rồi bật ra nhẹ, không có luồng hơi. Không rung như “b” tiếng Việt.",["爸 bà=bố","包 bāo=túi","白 bái=trắng"]),
+    snd("p","như b nhưng bật hơi mạnh","Mím môi rồi bật mạnh một luồng hơi. Đặt tờ giấy trước miệng sẽ thấy giấy rung.",["怕 pà=sợ","跑 pǎo=chạy","皮 pí=da"]),
+    snd("m","như “m” tiếng Việt","Mím môi, hơi ra đằng mũi.",["妈 mā=mẹ","买 mǎi=mua","米 mǐ=gạo"]),
+    snd("f","như “ph” tiếng Việt","Răng trên chạm nhẹ môi dưới, thổi hơi qua khe.",["饭 fàn=cơm","飞 fēi=bay","风 fēng=gió"])],
+   mistake:"Đọc b thành “b” tiếng Việt (có rung) và p thành “p” không bật hơi. Trong tiếng Trung, b và p khác nhau ở luồng hơi, không phải ở độ rung.",
+   pairs:["爸 bà|怕 pà","包 bāo|抛 pāo","饱 bǎo|跑 pǎo","白 bái|牌 pái","飞 fēi|杯 bēi","米 mǐ|比 bǐ"],
+   speak:["爸爸 bàba=bố","朋友 péngyou=bạn bè","妈妈 māma=mẹ","吃饭 chīfàn=ăn cơm","我不怕 wǒ bú pà=tôi không sợ"]},
+ { id:"pzh-dtnl", title:"Thanh mẫu d t n l", sub:"Âm đầu lưỡi",
+   sounds:[
+    snd("d","gần “t” tiếng Việt, không bật hơi","Đầu lưỡi chạm lợi trên rồi bật ra nhẹ. Không đọc thành “đ”.",["大 dà=to","多 duō=nhiều","弟 dì=em trai"]),
+    snd("t","gần “th” tiếng Việt, bật hơi","Như d nhưng bật mạnh một luồng hơi.",["他 tā=anh ấy","听 tīng=nghe","太 tài=quá"]),
+    snd("n","như “n” tiếng Việt","Đầu lưỡi chạm lợi trên, hơi ra đằng mũi.",["你 nǐ=bạn","男 nán=nam","牛 niú=bò"]),
+    snd("l","như “l” tiếng Việt","Đầu lưỡi chạm lợi trên, hơi đi ra hai bên lưỡi.",["来 lái=đến","老 lǎo=già","六 liù=sáu"])],
+   mistake:"Đọc d thành “đ” tiếng Việt. Âm d của tiếng Trung gần với “t” tiếng Việt hơn, còn t thì gần với “th”.",
+   pairs:["到 dào|套 tào","读 dú|图 tú","弟 dì|替 tì","男 nán|蓝 lán","你 nǐ|里 lǐ","脑 nǎo|老 lǎo"],
+   speak:["弟弟 dìdi=em trai","太好了 tài hǎo le=tốt quá","你来了 nǐ lái le=bạn đến rồi","老师 lǎoshī=thầy cô","南方 nánfāng=miền Nam"]},
+ { id:"pzh-gkh", title:"Thanh mẫu g k h", sub:"Âm cuống lưỡi",
+   sounds:[
+    snd("g","gần “c” tiếng Việt, không bật hơi","Cuống lưỡi chạm vòm mềm rồi bật ra nhẹ.",["哥 gē=anh trai","高 gāo=cao","狗 gǒu=con chó"]),
+    snd("k","như g nhưng bật hơi mạnh","Cuống lưỡi chạm vòm mềm rồi bật mạnh luồng hơi.",["看 kàn=xem","可 kě=có thể","口 kǒu=miệng"]),
+    snd("h","gần “kh” tiếng Việt","Cuống lưỡi nâng gần vòm mềm, hơi cọ xát đi ra. Mạnh hơn “h” tiếng Việt.",["好 hǎo=tốt","喝 hē=uống","火 huǒ=lửa"])],
+   mistake:"Đọc h nhẹ như “h” tiếng Việt. Âm h tiếng Trung có tiếng cọ xát ở cuống lưỡi, gần với “kh”.",
+   pairs:["哥 gē|科 kē","怪 guài|快 kuài","歌 gē|喝 hē","裤 kù|户 hù","狗 gǒu|口 kǒu","瓜 guā|花 huā"],
+   speak:["哥哥 gēge=anh trai","可以 kěyǐ=được","很好 hěn hǎo=rất tốt","喝咖啡 hē kāfēi=uống cà phê","好看 hǎokàn=đẹp"]},
+ { id:"pzh-jqx", title:"Thanh mẫu j q x", sub:"Âm mặt lưỡi",
+   sounds:[
+    snd("j","gần “ch” tiếng Việt, không bật hơi","Mặt lưỡi áp vào vòm cứng, đầu lưỡi tì sau răng dưới, bật ra nhẹ.",["鸡 jī=gà","家 jiā=nhà","九 jiǔ=chín"]),
+    snd("q","như j nhưng bật hơi mạnh","Giữ vị trí như j rồi bật mạnh luồng hơi.",["去 qù=đi","钱 qián=tiền","七 qī=bảy"]),
+    snd("x","gần “x” tiếng Việt, khóe miệng kéo ra","Mặt lưỡi áp gần vòm cứng, kéo khóe miệng sang hai bên như cười, thổi hơi.",["谢 xiè=cảm ơn","小 xiǎo=nhỏ","西 xī=phía tây"])],
+   mistake:"Sau j q x, chữ u thật ra là ü: 去 qù đọc với môi chu tròn như ü, không phải “khu”.",
+   pairs:["鸡 jī|七 qī","见 jiàn|欠 qiàn","急 jí|席 xí","前 qián|闲 xián","西 xī|七 qī","机 jī|西 xī"],
+   speak:["谢谢 xièxie=cảm ơn","喜欢 xǐhuan=thích","去哪儿 qù nǎr=đi đâu","加油 jiāyóu=cố lên","多少钱 duōshao qián=bao nhiêu tiền"]},
+ { id:"pzh-zhchshr", title:"Thanh mẫu zh ch sh r", sub:"Âm uốn lưỡi",
+   sounds:[
+    snd("zh","gần “tr” tiếng Việt, không bật hơi","Cong đầu lưỡi lên chạm vòm cứng phía trước rồi bật ra nhẹ.",["中 zhōng=giữa","这 zhè=này","找 zhǎo=tìm"]),
+    snd("ch","như zh nhưng bật hơi","Cong đầu lưỡi như zh rồi bật mạnh luồng hơi.",["吃 chī=ăn","茶 chá=trà","车 chē=xe"]),
+    snd("sh","gần “s” uốn lưỡi của tiếng Việt","Cong đầu lưỡi gần vòm cứng nhưng không chạm, thổi hơi qua khe.",["是 shì=là","书 shū=sách","水 shuǐ=nước"]),
+    snd("r","gần “r” uốn lưỡi nhẹ","Cong lưỡi như sh nhưng dây thanh rung, không rung đầu lưỡi.",["人 rén=người","热 rè=nóng","日 rì=ngày"])],
+   mistake:"Không cong lưỡi, khiến zh ch sh nghe thành z c s. Hãy để đầu lưỡi cong lên chạm phần vòm phía sau lợi.",
+   pairs:["知 zhī|吃 chī","找 zhǎo|吵 chǎo","是 shì|日 rì","山 shān|三 sān","中 zhōng|宗 zōng","是 shì|四 sì"],
+   speak:["中国 Zhōngguó=Trung Quốc","吃饭 chīfàn=ăn cơm","老师 lǎoshī=thầy cô","日本人 Rìběn rén=người Nhật","这是什么 zhè shì shénme=đây là gì"]},
+ { id:"pzh-zcs", title:"Thanh mẫu z c s", sub:"Âm đầu lưỡi trước",
+   sounds:[
+    snd("z","gần “ch” nhẹ, không bật hơi","Đầu lưỡi tì sau răng cửa trên rồi bật ra nhẹ, nghe như “tz”.",["在 zài=ở","走 zǒu=đi","字 zì=chữ"]),
+    snd("c","như z nhưng bật hơi mạnh","Giữ vị trí như z rồi bật mạnh luồng hơi, nghe như “tx”.",["菜 cài=món ăn","次 cì=lần","草 cǎo=cỏ"]),
+    snd("s","như “x” tiếng Việt","Đầu lưỡi gần sau răng trên, thổi hơi qua khe.",["四 sì=bốn","三 sān=ba","岁 suì=tuổi"])],
+   mistake:"Trong zi ci si, chữ i không đọc là “i” mà gần như “ư”: 四 sì đọc gần “xư”.",
+   pairs:["在 zài|菜 cài","字 zì|次 cì","早 zǎo|草 cǎo","四 sì|是 shì","三 sān|山 shān","租 zū|粗 cū"],
+   speak:["再见 zàijiàn=tạm biệt","早上好 zǎoshang hǎo=chào buổi sáng","菜单 càidān=thực đơn","名字 míngzi=tên","四川 Sìchuān=Tứ Xuyên"]},
+ { id:"pzh-diph", title:"Vận mẫu kép: ai ei ao ou", sub:"4 vần ghép hai nguyên âm",
+   sounds:[
+    snd("ai","như “ai” tiếng Việt","Mở miệng ở “a” rồi trượt sang “i”.",["爱 ài=yêu","来 lái=đến","买 mǎi=mua"]),
+    snd("ei","như “ây” tiếng Việt","Bắt đầu ở “ê” rồi trượt sang “i”.",["给 gěi=cho","黑 hēi=đen","杯 bēi=cốc"]),
+    snd("ao","như “ao” tiếng Việt","Mở miệng ở “a” rồi tròn môi trượt sang “o”.",["好 hǎo=tốt","猫 māo=mèo","高 gāo=cao"]),
+    snd("ou","như “âu” tiếng Việt","Bắt đầu ở “ô” rồi tròn môi trượt sang “u”.",["狗 gǒu=chó","走 zǒu=đi","肉 ròu=thịt"])],
+   mistake:"Đọc ou thành “ô” hoặc “u”. Phải có cả hai phần và trượt từ phần đầu sang phần sau.",
+   pairs:["卖 mài|妹 mèi","高 gāo|沟 gōu","来 lái|雷 léi","包 bāo|杯 bēi","早 zǎo|走 zǒu","该 gāi|高 gāo"],
+   speak:["我爱你 wǒ ài nǐ=anh yêu em","给我 gěi wǒ=đưa cho tôi","小猫 xiǎomāo=mèo con","走路 zǒulù=đi bộ","很高兴 hěn gāoxìng=rất vui"]},
+ { id:"pzh-nasal", title:"Vận mẫu mũi: an en ang eng ong", sub:"Phân biệt -n và -ng",
+   sounds:[
+    snd("an","như “an” tiếng Việt","Đọc “a” rồi đầu lưỡi chạm lợi trên để kết thúc bằng “n”.",["三 sān=ba","看 kàn=xem","饭 fàn=cơm"]),
+    snd("en","như “ân” tiếng Việt","Đọc “ơ” ngắn rồi kết thúc bằng “n”.",["人 rén=người","门 mén=cửa","很 hěn=rất"]),
+    snd("ang","như “ang” tiếng Việt","Mở miệng rộng ở “a”, cuống lưỡi nâng lên kết thúc bằng “ng”.",["忙 máng=bận","上 shàng=lên","汤 tāng=canh"]),
+    snd("eng","như “âng” tiếng Việt","Đọc “ơ” rồi kết thúc bằng “ng”, đầu lưỡi thả xuống.",["冷 lěng=lạnh","灯 dēng=đèn","风 fēng=gió"]),
+    snd("ong","như “ung” tiếng Việt","Tròn môi, cuống lưỡi nâng lên, kết thúc bằng “ng”.",["中 zhōng=giữa","东 dōng=phía đông","红 hóng=đỏ"])],
+   mistake:"Đọc lẫn -n và -ng: 山 shān (núi) thành 伤 shāng (bị thương). Ở -n đầu lưỡi chạm lợi, ở -ng đầu lưỡi thả xuống và cuống lưỡi nâng lên.",
+   pairs:["山 shān|伤 shāng","盆 pén|朋 péng","饭 fàn|放 fàng","陈 chén|城 chéng","冬 dōng|灯 dēng","门 mén|忙 máng"],
+   speak:["晚上 wǎnshang=buổi tối","门口 ménkǒu=cửa ra vào","很忙 hěn máng=rất bận","朋友 péngyou=bạn bè","东西 dōngxi=đồ đạc"]},
+ { id:"pzh-i", title:"Vần bắt đầu bằng i", sub:"ia ie iao iu ian in iang ing iong",
+   sounds:[
+    snd("ia","như “ia” đọc liền","Lướt nhanh từ “i” sang “a”.",["家 jiā=nhà","下 xià=xuống"]),
+    snd("ie","như “iê” tiếng Việt","Lướt từ “i” sang “ê”.",["谢 xiè=cảm ơn","姐 jiě=chị gái"]),
+    snd("iao","như “i-ao” đọc liền","Lướt từ “i” sang “ao”.",["小 xiǎo=nhỏ","叫 jiào=gọi"]),
+    snd("iu","như “iêu” tiếng Việt","Viết tắt của iou: lướt từ “i” qua “ô” sang “u”.",["六 liù=sáu","有 yǒu=có"]),
+    snd("ian","như “iên” tiếng Việt","Không đọc là “ian”: chữ a ở đây đọc gần “ê”.",["见 jiàn=gặp","钱 qián=tiền"]),
+    snd("in","như “in” tiếng Việt","Đọc “i” rồi kết thúc bằng “n”.",["您 nín=ngài","心 xīn=tim"]),
+    snd("iang","như “i-ang” đọc liền","Lướt từ “i” sang “ang”.",["想 xiǎng=nhớ","两 liǎng=hai"]),
+    snd("ing","như “inh” tiếng Việt","Đọc “i” rồi kết thúc bằng “ng”.",["听 tīng=nghe","名 míng=tên"]),
+    snd("iong","như “i-ung” đọc liền","Lướt từ “i” sang “ung”.",["用 yòng=dùng","熊 xióng=gấu"])],
+   mistake:"Đọc ian thành “ian” hoặc “an”. Trong vần này a đọc gần “ê”: 钱 qián nghe gần như “chiên”.",
+   pairs:["心 xīn|星 xīng","林 lín|零 líng","先 xiān|香 xiāng","小 xiǎo|写 xiě","年 nián|娘 niáng","家 jiā|街 jiē"],
+   speak:["姐姐 jiějie=chị gái","想你 xiǎng nǐ=nhớ bạn","听音乐 tīng yīnyuè=nghe nhạc","有名 yǒumíng=nổi tiếng","前面 qiánmiàn=phía trước"]},
+ { id:"pzh-uv", title:"Vần bắt đầu bằng u và ü", sub:"ua uo uai ui uan un uang üe üan ün",
+   sounds:[
+    snd("ua","như “oa” tiếng Việt","Tròn môi ở “u” rồi mở ra “a”.",["花 huā=hoa","话 huà=lời nói"]),
+    snd("uo","như “ua” hoặc “uô”","Tròn môi ở “u” rồi chuyển sang “o”.",["多 duō=nhiều","国 guó=nước"]),
+    snd("uai","như “oai” tiếng Việt","Lướt từ “u” qua “a” sang “i”.",["快 kuài=nhanh","外 wài=ngoài"]),
+    snd("ui","như “uây” tiếng Việt","Viết tắt của uei: lướt từ “u” qua “ê” sang “i”.",["对 duì=đúng","水 shuǐ=nước"]),
+    snd("uan","như “oan” tiếng Việt","Tròn môi ở “u” rồi mở sang “an”.",["晚 wǎn=muộn","换 huàn=đổi"]),
+    snd("un","như “uân” tiếng Việt","Viết tắt của uen.",["春 chūn=mùa xuân","问 wèn=hỏi"]),
+    snd("uang","như “oang” tiếng Việt","Tròn môi ở “u” rồi mở sang “ang”.",["黄 huáng=vàng","床 chuáng=giường"]),
+    snd("üe","như “uê” nhưng môi chu tròn","Bắt đầu bằng ü rồi chuyển sang “ê”. Sau j q x y viết là ue.",["学 xué=học","月 yuè=tháng"]),
+    snd("üan","như “uyên” tiếng Việt","Bắt đầu bằng ü rồi chuyển sang “an” đọc gần “en”.",["远 yuǎn=xa","选 xuǎn=chọn"]),
+    snd("ün","như “uyn” đọc liền","Bắt đầu bằng ü rồi kết thúc bằng “n”.",["云 yún=mây","裙 qún=váy"])],
+   mistake:"Đọc 学 xué với môi không tròn. Nhớ rằng u sau x là ü: môi phải chu tròn ngay từ đầu.",
+   pairs:["说 shuō|书 shū","换 huàn|黄 huáng","晚 wǎn|网 wǎng","学 xué|鞋 xié","远 yuǎn|眼 yǎn","花 huā|哈 hā"],
+   speak:["说话 shuōhuà=nói chuyện","快乐 kuàilè=vui vẻ","喝水 hē shuǐ=uống nước","学习 xuéxí=học tập","很远 hěn yuǎn=rất xa"]}
+]};
+function pItem(str, lang){
+  const eq = str.indexOf("=");
+  const left = eq < 0 ? str : str.slice(0, eq), v = eq < 0 ? "" : str.slice(eq+1);
+  if(lang === "zh"){ const sp = left.indexOf(" "); return {t:left.slice(0, sp), p:left.slice(sp+1), v}; }
+  return {t:left, v};
+}
+const PRON = {};
+for(const lang of ["en","zh"]) PRON[lang] = PRON_RAW[lang].map(l => Object.assign({}, l, {
+  sounds: l.sounds.map(s => Object.assign({}, s, {ex: s.ex.map(e => pItem(e, lang))})),
+  pairs: l.pairs.map(p => p.split("|").map(x => pItem(x, lang))),
+  speak: l.speak.map(x => pItem(x, lang))
+}));
+const PSTEP_NAMES = ["Nghe âm","Khẩu hình","Phân biệt","Nói thử"];
+
 const LANG_INFO = {
   en:{name:"Tiếng Anh", tts:"en-US", rec:"en-US", dict:"en"},
   zh:{name:"Tiếng Trung", tts:"zh-CN", rec:"zh-CN", dict:"zh"}
@@ -420,7 +697,63 @@ function applyTheme(){
   const m = document.querySelector('meta[name="color-scheme"]'); if(m) m.setAttribute("content", dark ? "only dark" : "only light");
 }
 applyTheme();
+
+/* ===================== POMODORO ===================== */
+const POMO_MODES = {focus:{name:"Tập trung", min:25}, short:{name:"Nghỉ ngắn", min:5}, long:{name:"Nghỉ dài", min:15}};
+function todayStr(){ const d = new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+store.pomo = Object.assign({mode:"focus", running:false, endAt:0, left:POMO_MODES.focus.min*60, done:0, cycle:0, day:todayStr()}, store.pomo || {});
+if(store.pomo.day !== todayStr()){ store.pomo.day = todayStr(); store.pomo.done = 0; }
+const Pomo = {
+  left(){ const s = store.pomo; return s.running ? Math.max(0, Math.ceil((s.endAt - Date.now())/1000)) : s.left; },
+  fmt(sec){ return String(Math.floor(sec/60)).padStart(2,"0") + ":" + String(sec%60).padStart(2,"0"); },
+  start(){ const s = store.pomo; if(s.running) return; s.endAt = Date.now() + s.left*1000; s.running = true; saveStore(); },
+  pause(){ const s = store.pomo; if(!s.running) return; s.left = this.left(); s.running = false; saveStore(); },
+  setMode(m){ const s = store.pomo; s.mode = m; s.running = false; s.left = POMO_MODES[m].min*60; saveStore(); },
+  reset(){ this.setMode(store.pomo.mode); },
+  finish(){
+    const s = store.pomo;
+    if(s.mode === "focus"){
+      s.done++; s.cycle++;
+      const longBreak = s.cycle % 4 === 0;
+      ui.pomoMsg = longBreak ? "Xong 4 lượt rồi! Nghỉ dài 15 phút nhé." : "Xong một lượt! Nghỉ 5 phút nhé.";
+      this.setMode(longBreak ? "long" : "short");
+    } else {
+      ui.pomoMsg = "Hết giờ nghỉ. Quay lại học thôi!";
+      this.setMode("focus");
+    }
+    this.start();
+    this.beep();
+    ui.pomoOpen = true;
+    render();
+  },
+  beep(){
+    try{
+      const C = window.AudioContext || window.webkitAudioContext; if(!C) return;
+      const ctx = new C();
+      [0, 0.4, 0.8].forEach(t => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+        const at = ctx.currentTime + t;
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.exponentialRampToValueAtTime(0.3, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.3);
+        o.start(at); o.stop(at + 0.32);
+      });
+    }catch(e){}
+  },
+  tick(){
+    const s = store.pomo;
+    if(s.day !== todayStr()){ s.day = todayStr(); s.done = 0; saveStore(); }
+    if(s.running && this.left() <= 0){ this.finish(); return; }
+    const t = this.fmt(this.left());
+    document.querySelectorAll("[data-pomo-time]").forEach(el => { if(el.textContent !== t) el.textContent = t; });
+    document.title = s.running ? `${t} · ${POMO_MODES[s.mode].name} · Study for yourself` : "Study for yourself";
+  }
+};
+setInterval(() => Pomo.tick(), 1000);
 function prog(id){ return store.progress[id] || (store.progress[id] = {listen:false, phrases:{}, role:false, roleScore:null}); }
+store.pron = store.pron || {};
+function pprog(id){ return store.pron[id] || (store.pron[id] = {listen:{}, tips:false, quiz:null, speak:{}}); }
 
 /* ===================== ĐỌC TO (TTS) ===================== */
 const TTS = {
@@ -638,8 +971,11 @@ function gradeText(score){ return score>=85 ? "Tuyệt vời!" : score>=60 ? "Kh
 
 /* ===================== TRẠNG THÁI GIAO DIỆN ===================== */
 const ui = {
-  section:"speak", menuOpen:false,
+  section:"pron", menuOpen:false,
   view:"home", lessonId:null, step:0,
+  pid:null,        // bài phát âm đang mở
+  pomoOpen:false, pomoMsg:null,
+  pq:null,         // bài kiểm tra phân biệt âm: {items, i, picked, correct}
   results:{},      // key -> kết quả chấm gần nhất
   typing:{},       // key -> đang hiện ô gõ
   playingKey:null, playAll:false,
@@ -647,6 +983,19 @@ const ui = {
 };
 function lessonsOf(lang){ return LESSONS[lang]; }
 function curLesson(){ for(const l of ["en","zh"]){ const f = LESSONS[l].find(x => x.id===ui.lessonId); if(f) return {lesson:f, lang:l}; } return null; }
+function curPron(){ for(const l of ["en","zh"]){ const f = PRON[l].find(x => x.id===ui.pid); if(f) return {lesson:f, lang:l}; } return null; }
+function curLang(){
+  if(ui.view === "lesson"){ const c = ui.section === "pron" ? curPron() : curLesson(); if(c) return c.lang; }
+  return store.prefs.lang;
+}
+function pStepDone(les, i){
+  const p = store.pron[les.id]; if(!p) return false;
+  if(i===0) return les.sounds.every((_,k) => p.listen[k]);
+  if(i===1) return p.tips;
+  if(i===2) return p.quiz != null;
+  if(i===3) return les.speak.every((_,k) => p.speak[k] != null);
+  return false;
+}
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function stepDone(lesson, i){
   const p = prog(lesson.id);
@@ -662,18 +1011,21 @@ const ICON_STOP = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="tru
 const ICON_MOON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
 const ICON_SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 const ICON_CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+const ICON_TOMATO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="14" r="7.5"/><path d="M12 6.5V4M9 7.2c1-1.6 2-1.6 3-.7 1-.9 2-.9 3 .7M12 10.5V14l2.3 1.6"/></svg>';
 const ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
 
 /* ===================== RENDER ===================== */
 function render(){
   const app = document.getElementById("app");
   let content;
-  if(ui.section !== "speak") content = renderComing();
+  if(ui.section === "pron") content = ui.view === "home" ? renderPronHome() : renderPron();
+  else if(ui.section !== "speak") content = renderComing();
   else if(ui.view === "home") content = renderHome();
   else content = renderLesson();
   app.innerHTML = header() + `<div class="layout">${sidebar()}<main class="main">${content}</main></div>`;
 }
 const SECTIONS = [
+  {id:"pron", name:"Phát âm", ready:true},
   {id:"speak", name:"Luyện nói", ready:true},
   {id:"story", name:"Học qua truyện", ready:false},
   {id:"listen", name:"Luyện nghe", ready:false},
@@ -694,7 +1046,24 @@ function header(){
       <button data-act="lang" data-v="zh" aria-pressed="${L==="zh"}">中文</button>
     </div>
     <button class="themebtn" data-act="theme" aria-label="${dark?"Chuyển sang chế độ ban ngày":"Chuyển sang chế độ ban đêm"}">${dark?ICON_SUN+" Ban ngày":ICON_MOON+" Ban đêm"}</button>
+    ${pomoHtml()}
     </div></div></header>`;
+}
+function pomoHtml(){
+  const s = store.pomo;
+  const cls = s.running ? (s.mode === "focus" ? "run" : "brk") : "";
+  const time = Pomo.fmt(Pomo.left());
+  const panel = ui.pomoOpen ? `<div class="pomo-panel" role="dialog" aria-label="Đồng hồ Pomodoro">
+      <div class="pomo-modes" role="group" aria-label="Chế độ">${Object.keys(POMO_MODES).map(k => `<button data-act="pomomode" data-v="${k}" aria-pressed="${s.mode===k}">${POMO_MODES[k].name}</button>`).join("")}</div>
+      <div class="pomo-big" data-pomo-time>${time}</div>
+      ${ui.pomoMsg ? `<div class="pomo-alert">${esc(ui.pomoMsg)}</div>` : ""}
+      <div class="row" style="justify-content:center">
+        <button class="btn small" data-act="pomotoggle">${s.running ? "Tạm dừng" : (s.left < POMO_MODES[s.mode].min*60 ? "Tiếp tục" : "Bắt đầu")}</button>
+        <button class="btn small ghost" data-act="pomoreset">Đặt lại</button>
+      </div>
+      <div class="pomo-msg">Học ${POMO_MODES.focus.min} phút, nghỉ ${POMO_MODES.short.min} phút. Cứ 4 lượt học thì nghỉ dài ${POMO_MODES.long.min} phút.<br>Hôm nay bạn đã học <b>${s.done}</b> lượt.</div>
+    </div>` : "";
+  return `<div class="pomo"><button class="pomo-btn ${cls}" data-act="pomo" aria-expanded="${!!ui.pomoOpen}" aria-label="Đồng hồ Pomodoro: ${s.running ? POMO_MODES[s.mode].name : "đang dừng"}">${ICON_TOMATO}<span data-pomo-time>${time}</span></button>${panel}</div>`;
 }
 function sidebar(){
   const open = !!ui.menuOpen;
@@ -718,18 +1087,159 @@ function renderHome(){
       <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.scene)}</p></span>
       <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
   }).join("");
-  const voiceWarn = ("speechSynthesis" in window) && TTS.voices.length && !TTS.has(L)
-    ? `<div class="warnbox">Máy của bạn chưa có giọng đọc ${LANG_INFO[L].name}. Hãy thêm giọng ${L==="zh"?"tiếng Trung (Trung Quốc)":"tiếng Anh"} trong cài đặt ngôn ngữ của điện thoại hoặc máy tính, hoặc mở trang bằng Chrome.</div>` : "";
   return `
     <section class="intro">
       <h2 class="intro-h">Học nói ${L==="zh"?"tiếng Trung":"tiếng Anh"} qua tình huống thật</h2>
       <p>Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
     </section>
     <div class="page wide">
-    ${voiceWarn}
+    ${voiceWarn(L)}
     <div class="list grid2">${cards}</div>
-    <div class="tip">Mỗi bài có 4 bước: <b>nghe</b>, <b>nói câu then chốt</b>, <b>đóng vai</b>, rồi mới tới <b>giải thích</b>. Nên học bằng Chrome trên điện thoại hoặc máy tính để dùng được micro chấm phát âm.</div>
+    <div class="tip">Mỗi bài có 4 bước: <b>nghe</b>, <b>nói câu then chốt</b>, <b>đóng vai</b>, rồi mới tới <b>giải thích</b>. Nên học bằng Chrome trên điện thoại hoặc máy tính để dùng được micro chấm phát âm. Mới bắt đầu? Hãy học phần <button class="linkbtn" data-act="section" data-v="pron">Phát âm</button> trước.</div>
     </div>`;
+}
+function voiceWarn(L){
+  return ("speechSynthesis" in window) && TTS.voices.length && !TTS.has(L)
+    ? `<div class="warnbox">Máy của bạn chưa có giọng đọc ${LANG_INFO[L].name}. Hãy thêm giọng ${L==="zh"?"tiếng Trung (Trung Quốc)":"tiếng Anh"} trong cài đặt ngôn ngữ của điện thoại hoặc máy tính, hoặc mở trang bằng Chrome.</div>` : "";
+}
+
+/* ---------- Phát âm ---------- */
+function renderPronHome(){
+  const L = store.prefs.lang;
+  const cards = PRON[L].map((les, i) => {
+    const dots = [0,2,3].map(s => `<span class="dot ${pStepDone(les,s)?"on":""}"></span>`).join("");
+    return `<button class="card" data-act="popen" data-id="${les.id}">
+      <span class="num">${i+1}</span>
+      <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.sub)}</p></span>
+      <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
+  }).join("");
+  return `
+    <section class="intro">
+      <h2 class="intro-h">Phát âm ${L==="zh"?"tiếng Trung":"tiếng Anh"} từng âm một</h2>
+      <p>${L==="zh"?"Bắt đầu từ thanh điệu, rồi đến phụ âm đầu (thanh mẫu) và vần (vận mẫu) trong bính âm.":"Đi qua đủ 44 âm trong bảng phiên âm IPA, mỗi bài là một nhóm âm hay bị nhầm."} Nắm chắc từng âm rồi chuyển sang luyện nói câu giao tiếp.</p>
+    </section>
+    <div class="page wide">
+    ${voiceWarn(L)}
+    <div class="list grid2">${cards}</div>
+    <div class="tip">Mỗi bài có 4 bước: <b>nghe âm</b>, <b>xem cách đặt miệng và lưỡi</b>, <b>phân biệt các cặp âm dễ nhầm</b>, rồi <b>nói thử</b> vào micro. Học xong thì chuyển sang <button class="linkbtn" data-act="section" data-v="speak">Luyện nói</button> các câu giao tiếp.</div>
+    </div>`;
+}
+function renderPron(){
+  const {lesson, lang} = curPron();
+  const st = ui.step;
+  const stepBtns = PSTEP_NAMES.map((n,i) => `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${pStepDone(lesson,i)?"done":""}">
+      <span class="n">${i+1}</span>${n}</button>`).join("");
+  const toggles = `<div class="toolbar">
+      <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>
+      <button class="chip" data-act="pref" data-v="showVi" aria-pressed="${store.prefs.showVi}">Nghĩa tiếng Việt</button>
+      ${lang==="zh"?`<button class="chip" data-act="pref" data-v="showPy" aria-pressed="${store.prefs.showPy}">Bính âm</button>`:""}
+      ${voicePicker(lang)}
+    </div>`;
+  let body = "";
+  if(st===0) body = renderPronListen(lesson, lang);
+  if(st===1) body = renderPronTips(lesson, lang);
+  if(st===2) body = renderPronQuiz(lesson, lang);
+  if(st===3) body = renderPronSpeak(lesson, lang);
+  return `<div class="page">
+    <div><button class="back" data-act="home">← Tất cả bài phát âm</button></div>
+    <div class="lesson-head"><h2>${esc(lesson.title)}</h2><p>${esc(lesson.sub)}</p></div>
+    <nav class="steps" aria-label="Các bước">${stepBtns}</nav>
+    ${toggles}
+    ${body}
+    </div>`;
+}
+function exBtn(item, lang, key){
+  const playing = ui.playingKey === key;
+  const py = lang==="zh" && store.prefs.showPy && item.p ? `<span class="py">${esc(item.p)}</span>` : "";
+  const vi = store.prefs.showVi && item.v ? `<span class="vi">${esc(item.v)}</span>` : "";
+  return `<button class="ex ${playing?"playing":""}" data-act="say" data-key="${key}" aria-label="Nghe ${esc(item.t)}">${playing?ICON_STOP:ICON_PLAY}
+    <span><span class="t ${lang}">${esc(item.t)}</span>${py}${vi}</span></button>`;
+}
+function renderPronListen(lesson, lang){
+  const p = pprog(lesson.id);
+  const cards = lesson.sounds.map((s, i) => `<div class="snd">
+      <div class="snd-head"><span class="sym">${esc(s.s)}</span><span class="snd-vn">${esc(s.vn)}</span>${p.listen[i]?'<span class="pill good">Đã nghe</span>':""}</div>
+      <div class="exs">${s.ex.map((e,k) => exBtn(e, lang, `X${i}_${k}`)).join("")}</div></div>`).join("");
+  return `<div class="status">Bấm từng từ ví dụ để nghe âm nằm trong từ. Bật “Đọc chậm” để nghe rõ hơn. Nghe ít nhất một từ của mỗi âm là xong bước này.</div>
+    <div class="list">${cards}</div>
+    <div class="next"><button class="btn ghost" data-act="step" data-v="1">Tiếp: Khẩu hình →</button></div>`;
+}
+function renderPronTips(lesson, lang){
+  const p = pprog(lesson.id);
+  if(!p.tips){ p.tips = true; saveStore(); }
+  const notes = lesson.sounds.map((s, i) => `<div class="note">
+      <h4>${esc(s.s)} · ${esc(s.vn)}</h4><p>${esc(s.tip)}</p>
+      <div class="exs" style="margin-top:8px">${s.ex.slice(0,2).map((e,k) => exBtn(e, lang, `X${i}_${k}`)).join("")}</div></div>`).join("");
+  const mistake = lesson.mistake ? `<div class="warnbox"><b>Lỗi người Việt hay mắc:</b> ${esc(lesson.mistake)}</div>` : "";
+  return `${mistake}<div class="list">${notes}</div>
+    <div class="next"><button class="btn ghost" data-act="step" data-v="2">Tiếp: Phân biệt →</button></div>`;
+}
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+function pqStart(lesson){
+  const items = lesson.pairs.map(pair => ({pair: Math.random()<.5 ? pair.slice() : pair.slice().reverse(), ans: Math.random()<.5 ? 0 : 1}));
+  ui.pq = {items: shuffle(items), i:0, picked:null, correct:0};
+  ui.playingKey = null;
+}
+function renderPronQuiz(lesson, lang){
+  const q = ui.pq, p = pprog(lesson.id);
+  if(!q){
+    return `<div class="summary">
+      <b>Nghe và chọn đúng từ</b>
+      <span>Máy đọc một trong hai từ chỉ khác nhau một âm. Bạn chọn từ vừa nghe được. Có ${lesson.pairs.length} câu.</span>
+      ${p.quiz!=null?`<span><span class="pill ${grade(p.quiz)}">Cao nhất: ${p.quiz} điểm</span></span>`:""}
+      <div class="row"><button class="btn" data-act="pqstart">${ICON_PLAY} Bắt đầu</button></div></div>`;
+  }
+  if(q.i >= q.items.length){
+    const sc = Math.round(100 * q.correct / q.items.length);
+    return `<div class="summary">
+      <span>Hoàn thành phần phân biệt</span>
+      <span class="big">${q.correct}/${q.items.length} câu đúng</span>
+      <span class="status">${sc>=85?"Tai bạn đã phân biệt tốt các âm này!":"Nghe lại các từ ví dụ ở bước 1 rồi làm thêm một lượt nhé."}</span>
+      <div class="row"><button class="btn" data-act="step" data-v="3">Tiếp: Nói thử →</button>
+      <button class="btn ghost" data-act="pqstart">Làm lại</button></div></div>`;
+  }
+  const it = q.items[q.i];
+  const label = o => lang==="zh" ? o.p : o.t;
+  const opts = it.pair.map((o, k) => {
+    let cls = "";
+    if(q.picked != null){ if(k === it.ans) cls = "right"; else if(k === q.picked) cls = "wrong"; }
+    const sub = lang==="zh" ? `<span class="vi zh">${esc(o.t)}${store.prefs.showVi&&o.v?" · "+esc(o.v):""}</span>` : (q.picked!=null && store.prefs.showVi && o.v ? `<span class="vi">${esc(o.v)}</span>` : "");
+    return `<button class="qopt ${cls}" data-act="pqpick" data-v="${k}" ${q.picked!=null?"disabled":""}><span class="t">${esc(label(o))}</span>${sub}</button>`;
+  }).join("");
+  let fb = "";
+  if(q.picked != null){
+    const ok = q.picked === it.ans;
+    fb = `<div class="result ${ok?"good":"bad"}"><span class="score">${ok?"Chính xác!":"Chưa đúng."}</span>
+      <span>Máy đọc “${esc(label(it.pair[it.ans]))}”. Bấm vào từng từ dưới đây để nghe lại và so sánh.</span></div>
+      <div class="exs">${it.pair.map((o,k) => exBtn(o, lang, `Q${k}`)).join("")}</div>
+      <div class="row"><button class="btn small" data-act="pqnext">${q.i+1<q.items.length?"Câu tiếp →":"Xem kết quả →"}</button></div>`;
+  }
+  return `<div class="turn">
+    <h4>Câu ${q.i+1}/${q.items.length}</h4>
+    <div class="row"><button class="btn small" data-act="say" data-key="Q">${ui.playingKey==="Q"?ICON_STOP:ICON_PLAY} Nghe lại</button><span class="status">Bạn nghe thấy từ nào?</span></div>
+    <div class="qopts">${opts}</div>
+    ${fb}</div>`;
+}
+function renderPronSpeak(lesson, lang){
+  const p = pprog(lesson.id);
+  const cards = lesson.speak.map((it, i) => {
+    const key = `S${i}`;
+    const best = p.speak[i];
+    return `<div class="phr">
+      <div class="row" style="justify-content:space-between">
+        <div class="row"><button class="play" data-act="say" data-key="${key}" aria-label="Nghe mẫu">${ui.playingKey===key?ICON_STOP:ICON_PLAY}</button>
+          <div><div class="t ${lang}">${esc(it.t)}</div>
+          ${lang==="zh"&&store.prefs.showPy?`<div class="py">${esc(it.p)}</div>`:""}
+          ${store.prefs.showVi?`<div class="vi">${esc(it.v)}</div>`:""}</div></div>
+        ${best!=null?`<span class="pill ${grade(best)}">Cao nhất ${best}</span>`:""}
+      </div>
+      ${speakBlock(it, lang, key)}
+    </div>`;
+  }).join("");
+  const L = PRON[lang]; const idx = L.findIndex(x => x.id === lesson.id); const nxt = L[idx+1];
+  return `<div class="status">${micStatus(lang)} Nghe mẫu, rồi bấm micro và đọc to, rõ từng từ.</div>
+    <div class="list">${cards}</div>
+    <div class="next">${nxt?`<button class="btn" data-act="popen" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>`:`<button class="btn" data-act="section" data-v="speak">Học xong phát âm, sang Luyện nói →</button>`}</div>`;
 }
 function micStatus(lang){
   const m = Rec.mode(lang);
@@ -895,13 +1405,26 @@ function voicePicker(lang){
 
 /* ===================== HÀNH ĐỘNG ===================== */
 function itemByKey(key){
-  const {lesson} = curLesson();
+  if(ui.section === "pron"){
+    const c = curPron(); if(!c) return null;
+    const lesson = c.lesson;
+    if(key[0]==="X"){ const [s,e] = key.slice(1).split("_").map(Number); return lesson.sounds[s] && lesson.sounds[s].ex[e]; }
+    if(key[0]==="S") return lesson.speak[parseInt(key.slice(1),10)];
+    if(key[0]==="Q"){
+      const q = ui.pq; if(!q || q.i >= q.items.length) return null;
+      const it = q.items[q.i];
+      return key.length > 1 ? it.pair[+key[1]] : it.pair[it.ans];
+    }
+    return null;
+  }
+  const c = curLesson(); if(!c) return null;
+  const lesson = c.lesson;
   const n = parseInt(key.slice(1), 10);
   if(key[0]==="L" || key[0]==="R") return lesson.lines[n];
   if(key[0]==="P") return lesson.phrases[n];
 }
 function sayKey(key, onend){
-  const {lang} = curLesson();
+  const lang = curLang();
   const item = itemByKey(key);
   if(!item){ onend && onend(); return; }
   if(ui.playingKey === key && !onend){ TTS.stop(); ui.playingKey = null; render(); return; }
@@ -920,14 +1443,23 @@ function playAllFrom(i){
   sayKey(`L${i}`, () => { if(ui.playAll) setTimeout(() => playAllFrom(i+1), 350); });
 }
 function handleResult(key, out, typed){
-  const {lesson, lang} = curLesson();
+  const lang = curLang();
   const item = itemByKey(key);
+  if(!item) return;
   if(out.error === "switch"){ ui.results[key] = {error:"Không dùng được micro theo cách này. Hãy bấm micro lần nữa, hoặc gõ câu trả lời."}; render(); return; }
   if(out.error === "denied"){ ui.typing[key] = true; ui.results[key] = {error:"Micro đang bị chặn. Bạn hãy cho phép micro trong trình duyệt, hoặc gõ câu trả lời ở ô bên dưới."}; render(); return; }
   if(out.error === "failed"){ ui.results[key] = {error:"Micro gặp lỗi. Thử lại sau vài giây, hoặc gõ câu trả lời."}; render(); return; }
   if(out.error === "none"){ ui.typing[key] = true; render(); return; }
   const r = evaluate(item, lang, out.texts, typed);
   ui.results[key] = r;
+  if(ui.section === "pron"){
+    if(key[0]==="S" && !r.empty){
+      const i = parseInt(key.slice(1),10), p = pprog(curPron().lesson.id);
+      p.speak[i] = Math.max(p.speak[i] || 0, r.score); saveStore();
+    }
+    render(); return;
+  }
+  const {lesson} = curLesson();
   if(key[0]==="P" && !r.empty){
     const i = parseInt(key.slice(1),10), p = prog(lesson.id);
     p.phrases[i] = Math.max(p.phrases[i] || 0, r.score); saveStore();
@@ -965,8 +1497,13 @@ document.addEventListener("click", (ev) => {
     if(tg) tg.setAttribute("aria-expanded","false");
   }
   const el = ev.target.closest("[data-act]");
+  if(ui.pomoOpen && !ev.target.closest(".pomo")){ ui.pomoOpen = false; ui.pomoMsg = null; if(!el) render(); }
   if(!el || el.tagName === "FORM") return;
   const act = el.dataset.act;
+  if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
+  if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
+  if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
+  if(act === "pomomode"){ Pomo.setMode(el.dataset.v); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "voice") return;
   if(act === "menu"){
     ui.menuOpen = !ui.menuOpen;
@@ -975,15 +1512,43 @@ document.addEventListener("click", (ev) => {
     if(list){ list.classList.toggle("open", open); if(open) list.removeAttribute("inert"); else list.setAttribute("inert",""); }
     return;
   }
-  if(act === "section"){ ui.menuOpen = false; TTS.stop(); Rec.stop(); ui.section = el.dataset.v; ui.view = "home"; ui.rp = null; ui.playAll = false; ui.playingKey = null; render(); window.scrollTo(0,0); return; }
+  if(act === "section"){ ui.menuOpen = false; TTS.stop(); Rec.stop(); ui.section = el.dataset.v; ui.view = "home"; ui.rp = null; ui.pq = null; ui.playAll = false; ui.playingKey = null; render(); window.scrollTo(0,0); return; }
   if(act === "theme"){ store.prefs.theme = store.prefs.theme === "dark" ? "light" : "dark"; saveStore(); applyTheme(); render(); return; }
-  if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); Rec.stop(); ui.section="speak"; ui.view="home"; ui.rp=null; ui.playAll=false; ui.playingKey=null; render(); return; }
+  if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); return; }
+  if(act === "popen"){ TTS.stop(); Rec.stop(); ui.section="pron"; ui.view="lesson"; ui.pid=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.pq=null; ui.playAll=false; ui.playingKey=null;
+    const c = curPron(); if(c){ store.prefs.lang = c.lang; saveStore(); } render(); window.scrollTo(0,0); return; }
+  if(act === "pqstart"){ TTS.stop(); const c = curPron(); if(!c) return; pqStart(c.lesson); render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return; }
+  if(act === "pqpick"){
+    const q = ui.pq; if(!q || q.picked != null) return;
+    q.picked = +el.dataset.v;
+    if(q.picked === q.items[q.i].ans) q.correct++;
+    TTS.stop(); ui.playingKey = null; render(); return;
+  }
+  if(act === "pqnext"){
+    const q = ui.pq; if(!q) return;
+    TTS.stop(); ui.playingKey = null;
+    q.i++; q.picked = null;
+    if(q.i >= q.items.length){
+      const c = curPron(), p = pprog(c.lesson.id);
+      p.quiz = Math.max(p.quiz || 0, Math.round(100 * q.correct / q.items.length)); saveStore();
+      render(); return;
+    }
+    render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return;
+  }
   if(act === "open"){ TTS.stop(); Rec.stop(); ui.view="lesson"; ui.lessonId=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.rp=null; ui.playAll=false; ui.playingKey=null;
     const c = curLesson(); if(c){ store.prefs.lang = c.lang; saveStore(); } render(); window.scrollTo(0,0); return; }
-  if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
-  if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
+  if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
+  if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
   if(act === "pref"){ const k = el.dataset.v; store.prefs[k] = !store.prefs[k]; saveStore(); render(); return; }
-  if(act === "say"){ ui.playAll = false; sayKey(el.dataset.key); return; }
+  if(act === "say"){
+    ui.playAll = false;
+    const key = el.dataset.key;
+    if(ui.section === "pron" && key[0] === "X"){
+      const s = +key.slice(1).split("_")[0], c = curPron();
+      if(c){ const p = pprog(c.lesson.id); if(!p.listen[s]){ p.listen[s] = true; saveStore(); } }
+    }
+    sayKey(key); return;
+  }
   if(act === "playall"){
     if(ui.playAll){ ui.playAll=false; TTS.stop(); ui.playingKey=null; render(); return; }
     ui.playAll = true; playAllFrom(0); return;
@@ -992,7 +1557,7 @@ document.addEventListener("click", (ev) => {
     const key = el.dataset.key;
     if(Rec.active){ if(Rec.active.key === key){ Rec.stop(); } return; }
     TTS.stop(); ui.playingKey = null; ui.playAll = false;
-    const {lang} = curLesson();
+    const lang = curLang();
     ui.results[key] = null;
     Rec.listen(key, lang, (out) => handleResult(key, out, false));
     return;
@@ -1006,10 +1571,10 @@ document.addEventListener("click", (ev) => {
 document.addEventListener("change", (ev) => {
   const sel = ev.target.closest("select[data-act='voice']");
   if(!sel) return;
-  const c = curLesson(); if(!c) return;
-  store.prefs.voice = Object.assign({}, store.prefs.voice || {}, {[c.lang]: sel.value});
+  const lang = curLang();
+  store.prefs.voice = Object.assign({}, store.prefs.voice || {}, {[lang]: sel.value});
   saveStore();
-  TTS.speak(c.lang==="zh" ? "你好，我是你的新声音。" : "Hi! This is your new voice.", c.lang);
+  TTS.speak(lang==="zh" ? "你好，我是你的新声音。" : "Hi! This is your new voice.", lang);
 });
 document.addEventListener("submit", (ev) => {
   const f = ev.target.closest("form[data-act='typed']");
