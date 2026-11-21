@@ -229,17 +229,10 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .mitem[aria-pressed="true"] b::before{content:"▶ ";color:var(--accent)}
 .mvol{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
 .mvol input{flex:1;accent-color:var(--accent)}
-.music-dock{position:fixed;left:16px;bottom:16px;z-index:50;width:260px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);overflow:hidden}
-.music-dock[hidden]{display:none}
-.music-dock .dock-bar{display:flex;align-items:center;gap:8px;padding:6px 8px 6px 12px;font-size:12px;font-weight:700}
-.music-dock .dock-bar span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.music-dock .dock-bar button{border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:700;padding:4px 6px;border-radius:8px}
-.music-dock .dock-bar button:hover{background:var(--bg);color:var(--ink)}
-.music-dock .dock-err{font-size:12px;padding:6px 12px;background:var(--warn-soft);color:var(--ink)}
-.music-dock .dock-err[hidden]{display:none}
-.music-dock iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
-.music-dock.mini{width:220px}
-@media (max-width:520px){ .music-dock{left:8px;bottom:8px;width:200px} }
+.viz{border:0;background:transparent;padding:2px 4px;border-radius:8px;display:inline-flex;align-items:center;margin-left:2px}
+.viz:hover{background:var(--surface)}
+.viz canvas{width:72px;height:26px;display:block}
+.merr{font-size:12px;background:var(--warn-soft);color:var(--ink);border-radius:10px;padding:7px 10px}
 /* Phát âm */
 .grp-h{margin:14px 0 -4px;font-size:15px;font-weight:800;color:var(--accent);letter-spacing:.01em}
 .card h3.ipa{font-size:21px;letter-spacing:.01em}
@@ -273,7 +266,6 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 </head>
 <body>
 <div class="wrap" id="app" aria-live="polite"></div>
-<div id="music-dock" class="music-dock" hidden></div>
 
 <script>
 /* ===================== NỘI DUNG BÀI HỌC ===================== */
@@ -846,16 +838,14 @@ const Pomo = {
 setInterval(() => Pomo.tick(), 1000);
 
 /* ===================== NHẠC NỀN ===================== */
-/* Lofi: phát trực tiếp từ YouTube (đã kiểm tra 22/11/2026). Các kênh thỉnh thoảng đổi buổi phát; khi đó trình phát báo lỗi thì cập nhật mã video ở đây. */
-const LOFI = [
-  {id:"rFZHOHl-L8A", name:"Lofi Girl · beats to relax/study to", desc:"Kênh lofi học bài nổi tiếng nhất, phát 24/7"},
-  {id:"E2vONfzoyRI", name:"Lofi Girl · jazz lofi radio", desc:"Lofi pha jazz, nhẹ nhàng, phát 24/7"},
-  {id:"N0snMcR6aaA", name:"Lofi Girl · relaxing piano radio", desc:"Piano êm, rất hợp khi cần tập trung"},
-  {id:"5yx6BWlEVcY", name:"Chillhop Radio · jazzy & lofi beats", desc:"Lofi ấm, nhiều nhạc cụ, phát 24/7"},
-  {id:"7NOSDKb0HlU", name:"Chillhop · beats to study/relax to", desc:"Lofi học bài của Chillhop, phát 24/7"},
-  {id:"JD-kMIpDfnY", name:"Lofi Girl · beats to sleep/chill to", desc:"Chậm và êm hơn, hợp buổi tối, phát 24/7"},
-  {id:"4xDzrJKXOOY", name:"Lofi Girl · synthwave radio", desc:"Synthwave, nhịp mạnh hơn, phát 24/7"},
-  {id:"lTRiuFIWV54", name:"1 A.M Study Session", desc:"Bản tuyển tập lofi dài (không phải phát trực tiếp)"}
+/* Nhạc chill: các đài radio chỉ có âm thanh trên laut.fm (đã kiểm tra 22/11/2026: phát được và cho phép đọc sóng âm). */
+const RADIO = [
+  {id:"lofi", url:"https://lofi.stream.laut.fm/lofi", name:"Lofi", desc:"Lofi chill nhẹ nhàng, hợp học bài"},
+  {id:"loungetunes", url:"https://loungetunes.stream.laut.fm/loungetunes", name:"Loungetunes", desc:"Chill beats, jazzhop và lofi"},
+  {id:"lofi-radio", url:"https://lofi-radio.stream.laut.fm/lofi-radio", name:"Lofi Radio", desc:"Lofi pha jazz, chậm rãi"},
+  {id:"relaxing-piano", url:"https://relaxing-piano.stream.laut.fm/relaxing-piano", name:"Relaxing Piano", desc:"Piano êm, kiểu Einaudi và neoclassical"},
+  {id:"piano-dreams", url:"https://piano-dreams.stream.laut.fm/piano-dreams", name:"Piano Dreams", desc:"Piano solo không lời"},
+  {id:"radio_relax", url:"https://radiorelax.stream.laut.fm/radio_relax", name:"Radio Relax", desc:"Ambient, chillout thư giãn"}
 ];
 /* Âm thanh tập trung: web tự tạo bằng Web Audio, không cần mạng. */
 const SOUNDS = [
@@ -872,7 +862,11 @@ const Sound = {
   ensure(){
     if(!this.ctx){
       const C = window.AudioContext || window.webkitAudioContext; if(!C) return false;
-      this.ctx = new C(); this.master = this.ctx.createGain(); this.master.gain.value = store.music.vol; this.master.connect(this.ctx.destination);
+      const ctx = this.ctx = new C();
+      this.analyser = ctx.createAnalyser(); this.analyser.fftSize = 256; this.analyser.smoothingTimeConstant = 0.8;
+      this.bus = ctx.createGain(); this.bus.gain.value = store.music.vol;
+      this.bus.connect(this.analyser); this.analyser.connect(ctx.destination);
+      this.master = ctx.createGain(); this.master.connect(this.bus);
     }
     if(this.ctx.state === "suspended") this.ctx.resume();
     return true;
@@ -921,40 +915,57 @@ const Sound = {
       pad.connect(out); lfo.start();
     }
     this.out = out; this.cur = id;
+    Viz.start();
   },
   stop(){
     for(const n of this.nodes){ try{ if(n.stop) n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} }
     this.nodes = []; this.cur = null; this.out = null;
   },
-  setVol(v){ store.music.vol = v; if(this.master) this.master.gain.setTargetAtTime(this.ducked ? v*0.15 : v, this.ctx.currentTime, 0.05); },
-  duck(on){ this.ducked = on; if(this.master) this.master.gain.setTargetAtTime(on ? store.music.vol*0.15 : store.music.vol, this.ctx.currentTime, 0.1); }
+  setVol(v){ store.music.vol = v; if(this.bus) this.bus.gain.setTargetAtTime(this.ducked ? v*0.15 : v, this.ctx.currentTime, 0.05); },
+  duck(on){ this.ducked = on; if(this.bus) this.bus.gain.setTargetAtTime(on ? store.music.vol*0.15 : store.music.vol, this.ctx.currentTime, 0.1); }
 };
-const Lofi = {
-  cur:null,
+const Radio = {
+  el:null, cur:null, err:false, loading:false,
   play(id){
-    this.cur = id;
-    const st = LOFI.find(x => x.id === id), dock = document.getElementById("music-dock");
-    dock.hidden = false;
-    const q = "autoplay=1&rel=0&playsinline=1&enablejsapi=1&origin=" + encodeURIComponent(location.origin);
-    const src = `https://www.youtube.com/embed/${st.id}?${q}`;
-    dock.innerHTML = `<div class="dock-bar"><span title="${esc(st.name)}">♪ ${esc(st.name)}</span><button data-act="lofioff" aria-label="Tắt nhạc lofi">Tắt ✕</button></div>
-      <div class="dock-err" id="lofi-err" hidden>Kênh này đang tạm dừng phát. Hãy chọn kênh khác trong mục Nhạc.</div>
-      <iframe id="lofi-frame" src="${src}" title="${esc(st.name)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-    const f = document.getElementById("lofi-frame");
-    f.addEventListener("load", () => { try{ f.contentWindow.postMessage(JSON.stringify({event:"listening", id:"lofi", channel:"widget"}), "*"); }catch(e){} });
+    const st = RADIO.find(x => x.id === id); if(!st || !Sound.ensure()) return;
+    if(!this.el){
+      const a = this.el = new Audio(); a.crossOrigin = "anonymous"; a.preload = "none";
+      Sound.ctx.createMediaElementSource(a).connect(Sound.bus);
+      a.addEventListener("playing", () => { this.loading = false; this.err = false; render(); });
+      a.addEventListener("error", () => { if(this.cur){ this.err = true; this.loading = false; render(); } });
+    }
+    this.cur = id; this.err = false; this.loading = true;
+    this.el.src = st.url;
+    this.el.play().catch(() => { if(this.cur === id){ this.err = true; this.loading = false; render(); } });
+    Viz.start();
   },
-  stop(){ this.cur = null; const dock = document.getElementById("music-dock"); dock.innerHTML = ""; dock.hidden = true; },
-  cmd(func){ const f = document.getElementById("lofi-frame"); if(f && f.contentWindow) f.contentWindow.postMessage(JSON.stringify({event:"command", func, args:[]}), "*"); }
+  stop(){ this.cur = null; this.err = false; this.loading = false; if(this.el){ this.el.pause(); this.el.removeAttribute("src"); this.el.load(); } }
 };
-/* Trình phát YouTube báo lỗi (kênh ngừng phát, video bị gỡ) thì hiện lời nhắc */
-window.addEventListener("message", (ev) => {
-  let host = ""; try{ host = new URL(ev.origin).hostname; }catch(e){ return; }
-  if(!/youtube\.com$/.test(host)) return;
-  let d; try{ d = typeof ev.data === "string" ? JSON.parse(ev.data) : ev.data; }catch(e){ return; }
-  if(d && d.event === "onError"){ const e = document.getElementById("lofi-err"); if(e) e.hidden = false; }
-});
-/* Khi bật micro: vặn nhỏ âm thanh nền để máy nghe rõ giọng người học */
-function muteForMic(on){ Sound.duck(on); Lofi.cmd(on ? "mute" : "unMute"); }
+/* Dải âm cạnh logo: vẽ theo sóng âm thật của nhạc đang phát */
+const Viz = {
+  raf:0, data:null,
+  start(){ if(!this.raf) this.raf = requestAnimationFrame(() => this.draw()); },
+  draw(){
+    this.raf = 0;
+    const c = document.getElementById("viz"), an = Sound.analyser;
+    if(c && an){
+      const g = c.getContext("2d"), w = c.width, h = c.height, n = 14, bw = w / n;
+      if(!this.data) this.data = new Uint8Array(an.frequencyBinCount);
+      an.getByteFrequencyData(this.data);
+      g.clearRect(0, 0, w, h);
+      g.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#23944f";
+      for(let i = 0; i < n; i++){
+        const k = Math.min(this.data.length - 1, 1 + Math.floor(Math.pow(i / n, 1.6) * this.data.length * 0.6));
+        const bh = Math.max(4, (this.data[k] / 255) * h);
+        const x = i * bw + 2, y = (h - bh) / 2, r = Math.min(4, (bw - 4) / 2);
+        g.beginPath(); if(g.roundRect) g.roundRect(x, y, bw - 4, bh, r); else g.rect(x, y, bw - 4, bh); g.fill();
+      }
+    }
+    if(Sound.cur || Radio.cur) this.raf = requestAnimationFrame(() => this.draw());
+  }
+};
+/* Khi bật micro: vặn nhỏ nhạc nền để máy nghe rõ giọng người học */
+function muteForMic(on){ Sound.duck(on); }
 function prog(id){ return store.progress[id] || (store.progress[id] = {listen:false, phrases:{}, role:false, roleScore:null}); }
 store.pron = store.pron || {};
 function pprog(id){ return store.pron[id] || (store.pron[id] = {listen:{}, tips:false, quiz:null, speak:{}}); }
@@ -1242,7 +1253,7 @@ function header(){
   const dark = store.prefs.theme === "dark";
   const sec = SECTIONS.find(s => s.id === ui.section) || SECTIONS[0];
   return `<header class="top">
-    <div class="brand"><span class="mark" aria-hidden="true">SFY</span>Study for yourself</div>
+    <div class="brand"><span class="mark" aria-hidden="true">SFY</span>Study for yourself${vizHtml()}</div>
     <div class="top-main">
     <h1 class="section-title">${esc(sec.name)}</h1>
     <div class="topright">
@@ -1255,16 +1266,24 @@ function header(){
     ${pomoHtml()}
     </div></div></header>`;
 }
+function vizHtml(){
+  if(!(Sound.cur || Radio.cur)) return "";
+  const name = Radio.cur ? RADIO.find(x => x.id === Radio.cur).name : SOUNDS.find(x => x.id === Sound.cur).name;
+  return `<button class="viz" data-act="music" title="Đang phát: ${esc(name)}. Bấm để chọn nhạc" aria-label="Đang phát ${esc(name)}, bấm để chọn nhạc"><canvas id="viz" width="144" height="52"></canvas></button>`;
+}
 function musicHtml(){
-  const playing = Sound.cur || Lofi.cur;
+  const playing = Sound.cur || Radio.cur;
   const tab = store.music.tab;
-  const lofi = LOFI.map(x => `<button class="mitem" data-act="lofi" data-v="${x.id}" aria-pressed="${Lofi.cur===x.id}"><b>${esc(x.name)}</b><span>${esc(x.desc)}</span></button>`).join("");
+  const lofi = RADIO.map(x => `<button class="mitem" data-act="radio" data-v="${x.id}" aria-pressed="${Radio.cur===x.id}"><b>${esc(x.name)}</b><span>${esc(Radio.cur===x.id && Radio.loading ? "Đang kết nối…" : x.desc)}</span></button>`).join("");
+  const vol = `<label class="mvol">Âm lượng <input type="range" min="0" max="1" step="0.05" value="${store.music.vol}" data-music-vol aria-label="Âm lượng nhạc nền"></label>`;
   const snds = SOUNDS.map(x => `<button class="mitem" data-act="sound" data-v="${x.id}" aria-pressed="${Sound.cur===x.id}"><b>${esc(x.name)}</b><span>${esc(x.desc)}</span></button>`).join("");
   const body = tab === "lofi"
     ? `<div class="mlist">${lofi}</div>
-       <div class="pomo-msg" style="text-align:left">Nhạc phát trực tiếp từ YouTube nên cần có mạng. Trình phát nhỏ hiện ở góc dưới bên trái, chỉnh âm lượng ngay trên đó. Bấm lại vào kênh đang phát để tắt.</div>`
+       ${Radio.err ? `<div class="merr">Đài này đang tạm dừng hoặc mạng yếu. Hãy chọn đài khác.</div>` : ""}
+       ${vol}
+       <div class="pomo-msg" style="text-align:left">Nhạc phát trực tiếp từ các đài radio trên laut.fm nên cần có mạng. Bấm lại vào đài đang phát để tắt.</div>`
     : `<div class="mlist">${snds}</div>
-       <label class="mvol">Âm lượng <input type="range" min="0" max="1" step="0.05" value="${store.music.vol}" data-music-vol aria-label="Âm lượng âm thanh tập trung"></label>
+       ${vol}
        <div class="pomo-msg" style="text-align:left">Âm thanh do web tự tạo, không cần mạng. Tác dụng của sóng binaural và tần số 432 Hz chưa được khoa học chứng minh rõ. Tiếng ồn nâu và hồng giúp che tiếng ồn xung quanh. Hãy thử và chọn loại hợp với bạn.</div>`;
   const panel = ui.musicOpen ? `<div class="music-panel" role="dialog" aria-label="Nhạc nền">
       <div class="pomo-modes" style="grid-template-columns:1fr 1fr" role="group" aria-label="Loại nhạc">
@@ -1763,9 +1782,8 @@ document.addEventListener("click", (ev) => {
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "music"){ ui.musicOpen = !ui.musicOpen; render(); return; }
   if(act === "musictab"){ store.music.tab = el.dataset.v; saveStore(); render(); return; }
-  if(act === "lofi"){ if(Lofi.cur === el.dataset.v) Lofi.stop(); else Lofi.play(el.dataset.v); render(); return; }
-  if(act === "lofioff"){ Lofi.stop(); render(); return; }
-  if(act === "sound"){ if(Sound.cur === el.dataset.v) Sound.stop(); else Sound.play(el.dataset.v); render(); return; }
+  if(act === "radio"){ if(Radio.cur === el.dataset.v) Radio.stop(); else Radio.play(el.dataset.v); render(); Viz.start(); return; }
+  if(act === "sound"){ if(Sound.cur === el.dataset.v) Sound.stop(); else Sound.play(el.dataset.v); render(); Viz.start(); return; }
   if(act === "pomocfg"){ store.pomo.showCfg = !store.pomo.showCfg; saveStore(); render(); return; }
   if(act === "pomopreset"){ const pr = POMO_PRESETS.find(p => p.id === el.dataset.v); if(pr){ Pomo.setCfg(pr.cfg); render(); Pomo.tick(); } return; }
   if(act === "pomomode"){ Pomo.setMode(el.dataset.v); ui.pomoMsg = null; render(); Pomo.tick(); return; }
