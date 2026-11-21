@@ -864,8 +864,9 @@ const Sound = {
       const C = window.AudioContext || window.webkitAudioContext; if(!C) return false;
       const ctx = this.ctx = new C();
       this.analyser = ctx.createAnalyser(); this.analyser.fftSize = 256; this.analyser.smoothingTimeConstant = 0.8;
-      this.bus = ctx.createGain(); this.bus.gain.value = store.music.vol;
-      this.bus.connect(this.analyser); this.analyser.connect(ctx.destination);
+      this.bus = ctx.createGain();                       /* gom mọi nguồn nhạc */
+      this.vol = ctx.createGain(); this.vol.gain.value = store.music.vol;  /* âm lượng đặt sau dải âm để dải âm không phụ thuộc âm lượng */
+      this.bus.connect(this.analyser); this.analyser.connect(this.vol); this.vol.connect(ctx.destination);
       this.master = ctx.createGain(); this.master.connect(this.bus);
     }
     if(this.ctx.state === "suspended") this.ctx.resume();
@@ -921,8 +922,8 @@ const Sound = {
     for(const n of this.nodes){ try{ if(n.stop) n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} }
     this.nodes = []; this.cur = null; this.out = null;
   },
-  setVol(v){ store.music.vol = v; if(this.bus) this.bus.gain.setTargetAtTime(this.ducked ? v*0.15 : v, this.ctx.currentTime, 0.05); },
-  duck(on){ this.ducked = on; if(this.bus) this.bus.gain.setTargetAtTime(on ? store.music.vol*0.15 : store.music.vol, this.ctx.currentTime, 0.1); }
+  setVol(v){ store.music.vol = v; if(this.vol) this.vol.gain.setTargetAtTime(this.ducked ? v*0.15 : v, this.ctx.currentTime, 0.05); },
+  duck(on){ this.ducked = on; if(this.vol) this.vol.gain.setTargetAtTime(on ? store.music.vol*0.15 : store.music.vol, this.ctx.currentTime, 0.1); }
 };
 const Radio = {
   el:null, cur:null, err:false, loading:false,
