@@ -237,7 +237,10 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .grp-h{margin:14px 0 -4px;font-size:15px;font-weight:800;color:var(--accent);letter-spacing:.01em}
 .card h3.ipa{font-size:21px;letter-spacing:.01em}
 .lesson-head .grp-tag{margin:0 0 2px;font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
-.lesson-head h2.ipa-big{font-size:40px;line-height:1.15}
+.lesson-head h2.ipa-big{font-size:40px;line-height:1.15;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 14px}
+.hz{font-family:var(--font-zh);font-weight:500;color:var(--accent);margin-left:12px}
+.ipa-big .hz{margin-left:0;font-size:40px}
+.hz-py{font-size:16px;font-weight:600;color:var(--muted)}
 .snd{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .snd-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .sym{min-width:56px;height:44px;padding:0 12px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:22px;font-weight:800;white-space:nowrap}
@@ -366,7 +369,307 @@ en: [
    notes:[
     {h:"“Under the name…”",b:"Cách nói đặt chỗ đứng tên ai. Dùng được cả ở nhà hàng: “a table under the name Minh”."},
     {h:"“Could I…?” lịch sự hơn “Can I…?”",b:"Dùng khi nhờ vả nhân viên hoặc người lạ."},
-    {h:"“checkout” và “check out”",b:"Danh từ viết liền (a late checkout), động từ viết rời (I want to check out)."}]}
+    {h:"“checkout” và “check out”",b:"Danh từ viết liền (a late checkout), động từ viết rời (I want to check out)."}]},
+ { id:"en-phone", title:"Hẹn gặp qua điện thoại", scene:"Bạn gọi cho Jake để rủ đi cà phê cuối tuần.", partner:"Jake",
+   lines:[
+    {r:"A",t:"Hello?",v:"A lô?"},
+    {r:"B",t:"Hi Jake, it's Minh. Are you free this Saturday?",v:"Chào Jake, mình là Minh đây. Thứ Bảy này bạn rảnh không?"},
+    {r:"A",t:"I think so. What's up?",v:"Chắc là rảnh. Có chuyện gì thế?"},
+    {r:"B",t:"Do you want to grab coffee?",v:"Bạn có muốn đi cà phê không?"},
+    {r:"A",t:"Sure! What time works for you?",v:"Được chứ! Mấy giờ thì tiện cho bạn?"},
+    {r:"B",t:"How about ten in the morning?",v:"Mười giờ sáng thì sao?",alt:["How about 10 in the morning?"]},
+    {r:"A",t:"Sounds good. Where should we meet?",v:"Nghe ổn đấy. Mình gặp nhau ở đâu?"},
+    {r:"B",t:"Let's meet at the café near the park.",v:"Gặp ở quán cà phê gần công viên nhé."},
+    {r:"A",t:"Great, see you then!",v:"Tuyệt, hẹn gặp lúc đó nhé!"}],
+   phrases:[
+    {t:"Are you free this Saturday?",v:"Thứ Bảy này bạn rảnh không?"},
+    {t:"Do you want to grab coffee?",v:"Bạn có muốn đi cà phê không?"},
+    {t:"How about ten in the morning?",v:"Mười giờ sáng thì sao?",alt:["How about 10 in the morning?"]},
+    {t:"Let's meet at the café near the park.",v:"Gặp ở quán cà phê gần công viên nhé."}],
+   notes:[
+    {h:"Trên điện thoại nói “It's Minh”",b:"Khi gọi điện, người bản xứ giới thiệu mình bằng “It's + tên” hoặc “This is + tên”, không nói “I am Minh”."},
+    {h:"“Grab coffee” là đi cà phê",b:"“Grab” ở đây là làm nhanh, thân mật: grab lunch (đi ăn trưa), grab a drink (đi uống gì đó)."},
+    {h:"Hẹn giờ: “How about…?” và “Sounds good”",b:"Đề xuất bằng “How about + thời gian/địa điểm?”. Đồng ý bằng “Sounds good.” hoặc “Works for me.”"}]},
+ { id:"en-doctor", title:"Đi khám bệnh", scene:"Bạn bị đau đầu, đau họng và đi gặp bác sĩ.", partner:"Bác sĩ",
+   lines:[
+    {r:"A",t:"Hi, what seems to be the problem?",v:"Chào bạn, bạn thấy không khỏe ở đâu?"},
+    {r:"B",t:"I have a headache and a sore throat.",v:"Tôi bị đau đầu và đau họng."},
+    {r:"A",t:"How long have you had these symptoms?",v:"Bạn bị những triệu chứng này bao lâu rồi?"},
+    {r:"B",t:"Since yesterday morning.",v:"Từ sáng hôm qua."},
+    {r:"A",t:"Do you have a fever?",v:"Bạn có sốt không?"},
+    {r:"B",t:"Yes, a little.",v:"Có, hơi sốt."},
+    {r:"A",t:"It looks like a cold. Take this medicine twice a day.",v:"Có vẻ là bị cảm. Uống thuốc này ngày hai lần."},
+    {r:"B",t:"Should I take it after meals?",v:"Tôi có nên uống sau bữa ăn không?"},
+    {r:"A",t:"Yes, and drink plenty of water.",v:"Có, và nhớ uống nhiều nước."},
+    {r:"B",t:"Thank you, doctor.",v:"Cảm ơn bác sĩ."}],
+   phrases:[
+    {t:"I have a headache.",v:"Tôi bị đau đầu."},
+    {t:"I have a sore throat.",v:"Tôi bị đau họng."},
+    {t:"Since yesterday morning.",v:"Từ sáng hôm qua."},
+    {t:"Should I take it after meals?",v:"Tôi có nên uống sau bữa ăn không?"}],
+   notes:[
+    {h:"“I have a + bệnh” để kể triệu chứng",b:"I have a headache (đau đầu), a stomachache (đau bụng), a cold (cảm), a fever (sốt). Đau một chỗ cụ thể: “My back hurts.”"},
+    {h:"“Since” đi với mốc thời gian",b:"Since yesterday, since Monday là “từ mốc đó đến giờ”. Nếu nói khoảng thời gian thì dùng “for”: for two days."},
+    {h:"Liều thuốc: once, twice, three times",b:"Một lần là once, hai lần là twice, từ ba lần trở đi dùng “times”: three times a day (ngày ba lần)."}]},
+ { id:"en-taxi", title:"Đi taxi", scene:"Bạn bắt taxi ra sân bay và đang hơi muộn.", partner:"Tài xế",
+   lines:[
+    {r:"B",t:"Hi, can you take me to the airport, please?",v:"Chào anh, anh chở tôi ra sân bay được không?"},
+    {r:"A",t:"Sure. Which terminal?",v:"Được. Nhà ga nào ạ?"},
+    {r:"B",t:"Terminal two, please. How long will it take?",v:"Nhà ga số hai. Mất bao lâu vậy anh?",alt:["Terminal 2, please. How long will it take?"]},
+    {r:"A",t:"About thirty minutes, depending on traffic.",v:"Khoảng ba mươi phút, tùy tình hình giao thông."},
+    {r:"B",t:"Can you go a bit faster? I'm running late.",v:"Anh đi nhanh hơn chút được không? Tôi đang bị muộn."},
+    {r:"A",t:"I'll do my best.",v:"Tôi sẽ cố hết sức."},
+    {r:"A",t:"Here we are. That's twenty-five dollars.",v:"Đến rồi. Hết hai mươi lăm đô."},
+    {r:"B",t:"Here's thirty. Keep the change.",v:"Gửi anh ba mươi. Anh cứ giữ tiền thừa.",alt:["Here's 30. Keep the change."]}],
+   phrases:[
+    {t:"Can you take me to the airport, please?",v:"Anh chở tôi ra sân bay được không?"},
+    {t:"How long will it take?",v:"Mất bao lâu vậy?"},
+    {t:"I'm running late.",v:"Tôi đang bị muộn."},
+    {t:"Keep the change.",v:"Cứ giữ tiền thừa."}],
+   notes:[
+    {h:"“Take me to + nơi”",b:"Câu gọn nhất khi lên xe: “To the airport, please.” Lịch sự hơn: “Can you take me to…, please?”"},
+    {h:"“I'm running late” là đang bị muộn",b:"Khác với “I'm late” (đã muộn rồi). Câu này hay dùng khi báo cho người khác biết mình sắp đến trễ."},
+    {h:"“Keep the change”",b:"Nghĩa là không cần trả lại tiền thừa, coi như tiền boa. Ở Mỹ thường boa tài xế khoảng 10–20%."}]},
+ { id:"en-interview", title:"Phỏng vấn xin việc", scene:"Bạn phỏng vấn cho vị trí thực tập ở một công ty.", partner:"Người phỏng vấn",
+   lines:[
+    {r:"A",t:"Please have a seat. Can you tell me a little about yourself?",v:"Mời bạn ngồi. Bạn giới thiệu đôi chút về bản thân nhé?"},
+    {r:"B",t:"Sure. I'm a university student, and I'm good at working with numbers.",v:"Vâng. Tôi là sinh viên đại học và tôi giỏi làm việc với số liệu."},
+    {r:"A",t:"Why do you want to work here?",v:"Vì sao bạn muốn làm việc ở đây?"},
+    {r:"B",t:"I'd like to learn from a professional team.",v:"Tôi muốn học hỏi từ một đội ngũ chuyên nghiệp."},
+    {r:"A",t:"What is your greatest strength?",v:"Điểm mạnh lớn nhất của bạn là gì?"},
+    {r:"B",t:"I'm hard-working and I learn quickly.",v:"Tôi chăm chỉ và học nhanh."},
+    {r:"A",t:"Do you have any questions for us?",v:"Bạn có câu hỏi nào cho chúng tôi không?"},
+    {r:"B",t:"Yes. What does a typical day look like in this role?",v:"Có ạ. Một ngày làm việc ở vị trí này thường như thế nào?"},
+    {r:"A",t:"Good question. We'll get back to you next week.",v:"Câu hỏi hay. Tuần sau chúng tôi sẽ liên lạc lại với bạn."},
+    {r:"B",t:"Thank you for your time.",v:"Cảm ơn anh/chị đã dành thời gian."}],
+   phrases:[
+    {t:"I'm good at working with numbers.",v:"Tôi giỏi làm việc với số liệu."},
+    {t:"I'd like to learn from a professional team.",v:"Tôi muốn học hỏi từ một đội ngũ chuyên nghiệp."},
+    {t:"I'm hard-working and I learn quickly.",v:"Tôi chăm chỉ và học nhanh."},
+    {t:"Thank you for your time.",v:"Cảm ơn anh/chị đã dành thời gian."}],
+   notes:[
+    {h:"“I'm good at + V-ing hoặc danh từ”",b:"I'm good at working with numbers, I'm good at teamwork. Sau “at” động từ phải thêm -ing."},
+    {h:"“I'd like to” lịch sự hơn “I want to”",b:"Trong phỏng vấn và công việc, “I'd like to…” nghe chuyên nghiệp và mềm mỏng hơn."},
+    {h:"Luôn chuẩn bị một câu hỏi ngược lại",b:"Khi được hỏi “Do you have any questions?”, đừng nói “No”. Một câu hỏi về công việc hằng ngày cho thấy bạn thật sự quan tâm."}]},
+ { id:"en-hobby", title:"Nói về sở thích", scene:"Bạn trò chuyện với Lily về chuyện làm gì cuối tuần.", partner:"Lily",
+   lines:[
+    {r:"A",t:"What do you usually do on weekends?",v:"Cuối tuần bạn thường làm gì?"},
+    {r:"B",t:"I usually play badminton with my friends.",v:"Mình thường chơi cầu lông với bạn bè."},
+    {r:"A",t:"That sounds fun! How often do you play?",v:"Nghe vui đấy! Bạn chơi bao lâu một lần?"},
+    {r:"B",t:"About twice a week. What about you?",v:"Khoảng hai lần một tuần. Còn bạn?"},
+    {r:"A",t:"I love reading and cooking.",v:"Mình thích đọc sách và nấu ăn."},
+    {r:"B",t:"Really? What kind of food do you cook?",v:"Thật à? Bạn hay nấu món gì?"},
+    {r:"A",t:"Mostly Italian food. I'm not very good at it yet, though.",v:"Chủ yếu là đồ Ý. Nhưng mình nấu chưa giỏi lắm."},
+    {r:"B",t:"I'd love to try it someday!",v:"Hôm nào mình muốn ăn thử lắm!"},
+    {r:"A",t:"Sure, come over next weekend!",v:"Được chứ, cuối tuần sau qua nhà mình nhé!"}],
+   phrases:[
+    {t:"What do you usually do on weekends?",v:"Cuối tuần bạn thường làm gì?"},
+    {t:"I usually play badminton with my friends.",v:"Mình thường chơi cầu lông với bạn bè."},
+    {t:"How often do you play?",v:"Bạn chơi bao lâu một lần?"},
+    {t:"I'd love to try it someday!",v:"Hôm nào mình muốn thử lắm!"}],
+   notes:[
+    {h:"“Usually” đứng trước động từ thường",b:"I usually play, I often read. Nhưng đứng sau “to be”: I'm usually busy."},
+    {h:"Hỏi tần suất bằng “How often…?”",b:"Trả lời: once a week (một lần một tuần), twice a month (hai lần một tháng), every day (mỗi ngày)."},
+    {h:"“I'd love to…” thể hiện rất muốn",b:"Mạnh và thân thiện hơn “I want to”. Đáp lại lời mời cũng dùng: “I'd love to!”"}]},
+ { id:"en-family", title:"Nói về gia đình", scene:"Tom hỏi thăm về gia đình bạn.", partner:"Tom",
+   lines:[
+    {r:"A",t:"Do you have any brothers or sisters?",v:"Bạn có anh chị em không?"},
+    {r:"B",t:"Yes, I have an older sister and a younger brother.",v:"Có, mình có một chị gái và một em trai."},
+    {r:"A",t:"What does your sister do?",v:"Chị bạn làm nghề gì?"},
+    {r:"B",t:"She's a nurse. She works at a hospital in Hanoi.",v:"Chị ấy là y tá. Chị làm ở một bệnh viện ở Hà Nội."},
+    {r:"A",t:"How old is your brother?",v:"Em trai bạn bao nhiêu tuổi?"},
+    {r:"B",t:"He's fifteen. He's still in high school.",v:"Em ấy mười lăm tuổi. Vẫn đang học cấp ba.",alt:["He's 15. He's still in high school."]},
+    {r:"A",t:"Do you live with your parents?",v:"Bạn sống cùng bố mẹ à?"},
+    {r:"B",t:"No, I live in a dorm near my university.",v:"Không, mình ở ký túc xá gần trường."}],
+   phrases:[
+    {t:"Do you have any brothers or sisters?",v:"Bạn có anh chị em không?"},
+    {t:"I have an older sister and a younger brother.",v:"Mình có một chị gái và một em trai."},
+    {t:"She's a nurse.",v:"Chị ấy là y tá."},
+    {t:"I live in a dorm near my university.",v:"Mình ở ký túc xá gần trường."}],
+   notes:[
+    {h:"Older/younger thay cho “anh, chị, em”",b:"Tiếng Anh không phân biệt anh với em: older brother là anh trai, younger sister là em gái."},
+    {h:"“What does she do?” là hỏi nghề",b:"Trả lời bằng “She's a/an + nghề” hoặc “She works at/in + nơi làm”."},
+    {h:"Nói tuổi: “He's fifteen.”",b:"Không cần thêm “years old”. Hỏi tuổi: “How old is he?”"}]},
+ { id:"en-routine", title:"Thói quen hằng ngày", scene:"Sarah hỏi về một ngày bình thường của bạn.", partner:"Sarah",
+   lines:[
+    {r:"A",t:"What time do you usually get up?",v:"Bạn thường dậy lúc mấy giờ?"},
+    {r:"B",t:"I get up at six thirty on weekdays.",v:"Ngày thường mình dậy lúc sáu rưỡi.",alt:["I get up at 6:30 on weekdays."]},
+    {r:"A",t:"That's early! What do you do in the morning?",v:"Sớm thế! Buổi sáng bạn làm gì?"},
+    {r:"B",t:"I take a shower, have breakfast, and go to class.",v:"Mình tắm, ăn sáng rồi đi học."},
+    {r:"A",t:"When do you finish class?",v:"Mấy giờ bạn tan học?"},
+    {r:"B",t:"Around four in the afternoon. Then I go to the gym.",v:"Khoảng bốn giờ chiều. Sau đó mình đi tập gym.",alt:["Around 4 in the afternoon. Then I go to the gym."]},
+    {r:"A",t:"What do you do in the evening?",v:"Buổi tối bạn làm gì?"},
+    {r:"B",t:"I do my homework and go to bed at eleven.",v:"Mình làm bài tập rồi đi ngủ lúc mười một giờ.",alt:["I do my homework and go to bed at 11."]}],
+   phrases:[
+    {t:"What time do you usually get up?",v:"Bạn thường dậy lúc mấy giờ?"},
+    {t:"I take a shower and have breakfast.",v:"Mình tắm và ăn sáng."},
+    {t:"Then I go to the gym.",v:"Sau đó mình đi tập gym."},
+    {t:"I go to bed at eleven.",v:"Mình đi ngủ lúc mười một giờ.",alt:["I go to bed at 11."]}],
+   notes:[
+    {h:"Thói quen dùng thì hiện tại đơn",b:"I get up, I go to class. Với he/she thêm -s: She gets up at seven."},
+    {h:"Các cụm “have”, “take”, “do”",b:"Have breakfast (ăn sáng), take a shower (tắm), do homework (làm bài tập). Học nguyên cụm, đừng dịch từng chữ."},
+    {h:"Nói giờ: “six thirty”",b:"6:30 đọc là “six thirty” hoặc “half past six”. 4:15 là “four fifteen” hoặc “a quarter past four”."}]},
+ { id:"en-weather", title:"Nói chuyện thời tiết", scene:"Bạn nói chuyện phiếm với Mark ở chỗ làm.", partner:"Mark",
+   lines:[
+    {r:"A",t:"It's really hot today, isn't it?",v:"Hôm nay nóng thật, nhỉ?"},
+    {r:"B",t:"Yes, it's boiling! What's the weather like tomorrow?",v:"Ừ, nóng như đổ lửa! Mai thời tiết thế nào?"},
+    {r:"A",t:"I heard it's going to rain.",v:"Nghe nói mai sẽ mưa."},
+    {r:"B",t:"Really? I should bring an umbrella.",v:"Thật à? Mình nên mang ô."},
+    {r:"A",t:"Good idea. Do you like the rainy season?",v:"Ý hay đấy. Bạn có thích mùa mưa không?"},
+    {r:"B",t:"Not really. I prefer cool, dry weather.",v:"Không lắm. Mình thích thời tiết mát và khô hơn."},
+    {r:"A",t:"Me too. Autumn is my favorite season.",v:"Mình cũng vậy. Mùa thu là mùa mình thích nhất."},
+    {r:"B",t:"Mine too!",v:"Mình cũng thế!"}],
+   phrases:[
+    {t:"It's really hot today, isn't it?",v:"Hôm nay nóng thật, nhỉ?"},
+    {t:"What's the weather like tomorrow?",v:"Mai thời tiết thế nào?"},
+    {t:"I should bring an umbrella.",v:"Mình nên mang ô."},
+    {t:"I prefer cool, dry weather.",v:"Mình thích thời tiết mát và khô hơn."}],
+   notes:[
+    {h:"“…, isn't it?” để mở đầu chuyện phiếm",b:"Câu hỏi đuôi này không cần câu trả lời đúng sai, chỉ để bắt chuyện. Trả lời “Yes, it is!” là đủ."},
+    {h:"“What's the weather like?”",b:"Đây là cách hỏi thời tiết tự nhiên nhất. Trả lời: It's sunny, rainy, cloudy, windy…"},
+    {h:"“Me too” và “Mine too”",b:"“Me too” đáp lại câu kể về mình. “Mine too” đáp lại câu có “my”: My favorite is autumn. Mine too!"}]},
+ { id:"en-return", title:"Đổi trả hàng", scene:"Chiếc áo bạn mua bị chật và có lỗ thủng.", partner:"Nhân viên",
+   lines:[
+    {r:"B",t:"Hi, I'd like to return this shirt.",v:"Chào bạn, tôi muốn trả lại chiếc áo này."},
+    {r:"A",t:"Sure. What's wrong with it?",v:"Vâng. Áo bị sao vậy ạ?"},
+    {r:"B",t:"It's too small, and there's a hole here.",v:"Áo chật quá, mà chỗ này còn bị thủng."},
+    {r:"A",t:"I'm sorry about that. Do you have the receipt?",v:"Thành thật xin lỗi. Bạn có mang hóa đơn không?"},
+    {r:"B",t:"Yes, here it is.",v:"Có, đây ạ."},
+    {r:"A",t:"Would you like a refund or an exchange?",v:"Bạn muốn hoàn tiền hay đổi cái khác?"},
+    {r:"B",t:"Can I exchange it for a bigger size?",v:"Tôi đổi sang cỡ to hơn được không?"},
+    {r:"A",t:"Of course. Here's a medium.",v:"Tất nhiên. Đây là cỡ M."},
+    {r:"B",t:"Perfect, thanks!",v:"Tuyệt, cảm ơn nhé!"}],
+   phrases:[
+    {t:"I'd like to return this shirt.",v:"Tôi muốn trả lại chiếc áo này."},
+    {t:"It's too small.",v:"Nó chật quá."},
+    {t:"Here it is.",v:"Đây ạ (khi đưa đồ)."},
+    {t:"Can I exchange it for a bigger size?",v:"Tôi đổi sang cỡ to hơn được không?"}],
+   notes:[
+    {h:"Return, refund, exchange",b:"Return là trả hàng, refund là hoàn tiền, exchange là đổi sang món khác."},
+    {h:"“Too + tính từ” là “quá…”",b:"Too small (chật quá), too expensive (đắt quá). “Too” mang ý không vừa ý."},
+    {h:"Nhớ giữ “receipt”",b:"Receipt là hóa đơn. Hầu hết cửa hàng chỉ cho đổi trả khi có hóa đơn và còn trong thời hạn."}]},
+ { id:"en-train", title:"Mua vé tàu", scene:"Bạn mua vé tàu khứ hồi đi Boston.", partner:"Nhân viên bán vé",
+   lines:[
+    {r:"B",t:"Hi, I'd like a ticket to Boston, please.",v:"Chào bạn, cho tôi một vé đi Boston."},
+    {r:"A",t:"One way or round trip?",v:"Một chiều hay khứ hồi ạ?"},
+    {r:"B",t:"Round trip, please.",v:"Khứ hồi."},
+    {r:"A",t:"When would you like to come back?",v:"Bạn muốn về ngày nào?"},
+    {r:"B",t:"This Sunday evening.",v:"Tối Chủ nhật này."},
+    {r:"A",t:"That's eighty-five dollars.",v:"Hết tám mươi lăm đô."},
+    {r:"B",t:"Is there a discount for students?",v:"Sinh viên có được giảm giá không?"},
+    {r:"A",t:"Yes, with your student ID it's sixty dollars.",v:"Có, nếu có thẻ sinh viên thì còn sáu mươi đô."},
+    {r:"B",t:"Great. What time does the next train leave?",v:"Tuyệt. Chuyến tàu tiếp theo chạy lúc mấy giờ?"},
+    {r:"A",t:"At ten fifteen, from platform three.",v:"Lúc mười giờ mười lăm, ở sân ga số ba."}],
+   phrases:[
+    {t:"I'd like a ticket to Boston, please.",v:"Cho tôi một vé đi Boston."},
+    {t:"Round trip, please.",v:"Khứ hồi."},
+    {t:"Is there a discount for students?",v:"Sinh viên có được giảm giá không?"},
+    {t:"What time does the next train leave?",v:"Chuyến tàu tiếp theo chạy lúc mấy giờ?"}],
+   notes:[
+    {h:"One way và round trip",b:"One way là vé một chiều, round trip là khứ hồi. Người Anh hay nói single và return."},
+    {h:"“What time does … leave/arrive?”",b:"Hỏi giờ tàu, xe chạy hoặc đến: What time does the bus arrive?"},
+    {h:"Platform là sân ga",b:"Ở sân bay thì là gate (cửa ra máy bay): Gate 12."}]},
+ { id:"en-weekend", title:"Kể chuyện cuối tuần", scene:"Lily hỏi bạn cuối tuần vừa rồi làm gì.", partner:"Lily",
+   lines:[
+    {r:"A",t:"How was your weekend?",v:"Cuối tuần của bạn thế nào?"},
+    {r:"B",t:"It was great! I went to the beach with my family.",v:"Tuyệt lắm! Mình đi biển với gia đình."},
+    {r:"A",t:"Sounds nice! Where did you go?",v:"Nghe hay quá! Bạn đi đâu?"},
+    {r:"B",t:"We went to Vung Tau.",v:"Nhà mình đi Vũng Tàu."},
+    {r:"A",t:"What did you do there?",v:"Ở đó bạn làm gì?"},
+    {r:"B",t:"We swam in the sea and ate a lot of seafood.",v:"Nhà mình bơi ở biển và ăn rất nhiều hải sản."},
+    {r:"A",t:"Lucky you! I just stayed home and studied.",v:"Sướng thế! Mình chỉ ở nhà học bài."},
+    {r:"B",t:"Oh no! Next time, come with us.",v:"Ôi không! Lần sau đi cùng nhà mình nhé."}],
+   phrases:[
+    {t:"How was your weekend?",v:"Cuối tuần của bạn thế nào?"},
+    {t:"I went to the beach with my family.",v:"Mình đi biển với gia đình."},
+    {t:"We ate a lot of seafood.",v:"Nhà mình ăn rất nhiều hải sản."},
+    {t:"Next time, come with us.",v:"Lần sau đi cùng nhà mình nhé."}],
+   notes:[
+    {h:"Kể chuyện đã qua dùng thì quá khứ",b:"Nhiều động từ hay dùng là bất quy tắc: go → went, eat → ate, swim → swam, have → had."},
+    {h:"“How was…?” để hỏi trải nghiệm",b:"How was your trip / the movie / the exam? Trả lời: It was great / OK / terrible."},
+    {h:"“Lucky you!”",b:"Câu cảm thán vui vẻ: “Sướng nhỉ!”. Không mang ý ghen tị khó chịu."}]},
+ { id:"en-plans", title:"Kế hoạch du lịch", scene:"Anna hỏi về kế hoạch nghỉ hè của bạn.", partner:"Anna",
+   lines:[
+    {r:"A",t:"Do you have any plans for the summer?",v:"Bạn có kế hoạch gì cho mùa hè chưa?"},
+    {r:"B",t:"Yes, I'm going to travel to Japan.",v:"Có, mình sẽ đi du lịch Nhật Bản."},
+    {r:"A",t:"Wow! How long are you going to stay?",v:"Wow! Bạn định ở bao lâu?"},
+    {r:"B",t:"About ten days.",v:"Khoảng mười ngày.",alt:["About 10 days."]},
+    {r:"A",t:"What are you going to do there?",v:"Bạn định làm gì ở đó?"},
+    {r:"B",t:"I'm going to visit Tokyo and Kyoto and try lots of Japanese food.",v:"Mình sẽ đi Tokyo, Kyoto và thử thật nhiều món Nhật."},
+    {r:"A",t:"Have you booked your hotel yet?",v:"Bạn đặt khách sạn chưa?"},
+    {r:"B",t:"Not yet. I'm going to do it this week.",v:"Chưa. Tuần này mình sẽ đặt."},
+    {r:"A",t:"Have a great trip!",v:"Chúc bạn có chuyến đi vui vẻ!"}],
+   phrases:[
+    {t:"I'm going to travel to Japan.",v:"Mình sẽ đi du lịch Nhật Bản."},
+    {t:"How long are you going to stay?",v:"Bạn định ở bao lâu?"},
+    {t:"Not yet.",v:"Chưa."},
+    {t:"Have a great trip!",v:"Chúc bạn có chuyến đi vui vẻ!"}],
+   notes:[
+    {h:"“Be going to” cho kế hoạch đã định",b:"I'm going to travel… dùng khi đã quyết định từ trước. Quyết định ngay lúc nói thì dùng “I'll…”."},
+    {h:"“Have you … yet?” và “Not yet”",b:"Hỏi việc gì đã làm chưa. Trả lời: Yes, I have hoặc Not yet (chưa)."},
+    {h:"Lời chúc khi ai đó sắp đi",b:"Have a great trip! / Have fun! / Enjoy your vacation!"}]},
+ { id:"en-bank", title:"Đổi tiền", scene:"Bạn đổi tiền Việt sang đô la Mỹ ở ngân hàng.", partner:"Nhân viên ngân hàng",
+   lines:[
+    {r:"B",t:"Excuse me, can I exchange money here?",v:"Xin lỗi, ở đây có đổi tiền không ạ?"},
+    {r:"A",t:"Yes. What currency do you have?",v:"Có. Bạn có tiền gì?"},
+    {r:"B",t:"I'd like to change Vietnamese dong into US dollars.",v:"Tôi muốn đổi tiền Việt sang đô la Mỹ."},
+    {r:"A",t:"Sure. How much would you like to change?",v:"Được. Bạn muốn đổi bao nhiêu?"},
+    {r:"B",t:"Five million dong, please.",v:"Năm triệu đồng ạ.",alt:["5 million dong, please."]},
+    {r:"A",t:"Could I see your passport, please?",v:"Cho tôi xem hộ chiếu của bạn nhé?"},
+    {r:"B",t:"Here you are. What's the exchange rate today?",v:"Đây ạ. Tỷ giá hôm nay là bao nhiêu?"},
+    {r:"A",t:"It's on the screen behind me.",v:"Tỷ giá ở trên màn hình phía sau tôi."},
+    {r:"B",t:"Thanks. Could I have some small bills, please?",v:"Cảm ơn. Cho tôi ít tiền mệnh giá nhỏ được không?"},
+    {r:"A",t:"Of course.",v:"Tất nhiên rồi."}],
+   phrases:[
+    {t:"Can I exchange money here?",v:"Ở đây có đổi tiền không?"},
+    {t:"I'd like to change dong into US dollars.",v:"Tôi muốn đổi tiền Việt sang đô la Mỹ."},
+    {t:"What's the exchange rate today?",v:"Tỷ giá hôm nay là bao nhiêu?"},
+    {t:"Could I have some small bills, please?",v:"Cho tôi ít tiền mệnh giá nhỏ được không?"}],
+   notes:[
+    {h:"Change/exchange A into B",b:"Đổi tiền A sang tiền B: change euros into dollars. Tỷ giá là exchange rate."},
+    {h:"“Here you are” khi đưa đồ",b:"Dùng khi đưa giấy tờ, tiền hoặc đồ vật cho người khác. Giống “Here it is”."},
+    {h:"Small bills là tiền lẻ",b:"Bills là tiền giấy (người Anh nói notes), coins là tiền xu. Đi du lịch nên đổi thêm ít tiền lẻ để trả taxi, boa."}]},
+ { id:"en-rent", title:"Thuê nhà", scene:"Bạn gọi hỏi thuê một căn hộ gần trường.", partner:"Chủ nhà",
+   lines:[
+    {r:"B",t:"Hi, I'm calling about the apartment for rent. Is it still available?",v:"Chào anh, tôi gọi hỏi về căn hộ cho thuê. Căn đó còn trống không ạ?"},
+    {r:"A",t:"Yes, it is.",v:"Vẫn còn."},
+    {r:"B",t:"How much is the rent?",v:"Tiền thuê bao nhiêu ạ?"},
+    {r:"A",t:"It's four hundred dollars a month.",v:"Bốn trăm đô một tháng."},
+    {r:"B",t:"Are utilities included?",v:"Đã gồm tiền điện nước chưa ạ?"},
+    {r:"A",t:"Water is included, but electricity is not.",v:"Gồm tiền nước, còn tiền điện thì chưa."},
+    {r:"B",t:"Is it near a bus stop?",v:"Gần trạm xe buýt không ạ?"},
+    {r:"A",t:"Yes, it's just two minutes away.",v:"Có, chỉ cách hai phút đi bộ."},
+    {r:"B",t:"Great. Can I come and see it tomorrow?",v:"Tuyệt. Mai tôi đến xem nhà được không?"},
+    {r:"A",t:"Sure. How about three p.m.?",v:"Được. Ba giờ chiều nhé?"}],
+   phrases:[
+    {t:"Is it still available?",v:"Còn trống không ạ?"},
+    {t:"How much is the rent?",v:"Tiền thuê bao nhiêu ạ?"},
+    {t:"Are utilities included?",v:"Đã gồm tiền điện nước chưa?"},
+    {t:"Can I come and see it tomorrow?",v:"Mai tôi đến xem được không?"}],
+   notes:[
+    {h:"“I'm calling about…” để mở đầu cuộc gọi",b:"Nói ngay lý do gọi: I'm calling about the job ad / your message."},
+    {h:"Utilities là các khoản điện, nước, gas",b:"Hỏi “Are utilities included?” để biết giá thuê đã gồm các khoản này chưa."},
+    {h:"“Still available?”",b:"Hỏi còn hàng, còn chỗ, còn phòng hay không. Dùng được cả khi mua đồ cũ trên mạng."}]},
+ { id:"en-lost", title:"Nhờ giúp khi mất đồ", scene:"Bạn làm rơi ví trong trung tâm thương mại.", partner:"Nhân viên",
+   lines:[
+    {r:"B",t:"Excuse me, could you help me? I think I lost my wallet.",v:"Xin lỗi, anh giúp tôi được không? Hình như tôi mất ví rồi."},
+    {r:"A",t:"Oh no. Where did you last see it?",v:"Ôi. Lần cuối bạn thấy nó ở đâu?"},
+    {r:"B",t:"I had it at the café on the second floor.",v:"Lúc ở quán cà phê tầng hai tôi vẫn còn cầm."},
+    {r:"A",t:"What does it look like?",v:"Ví trông như thế nào?"},
+    {r:"B",t:"It's a small black wallet with a red stripe.",v:"Ví nhỏ màu đen, có một sọc đỏ."},
+    {r:"A",t:"Let me check the lost and found.",v:"Để tôi xem ở quầy đồ thất lạc."},
+    {r:"A",t:"Is this it?",v:"Có phải cái này không?"},
+    {r:"B",t:"Yes, that's it! Thank you so much!",v:"Đúng rồi! Cảm ơn anh rất nhiều!"},
+    {r:"A",t:"You're welcome. Please be careful next time.",v:"Không có gì. Lần sau bạn cẩn thận nhé."}],
+   phrases:[
+    {t:"Could you help me?",v:"Bạn giúp tôi được không?"},
+    {t:"I think I lost my wallet.",v:"Hình như tôi mất ví rồi."},
+    {t:"It's a small black wallet.",v:"Đó là một chiếc ví nhỏ màu đen."},
+    {t:"That's it! Thank you so much!",v:"Đúng rồi! Cảm ơn rất nhiều!"}],
+   notes:[
+    {h:"“Could you help me?” lịch sự hơn “Help me!”",b:"Mở đầu bằng “Excuse me” rồi mới nhờ. “Help!” chỉ dùng khi thật sự nguy hiểm."},
+    {h:"Tả đồ vật: cỡ, màu rồi đến chi tiết",b:"Thứ tự quen thuộc: a small black wallet (nhỏ, đen, ví). Chi tiết thêm vào sau bằng “with…”."},
+    {h:"Lost and found",b:"Nơi giữ đồ thất lạc ở sân bay, nhà ga, trung tâm thương mại, trường học."}]}
 ],
 zh: [
  { id:"zh-meet", title:"Làm quen với người mới", scene:"Bạn gặp Tiểu Vương lần đầu.", partner:"小王",
@@ -462,8 +765,325 @@ zh: [
    notes:[
     {h:"您 là “bạn” lịch sự",b:"Nhân viên khách sạn, nhà hàng thường dùng 您 (nín) thay cho 你 khi nói với khách."},
     {h:"了 sau động từ là “đã làm xong”",b:"订了 là đã đặt. 两个晚上 là hai buổi tối, tức hai đêm."},
-    {h:"几点 là “mấy giờ”",b:"几 dùng để hỏi số lượng nhỏ. 几点开始？là mấy giờ bắt đầu, 几点结束？là mấy giờ kết thúc."}]}
+    {h:"几点 là “mấy giờ”",b:"几 dùng để hỏi số lượng nhỏ. 几点开始？là mấy giờ bắt đầu, 几点结束？là mấy giờ kết thúc."}]},
+ { id:"zh-phone", title:"Hẹn gặp qua điện thoại", scene:"Bạn gọi cho Tiểu Lý để rủ đi cà phê.", partner:"小李",
+   lines:[
+    {r:"A",t:"喂，你好！",p:"Wéi, nǐ hǎo!",v:"A lô, chào bạn!"},
+    {r:"B",t:"小李，我是阿明。你这个周六有空吗？",p:"Xiǎo Lǐ, wǒ shì Ā Míng. Nǐ zhège zhōuliù yǒu kòng ma?",v:"Tiểu Lý, mình là A Minh đây. Thứ Bảy này bạn rảnh không?"},
+    {r:"A",t:"有空。什么事？",p:"Yǒu kòng. Shénme shì?",v:"Rảnh. Có chuyện gì thế?"},
+    {r:"B",t:"我们一起去喝咖啡吧。",p:"Wǒmen yìqǐ qù hē kāfēi ba.",v:"Mình cùng đi uống cà phê nhé."},
+    {r:"A",t:"好啊！几点见？",p:"Hǎo a! Jǐ diǎn jiàn?",v:"Được đấy! Mấy giờ gặp?"},
+    {r:"B",t:"上午十点，怎么样？",p:"Shàngwǔ shí diǎn, zěnmeyàng?",v:"Mười giờ sáng, được không?",alt:["上午10点怎么样"]},
+    {r:"A",t:"没问题。在哪儿见？",p:"Méi wèntí. Zài nǎr jiàn?",v:"Không vấn đề gì. Gặp ở đâu?"},
+    {r:"B",t:"在公园旁边的咖啡馆见。",p:"Zài gōngyuán pángbiān de kāfēiguǎn jiàn.",v:"Gặp ở quán cà phê cạnh công viên."},
+    {r:"A",t:"好的，周六见！",p:"Hǎo de, zhōuliù jiàn!",v:"Được, thứ Bảy gặp nhé!"}],
+   phrases:[
+    {t:"你这个周六有空吗？",p:"Nǐ zhège zhōuliù yǒu kòng ma?",v:"Thứ Bảy này bạn rảnh không?"},
+    {t:"我们一起去喝咖啡吧。",p:"Wǒmen yìqǐ qù hē kāfēi ba.",v:"Mình cùng đi uống cà phê nhé."},
+    {t:"上午十点，怎么样？",p:"Shàngwǔ shí diǎn, zěnmeyàng?",v:"Mười giờ sáng, được không?",alt:["上午10点怎么样"]},
+    {t:"在公园旁边的咖啡馆见。",p:"Zài gōngyuán pángbiān de kāfēiguǎn jiàn.",v:"Gặp ở quán cà phê cạnh công viên."}],
+   notes:[
+    {h:"喂 (wéi) khi nghe điện thoại",b:"Nhấc máy thì nói 喂 hoặc 喂，你好. Khi gọi cho người khác, xưng tên ngay: 我是 + tên."},
+    {h:"有空 là “rảnh”",b:"有空吗？là bạn rảnh không. Trả lời: 有空 (rảnh) hoặc 没空 (không rảnh)."},
+    {h:"……，怎么样？để đề xuất",b:"Đưa ra ý kiến rồi thêm 怎么样 để hỏi người kia thấy thế nào: 明天去，怎么样？"}]},
+ { id:"zh-doctor", title:"Đi khám bệnh", scene:"Bạn bị đau đầu, đau họng và đi khám.", partner:"医生",
+   lines:[
+    {r:"A",t:"你哪儿不舒服？",p:"Nǐ nǎr bù shūfu?",v:"Bạn thấy khó chịu ở đâu?"},
+    {r:"B",t:"我头疼，嗓子也疼。",p:"Wǒ tóu téng, sǎngzi yě téng.",v:"Tôi đau đầu, họng cũng đau."},
+    {r:"A",t:"发烧吗？",p:"Fāshāo ma?",v:"Có sốt không?"},
+    {r:"B",t:"有一点儿发烧。",p:"Yǒu yìdiǎnr fāshāo.",v:"Hơi sốt một chút."},
+    {r:"A",t:"什么时候开始的？",p:"Shénme shíhou kāishǐ de?",v:"Bắt đầu từ khi nào?"},
+    {r:"B",t:"昨天早上开始的。",p:"Zuótiān zǎoshang kāishǐ de.",v:"Bắt đầu từ sáng hôm qua."},
+    {r:"A",t:"你感冒了。这个药一天吃三次。",p:"Nǐ gǎnmào le. Zhège yào yì tiān chī sān cì.",v:"Bạn bị cảm rồi. Thuốc này ngày uống ba lần."},
+    {r:"B",t:"饭后吃吗？",p:"Fàn hòu chī ma?",v:"Uống sau bữa ăn ạ?"},
+    {r:"A",t:"对，饭后吃。多喝水，多休息。",p:"Duì, fàn hòu chī. Duō hē shuǐ, duō xiūxi.",v:"Đúng, uống sau bữa ăn. Uống nhiều nước, nghỉ ngơi nhiều."},
+    {r:"B",t:"好的，谢谢医生。",p:"Hǎo de, xièxie yīshēng.",v:"Vâng, cảm ơn bác sĩ."}],
+   phrases:[
+    {t:"我头疼。",p:"Wǒ tóu téng.",v:"Tôi đau đầu."},
+    {t:"嗓子也疼。",p:"Sǎngzi yě téng.",v:"Họng cũng đau."},
+    {t:"有一点儿发烧。",p:"Yǒu yìdiǎnr fāshāo.",v:"Hơi sốt một chút."},
+    {t:"饭后吃吗？",p:"Fàn hòu chī ma?",v:"Uống sau bữa ăn ạ?"}],
+   notes:[
+    {h:"Bộ phận + 疼 là “đau chỗ đó”",b:"头疼 (đau đầu), 肚子疼 (đau bụng), 牙疼 (đau răng). Hỏi chung: 你哪儿不舒服？"},
+    {h:"有一点儿 là “hơi, một chút”",b:"Dùng cho cảm giác không dễ chịu: 有一点儿累 (hơi mệt), 有一点儿贵 (hơi đắt)."},
+    {h:"Cách nói liều thuốc",b:"一天吃三次 là ngày uống ba lần. Tiếng Trung dùng 吃 (ăn) cho cả việc uống thuốc."}]},
+ { id:"zh-taxi", title:"Đi taxi", scene:"Bạn bắt taxi ra sân bay và đang vội.", partner:"司机",
+   lines:[
+    {r:"B",t:"师傅，去机场。",p:"Shīfu, qù jīchǎng.",v:"Bác tài, ra sân bay."},
+    {r:"A",t:"好的。哪个航站楼？",p:"Hǎo de. Nǎge hángzhànlóu?",v:"Vâng. Nhà ga nào?"},
+    {r:"B",t:"二号航站楼。要多长时间？",p:"Èr hào hángzhànlóu. Yào duō cháng shíjiān?",v:"Nhà ga số hai. Mất bao lâu ạ?",alt:["2号航站楼要多长时间"]},
+    {r:"A",t:"不堵车的话，半个小时。",p:"Bù dǔchē de huà, bàn ge xiǎoshí.",v:"Nếu không tắc đường thì nửa tiếng."},
+    {r:"B",t:"我有点儿急，能开快一点儿吗？",p:"Wǒ yǒudiǎnr jí, néng kāi kuài yìdiǎnr ma?",v:"Tôi hơi vội, bác đi nhanh hơn chút được không?"},
+    {r:"A",t:"好，我尽量。",p:"Hǎo, wǒ jǐnliàng.",v:"Được, tôi sẽ cố."},
+    {r:"A",t:"到了，一共八十块。",p:"Dào le, yígòng bāshí kuài.",v:"Đến rồi, tổng cộng tám mươi tệ."},
+    {r:"B",t:"可以扫码吗？",p:"Kěyǐ sǎomǎ ma?",v:"Quét mã trả tiền được không?"},
+    {r:"A",t:"可以。",p:"Kěyǐ.",v:"Được."},
+    {r:"B",t:"谢谢师傅！",p:"Xièxie shīfu!",v:"Cảm ơn bác tài!"}],
+   phrases:[
+    {t:"师傅，去机场。",p:"Shīfu, qù jīchǎng.",v:"Bác tài, ra sân bay."},
+    {t:"要多长时间？",p:"Yào duō cháng shíjiān?",v:"Mất bao lâu?"},
+    {t:"能开快一点儿吗？",p:"Néng kāi kuài yìdiǎnr ma?",v:"Đi nhanh hơn chút được không?"},
+    {t:"可以扫码吗？",p:"Kěyǐ sǎomǎ ma?",v:"Quét mã trả tiền được không?"}],
+   notes:[
+    {h:"师傅 là cách gọi tài xế",b:"师傅 dùng để gọi người làm nghề có tay nghề: tài xế, thợ sửa xe, đầu bếp. Rất tự nhiên và lịch sự."},
+    {h:"不……的话 là “nếu không…”",b:"……的话 đặt sau điều kiện: 下雨的话 (nếu trời mưa), 不堵车的话 (nếu không tắc đường)."},
+    {h:"扫码 là quét mã",b:"Ở Trung Quốc hầu như mọi nơi đều trả tiền bằng quét mã WeChat hoặc Alipay."}]},
+ { id:"zh-interview", title:"Phỏng vấn xin việc", scene:"Bạn phỏng vấn cho vị trí thực tập.", partner:"面试官",
+   lines:[
+    {r:"A",t:"请坐。请你先介绍一下自己。",p:"Qǐng zuò. Qǐng nǐ xiān jièshào yíxià zìjǐ.",v:"Mời ngồi. Bạn giới thiệu một chút về bản thân trước nhé."},
+    {r:"B",t:"好的。我叫阮明，是大学生。",p:"Hǎo de. Wǒ jiào Ruǎn Míng, shì dàxuéshēng.",v:"Vâng. Tôi tên Nguyễn Minh, là sinh viên đại học."},
+    {r:"A",t:"你为什么想来我们公司？",p:"Nǐ wèishénme xiǎng lái wǒmen gōngsī?",v:"Vì sao bạn muốn đến công ty chúng tôi?"},
+    {r:"B",t:"我想在专业的团队里学习。",p:"Wǒ xiǎng zài zhuānyè de tuánduì lǐ xuéxí.",v:"Tôi muốn học hỏi trong một đội ngũ chuyên nghiệp."},
+    {r:"A",t:"你的优点是什么？",p:"Nǐ de yōudiǎn shì shénme?",v:"Ưu điểm của bạn là gì?"},
+    {r:"B",t:"我很努力，学东西也很快。",p:"Wǒ hěn nǔlì, xué dōngxi yě hěn kuài.",v:"Tôi rất chăm chỉ, học cái gì cũng nhanh."},
+    {r:"A",t:"你有什么问题吗？",p:"Nǐ yǒu shénme wèntí ma?",v:"Bạn có câu hỏi gì không?"},
+    {r:"B",t:"请问，这个工作每天主要做什么？",p:"Qǐngwèn, zhège gōngzuò měitiān zhǔyào zuò shénme?",v:"Cho hỏi, công việc này hằng ngày chủ yếu làm gì ạ?"},
+    {r:"A",t:"好问题。下周我们会通知你。",p:"Hǎo wèntí. Xià zhōu wǒmen huì tōngzhī nǐ.",v:"Câu hỏi hay. Tuần sau chúng tôi sẽ báo cho bạn."},
+    {r:"B",t:"谢谢您的时间。",p:"Xièxie nín de shíjiān.",v:"Cảm ơn ông/bà đã dành thời gian."}],
+   phrases:[
+    {t:"我想在专业的团队里学习。",p:"Wǒ xiǎng zài zhuānyè de tuánduì lǐ xuéxí.",v:"Tôi muốn học hỏi trong một đội ngũ chuyên nghiệp."},
+    {t:"我很努力，学东西也很快。",p:"Wǒ hěn nǔlì, xué dōngxi yě hěn kuài.",v:"Tôi rất chăm chỉ, học cái gì cũng nhanh."},
+    {t:"这个工作每天主要做什么？",p:"Zhège gōngzuò měitiān zhǔyào zuò shénme?",v:"Công việc này hằng ngày chủ yếu làm gì?"},
+    {t:"谢谢您的时间。",p:"Xièxie nín de shíjiān.",v:"Cảm ơn ông/bà đã dành thời gian."}],
+   notes:[
+    {h:"介绍一下 với 一下",b:"Thêm 一下 sau động từ làm câu nhẹ nhàng hơn: 介绍一下 (giới thiệu chút), 等一下 (đợi chút)."},
+    {h:"优点 và 缺点",b:"优点 là ưu điểm, 缺点 là nhược điểm. Hai từ này rất hay gặp trong phỏng vấn."},
+    {h:"Dùng 您 với người phỏng vấn",b:"Khi cảm ơn hay hỏi người phỏng vấn, dùng 您 (ngài) thay cho 你 để thể hiện sự tôn trọng."}]},
+ { id:"zh-hobby", title:"Nói về sở thích", scene:"Bạn trò chuyện với Tiểu Mỹ về chuyện cuối tuần.", partner:"小美",
+   lines:[
+    {r:"A",t:"你周末一般做什么？",p:"Nǐ zhōumò yìbān zuò shénme?",v:"Cuối tuần bạn thường làm gì?"},
+    {r:"B",t:"我一般和朋友打羽毛球。",p:"Wǒ yìbān hé péngyou dǎ yǔmáoqiú.",v:"Mình thường chơi cầu lông với bạn bè."},
+    {r:"A",t:"真不错！你多长时间打一次？",p:"Zhēn búcuò! Nǐ duō cháng shíjiān dǎ yí cì?",v:"Hay đấy! Bao lâu bạn chơi một lần?"},
+    {r:"B",t:"一个星期两次。你呢？",p:"Yí ge xīngqī liǎng cì. Nǐ ne?",v:"Một tuần hai lần. Còn bạn?"},
+    {r:"A",t:"我喜欢看书和做饭。",p:"Wǒ xǐhuan kàn shū hé zuò fàn.",v:"Mình thích đọc sách và nấu ăn."},
+    {r:"B",t:"是吗？你会做什么菜？",p:"Shì ma? Nǐ huì zuò shénme cài?",v:"Thật à? Bạn biết nấu món gì?"},
+    {r:"A",t:"我会做中国菜，不过做得不太好。",p:"Wǒ huì zuò Zhōngguó cài, búguò zuò de bú tài hǎo.",v:"Mình biết nấu món Trung Quốc, nhưng nấu chưa ngon lắm."},
+    {r:"B",t:"下次我想尝尝！",p:"Xià cì wǒ xiǎng chángchang!",v:"Lần sau mình muốn ăn thử!"},
+    {r:"A",t:"好啊，下个周末来我家吧！",p:"Hǎo a, xià ge zhōumò lái wǒ jiā ba!",v:"Được thôi, cuối tuần sau đến nhà mình nhé!"}],
+   phrases:[
+    {t:"你周末一般做什么？",p:"Nǐ zhōumò yìbān zuò shénme?",v:"Cuối tuần bạn thường làm gì?"},
+    {t:"我一般和朋友打羽毛球。",p:"Wǒ yìbān hé péngyou dǎ yǔmáoqiú.",v:"Mình thường chơi cầu lông với bạn bè."},
+    {t:"一个星期两次。",p:"Yí ge xīngqī liǎng cì.",v:"Một tuần hai lần.",alt:["一个星期2次"]},
+    {t:"下次我想尝尝！",p:"Xià cì wǒ xiǎng chángchang!",v:"Lần sau mình muốn ăn thử!"}],
+   notes:[
+    {h:"一般 là “thường thường”",b:"Đặt trước động từ: 我一般七点起床 (mình thường dậy lúc bảy giờ)."},
+    {h:"Hỏi tần suất: 多长时间……一次？",b:"Trả lời theo mẫu: 一个星期两次 (một tuần hai lần), 一个月一次 (một tháng một lần)."},
+    {h:"Lặp động từ: 尝尝, 看看, 试试",b:"Lặp lại động từ một âm tiết làm nghĩa nhẹ đi: thử một chút. 尝尝 là nếm thử, 看看 là xem thử."}]},
+ { id:"zh-family", title:"Nói về gia đình", scene:"Tiểu Trương hỏi thăm về gia đình bạn.", partner:"小张",
+   lines:[
+    {r:"A",t:"你家有几口人？",p:"Nǐ jiā yǒu jǐ kǒu rén?",v:"Nhà bạn có mấy người?"},
+    {r:"B",t:"我家有五口人：爸爸、妈妈、姐姐、弟弟和我。",p:"Wǒ jiā yǒu wǔ kǒu rén: bàba, māma, jiějie, dìdi hé wǒ.",v:"Nhà mình có năm người: bố, mẹ, chị gái, em trai và mình.",alt:["我家有5口人爸爸妈妈姐姐弟弟和我"]},
+    {r:"A",t:"你姐姐做什么工作？",p:"Nǐ jiějie zuò shénme gōngzuò?",v:"Chị bạn làm nghề gì?"},
+    {r:"B",t:"她是护士，在河内的医院工作。",p:"Tā shì hùshi, zài Hénèi de yīyuàn gōngzuò.",v:"Chị ấy là y tá, làm ở bệnh viện tại Hà Nội."},
+    {r:"A",t:"你弟弟多大了？",p:"Nǐ dìdi duō dà le?",v:"Em trai bạn bao nhiêu tuổi rồi?"},
+    {r:"B",t:"他十五岁，还在上高中。",p:"Tā shíwǔ suì, hái zài shàng gāozhōng.",v:"Em ấy mười lăm tuổi, vẫn đang học cấp ba.",alt:["他15岁还在上高中"]},
+    {r:"A",t:"你和父母一起住吗？",p:"Nǐ hé fùmǔ yìqǐ zhù ma?",v:"Bạn sống cùng bố mẹ à?"},
+    {r:"B",t:"不，我住在学校的宿舍。",p:"Bù, wǒ zhù zài xuéxiào de sùshè.",v:"Không, mình ở ký túc xá của trường."}],
+   phrases:[
+    {t:"你家有几口人？",p:"Nǐ jiā yǒu jǐ kǒu rén?",v:"Nhà bạn có mấy người?"},
+    {t:"我家有五口人。",p:"Wǒ jiā yǒu wǔ kǒu rén.",v:"Nhà mình có năm người.",alt:["我家有5口人"]},
+    {t:"她是护士。",p:"Tā shì hùshi.",v:"Chị ấy là y tá."},
+    {t:"我住在学校的宿舍。",p:"Wǒ zhù zài xuéxiào de sùshè.",v:"Mình ở ký túc xá của trường."}],
+   notes:[
+    {h:"几口人 dùng lượng từ 口",b:"Khi đếm người trong gia đình dùng 口: 五口人. Đếm người nói chung thì dùng 个: 五个人."},
+    {h:"多大了 là hỏi tuổi",b:"Hỏi người ngang tuổi hoặc nhỏ hơn: 你多大了？ Hỏi trẻ nhỏ: 你几岁了？ Hỏi người lớn tuổi: 您多大年纪了？"},
+    {h:"住在 + nơi ở",b:"我住在河内 (mình sống ở Hà Nội). 在 đứng sau 住 để chỉ nơi chốn."}]},
+ { id:"zh-routine", title:"Thói quen hằng ngày", scene:"Tiểu Mỹ hỏi về một ngày bình thường của bạn.", partner:"小美",
+   lines:[
+    {r:"A",t:"你每天几点起床？",p:"Nǐ měitiān jǐ diǎn qǐchuáng?",v:"Mỗi ngày bạn dậy lúc mấy giờ?"},
+    {r:"B",t:"我六点半起床。",p:"Wǒ liù diǎn bàn qǐchuáng.",v:"Mình dậy lúc sáu rưỡi.",alt:["我6点半起床"]},
+    {r:"A",t:"真早！早上你做什么？",p:"Zhēn zǎo! Zǎoshang nǐ zuò shénme?",v:"Sớm thế! Buổi sáng bạn làm gì?"},
+    {r:"B",t:"我洗澡、吃早饭，然后去上课。",p:"Wǒ xǐzǎo, chī zǎofàn, ránhòu qù shàngkè.",v:"Mình tắm, ăn sáng, rồi đi học."},
+    {r:"A",t:"你几点下课？",p:"Nǐ jǐ diǎn xiàkè?",v:"Mấy giờ bạn tan học?"},
+    {r:"B",t:"下午四点左右。下课以后我去健身房。",p:"Xiàwǔ sì diǎn zuǒyòu. Xiàkè yǐhòu wǒ qù jiànshēnfáng.",v:"Khoảng bốn giờ chiều. Tan học xong mình đi tập gym.",alt:["下午4点左右下课以后我去健身房"]},
+    {r:"A",t:"晚上呢？",p:"Wǎnshang ne?",v:"Còn buổi tối?"},
+    {r:"B",t:"晚上我做作业，十一点睡觉。",p:"Wǎnshang wǒ zuò zuòyè, shíyī diǎn shuìjiào.",v:"Buổi tối mình làm bài tập, mười một giờ đi ngủ.",alt:["晚上我做作业11点睡觉"]}],
+   phrases:[
+    {t:"你每天几点起床？",p:"Nǐ měitiān jǐ diǎn qǐchuáng?",v:"Mỗi ngày bạn dậy lúc mấy giờ?"},
+    {t:"我六点半起床。",p:"Wǒ liù diǎn bàn qǐchuáng.",v:"Mình dậy lúc sáu rưỡi.",alt:["我6点半起床"]},
+    {t:"然后去上课。",p:"Ránhòu qù shàngkè.",v:"Rồi đi học."},
+    {t:"我十一点睡觉。",p:"Wǒ shíyī diǎn shuìjiào.",v:"Mình đi ngủ lúc mười một giờ.",alt:["我11点睡觉"]}],
+   notes:[
+    {h:"Thời gian đứng trước động từ",b:"Khác tiếng Việt: 我六点半起床 (tôi sáu rưỡi dậy). Không nói 我起床六点半."},
+    {h:"然后 là “sau đó, rồi”",b:"Dùng để kể các việc theo thứ tự: 先……，然后…… (trước tiên…, sau đó…)."},
+    {h:"左右 là “khoảng”",b:"Đặt sau con số: 四点左右 (khoảng bốn giờ), 一百块左右 (khoảng một trăm tệ)."}]},
+ { id:"zh-weather", title:"Nói chuyện thời tiết", scene:"Bạn nói chuyện phiếm với đồng nghiệp.", partner:"同事",
+   lines:[
+    {r:"A",t:"今天真热啊！",p:"Jīntiān zhēn rè a!",v:"Hôm nay nóng thật đấy!"},
+    {r:"B",t:"是啊，太热了！明天天气怎么样？",p:"Shì a, tài rè le! Míngtiān tiānqì zěnmeyàng?",v:"Đúng thế, nóng quá! Mai thời tiết thế nào?"},
+    {r:"A",t:"听说明天会下雨。",p:"Tīngshuō míngtiān huì xià yǔ.",v:"Nghe nói mai sẽ mưa."},
+    {r:"B",t:"真的吗？那我得带伞。",p:"Zhēn de ma? Nà wǒ děi dài sǎn.",v:"Thật à? Vậy mình phải mang ô."},
+    {r:"A",t:"你喜欢雨季吗？",p:"Nǐ xǐhuan yǔjì ma?",v:"Bạn có thích mùa mưa không?"},
+    {r:"B",t:"不太喜欢。我喜欢凉快的天气。",p:"Bú tài xǐhuan. Wǒ xǐhuan liángkuai de tiānqì.",v:"Không thích lắm. Mình thích thời tiết mát mẻ."},
+    {r:"A",t:"我也是。我最喜欢秋天。",p:"Wǒ yě shì. Wǒ zuì xǐhuan qiūtiān.",v:"Mình cũng vậy. Mình thích nhất là mùa thu."},
+    {r:"B",t:"我也最喜欢秋天！",p:"Wǒ yě zuì xǐhuan qiūtiān!",v:"Mình cũng thích mùa thu nhất!"}],
+   phrases:[
+    {t:"明天天气怎么样？",p:"Míngtiān tiānqì zěnmeyàng?",v:"Mai thời tiết thế nào?"},
+    {t:"那我得带伞。",p:"Nà wǒ děi dài sǎn.",v:"Vậy mình phải mang ô."},
+    {t:"我喜欢凉快的天气。",p:"Wǒ xǐhuan liángkuai de tiānqì.",v:"Mình thích thời tiết mát mẻ."},
+    {t:"我也是。",p:"Wǒ yě shì.",v:"Mình cũng vậy."}],
+   notes:[
+    {h:"天气怎么样？",b:"Câu hỏi thời tiết quen thuộc nhất. Trả lời: 晴天 (nắng), 阴天 (âm u), 下雨 (mưa), 刮风 (có gió)."},
+    {h:"会 + động từ để dự đoán",b:"明天会下雨 (mai sẽ mưa). 会 ở đây là khả năng sẽ xảy ra, không phải “biết làm”."},
+    {h:"得 (děi) là “phải”",b:"Văn nói hay dùng 得 thay cho 必须: 我得走了 (mình phải đi rồi). Chú ý đọc là děi."}]},
+ { id:"zh-return", title:"Đổi trả hàng", scene:"Chiếc áo bạn mua bị chật và có lỗ thủng.", partner:"店员",
+   lines:[
+    {r:"B",t:"你好，这件衬衫我想退。",p:"Nǐ hǎo, zhè jiàn chènshān wǒ xiǎng tuì.",v:"Chào bạn, chiếc áo sơ mi này tôi muốn trả lại."},
+    {r:"A",t:"好的，有什么问题吗？",p:"Hǎo de, yǒu shénme wèntí ma?",v:"Vâng, áo có vấn đề gì ạ?"},
+    {r:"B",t:"太小了，而且这里有个洞。",p:"Tài xiǎo le, érqiě zhèlǐ yǒu ge dòng.",v:"Chật quá, mà chỗ này còn bị thủng."},
+    {r:"A",t:"真不好意思。小票带了吗？",p:"Zhēn bù hǎoyìsi. Xiǎopiào dài le ma?",v:"Thật xin lỗi. Bạn có mang hóa đơn không?"},
+    {r:"B",t:"带了，给你。",p:"Dài le, gěi nǐ.",v:"Có mang, đây ạ."},
+    {r:"A",t:"你想退钱还是换一件？",p:"Nǐ xiǎng tuì qián háishi huàn yí jiàn?",v:"Bạn muốn hoàn tiền hay đổi cái khác?"},
+    {r:"B",t:"可以换大一号的吗？",p:"Kěyǐ huàn dà yí hào de ma?",v:"Đổi sang cỡ to hơn một số được không?"},
+    {r:"A",t:"当然可以。这是中号的。",p:"Dāngrán kěyǐ. Zhè shì zhōng hào de.",v:"Tất nhiên được. Đây là cỡ M."},
+    {r:"B",t:"太好了，谢谢！",p:"Tài hǎo le, xièxie!",v:"Tốt quá, cảm ơn!"}],
+   phrases:[
+    {t:"这件衬衫我想退。",p:"Zhè jiàn chènshān wǒ xiǎng tuì.",v:"Chiếc áo sơ mi này tôi muốn trả lại."},
+    {t:"太小了。",p:"Tài xiǎo le.",v:"Chật quá."},
+    {t:"带了，给你。",p:"Dài le, gěi nǐ.",v:"Có mang, đây ạ."},
+    {t:"可以换大一号的吗？",p:"Kěyǐ huàn dà yí hào de ma?",v:"Đổi sang cỡ to hơn được không?"}],
+   notes:[
+    {h:"退 và 换",b:"退 là trả hàng (退钱 là hoàn tiền), 换 là đổi sang món khác."},
+    {h:"……还是……？ là câu hỏi lựa chọn",b:"退钱还是换一件？ Câu có 还是 thì không thêm 吗 ở cuối."},
+    {h:"小票 là hóa đơn mua hàng",b:"Hóa đơn nhỏ ở cửa hàng gọi là 小票. Hóa đơn đỏ dùng để kê khai thuế gọi là 发票."}]},
+ { id:"zh-train", title:"Mua vé tàu", scene:"Bạn mua vé tàu khứ hồi đi Thượng Hải.", partner:"售票员",
+   lines:[
+    {r:"B",t:"你好，我要一张去上海的火车票。",p:"Nǐ hǎo, wǒ yào yì zhāng qù Shànghǎi de huǒchē piào.",v:"Chào bạn, cho tôi một vé tàu đi Thượng Hải."},
+    {r:"A",t:"单程还是往返？",p:"Dānchéng háishi wǎngfǎn?",v:"Một chiều hay khứ hồi?"},
+    {r:"B",t:"往返。",p:"Wǎngfǎn.",v:"Khứ hồi."},
+    {r:"A",t:"哪天回来？",p:"Nǎ tiān huílai?",v:"Ngày nào về?"},
+    {r:"B",t:"这个星期天晚上。",p:"Zhège xīngqītiān wǎnshang.",v:"Tối Chủ nhật này."},
+    {r:"A",t:"一共五百块。",p:"Yígòng wǔbǎi kuài.",v:"Tổng cộng năm trăm tệ."},
+    {r:"B",t:"学生有优惠吗？",p:"Xuésheng yǒu yōuhuì ma?",v:"Sinh viên có ưu đãi không?"},
+    {r:"A",t:"有，带学生证可以打七五折。",p:"Yǒu, dài xuéshengzhèng kěyǐ dǎ qī wǔ zhé.",v:"Có, mang thẻ sinh viên thì được trả 75% giá."},
+    {r:"B",t:"太好了。下一趟车几点开？",p:"Tài hǎo le. Xià yí tàng chē jǐ diǎn kāi?",v:"Tốt quá. Chuyến tiếp theo mấy giờ chạy?"},
+    {r:"A",t:"十点一刻，在三号站台。",p:"Shí diǎn yí kè, zài sān hào zhàntái.",v:"Mười giờ mười lăm, ở sân ga số ba."}],
+   phrases:[
+    {t:"我要一张去上海的火车票。",p:"Wǒ yào yì zhāng qù Shànghǎi de huǒchē piào.",v:"Cho tôi một vé tàu đi Thượng Hải."},
+    {t:"这个星期天晚上。",p:"Zhège xīngqītiān wǎnshang.",v:"Tối Chủ nhật này."},
+    {t:"学生有优惠吗？",p:"Xuésheng yǒu yōuhuì ma?",v:"Sinh viên có ưu đãi không?"},
+    {t:"下一趟车几点开？",p:"Xià yí tàng chē jǐ diǎn kāi?",v:"Chuyến tiếp theo mấy giờ chạy?"}],
+   notes:[
+    {h:"单程 và 往返",b:"单程 là một chiều, 往返 là khứ hồi. Vé dùng lượng từ 张: 一张票."},
+    {h:"打七五折 là trả 75% giá",b:"Người Việt hay hiểu nhầm là giảm 75%. Thật ra 打七五折 nghĩa là chỉ trả 75%, tức giảm 25%."},
+    {h:"一刻 là 15 phút",b:"十点一刻 là 10:15, 十点三刻 là 10:45. 十点半 là 10:30."}]},
+ { id:"zh-weekend", title:"Kể chuyện cuối tuần", scene:"Tiểu Mỹ hỏi bạn cuối tuần vừa rồi làm gì.", partner:"小美",
+   lines:[
+    {r:"A",t:"你周末过得怎么样？",p:"Nǐ zhōumò guò de zěnmeyàng?",v:"Cuối tuần của bạn thế nào?"},
+    {r:"B",t:"很好！我和家人去海边了。",p:"Hěn hǎo! Wǒ hé jiārén qù hǎibiān le.",v:"Rất vui! Mình đi biển với gia đình."},
+    {r:"A",t:"真好！你们去哪儿了？",p:"Zhēn hǎo! Nǐmen qù nǎr le?",v:"Hay quá! Mọi người đi đâu?"},
+    {r:"B",t:"我们去了头顿。",p:"Wǒmen qù le Tóudùn.",v:"Nhà mình đi Vũng Tàu."},
+    {r:"A",t:"你们在那儿做了什么？",p:"Nǐmen zài nàr zuò le shénme?",v:"Ở đó mọi người làm gì?"},
+    {r:"B",t:"我们游泳，还吃了很多海鲜。",p:"Wǒmen yóuyǒng, hái chī le hěn duō hǎixiān.",v:"Nhà mình bơi, còn ăn rất nhiều hải sản."},
+    {r:"A",t:"太羡慕了！我在家学习了两天。",p:"Tài xiànmù le! Wǒ zài jiā xuéxí le liǎng tiān.",v:"Ghen tị quá! Mình ở nhà học suốt hai ngày."},
+    {r:"B",t:"下次跟我们一起去吧！",p:"Xià cì gēn wǒmen yìqǐ qù ba!",v:"Lần sau đi cùng nhà mình nhé!"}],
+   phrases:[
+    {t:"你周末过得怎么样？",p:"Nǐ zhōumò guò de zěnmeyàng?",v:"Cuối tuần của bạn thế nào?"},
+    {t:"我和家人去海边了。",p:"Wǒ hé jiārén qù hǎibiān le.",v:"Mình đi biển với gia đình."},
+    {t:"我们吃了很多海鲜。",p:"Wǒmen chī le hěn duō hǎixiān.",v:"Nhà mình ăn rất nhiều hải sản."},
+    {t:"下次跟我们一起去吧！",p:"Xià cì gēn wǒmen yìqǐ qù ba!",v:"Lần sau đi cùng nhà mình nhé!"}],
+   notes:[
+    {h:"了 cho biết việc đã xảy ra",b:"去了, 吃了: đã đi, đã ăn. Tiếng Trung không chia động từ, chỉ cần thêm 了."},
+    {h:"……过得怎么样？",b:"Hỏi một khoảng thời gian trôi qua thế nào: 周末过得怎么样？ 假期过得怎么样？"},
+    {h:"羡慕 là “ghen tị” theo nghĩa tốt",b:"太羡慕了！ giống “sướng thế!”, khen người khác có điều tốt. Khác với 嫉妒 (ghen ghét)."}]},
+ { id:"zh-plans", title:"Kế hoạch du lịch", scene:"Tiểu Vương hỏi về kế hoạch nghỉ hè của bạn.", partner:"小王",
+   lines:[
+    {r:"A",t:"暑假你有什么打算？",p:"Shǔjià nǐ yǒu shénme dǎsuàn?",v:"Nghỉ hè bạn có dự định gì?"},
+    {r:"B",t:"我打算去日本旅游。",p:"Wǒ dǎsuàn qù Rìběn lǚyóu.",v:"Mình định đi du lịch Nhật Bản."},
+    {r:"A",t:"哇！你要去多长时间？",p:"Wā! Nǐ yào qù duō cháng shíjiān?",v:"Wow! Bạn đi bao lâu?"},
+    {r:"B",t:"大概十天。",p:"Dàgài shí tiān.",v:"Khoảng mười ngày.",alt:["大概10天"]},
+    {r:"A",t:"你打算去哪些地方？",p:"Nǐ dǎsuàn qù nǎxiē dìfang?",v:"Bạn định đi những nơi nào?"},
+    {r:"B",t:"我想去东京和京都，还想吃很多日本菜。",p:"Wǒ xiǎng qù Dōngjīng hé Jīngdū, hái xiǎng chī hěn duō Rìběn cài.",v:"Mình muốn đi Tokyo và Kyoto, còn muốn ăn thật nhiều món Nhật."},
+    {r:"A",t:"酒店订好了吗？",p:"Jiǔdiàn dìng hǎo le ma?",v:"Khách sạn đặt xong chưa?"},
+    {r:"B",t:"还没有，我这个星期订。",p:"Hái méiyǒu, wǒ zhège xīngqī dìng.",v:"Chưa, tuần này mình sẽ đặt."},
+    {r:"A",t:"祝你旅途愉快！",p:"Zhù nǐ lǚtú yúkuài!",v:"Chúc bạn chuyến đi vui vẻ!"}],
+   phrases:[
+    {t:"我打算去日本旅游。",p:"Wǒ dǎsuàn qù Rìběn lǚyóu.",v:"Mình định đi du lịch Nhật Bản."},
+    {t:"你要去多长时间？",p:"Nǐ yào qù duō cháng shíjiān?",v:"Bạn đi bao lâu?"},
+    {t:"还没有。",p:"Hái méiyǒu.",v:"Chưa."},
+    {t:"祝你旅途愉快！",p:"Zhù nǐ lǚtú yúkuài!",v:"Chúc bạn chuyến đi vui vẻ!"}],
+   notes:[
+    {h:"打算 là “dự định”",b:"我打算 + việc định làm. Hỏi: 你有什么打算？ (bạn có dự định gì?)"},
+    {h:"Động từ + 好了吗？ là “xong chưa?”",b:"订好了吗 (đặt xong chưa), 准备好了吗 (chuẩn bị xong chưa). Trả lời: 好了 (xong rồi) hoặc 还没有 (chưa)."},
+    {h:"Lời chúc 祝……",b:"祝你旅途愉快 (chúc đi vui vẻ), 祝你生日快乐 (chúc mừng sinh nhật), 祝你好运 (chúc may mắn)."}]},
+ { id:"zh-bank", title:"Đổi tiền", scene:"Bạn đổi đô la Mỹ sang nhân dân tệ ở ngân hàng.", partner:"银行职员",
+   lines:[
+    {r:"B",t:"你好，这里可以换钱吗？",p:"Nǐ hǎo, zhèlǐ kěyǐ huàn qián ma?",v:"Chào bạn, ở đây đổi tiền được không?"},
+    {r:"A",t:"可以。您要换什么钱？",p:"Kěyǐ. Nín yào huàn shénme qián?",v:"Được ạ. Anh/chị muốn đổi tiền gì?"},
+    {r:"B",t:"我想把美元换成人民币。",p:"Wǒ xiǎng bǎ Měiyuán huànchéng Rénmínbì.",v:"Tôi muốn đổi đô la Mỹ sang nhân dân tệ."},
+    {r:"A",t:"好的。您要换多少？",p:"Hǎo de. Nín yào huàn duōshao?",v:"Vâng. Anh/chị muốn đổi bao nhiêu?"},
+    {r:"B",t:"换三百美元。",p:"Huàn sānbǎi Měiyuán.",v:"Đổi ba trăm đô la Mỹ.",alt:["换300美元"]},
+    {r:"A",t:"请给我看一下您的护照。",p:"Qǐng gěi wǒ kàn yíxià nín de hùzhào.",v:"Cho tôi xem hộ chiếu của anh/chị."},
+    {r:"B",t:"给您。今天的汇率是多少？",p:"Gěi nín. Jīntiān de huìlǜ shì duōshao?",v:"Đây ạ. Tỷ giá hôm nay là bao nhiêu?"},
+    {r:"A",t:"汇率在后面的屏幕上。",p:"Huìlǜ zài hòumiàn de píngmù shang.",v:"Tỷ giá ở trên màn hình phía sau."},
+    {r:"B",t:"好的。请给我一些零钱。",p:"Hǎo de. Qǐng gěi wǒ yìxiē língqián.",v:"Vâng. Cho tôi một ít tiền lẻ nhé."},
+    {r:"A",t:"没问题。",p:"Méi wèntí.",v:"Không vấn đề gì."}],
+   phrases:[
+    {t:"这里可以换钱吗？",p:"Zhèlǐ kěyǐ huàn qián ma?",v:"Ở đây đổi tiền được không?"},
+    {t:"我想把美元换成人民币。",p:"Wǒ xiǎng bǎ Měiyuán huànchéng Rénmínbì.",v:"Tôi muốn đổi đô la Mỹ sang nhân dân tệ."},
+    {t:"今天的汇率是多少？",p:"Jīntiān de huìlǜ shì duōshao?",v:"Tỷ giá hôm nay là bao nhiêu?"},
+    {t:"请给我一些零钱。",p:"Qǐng gěi wǒ yìxiē língqián.",v:"Cho tôi một ít tiền lẻ."}],
+   notes:[
+    {h:"把 A 换成 B",b:"Mẫu câu đổi A thành B: 把越南盾换成人民币 (đổi tiền Việt sang nhân dân tệ). 汇率 là tỷ giá."},
+    {h:"给您 khi đưa đồ",b:"Khi đưa giấy tờ, tiền cho người khác thì nói 给您 hoặc 给你, giống “đây ạ”."},
+    {h:"零钱 là tiền lẻ",b:"Tiền lẻ để trả xe buýt, mua nước. Muốn đổi tiền lẻ thì hỏi: 能换点儿零钱吗？"}]},
+ { id:"zh-rent", title:"Thuê nhà", scene:"Bạn gọi hỏi thuê một căn hộ gần ga tàu điện ngầm.", partner:"房东",
+   lines:[
+    {r:"B",t:"你好，我想问一下，这个房子还出租吗？",p:"Nǐ hǎo, wǒ xiǎng wèn yíxià, zhège fángzi hái chūzū ma?",v:"Chào anh, cho tôi hỏi, căn nhà này còn cho thuê không?"},
+    {r:"A",t:"还出租。",p:"Hái chūzū.",v:"Vẫn còn."},
+    {r:"B",t:"房租一个月多少钱？",p:"Fángzū yí ge yuè duōshao qián?",v:"Tiền thuê một tháng bao nhiêu?"},
+    {r:"A",t:"一个月三千块。",p:"Yí ge yuè sānqiān kuài.",v:"Ba nghìn tệ một tháng."},
+    {r:"B",t:"包水电吗？",p:"Bāo shuǐdiàn ma?",v:"Có bao gồm điện nước không?"},
+    {r:"A",t:"包水，电费自己交。",p:"Bāo shuǐ, diànfèi zìjǐ jiāo.",v:"Bao tiền nước, tiền điện tự trả."},
+    {r:"B",t:"离地铁站远吗？",p:"Lí dìtiězhàn yuǎn ma?",v:"Có xa ga tàu điện ngầm không?"},
+    {r:"A",t:"不远，走路五分钟。",p:"Bù yuǎn, zǒulù wǔ fēnzhōng.",v:"Không xa, đi bộ năm phút."},
+    {r:"B",t:"我明天可以来看看吗？",p:"Wǒ míngtiān kěyǐ lái kànkan ma?",v:"Mai tôi đến xem được không?"},
+    {r:"A",t:"可以，下午三点怎么样？",p:"Kěyǐ, xiàwǔ sān diǎn zěnmeyàng?",v:"Được, ba giờ chiều nhé?"}],
+   phrases:[
+    {t:"这个房子还出租吗？",p:"Zhège fángzi hái chūzū ma?",v:"Căn nhà này còn cho thuê không?"},
+    {t:"房租一个月多少钱？",p:"Fángzū yí ge yuè duōshao qián?",v:"Tiền thuê một tháng bao nhiêu?"},
+    {t:"包水电吗？",p:"Bāo shuǐdiàn ma?",v:"Có bao gồm điện nước không?"},
+    {t:"我明天可以来看看吗？",p:"Wǒ míngtiān kěyǐ lái kànkan ma?",v:"Mai tôi đến xem được không?"}],
+   notes:[
+    {h:"我想问一下 để mở lời",b:"Cách mở đầu lịch sự khi hỏi thông tin, nhất là qua điện thoại."},
+    {h:"包 là “bao gồm”",b:"包水电 là giá đã gồm điện nước. 包早餐 là có kèm bữa sáng."},
+    {h:"离……远吗？ hỏi khoảng cách",b:"A 离 B 远吗？ (A có xa B không). Trả lời: 很近 (rất gần), 不远 (không xa)."}]},
+ { id:"zh-lost", title:"Nhờ giúp khi mất đồ", scene:"Bạn làm rơi ví trong trung tâm thương mại.", partner:"服务员",
+   lines:[
+    {r:"B",t:"不好意思，能帮我一下吗？我的钱包丢了。",p:"Bù hǎoyìsi, néng bāng wǒ yíxià ma? Wǒ de qiánbāo diū le.",v:"Xin lỗi, giúp tôi một chút được không? Tôi bị mất ví."},
+    {r:"A",t:"别着急。你最后在哪儿看到的？",p:"Bié zháojí. Nǐ zuìhòu zài nǎr kàndào de?",v:"Đừng lo. Lần cuối bạn thấy nó ở đâu?"},
+    {r:"B",t:"在二楼的咖啡店。",p:"Zài èr lóu de kāfēidiàn.",v:"Ở quán cà phê tầng hai.",alt:["在2楼的咖啡店"]},
+    {r:"A",t:"你的钱包是什么样的？",p:"Nǐ de qiánbāo shì shénme yàng de?",v:"Ví của bạn trông như thế nào?"},
+    {r:"B",t:"黑色的，不太大，上面有一条红线。",p:"Hēisè de, bú tài dà, shàngmiàn yǒu yì tiáo hóng xiàn.",v:"Màu đen, không to lắm, bên trên có một sọc đỏ."},
+    {r:"A",t:"我去失物招领处看看。",p:"Wǒ qù shīwù zhāolǐng chù kànkan.",v:"Để tôi ra quầy đồ thất lạc xem thử."},
+    {r:"A",t:"是这个吗？",p:"Shì zhège ma?",v:"Có phải cái này không?"},
+    {r:"B",t:"对，就是这个！太感谢了！",p:"Duì, jiù shì zhège! Tài gǎnxiè le!",v:"Đúng, chính là nó! Cảm ơn nhiều lắm!"},
+    {r:"A",t:"不客气，下次小心点儿。",p:"Bú kèqi, xià cì xiǎoxīn diǎnr.",v:"Không có gì, lần sau cẩn thận nhé."}],
+   phrases:[
+    {t:"能帮我一下吗？",p:"Néng bāng wǒ yíxià ma?",v:"Giúp tôi một chút được không?"},
+    {t:"我的钱包丢了。",p:"Wǒ de qiánbāo diū le.",v:"Tôi bị mất ví."},
+    {t:"黑色的，不太大。",p:"Hēisè de, bú tài dà.",v:"Màu đen, không to lắm."},
+    {t:"就是这个！太感谢了！",p:"Jiù shì zhège! Tài gǎnxiè le!",v:"Chính là nó! Cảm ơn nhiều lắm!"}],
+   notes:[
+    {h:"不好意思 khi làm phiền người khác",b:"Nhẹ hơn 对不起. Dùng khi mở lời nhờ vả, hỏi đường hoặc lỡ va vào ai."},
+    {h:"……丢了 là “bị mất”",b:"手机丢了 (mất điện thoại), 护照丢了 (mất hộ chiếu). 了 cho biết việc đã xảy ra."},
+    {h:"什么样的？ hỏi hình dạng",b:"Trả lời bằng màu sắc, kích cỡ, đặc điểm: 黑色的，不太大，上面有……"}]}
 ]};
+/* Lộ trình giao tiếp cơ bản: 6 chặng, chủ đề và thứ tự tham khảo theo các giáo trình
+   Interchange, Side by Side, 301 câu đàm thoại tiếng Hoa. Hội thoại do SFY tự viết. */
+const UNITS = [
+  {name:"Chặng 1 · Làm quen và đời sống hằng ngày", n:5},
+  {name:"Chặng 2 · Ăn uống và mua sắm", n:3},
+  {name:"Chặng 3 · Đi lại", n:3},
+  {name:"Chặng 4 · Hẹn gặp, kể chuyện và kế hoạch", n:3},
+  {name:"Chặng 5 · Ở và sinh hoạt nơi mới", n:3},
+  {name:"Chặng 6 · Tình huống quan trọng", n:3}
+];
+const LESSON_ORDER = {
+  en:["en-meet","en-family","en-routine","en-hobby","en-weather","en-cafe","en-shopping","en-return","en-directions","en-taxi","en-train","en-phone","en-weekend","en-plans","en-hotel","en-bank","en-rent","en-doctor","en-lost","en-interview"],
+  zh:["zh-meet","zh-family","zh-routine","zh-hobby","zh-weather","zh-restaurant","zh-bargain","zh-return","zh-directions","zh-taxi","zh-train","zh-phone","zh-weekend","zh-plans","zh-hotel","zh-bank","zh-rent","zh-doctor","zh-lost","zh-interview"]
+};
+for(const l of ["en","zh"]) LESSONS[l].sort((a,b) => LESSON_ORDER[l].indexOf(a.id) - LESSON_ORDER[l].indexOf(b.id));
 
 /* ===================== NỘI DUNG PHÁT ÂM =====================
    Ví dụ viết gọn: tiếng Anh "từ=nghĩa"; tiếng Trung "chữ bính_âm=nghĩa".
@@ -737,7 +1357,7 @@ for(const lang of ["en","zh"]){
       if(mine.length < 3) mine = mine.concat(pairs.filter(p => !mine.includes(p))).slice(0, 4);
       PRON[lang].push({
         id: `${g.id}-${k}`, group: g.id, groupTitle: g.title,
-        title: snd0.s, sub: snd0.vn,
+        title: snd0.s, sub: snd0.vn, hz: lang === "zh" ? ex[0] : null,
         sounds: [Object.assign({}, snd0, {ex})],
         mistake: g.mistake, pairs: mine,
         speak: lang === "en" ? ex.concat(gspeak.filter(x => x.t.includes(" "))) : gspeak
@@ -1352,21 +1972,25 @@ function renderComing(){
 }
 function renderHome(){
   const L = store.prefs.lang;
-  const cards = lessonsOf(L).map((les, i) => {
+  const card = (les, i) => {
     const dots = [0,1,2].map(s => `<span class="dot ${stepDone(les,s)?"on":""}"></span>`).join("");
     return `<button class="card" data-act="open" data-id="${les.id}">
       <span class="num">${i+1}</span>
       <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.scene)}</p></span>
       <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
-  }).join("");
+  };
+  const all = lessonsOf(L); let k = 0;
+  const cards = UNITS.map(u => { const part = all.slice(k, k + u.n); const start = k; k += u.n;
+    return part.length ? `<h3 class="grp-h">${esc(u.name)}</h3><div class="list grid2">${part.map((les, i) => card(les, start + i)).join("")}</div>` : ""; }).join("")
+    + (k < all.length ? `<div class="list grid2">${all.slice(k).map((les, i) => card(les, k + i)).join("")}</div>` : "");
   return `
     <section class="intro">
       <h2 class="intro-h">Học nói ${L==="zh"?"tiếng Trung":"tiếng Anh"} qua tình huống thật</h2>
-      <p>Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
+      <p>20 tình huống giao tiếp cơ bản chia thành 6 chặng, từ làm quen đến xử lý tình huống. Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
     </section>
     <div class="page wide">
     ${voiceWarn(L)}
-    <div class="list grid2">${cards}</div>
+    ${cards}
     <div class="tip">Mỗi bài có 4 bước: <b>nghe</b>, <b>nói câu then chốt</b>, <b>đóng vai</b>, rồi mới tới <b>giải thích</b>. Nên học bằng Chrome trên điện thoại hoặc máy tính để dùng được micro chấm phát âm. Mới bắt đầu? Hãy học phần <button class="linkbtn" data-act="section" data-v="pron">Phát âm</button> trước.</div>
     </div>`;
 }
@@ -1385,7 +2009,7 @@ function renderPronHome(){
       const dots = [0,2,3].map(s => `<span class="dot ${pStepDone(les,s)?"on":""}"></span>`).join("");
       return `<button class="card" data-act="popen" data-id="${les.id}">
         <span class="num">${n}</span>
-        <span><h3 class="ipa">${esc(les.title)}</h3><p class="sub">${esc(les.sub)}</p></span>
+        <span><h3 class="ipa">${esc(les.title)}${les.hz ? `<span class="hz zh">${esc(les.hz.t)}</span>` : ""}</h3><p class="sub">${esc(les.sub)}</p></span>
         <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
     }).join("");
     return `<h3 class="grp-h">${esc(g.title)}</h3><div class="list grid2">${items}</div>`;
@@ -1419,7 +2043,7 @@ function renderPron(){
   if(st===3) body = renderPronSpeak(lesson, lang);
   return `<div class="page">
     <div><button class="back" data-act="home">← Tất cả bài phát âm</button></div>
-    <div class="lesson-head"><p class="grp-tag">${esc(lesson.groupTitle)}</p><h2 class="ipa-big">${esc(lesson.title)}</h2><p>${esc(lesson.sub)}</p></div>
+    <div class="lesson-head"><p class="grp-tag">${esc(lesson.groupTitle)}</p><h2 class="ipa-big">${esc(lesson.title)}${lesson.hz ? `<span class="hz zh">${esc(lesson.hz.t)}</span><span class="hz-py">${esc(lesson.hz.p)} · ${esc(lesson.hz.v)}</span>` : ""}</h2><p>${esc(lesson.sub)}</p></div>
     <nav class="steps" aria-label="Các bước">${stepBtns}</nav>
     ${toggles}
     ${body}
