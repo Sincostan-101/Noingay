@@ -235,6 +235,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .music-dock .dock-bar span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .music-dock .dock-bar button{border:0;background:transparent;color:var(--muted);font-size:12px;font-weight:700;padding:4px 6px;border-radius:8px}
 .music-dock .dock-bar button:hover{background:var(--bg);color:var(--ink)}
+.music-dock .dock-err{font-size:12px;padding:6px 12px;background:var(--warn-soft);color:var(--ink)}
+.music-dock .dock-err[hidden]{display:none}
 .music-dock iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
 .music-dock.mini{width:220px}
 @media (max-width:520px){ .music-dock{left:8px;bottom:8px;width:200px} }
@@ -844,14 +846,16 @@ const Pomo = {
 setInterval(() => Pomo.tick(), 1000);
 
 /* ===================== NHẠC NỀN ===================== */
-/* Lofi: các kênh phát trực tiếp trên YouTube (đã kiểm tra cho phép nhúng). */
+/* Lofi: phát trực tiếp từ YouTube (đã kiểm tra 22/11/2026). Các kênh thỉnh thoảng đổi buổi phát; khi đó trình phát báo lỗi thì cập nhật mã video ở đây. */
 const LOFI = [
-  {id:"jfKfPfyJRdk", name:"Lofi Girl · beats to relax/study to", desc:"Kênh lofi học bài nổi tiếng nhất, phát 24/7"},
-  {id:"HuFYqnbVbzY", name:"Lofi Girl · jazz lofi radio", desc:"Lofi pha jazz, nhẹ nhàng, 24/7"},
-  {id:"7NOSDKb0HlU", name:"Chillhop · beats to study/relax to", desc:"Lofi ấm, nhiều nhạc cụ, 24/7"},
-  {id:"28KRPhVzCus", name:"Lofi Girl · beats to sleep/chill to", desc:"Chậm và êm hơn, hợp buổi tối, 24/7"},
-  {id:"4xDzrJKXOOY", name:"Lofi Girl · synthwave radio", desc:"Synthwave, nhịp mạnh hơn, 24/7"},
-  {id:"lTRiuFIWV54", name:"1 A.M Study Session", desc:"Một tuyển tập lofi dài để học khuya"}
+  {id:"rFZHOHl-L8A", name:"Lofi Girl · beats to relax/study to", desc:"Kênh lofi học bài nổi tiếng nhất, phát 24/7"},
+  {id:"E2vONfzoyRI", name:"Lofi Girl · jazz lofi radio", desc:"Lofi pha jazz, nhẹ nhàng, phát 24/7"},
+  {id:"N0snMcR6aaA", name:"Lofi Girl · relaxing piano radio", desc:"Piano êm, rất hợp khi cần tập trung"},
+  {id:"5yx6BWlEVcY", name:"Chillhop Radio · jazzy & lofi beats", desc:"Lofi ấm, nhiều nhạc cụ, phát 24/7"},
+  {id:"7NOSDKb0HlU", name:"Chillhop · beats to study/relax to", desc:"Lofi học bài của Chillhop, phát 24/7"},
+  {id:"JD-kMIpDfnY", name:"Lofi Girl · beats to sleep/chill to", desc:"Chậm và êm hơn, hợp buổi tối, phát 24/7"},
+  {id:"4xDzrJKXOOY", name:"Lofi Girl · synthwave radio", desc:"Synthwave, nhịp mạnh hơn, phát 24/7"},
+  {id:"lTRiuFIWV54", name:"1 A.M Study Session", desc:"Bản tuyển tập lofi dài (không phải phát trực tiếp)"}
 ];
 /* Âm thanh tập trung: web tự tạo bằng Web Audio, không cần mạng. */
 const SOUNDS = [
@@ -931,12 +935,24 @@ const Lofi = {
     this.cur = id;
     const st = LOFI.find(x => x.id === id), dock = document.getElementById("music-dock");
     dock.hidden = false;
+    const q = "autoplay=1&rel=0&playsinline=1&enablejsapi=1&origin=" + encodeURIComponent(location.origin);
+    const src = `https://www.youtube.com/embed/${st.id}?${q}`;
     dock.innerHTML = `<div class="dock-bar"><span title="${esc(st.name)}">♪ ${esc(st.name)}</span><button data-act="lofioff" aria-label="Tắt nhạc lofi">Tắt ✕</button></div>
-      <iframe id="lofi-frame" src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&enablejsapi=1" title="${esc(st.name)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+      <div class="dock-err" id="lofi-err" hidden>Kênh này đang tạm dừng phát. Hãy chọn kênh khác trong mục Nhạc.</div>
+      <iframe id="lofi-frame" src="${src}" title="${esc(st.name)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    const f = document.getElementById("lofi-frame");
+    f.addEventListener("load", () => { try{ f.contentWindow.postMessage(JSON.stringify({event:"listening", id:"lofi", channel:"widget"}), "*"); }catch(e){} });
   },
   stop(){ this.cur = null; const dock = document.getElementById("music-dock"); dock.innerHTML = ""; dock.hidden = true; },
   cmd(func){ const f = document.getElementById("lofi-frame"); if(f && f.contentWindow) f.contentWindow.postMessage(JSON.stringify({event:"command", func, args:[]}), "*"); }
 };
+/* Trình phát YouTube báo lỗi (kênh ngừng phát, video bị gỡ) thì hiện lời nhắc */
+window.addEventListener("message", (ev) => {
+  let host = ""; try{ host = new URL(ev.origin).hostname; }catch(e){ return; }
+  if(!/youtube\.com$/.test(host)) return;
+  let d; try{ d = typeof ev.data === "string" ? JSON.parse(ev.data) : ev.data; }catch(e){ return; }
+  if(d && d.event === "onError"){ const e = document.getElementById("lofi-err"); if(e) e.hidden = false; }
+});
 /* Khi bật micro: vặn nhỏ âm thanh nền để máy nghe rõ giọng người học */
 function muteForMic(on){ Sound.duck(on); Lofi.cmd(on ? "mute" : "unMute"); }
 function prog(id){ return store.progress[id] || (store.progress[id] = {listen:false, phrases:{}, role:false, roleScore:null}); }
