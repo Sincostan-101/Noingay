@@ -61,7 +61,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
 .top .brand{justify-self:start;white-space:nowrap}
 .top-main{display:contents}
-.top-main .section-title{grid-column:2;margin:0;font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.02em;color:var(--accent);white-space:nowrap}
+.top-main .section-title{grid-column:2;margin:0;font-size:clamp(18px,1.9vw,24px);font-weight:800;letter-spacing:-.02em;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+@media (min-width:861px){.top-main .topright{flex-wrap:nowrap}}
 .top-main .topright{grid-column:3;justify-self:end}
 @media (max-width:860px){
   .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
@@ -2307,13 +2308,14 @@ function render(){
 }
 const SECTIONS = [
   {id:"pron", name:"Phát âm", ready:true},
-  {id:"speak", name:"Luyện nói", ready:true},
-  {id:"work", name:"Giao tiếp công việc", ready:true},
+  {id:"speak", name:"{L} giao tiếp cơ bản", ready:true},
+  {id:"work", name:"{L} giao tiếp trong công việc", ready:true},
   {id:"story", name:"Học qua truyện", ready:false},
   {id:"listen", name:"Luyện nghe", ready:false},
   {id:"vocab", name:"Từ vựng", ready:true},
   {id:"grammar", name:"Ngữ pháp", ready:false}
 ];
+function secName(s){ return s.name.replace("{L}", store.prefs.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"); }
 function header(){
   const L = store.prefs.lang;
   const dark = store.prefs.theme === "dark";
@@ -2321,7 +2323,7 @@ function header(){
   return `<header class="top">
     <div class="brand"><span class="mark" aria-hidden="true">SFY</span>Study for yourself${vizHtml()}</div>
     <div class="top-main">
-    <h1 class="section-title">${esc(sec.name)}</h1>
+    <h1 class="section-title">${esc(secName(sec))}</h1>
     <div class="topright">
     <div class="seg" role="group" aria-label="Chọn ngôn ngữ">
       <button data-act="lang" data-v="en" aria-pressed="${L==="en"}">Tiếng Anh</button>
@@ -2420,16 +2422,16 @@ function pomoHtml(){
 }
 function sidebar(){
   const open = !!ui.menuOpen;
-  const items = SECTIONS.map((s,i) => `<button style="--i:${i}" data-act="section" data-v="${s.id}" ${ui.section===s.id?'aria-current="page"':""}>${esc(s.name)}${s.ready?"":'<span class="soon">Sắp có</span>'}</button>`).join("");
+  const items = SECTIONS.map((s,i) => `<button style="--i:${i}" data-act="section" data-v="${s.id}" ${ui.section===s.id?'aria-current="page"':""}>${esc(secName(s))}${s.ready?"":'<span class="soon">Sắp có</span>'}</button>`).join("");
   return `<nav class="side" aria-label="Mục lục">
     <button class="side-toggle" data-act="menu" aria-expanded="${open}" aria-controls="side-list">${ICON_CHEV} Mục lục</button>
     <div class="side-list ${open?"open":""}" id="side-list" ${open?"":"inert"}><div class="side-inner">${items}</div></div></nav>`;
 }
 function renderComing(){
   const sec = SECTIONS.find(s => s.id === ui.section);
-  return `<div class="coming"><h2>${esc(sec.name)} đang được xây dựng</h2>
+  return `<div class="coming"><h2>${esc(secName(sec))} đang được xây dựng</h2>
     <p>Phần này sẽ ra mắt trong các bản cập nhật tới. Trong lúc chờ, bạn luyện nói theo tình huống trước nhé.</p>
-    <button class="btn" data-act="section" data-v="speak">Về Luyện nói</button></div>`;
+    <button class="btn" data-act="section" data-v="speak">Về ${esc(secName(SECTIONS[1]))}</button></div>`;
 }
 function renderHome(){
   const L = store.prefs.lang;
@@ -2446,7 +2448,7 @@ function renderHome(){
     + (k < all.length ? `<div class="list grid2">${all.slice(k).map((les, i) => card(les, k + i)).join("")}</div>` : "");
   return `
     <section class="intro">
-      <h2 class="intro-h">Học nói ${L==="zh"?"tiếng Trung":"tiếng Anh"} qua tình huống thật</h2>
+      <h2 class="intro-h">${L==="zh"?"Tiếng Trung":"Tiếng Anh"} giao tiếp cơ bản</h2>
       <p>20 tình huống giao tiếp cơ bản chia thành 6 chặng, từ làm quen đến xử lý tình huống. Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
     </section>
     <div class="page wide">
@@ -2469,8 +2471,8 @@ function renderWorkHome(){
     return `<h3 class="grp-h">${esc(ind.name)}</h3><div class="list grid2">${ls.map(card).join("")}</div>`; }).join("");
   return `
     <section class="intro">
-      <h2 class="intro-h">Giao tiếp ${L==="zh"?"tiếng Trung":"tiếng Anh"} trong công việc</h2>
-      <p>Hội thoại theo từng ngành nghề, bạn đóng vai người làm nghề. Mỗi bài có từ vựng chuyên ngành riêng. Nên học xong phần Luyện nói cơ bản trước.</p>
+      <h2 class="intro-h">${L==="zh"?"Tiếng Trung":"Tiếng Anh"} giao tiếp trong công việc</h2>
+      <p>Hội thoại theo từng ngành nghề, bạn đóng vai người làm nghề. Mỗi bài có từ vựng chuyên ngành riêng. Nên học xong phần giao tiếp cơ bản trước.</p>
     </section>
     <div class="page wide">
     ${voiceWarn(L)}
@@ -2506,7 +2508,7 @@ function renderPronHome(){
     <div class="page wide">
     ${voiceWarn(L)}
     ${cards}
-    <div class="tip">Mỗi bài có 4 bước: <b>nghe âm</b>, <b>xem cách đặt miệng và lưỡi</b>, <b>phân biệt các cặp âm dễ nhầm</b>, rồi <b>nói thử</b> vào micro. Học xong thì chuyển sang <button class="linkbtn" data-act="section" data-v="speak">Luyện nói</button> các câu giao tiếp.</div>
+    <div class="tip">Mỗi bài có 4 bước: <b>nghe âm</b>, <b>xem cách đặt miệng và lưỡi</b>, <b>phân biệt các cặp âm dễ nhầm</b>, rồi <b>nói thử</b> vào micro. Học xong thì chuyển sang phần <button class="linkbtn" data-act="section" data-v="speak">${esc(secName(SECTIONS[1]))}</button>.</div>
     ${L==="en" ? `<p class="lvnote">Bản thu từng âm IPA lấy từ Wikimedia Commons (Peter Isotalo, Denelson83, Erutuon và người đóng góp khác), giấy phép CC BY-SA 3.0. Phiên âm tạo từ CMU Pronouncing Dictionary (© Carnegie Mellon University, giấy phép BSD), giọng Mỹ, viết theo ký hiệu IPA dùng trong các bài phát âm.</p>` : ""}
     </div>`;
 }
@@ -2625,7 +2627,7 @@ function renderPronSpeak(lesson, lang){
   const L = PRON[lang]; const idx = L.findIndex(x => x.id === lesson.id); const nxt = L[idx+1];
   return `<div class="status">${micStatus(lang)} Nghe mẫu, rồi bấm micro và đọc to, rõ từng từ.</div>
     <div class="list">${cards}</div>
-    <div class="next">${nxt?`<button class="btn" data-act="popen" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>`:`<button class="btn" data-act="section" data-v="speak">Học xong phát âm, sang Luyện nói →</button>`}</div>`;
+    <div class="next">${nxt?`<button class="btn" data-act="popen" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>`:`<button class="btn" data-act="section" data-v="speak">Học xong phát âm, sang ${esc(secName(SECTIONS[1]))} →</button>`}</div>`;
 }
 function micStatus(lang){
   const m = Rec.mode(lang);
@@ -2800,7 +2802,7 @@ function renderVocabSection(){
   const L = store.prefs.lang, all = lessonsOf(L); let k = 0;
   const blocks = UNITS.map(u => { const part = all.slice(k, k + u.n); const start = k; k += u.n;
     return `<h3 class="grp-h">${esc(u.name)}</h3>` + part.map((les, j) => { const li = start + j;
-      return `<div class="vblock"><div class="vhead"><b>${li+1}. ${esc(les.title)}</b><button class="linkbtn" data-act="open" data-id="${les.id}">Mở bài luyện nói</button></div>
+      return `<div class="vblock"><div class="vhead"><b>${li+1}. ${esc(les.title)}</b><button class="linkbtn" data-act="open" data-id="${les.id}">Mở bài học</button></div>
         <div class="vgrid">${vocabOf(les.id).map((w,i) => exBtn(w, L, `W${li}_${i}`)).join("")}</div></div>`; }).join(""); }).join("");
   return `<section class="intro"><h2 class="intro-h">Từ vựng ${L==="zh"?"tiếng Trung":"tiếng Anh"} theo bài</h2>
       <p>${all.reduce((n, les) => n + vocabOf(les.id).length, 0)} từ đi kèm ${all.length} bài luyện nói, đối chiếu ${L==="zh"?"HSK 3.0":"Oxford 3000 (CEFR)"}. Bấm vào từ để nghe phát âm.</p></section>
