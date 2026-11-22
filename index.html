@@ -2297,7 +2297,6 @@ function render(){
   const app = document.getElementById("app");
   let content;
   if(ui.section === "pron") content = ui.view === "home" ? renderPronHome() : renderPron();
-  else if(ui.section === "vocab") content = renderVocabSection();
   else if(ui.section === "work") content = ui.view === "home" ? renderWorkHome() : renderLesson();
   else if(ui.section !== "speak") content = renderComing();
   else if(ui.view === "home") content = renderHome();
@@ -2312,7 +2311,7 @@ const SECTIONS = [
   {id:"work", name:"{L} giao tiếp trong công việc", ready:true},
   {id:"story", name:"Học qua truyện", ready:false},
   {id:"listen", name:"Luyện nghe", ready:false},
-  {id:"vocab", name:"Từ vựng", ready:true},
+  {id:"vocab", name:"Từ vựng", ready:false},
   {id:"grammar", name:"Ngữ pháp", ready:false}
 ];
 function secName(s){ return s.name.replace("{L}", store.prefs.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"); }
@@ -2430,7 +2429,7 @@ function sidebar(){
 function renderComing(){
   const sec = SECTIONS.find(s => s.id === ui.section);
   return `<div class="coming"><h2>${esc(secName(sec))} đang được xây dựng</h2>
-    <p>Phần này sẽ ra mắt trong các bản cập nhật tới. Trong lúc chờ, bạn luyện nói theo tình huống trước nhé.</p>
+    <p>${sec.id === "vocab" ? "Phần từ vựng riêng sẽ ra mắt sau. Hiện từ vựng của mỗi bài nằm ở bước cuối cùng (Từ vựng) trong bài học." : "Phần này sẽ ra mắt trong các bản cập nhật tới. Trong lúc chờ, bạn học giao tiếp theo tình huống trước nhé."}</p>
     <button class="btn" data-act="section" data-v="speak">Về ${esc(secName(SECTIONS[1]))}</button></div>`;
 }
 function renderHome(){
