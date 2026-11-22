@@ -384,7 +384,19 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .hleaf{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
 .hleaf input{accent-color:var(--accent)}
 .brand .logo{cursor:pointer}
-.is-home .brand .logo{visibility:hidden}
+.is-home .brand .logo{width:calc(48px * 372 / 80 * .375);overflow:hidden}
+.is-home .brand .logo i{pointer-events:none}
+.is-home .brand .logo .lg-text{display:none}
+.hplan{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:6px 14px 6px 6px;font:inherit;cursor:pointer;text-align:left;margin-left:6px;transition:transform .15s,border-color .15s}
+.hplan:hover{border-color:var(--accent);transform:translateY(-1px)}
+.hplan-i{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.hplan-i svg{width:19px;height:19px}
+.hplan-t{display:flex;flex-direction:column;line-height:1.2;letter-spacing:0}
+.hplan-t b{font-size:14px;font-weight:800}
+.hplan-t small{font-size:12px;font-weight:500;color:var(--muted)}
+.is-home .layout{padding-top:40px}
+.is-home .hero{padding-top:0}
+@media (max-width:640px){.hplan-t small{display:none}.hplan{padding:4px 10px 4px 4px}.hplan-t b{font-size:12.5px}}
 .is-home .top-main .section-title{display:none}
 
 /* ===== Lịch & việc cần làm ===== */
@@ -2885,7 +2897,7 @@ function header(){
   const dark = store.prefs.theme === "dark";
   const sec = SECTIONS.find(s => s.id === ui.section) || SECTIONS[0];
   return `<header class="top">
-    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="link" tabindex="0" data-act="section" data-v="home" title="Về trang chủ" aria-label="SFY — Study for yourself, về trang chủ"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${vizHtml()}</div>
+    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="link" tabindex="0" data-act="section" data-v="home" title="Về trang chủ" aria-label="SFY — Study for yourself, về trang chủ"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${ui.section === "home" ? homePlanChip() : ""}${vizHtml()}</div>
     <div class="top-main">
     <h1 class="section-title">${esc(secName(sec))}</h1>
     <div class="topright">
@@ -2897,6 +2909,11 @@ function header(){
     ${musicHtml()}
     ${pomoHtml()}
     </div></div></header>`;
+}
+function homePlanChip(){
+  const td = ymd(new Date()), its = planItems();
+  const n = its.filter(x => x.kind === "task" && !x.done && x.date === td).length + its.filter(x => x.kind === "event" && x.date === td).length;
+  return `<button class="hplan" data-act="section" data-v="plan" title="Mở lịch & việc cần làm"><span class="hplan-i" aria-hidden="true">${SECTION_ICONS.plan}</span><span class="hplan-t"><b>Lịch & việc cần làm</b><small>${n ? `Hôm nay có ${n} mục` : "Lên kế hoạch học hôm nay"}</small></span></button>`;
 }
 function vizHtml(){
   if(!(Sound.cur || Player.playing)) return "";
@@ -3713,7 +3730,7 @@ function renderLanding(){
     if(lst) lastHtml = `<button class="hcard" data-act="${last.kind === "pron" ? "popen" : "open"}" data-id="${lst.id}"><span class="hcard-k">Học tiếp</span><b>${esc(last.kind === "pron" ? lst.title + " · " + lst.sub : lst.title)}</b><span>${last.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"} · bấm để mở lại bài đang học</span></button>`;
   }
   const quote = HOME_QUOTES[Math.floor(Date.now() / 864e5) % HOME_QUOTES.length];
-  const tiles = SECTIONS.filter(s => s.id !== "home").map(s => `<button class="htile ${s.ready ? "" : "soon"}" data-act="section" data-v="${s.id}">
+  const tiles = SECTIONS.filter(s => s.id !== "home" && s.id !== "plan").map(s => `<button class="htile ${s.ready ? "" : "soon"}" data-act="section" data-v="${s.id}">
       <span class="htile-i" aria-hidden="true">${SECTION_ICONS[s.id] || ""}</span><b>${esc(secName(s))}</b><span>${esc(SECTION_DESC[s.id] || "")}</span>${s.ready ? "" : '<em>Sắp có</em>'}</button>`).join("");
   return `<section class="landing">
     <div class="hero">
