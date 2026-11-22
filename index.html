@@ -476,7 +476,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .dragging{opacity:.4}
 .dropover{outline:2px dashed var(--accent);outline-offset:-2px;background:var(--accent-soft)!important}
 .pmodal{position:fixed;inset:0;z-index:60;background:rgba(10,25,17,.42);display:grid;place-items:center;padding:16px}
-.pform{width:min(440px,100%);background:linear-gradient(var(--surface),var(--surface)),var(--bg);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 24px 60px -20px rgba(0,0,0,.5);cursor:default}
+.pform{width:min(480px,100%);background:linear-gradient(var(--surface),var(--surface)),var(--bg);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 24px 60px -20px rgba(0,0,0,.5);cursor:default}
 .pform-h{display:flex;align-items:center;justify-content:space-between}
 .pform-h b{font-size:17px}
 .pin{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;width:100%;box-sizing:border-box}
@@ -543,6 +543,64 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pdev span{font-size:12.5px;color:var(--muted)}
 .pmodal:not(.pdwrap){z-index:65}
 @media (max-width:640px){.pcells{grid-auto-rows:minmax(72px,auto)}.pchip{font-size:11px;padding:1px 4px}.pchip .ptime{display:none}}
+
+/* chọn ngày / giờ kiểu SFY */
+.pf-l{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted);flex:1;min-width:120px}
+.pf-l:has([data-pk=date]){flex:1.6;min-width:170px}
+.pf-l .pk-btn{padding:7px 9px;gap:7px}
+.pk{position:relative;display:inline-flex;min-width:0}
+.pf-l .pk{display:flex}
+.pk-btn{display:flex;align-items:center;gap:8px;width:100%;border:1.5px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:var(--accent-soft);color:var(--ink);border-radius:12px;padding:8px 12px;font:inherit;font-size:14.5px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
+.pk-btn:hover{border-color:var(--accent)}
+.pk.on .pk-btn{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent)}
+.pk-btn.empty b{color:var(--muted);font-weight:600}
+.pk-btn b{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pk-btn b.tick{animation:pkTick .35s ease}
+@keyframes pkTick{0%{transform:translateY(-6px);opacity:.2}100%{transform:none;opacity:1}}
+.pk-ic{width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;flex:none}
+.pk-ic svg{width:16px;height:16px}
+.pk.on .pk-ic svg{animation:pkWig .5s ease}
+@keyframes pkWig{30%{transform:rotate(-14deg) scale(1.1)}60%{transform:rotate(10deg)}}
+.pd-time{display:flex;align-items:center;gap:8px}
+.pd-time .pk-btn{padding:5px 10px}
+.pk-pop{position:fixed;z-index:95;width:304px;background:linear-gradient(var(--surface),var(--surface)),var(--bg);border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 60px -18px rgba(0,0,0,.5);padding:14px;opacity:0;transform:translateY(-6px) scale(.94);transform-origin:top left;transition:opacity .16s ease,transform .22s cubic-bezier(.3,1.4,.5,1)}
+.pk-pop.in{opacity:1;transform:none}
+.pk-pop.out{opacity:0;transform:scale(.96);transition:opacity .14s ease,transform .14s ease}
+.pk-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.pk-title{font-size:16px;font-weight:800}
+.pk-nav{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:20px;line-height:1;cursor:pointer}
+.pk-nav:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pk-wd,.pk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.pk-wd span{font-size:11.5px;font-weight:800;color:var(--muted);padding:4px 0}
+.pk-grid.sl{animation:pkSl .28s ease}
+.pk-grid.sr{animation:pkSr .28s ease}
+@keyframes pkSl{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes pkSr{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+.pk-d{aspect-ratio:1;border:0;border-radius:50%;background:transparent;color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer;opacity:0;animation:pkIn .3s ease forwards;animation-delay:calc(var(--k) * 6ms);transition:background .15s,transform .15s}
+@keyframes pkIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.pk-d:hover{background:var(--accent-soft);transform:scale(1.08)}
+.pk-d.oth{color:var(--muted);opacity:.45}
+.pk-d.oth{animation:none}
+.pk-d.td{box-shadow:inset 0 0 0 2px var(--accent);color:var(--accent);font-weight:800}
+.pk-d.sel{background:var(--accent);color:#fff;font-weight:800;animation:pkSel .35s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes pkSel{0%{transform:scale(.7)}100%{transform:none;opacity:1}}
+.pk-f{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.pk-ok{border:0;background:var(--accent);color:#fff;border-radius:999px;padding:7px 16px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer}
+.pk-ok:hover{filter:brightness(1.08)}
+.pk-big{display:flex;align-items:center;justify-content:center;gap:4px;margin:2px 0 2px}
+.pk-big button{border:0;background:var(--bg);color:var(--muted);font:inherit;font-size:38px;font-weight:800;line-height:1;padding:6px 12px;border-radius:12px;cursor:pointer;font-variant-numeric:tabular-nums;transition:background .2s,color .2s}
+.pk-big button.on{background:var(--accent-soft);color:var(--accent)}
+.pk-big i{font-style:normal;font-size:34px;font-weight:800;color:var(--muted)}
+.pk-tip{margin:4px 0 8px;font-size:11.5px;color:var(--muted);text-align:center}
+.pk-face{position:relative;width:236px;height:236px;margin:0 auto;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;touch-action:none}
+.pk-face.swap{animation:pkSwap .3s ease}
+@keyframes pkSwap{from{transform:scale(.88) rotate(-8deg);opacity:.3}to{transform:none;opacity:1}}
+.pk-dot{position:absolute;left:114px;top:114px;width:8px;height:8px;border-radius:50%;background:var(--accent);z-index:2}
+.pk-hand{position:absolute;left:117px;bottom:118px;width:2px;background:var(--accent);transform-origin:50% 100%;transition:transform .35s cubic-bezier(.3,1.2,.5,1),height .3s ease;z-index:1;pointer-events:none}
+.pk-hand b{position:absolute;left:-15px;top:-16px;width:32px;height:32px;border-radius:50%;background:var(--accent);opacity:.9}
+.pk-n{position:absolute;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;color:var(--ink);pointer-events:none;z-index:2;opacity:0;animation:pkIn .3s ease forwards;animation-delay:calc(var(--k) * 14ms)}
+.pk-n.in{font-size:12px;color:var(--muted)}
+.pk-n.sel{color:#fff}
 </style>
 </head>
 <body>
@@ -2857,6 +2915,7 @@ const ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 let LOGO_INTRO = true;
 function render(){
   const app = document.getElementById("app");
+  if(typeof Picker !== "undefined" && Picker.pop) Picker.close();
   let content;
   if(ui.section === "home") content = renderLanding();
   else if(ui.section === "plan") content = renderPlan();
@@ -3524,6 +3583,9 @@ document.addEventListener("click", (ev) => {
     if(tg) tg.setAttribute("aria-expanded","false");
   }
   const el = ev.target.closest("[data-act]");
+  if(Picker.pop && !ev.target.closest(".pk-pop") && !ev.target.closest(".pk.on")) Picker.close();
+  if(el && el.dataset.act.startsWith("pk")){ Picker.act(el.dataset.act, el, ev); return; }
+  if(ev.target.closest(".pk-pop")) return;
   if(ui.pomoOpen && !ev.target.closest(".pomo")){ ui.pomoOpen = false; ui.pomoMsg = null; if(!el) render(); }
   if(ui.musicOpen && !ev.target.closest(".music")){ ui.musicOpen = false; if(!el) render(); }
   if(!el || el.tagName === "FORM") return;
@@ -3886,7 +3948,7 @@ function planDayPanel(s){
       <div class="pd-opts">
         <div class="pomo-modes pd-mode" role="group" aria-label="Loại việc"><button data-act="planaddmode" data-v="priority" aria-pressed="${A.mode === "priority"}">★ Ưu tiên</button><button data-act="planaddmode" data-v="deadline" aria-pressed="${A.mode === "deadline"}">⏰ Deadline</button></div>
         ${A.mode === "deadline"
-          ? `<label class="pd-time">Hạn lúc <input class="pin" type="time" data-plan-daytime data-keep="plandayt" value="${A.time || ""}"></label>`
+          ? `<div class="pd-time">Hạn lúc ${pickerHtml("time", "", A.time || "", 'data-plan-daytime data-keep="plandayt"', true)}</div>`
           : `<div class="pd-pri" role="radiogroup" aria-label="Mức ưu tiên">${PRI.map(p => `<button data-act="planaddpri" data-v="${p.v}" aria-pressed="${A.pri === p.v}" style="--c:${p.c}">${p.name}</button>`).join("")}</div>`}
         <button class="btn small" data-act="planaddtask">Thêm</button>
       </div>
@@ -3904,9 +3966,9 @@ function planForm(e){
     <div class="pform-h"><b>${e.id ? "Sửa" : "Tạo"} ${isEv ? "lịch" : "việc cần làm"}</b><button type="button" class="mbtn" data-act="planclose" aria-label="Đóng">✕</button></div>
     <div class="pomo-modes" style="grid-template-columns:1fr 1fr" role="group"><button type="button" data-act="plankind" data-v="event" aria-pressed="${isEv}">Lịch / sự kiện</button><button type="button" data-act="plankind" data-v="task" aria-pressed="${!isEv}">Việc cần làm</button></div>
     <input class="pin big" name="title" value="${esc(e.title || "")}" placeholder="${isEv ? "Ví dụ: Luyện nói tiếng Anh 30 phút" : "Ví dụ: Ôn 20 từ vựng ngành Tài chính"}" required>
-    <div class="pform-r"><label>Ngày<input class="pin" type="date" name="date" value="${e.date || ""}"></label>
-      <label>${isEv ? "Từ" : "Hạn lúc"}<input class="pin" type="time" name="start" value="${e.start || ""}"></label>
-      ${isEv ? `<label>Đến<input class="pin" type="time" name="end" value="${e.end || ""}"></label>` : ""}</div>
+    <div class="pform-r"><div class="pf-l"><span>Ngày</span>${pickerHtml("date", "date", e.date || "", "", true)}</div>
+      <div class="pf-l"><span>${isEv ? "Từ" : "Hạn lúc"}</span>${pickerHtml("time", "start", e.start || "", "", true)}</div>
+      ${isEv ? `<div class="pf-l"><span>Đến</span>${pickerHtml("time", "end", e.end || "", "", true)}</div>` : ""}</div>
     ${isEv ? "" : `<div class="pform-r"><label>Loại việc<select class="pin" name="tmode"><option value="priority" ${e.tmode !== "deadline" ? "selected" : ""}>★ Ưu tiên</option><option value="deadline" ${e.tmode === "deadline" ? "selected" : ""}>⏰ Deadline</option></select></label>
       <label>Mức ưu tiên<select class="pin" name="pri">${PRI.map(p => `<option value="${p.v}" ${(e.pri || 2) === p.v ? "selected" : ""}>${p.name}</option>`).join("")}</select></label></div>
       <label class="pform-c"><input type="checkbox" name="done" ${e.done ? "checked" : ""}> Đã xong</label>`}
@@ -4023,6 +4085,132 @@ document.addEventListener("dragend", ev => { DRAG_ID = null; document.querySelec
 document.addEventListener("dragover", ev => { if(!DRAG_ID) return; const t = ev.target.closest && ev.target.closest("[data-drop-task],[data-drop-date]"); if(!t) return; ev.preventDefault(); document.querySelectorAll(".dropover").forEach(e => e !== t && e.classList.remove("dropover")); t.classList.add("dropover"); });
 document.addEventListener("drop", ev => { if(!DRAG_ID) return; const t = ev.target.closest && ev.target.closest("[data-drop-task],[data-drop-date]"); if(!t) return; ev.preventDefault(); const id = DRAG_ID; DRAG_ID = null; Plan.drop(id, t); });
 
+
+/* ===================== CHỌN NGÀY / GIỜ KIỂU SFY ===================== */
+const PK_CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
+const PK_CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+function pkLabel(type, v){
+  if(type === "date"){ if(!v) return "Chọn ngày"; const d = pd(v); return `${WD_S[wdIdx(d)]}, ${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${d.getFullYear()}`; }
+  return v || "--:--";
+}
+function pickerHtml(type, name, value, attrs, clearable){
+  return `<div class="pk" data-pk="${type}"${clearable ? " data-clear" : ""}><input type="hidden" ${name ? `name="${name}"` : ""} ${attrs || ""} value="${esc(value)}">
+    <button type="button" class="pk-btn ${value ? "" : "empty"}" data-act="pkopen"><span class="pk-ic">${type === "date" ? PK_CAL : PK_CLOCK}</span><b>${pkLabel(type, value)}</b></button></div>`;
+}
+const Picker = {
+  pop:null, wrap:null, type:null, cur:null, mode:"hour", deg:0, slide:"",
+  inp(){ return this.wrap.querySelector("input"); },
+  val(){ return this.inp().value; },
+  open(wrap){
+    if(this.wrap === wrap){ this.close(); return; }
+    this.close();
+    this.wrap = wrap; this.type = wrap.dataset.pk; this.mode = "hour"; this.slide = "";
+    const v = this.val();
+    this.cur = this.type === "date" ? (v || ymd(new Date())).slice(0, 8) + "01" : null;
+    if(this.type === "time"){ const [h] = (v || "08:00").split(":").map(Number); this.deg = this.hourDeg(h); }
+    wrap.classList.add("on");
+    this.pop = document.createElement("div"); this.pop.className = "pk-pop " + this.type; this.pop.setAttribute("role", "dialog");
+    document.body.appendChild(this.pop);
+    this.draw(); this.place();
+    requestAnimationFrame(() => this.pop && this.pop.classList.add("in"));
+  },
+  close(){
+    if(this.pop){ const p = this.pop; p.classList.remove("in"); p.classList.add("out"); setTimeout(() => p.remove(), 160); }
+    if(this.wrap) this.wrap.classList.remove("on");
+    this.pop = null; this.wrap = null;
+  },
+  place(){
+    if(!this.pop || !this.wrap) return;
+    const r = this.wrap.getBoundingClientRect(), w = this.pop.offsetWidth, h = this.pop.offsetHeight;
+    let left = Math.min(Math.max(8, r.left), innerWidth - w - 8), top = r.bottom + 8;
+    if(top + h > innerHeight - 8) top = r.top - h - 8;
+    if(top < 8) top = Math.max(8, innerHeight - h - 8);
+    this.pop.style.left = left + "px"; this.pop.style.top = top + "px";
+  },
+  set(v){
+    const inp = this.inp(), old = inp.value; inp.value = v;
+    const b = this.wrap.querySelector(".pk-btn b"); b.textContent = pkLabel(this.type, v);
+    this.wrap.querySelector(".pk-btn").classList.toggle("empty", !v);
+    b.classList.remove("tick"); void b.offsetWidth; b.classList.add("tick");
+    /* đổi giờ bắt đầu thì giờ kết thúc dời theo, giữ nguyên thời lượng */
+    if(inp.name === "start" && v){
+      const f = this.wrap.closest("form"), end = f && f.querySelector('input[name="end"]');
+      if(end){ const dur = old && end.value ? pd2m(end.value) - pd2m(old) : 60; const nv = m2hh(Math.min(23 * 60 + 59, pd2m(v) + (dur > 0 ? dur : 60)));
+        end.value = nv; const eb = end.parentNode.querySelector(".pk-btn b"); eb.textContent = nv; end.parentNode.querySelector(".pk-btn").classList.remove("empty"); }
+    }
+  },
+  hourDeg(h){ return (h % 12) * 30; },
+  turn(target){ let d = target; while(d - this.deg > 180) d -= 360; while(this.deg - d > 180) d += 360; this.deg = d; return d; },
+  draw(){
+    if(!this.pop) return;
+    if(this.type === "date") return this.drawDate();
+    this.drawTime();
+  },
+  drawDate(){
+    const c = pd(this.cur), sel = this.val(), today = ymd(new Date());
+    const first = new Date(c.getFullYear(), c.getMonth(), 1), start = addDays(ymd(first), -wdIdx(first));
+    let days = "";
+    for(let i = 0; i < 42; i++){
+      const s = addDays(start, i), d = pd(s), oth = d.getMonth() !== c.getMonth();
+      days += `<button type="button" class="pk-d ${oth ? "oth" : ""} ${s === today ? "td" : ""} ${s === sel ? "sel" : ""}" style="--k:${i}" data-act="pkday" data-d="${s}">${d.getDate()}</button>`;
+    }
+    this.pop.innerHTML = `<div class="pk-h"><button type="button" class="pk-nav" data-act="pkmon" data-v="-1" aria-label="Tháng trước">‹</button>
+        <b class="pk-title">Tháng ${c.getMonth() + 1}, ${c.getFullYear()}</b>
+        <button type="button" class="pk-nav" data-act="pkmon" data-v="1" aria-label="Tháng sau">›</button></div>
+      <div class="pk-wd">${WD_S.map(w => `<span>${w}</span>`).join("")}</div>
+      <div class="pk-grid ${this.slide}">${days}</div>
+      <div class="pk-f">${this.wrap.hasAttribute("data-clear") ? `<button type="button" class="linkbtn" data-act="pkclear">Không đặt ngày</button>` : "<span></span>"}<button type="button" class="pk-ok" data-act="pktoday">Hôm nay</button></div>`;
+  },
+  drawTime(){
+    const v = this.val() || "", [h, m] = v ? v.split(":").map(Number) : [null, null], H = this.mode === "hour";
+    const C = 118, RO = 94, RI = 62;
+    const pos = (deg, r) => { const a = deg * Math.PI / 180; return `left:${C + r * Math.sin(a)}px;top:${C - r * Math.cos(a)}px`; };
+    let nums = "";
+    if(H){
+      for(let i = 1; i <= 12; i++) nums += `<span class="pk-n ${h === (i === 12 ? 12 : i) ? "sel" : ""}" style="${pos(i * 30, RO)};--k:${i}">${i}</span>`;
+      for(let i = 1; i <= 12; i++){ const hv = i === 12 ? 0 : i + 12; nums += `<span class="pk-n in ${h === hv ? "sel" : ""}" style="${pos(i * 30, RI)};--k:${i + 12}">${pad2(hv)}</span>`; }
+    } else {
+      for(let i = 0; i < 12; i++) nums += `<span class="pk-n ${m === i * 5 ? "sel" : ""}" style="${pos(i * 30, RO)};--k:${i}">${pad2(i * 5)}</span>`;
+    }
+    const inner = H && h !== null && (h === 0 || h > 12);
+    const len = h === null && H ? 0 : (inner ? RI : RO);
+    this.deg = H ? (h === null ? this.deg : this.turn(this.hourDeg(h))) : (m === null ? this.deg : this.turn(m * 6));
+    this.pop.innerHTML = `<div class="pk-big"><button type="button" data-act="pkmode" data-v="hour" class="${H ? "on" : ""}">${h === null ? "--" : pad2(h)}</button><i>:</i><button type="button" data-act="pkmode" data-v="minute" class="${H ? "" : "on"}">${m === null ? "--" : pad2(m)}</button></div>
+      <p class="pk-tip">${H ? "Chọn giờ: vòng ngoài 1–12 giờ, vòng trong 13–00 giờ" : "Chọn phút, bấm vào bất kỳ chỗ nào trên mặt đồng hồ"}</p>
+      <div class="pk-face ${H ? "hr" : "mn"}" data-act="pkface">
+        <i class="pk-hand" style="height:${len}px;transform:rotate(${this.deg}deg)"><b></b></i><i class="pk-dot"></i>${nums}
+      </div>
+      <div class="pk-f">${this.wrap.hasAttribute("data-clear") ? `<button type="button" class="linkbtn" data-act="pkclear">Xoá giờ</button>` : "<span></span>"}<button type="button" class="pk-ok" data-act="pkdone">Xong</button></div>`;
+  },
+  face(el, ev){
+    const r = el.getBoundingClientRect(), dx = ev.clientX - (r.left + r.width / 2), dy = ev.clientY - (r.top + r.height / 2);
+    let ang = Math.atan2(dx, -dy) * 180 / Math.PI; if(ang < 0) ang += 360;
+    const dist = Math.hypot(dx, dy), v = this.val() || "", [oh, om] = v ? v.split(":").map(Number) : [8, 0];
+    if(this.mode === "hour"){
+      const i = Math.round(ang / 30) % 12, inner = dist < 78;
+      const h = inner ? (i === 0 ? 0 : i + 12) : (i === 0 ? 12 : i);
+      this.set(pad2(h) + ":" + pad2(om || 0)); this.drawTime();
+      setTimeout(() => { if(this.pop && this.type === "time" && this.mode === "hour"){ this.mode = "minute"; this.drawTime(); this.pop.querySelector(".pk-face").classList.add("swap"); } }, 420);
+    } else {
+      const mm = Math.round(ang / 6) % 60;
+      this.set(pad2(oh) + ":" + pad2(mm)); this.drawTime();
+    }
+  },
+  act(act, el, ev){
+    if(act === "pkopen"){ this.open(el.closest(".pk")); return; }
+    if(!this.wrap) return;
+    if(act === "pkmon"){ const d = pd(this.cur); d.setMonth(d.getMonth() + +el.dataset.v); this.cur = ymd(d); this.slide = +el.dataset.v > 0 ? "sl" : "sr"; this.drawDate(); return; }
+    if(act === "pkday"){ this.set(el.dataset.d); el.classList.add("sel"); leafBurst(el); setTimeout(() => this.close(), 220); return; }
+    if(act === "pktoday"){ const t = ymd(new Date()); this.set(t); this.cur = t.slice(0, 8) + "01"; this.slide = ""; this.drawDate(); setTimeout(() => this.close(), 260); return; }
+    if(act === "pkclear"){ this.set(""); this.close(); return; }
+    if(act === "pkmode"){ this.mode = el.dataset.v; this.drawTime(); this.pop.querySelector(".pk-face").classList.add("swap"); return; }
+    if(act === "pkface"){ this.face(el, ev); return; }
+    if(act === "pkdone"){ if(this.val()) leafBurst(this.wrap.querySelector(".pk-btn")); this.close(); return; }
+  }
+};
+window.addEventListener("resize", () => Picker.place());
+document.addEventListener("scroll", () => Picker.place(), true);
+
 /* ===================== HIỆU ỨNG LÁ KHI DI CHUỘT / BẤM ===================== */
 const LEAF_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C10 3 4 8.5 4 15.5c0 1.8.5 3.4 1.3 4.7C6.8 13.8 11 9.6 16 7.5c-4.3 3-7.6 7.2-9 12.4 1.2.7 2.7 1.1 4.3 1.1C18.4 21 21 13 20 3z" fill="currentColor"/></svg>';
 const LEAF_COLORS = ["#2f9e5b", "#4cc27a", "#6ee39a", "#1a7a40", "#9bd8a6", "#86c66b"];
@@ -4074,6 +4262,7 @@ document.addEventListener("keydown", (ev) => {
   if(ev.key === "Enter" && t.matches && t.matches("input[data-plan-quick]")){ ev.preventDefault(); const v = t.value; t.value = ""; Plan.quickAdd(v); return; }
   if(ev.key === "Enter" && t.closest && t.closest("[data-plan-form]") && t.tagName === "INPUT"){ ev.preventDefault(); const b = document.querySelector('[data-plan-form] [data-act="plansave"]'); if(b) b.click(); return; }
   if(ev.key === "Enter" && t.matches && t.matches("input[data-plan-dayadd],input[data-plan-daytime]")){ ev.preventDefault(); Plan.dayAdd(); return; }
+  if(ev.key === "Escape" && Picker.pop){ Picker.close(); return; }
   if(ev.key === "Escape" && ui.menuOpen){ ui.menuOpen = false; render(); return; }
   if(ev.key === "Escape" && ui.plan && (ui.plan.edit || ui.plan.day)){ if(ui.plan.edit) ui.plan.edit = null; else ui.plan.day = null; render(); return; }
   if(ev.key === "Enter" && t.matches && t.matches('.brand .logo')){ t.click(); }
