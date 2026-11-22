@@ -69,19 +69,20 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   .top-main .topright{order:2}
   .top-main .section-title{order:3;flex-basis:100%;text-align:center}
 }
-.layout{position:relative;padding-top:56px}
+.layout{position:relative;padding-top:56px;transition:padding-top .25s ease}
 /* Mục lục: một hàng ngang phía trên tiêu đề, mở ra theo chiều ngang, không đẩy nội dung */
-.side{position:absolute;left:0;right:0;top:0;z-index:20;display:flex;align-items:center;gap:8px;min-height:44px}
+.side{position:absolute;left:0;right:0;top:0;z-index:20;display:flex;align-items:flex-start;gap:8px;min-height:44px}
 .side button{border:0;background:transparent;text-align:left;padding:8px 14px;border-radius:999px;font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex:none}
 .side button:hover{background:var(--surface)}
 .side button[aria-current="page"]{background:var(--btn);color:var(--btn-ink)}
 .side .side-toggle{gap:8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 12px}
 .side .side-toggle svg{width:14px;height:14px;transition:transform .25s ease}
 .side .side-toggle[aria-expanded="true"] svg{transform:rotate(90deg)}
-.side-list{min-width:0;overflow-x:auto;scrollbar-width:none;visibility:hidden;transition:visibility 0s linear .25s}
+.side-list{min-width:0;flex:1;scrollbar-width:none;visibility:hidden;transition:visibility 0s linear .25s}
 .side-list::-webkit-scrollbar{display:none}
 .side-list.open{visibility:visible;transition:visibility 0s}
-.side-inner{display:flex;flex-direction:row;align-items:center;gap:6px;padding:2px}
+.side-inner{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px;padding:2px}
+@media (max-width:600px){.side-inner button{white-space:normal;flex:0 1 auto;max-width:100%}}
 .side-inner button{opacity:0;transform:translateX(-18px);transition:opacity .2s ease, transform .2s ease}
 .side-inner button:not([aria-current="page"]){border:1px solid var(--line);background:var(--surface)}
 .side-list.open .side-inner button{animation:wave .5s cubic-bezier(.3,1.4,.5,1) forwards;animation-delay:calc(var(--i) * 70ms)}
@@ -2303,6 +2304,7 @@ function render(){
   else content = renderLesson();
   app.innerHTML = header() + `<div class="layout">${sidebar()}<main class="main">${content}</main></div>`;
   Player.paint();
+  fitMenu();
   const ml = document.querySelector(".mtracks [aria-pressed='true']"); if(ml && ml.scrollIntoViewIfNeeded) ml.scrollIntoViewIfNeeded(false);
 }
 const SECTIONS = [
@@ -2419,6 +2421,12 @@ function pomoHtml(){
     </div>` : "";
   return `<div class="pomo"><button class="pomo-btn ${cls}" data-act="pomo" aria-expanded="${!!ui.pomoOpen}" aria-label="Đồng hồ Pomodoro: ${s.running ? POMO_MODES[s.mode].name : "đang dừng"}">${ICON_TOMATO}<span data-pomo-time>${time}</span></button>${panel}</div>`;
 }
+/* Mục lục xuống dòng khi không đủ chỗ: đẩy nội dung xuống đúng bằng chiều cao mục lục */
+function fitMenu(){
+  const lay = document.querySelector(".layout"), sd = document.querySelector(".side"); if(!lay || !sd) return;
+  lay.style.paddingTop = ui.menuOpen ? Math.max(56, sd.offsetHeight + 12) + "px" : "";
+}
+window.addEventListener("resize", () => fitMenu());
 function sidebar(){
   const open = !!ui.menuOpen;
   const items = SECTIONS.map((s,i) => `<button style="--i:${i}" data-act="section" data-v="${s.id}" ${ui.section===s.id?'aria-current="page"':""}>${esc(secName(s))}${s.ready?"":'<span class="soon">Sắp có</span>'}</button>`).join("");
@@ -2941,6 +2949,7 @@ document.addEventListener("click", (ev) => {
     const open = ui.menuOpen, list = document.getElementById("side-list");
     el.setAttribute("aria-expanded", String(open));
     if(list){ list.classList.toggle("open", open); if(open) list.removeAttribute("inert"); else list.setAttribute("inert",""); }
+    fitMenu();
     return;
   }
   if(act === "section"){ ui.menuOpen = false; TTS.stop(); Rec.stop(); ui.section = el.dataset.v; ui.view = "home"; ui.rp = null; ui.pq = null; ui.playAll = false; ui.playingKey = null; render(); window.scrollTo(0,0); return; }
