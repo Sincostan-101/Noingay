@@ -416,33 +416,36 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pcell:hover{background:var(--surface)}
 .pcell.other{opacity:.5}
 .pcell.sel{box-shadow:inset 0 0 0 2px var(--accent)}
-.pday{font-size:13px;font-weight:700;width:26px;height:26px;display:grid;place-items:center;border-radius:50%}
+.pday{font-size:14px;font-weight:700;width:28px;height:28px;display:grid;place-items:center;border-radius:50%}
 .pcell.today .pday{background:var(--accent);color:#fff}
 .pchips{display:flex;flex-direction:column;gap:2px;min-width:0}
-.pchip{display:flex;align-items:center;gap:4px;font-size:11.5px;line-height:1.3;padding:2px 6px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;min-width:0}
+.pchip{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;line-height:1.35;padding:3px 8px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;min-width:0}
 .pchip.event{background:var(--c);color:#fff}
 .pchip.task{background:transparent;color:var(--ink);box-shadow:inset 3px 0 0 var(--c)}
 .pchip.done{opacity:.55;text-decoration:line-through}
 .pchip .ptime{font-style:normal;font-weight:700;opacity:.9}
-.pchip .pbox{font-style:normal;flex:none;width:11px;height:11px;border:1.5px solid var(--c);border-radius:3px;font-size:9px;line-height:9px;text-align:center;color:var(--c)}
-.pmore{font-size:11px;color:var(--muted);padding-left:6px}
+.pchip .pbox{font-style:normal;flex:none;width:13px;height:13px;border:1.5px solid var(--c);border-radius:3px;font-size:10px;line-height:11px;text-align:center;color:var(--c)}
+.pmore{font-size:12.5px;font-weight:600;color:var(--muted);padding-left:6px}
 .pweek{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
 .pwhead,.pwall,.pwbody{display:grid;grid-template-columns:54px repeat(7,minmax(0,1fr))}
 .pwhead{border-bottom:1px solid var(--line)}
+.pwhead,.pwall{overflow-y:hidden;scrollbar-gutter:stable}
+.pwbody{scrollbar-gutter:stable}
+.pall .pchip{font-size:12.5px}
 .pwh{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;padding:6px 0;color:var(--muted);font:inherit;font-size:12px;font-weight:700}
 .pwh b{font-size:18px;color:var(--ink);width:32px;height:32px;display:grid;place-items:center;border-radius:50%}
 .pwh.today b{background:var(--accent);color:#fff}
 .pwh.sel{background:var(--accent-soft)}
 .pwall{border-bottom:1px solid var(--line);min-height:30px}
-.phr0{font-size:10.5px;color:var(--muted);padding:6px 4px;text-align:right}
+.phr0{font-size:11.5px;color:var(--muted);padding:6px 4px;text-align:right}
 .pall{border-left:1px solid var(--line);padding:3px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .pwbody{position:relative;max-height:calc(100vh - 290px);min-height:360px;overflow-y:auto}
 .phours{position:relative}
-.phours .phrl{position:absolute;right:6px;font-size:10.5px;color:var(--muted);transform:translateY(-6px)}
+.phours .phrl{position:absolute;right:6px;font-size:11.5px;color:var(--muted);transform:translateY(-6px)}
 .pcol{position:relative;border-left:1px solid var(--line)}
-.pslot{height:44px;border-bottom:1px dashed var(--line);cursor:pointer}
+.pslot{height:48px;border-bottom:1px dashed var(--line);cursor:pointer}
 .pslot:hover{background:var(--accent-soft)}
-.pev{position:absolute;left:3px;right:3px;background:var(--c);color:#fff;border-radius:8px;padding:3px 6px;font-size:11.5px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 2px 6px -2px rgba(0,0,0,.3)}
+.pev{position:absolute;left:3px;right:3px;background:var(--c);color:#fff;border-radius:8px;padding:4px 8px;font-size:13px;line-height:1.3;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 2px 6px -2px rgba(0,0,0,.3)}
 .pev b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pnow{position:absolute;left:0;right:0;height:2px;background:var(--bad);pointer-events:none}
 .pnow::before{content:"";position:absolute;left:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--bad)}
@@ -539,7 +542,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pdev b{flex:1;font-size:14px;font-weight:600}
 .pdev span{font-size:12.5px;color:var(--muted)}
 .pmodal:not(.pdwrap){z-index:65}
-@media (max-width:640px){.pcells{grid-auto-rows:minmax(72px,auto)}.pchip{font-size:10.5px;padding:1px 4px}.pchip .ptime{display:none}}
+@media (max-width:640px){.pcells{grid-auto-rows:minmax(72px,auto)}.pchip{font-size:11px;padding:1px 4px}.pchip .ptime{display:none}}
 </style>
 </head>
 <body>
@@ -2871,7 +2874,7 @@ function render(){
   app.classList.toggle("is-plan", ui.section === "plan");
   app.querySelectorAll("[data-keep]").forEach(e => { if(keep[e.dataset.keep] !== undefined && e.dataset.keep !== "homeq") e.value = keep[e.dataset.keep]; });
   if(fk){ const e = app.querySelector(`[data-keep="${fk}"]`); if(e){ e.focus(); try{ e.setSelectionRange(sel[0], sel[1]); }catch(err){} } }
-  const wb2 = document.getElementById("pwbody"); if(wb2) wb2.scrollTop = wbs !== null ? wbs : 44 * 2;
+  const wb2 = document.getElementById("pwbody"); if(wb2) wb2.scrollTop = wbs !== null ? wbs : Math.max(0, Math.min(new Date().getHours() - 1, 16)) * WEEK_HH;
   /* Giữ nhịp chuyển động của logo liên tục dù giao diện được vẽ lại */
   const lt = performance.now() / 1000;
   app.querySelectorAll(".lg-sprout").forEach(sp => { sp.style.animationDelay = `-${(lt % 4.8).toFixed(2)}s`; });
@@ -3788,6 +3791,7 @@ function chip(x, compact){
   const col = taskColor(x);
   return `<span class="pchip ${x.kind} ${x.done ? "done" : ""}" draggable="true" data-drag-id="${x.id}" data-act="planedit" data-id="${x.id}" style="--c:${col}" title="${esc(x.title)}">${x.kind === "task" ? `<i class="pbox">${x.done ? "✓" : ""}</i>${x.tmode === "deadline" ? `<i class="ptime">⏰${x.start || ""}</i>` : ""}` : (x.start ? `<i class="ptime">${x.start}</i>` : "")}${esc(x.title)}</span>`;
 }
+const WEEK_HH = 48;
 function renderPlan(){
   const P = ui.plan, today = ymd(new Date()), cur = pd(P.cursor);
   let title, grid;
@@ -3806,10 +3810,10 @@ function renderPlan(){
     const start = addDays(P.cursor, -wdIdx(cur)), days = Array.from({length: 7}, (_, i) => addDays(start, i));
     const a = pd(days[0]), b = pd(days[6]);
     title = `${a.getDate()}/${a.getMonth() + 1} – ${b.getDate()}/${b.getMonth() + 1}/${b.getFullYear()}`;
-    const H0 = 6, H1 = 24, HH = 44;
+    const H0 = 0, H1 = 24, HH = WEEK_HH;
     const head = days.map((s, i) => `<button class="pwh ${s === today ? "today" : ""} ${s === P.sel ? "sel" : ""}" data-act="planday" data-d="${s}"><span>${WD_S[i]}</span><b>${pd(s).getDate()}</b></button>`).join("");
     const allday = days.map(s => `<div class="pall" data-drop-date="${s}">${dayItems(s).filter(x => x.kind === "task" || !x.start).map(x => chip(x)).join("")}</div>`).join("");
-    const hours = Array.from({length: H1 - H0}, (_, i) => `<span class="phrl" style="top:${i * HH}px">${pad2(H0 + i)}:00</span>`).join("");
+    const hours = Array.from({length: H1 - H0}, (_, i) => i ? `<span class="phrl" style="top:${i * HH}px">${pad2(H0 + i)}:00</span>` : "").join("");
     const cols = days.map(s => {
       const slots = Array.from({length: H1 - H0}, (_, i) => `<div class="pslot" data-act="planslot" data-d="${s}" data-h="${H0 + i}" data-drop-date="${s}" data-drop-h="${H0 + i}"></div>`).join("");
       const evs = dayItems(s).filter(x => x.kind === "event" && x.start).map(x => {
