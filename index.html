@@ -337,6 +337,153 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   .steps button{font-size:12px;padding:8px 2px}
   .t{font-size:16px}
 }
+/* ===== Trang chủ ===== */
+.landing{display:flex;flex-direction:column;gap:26px}
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:34px 12px 26px;border-radius:28px;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 0%,var(--surface) 0%,transparent 70%)}
+.logo.hero{height:auto;width:min(88vw,620px);aspect-ratio:372/80;margin:0 auto;overflow:visible}
+.logo.hero i{width:100%}
+.logo.hero .lg-text{display:block}
+.hello{margin:6px 0 0;font-size:clamp(20px,2.6vw,28px);font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.hello b{color:var(--accent)}
+.hero-tag{margin:0;max-width:640px;color:var(--muted);font-size:15.5px;line-height:1.6}
+.hsearch{position:relative;width:min(640px,100%);margin-top:8px}
+.hsearch svg{position:absolute;left:18px;top:50%;width:20px;height:20px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.hsearch input{width:100%;box-sizing:border-box;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:15px 20px 15px 50px;font:inherit;font-size:16px;outline:none;box-shadow:0 6px 24px -12px rgba(18,53,36,.35);transition:border-color .2s,box-shadow .2s}
+.hsearch input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.hsearch-res{width:min(640px,100%)}
+.sres-list{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:8px;max-height:420px;overflow-y:auto}
+.sres{display:flex;flex-direction:column;gap:2px;border:0;background:transparent;border-radius:12px;padding:9px 12px;text-align:left;color:var(--ink);font:inherit}
+.sres:hover,.sres:focus-visible{background:var(--accent-soft)}
+.sres-k{font-size:11.5px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+.sres-k b{display:inline-block;background:var(--btn);color:var(--btn-ink);border-radius:6px;padding:0 5px;margin-right:6px}
+.sres-t{font-weight:700;font-size:15px}
+.sres-s{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sres-empty{font-size:14px;color:var(--muted);background:var(--surface);border-radius:14px;padding:12px 16px}
+.quote{margin:4px 0 0;font-style:italic;color:var(--muted);font-size:14px}
+.hero-leaves{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-leaves i{position:absolute;top:-30px;left:var(--x);width:18px;height:18px;color:var(--accent);opacity:.28;transform:scale(var(--s)) rotate(var(--r));animation:heroFall 11s linear var(--d) infinite}
+.hero-leaves svg{width:100%;height:100%}
+@keyframes heroFall{0%{transform:translate(0,0) scale(var(--s)) rotate(var(--r));opacity:0}10%{opacity:.3}50%{transform:translate(30px,220px) scale(var(--s)) rotate(calc(var(--r) + 160deg))}90%{opacity:.25}100%{transform:translate(-10px,460px) scale(var(--s)) rotate(calc(var(--r) + 320deg));opacity:0}}
+.hquick{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.hcard{display:flex;flex-direction:column;gap:4px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:16px 18px;color:var(--ink);font:inherit;transition:transform .15s,border-color .15s}
+.hcard:hover{transform:translateY(-2px);border-color:var(--accent)}
+.hcard-k{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.hcard b{font-size:16px}
+.hcard span:last-child{font-size:13px;color:var(--muted)}
+.hsec{margin:6px 0 -8px;font-size:20px;font-weight:800;letter-spacing:-.01em}
+.htiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.htile{position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:18px;color:var(--ink);font:inherit;transition:transform .15s,border-color .15s}
+.htile:hover{transform:translateY(-2px);border-color:var(--accent)}
+.htile b{font-size:16px}
+.htile span{font-size:13px;color:var(--muted);line-height:1.45}
+.htile-i{width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.htile-i svg{width:22px;height:22px}
+.htile.soon{opacity:.6}
+.htile em{position:absolute;top:14px;right:14px;font-style:normal;font-size:11px;font-weight:700;background:var(--warn-soft);color:var(--warn);border-radius:999px;padding:2px 8px}
+.hfoot{display:flex;justify-content:center;padding-bottom:10px}
+.hleaf{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.hleaf input{accent-color:var(--accent)}
+.brand .logo{cursor:pointer}
+.is-home .brand .logo{visibility:hidden}
+.is-home .top-main .section-title{display:none}
+
+/* ===== Lịch & việc cần làm ===== */
+.plan{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+@media (max-width:980px){.plan{grid-template-columns:1fr}}
+.plan-main{display:flex;flex-direction:column;gap:10px;min-width:0}
+.ptool{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ptool .mbtn{font-size:20px;line-height:1}
+.ptitle{margin:0 auto 0 6px;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.pviews{width:150px;grid-template-columns:1fr 1fr!important}
+.pmonth{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.pwd{display:grid;grid-template-columns:repeat(7,1fr);font-size:12px;font-weight:800;color:var(--muted);text-align:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.pcells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:minmax(96px,auto)}
+.pcell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:5px;display:flex;flex-direction:column;gap:3px;min-width:0;cursor:pointer;background:var(--bg);transition:background .15s}
+.pcell:nth-child(7n){border-right:0}
+.pcell:hover{background:var(--surface)}
+.pcell.other{opacity:.5}
+.pcell.sel{box-shadow:inset 0 0 0 2px var(--accent)}
+.pday{font-size:13px;font-weight:700;width:26px;height:26px;display:grid;place-items:center;border-radius:50%}
+.pcell.today .pday{background:var(--accent);color:#fff}
+.pchips{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pchip{display:flex;align-items:center;gap:4px;font-size:11.5px;line-height:1.3;padding:2px 6px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;min-width:0}
+.pchip.event{background:var(--c);color:#fff}
+.pchip.task{background:transparent;color:var(--ink);box-shadow:inset 3px 0 0 var(--c)}
+.pchip.done{opacity:.55;text-decoration:line-through}
+.pchip .ptime{font-style:normal;font-weight:700;opacity:.9}
+.pchip .pbox{font-style:normal;flex:none;width:11px;height:11px;border:1.5px solid var(--c);border-radius:3px;font-size:9px;line-height:9px;text-align:center;color:var(--c)}
+.pmore{font-size:11px;color:var(--muted);padding-left:6px}
+.pweek{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+.pwhead,.pwall,.pwbody{display:grid;grid-template-columns:54px repeat(7,minmax(0,1fr))}
+.pwhead{border-bottom:1px solid var(--line)}
+.pwh{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;padding:6px 0;color:var(--muted);font:inherit;font-size:12px;font-weight:700}
+.pwh b{font-size:18px;color:var(--ink);width:32px;height:32px;display:grid;place-items:center;border-radius:50%}
+.pwh.today b{background:var(--accent);color:#fff}
+.pwh.sel{background:var(--accent-soft)}
+.pwall{border-bottom:1px solid var(--line);min-height:30px}
+.phr0{font-size:10.5px;color:var(--muted);padding:6px 4px;text-align:right}
+.pall{border-left:1px solid var(--line);padding:3px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pwbody{position:relative;max-height:560px;overflow-y:auto}
+.phours{position:relative}
+.phours .phrl{position:absolute;right:6px;font-size:10.5px;color:var(--muted);transform:translateY(-6px)}
+.pcol{position:relative;border-left:1px solid var(--line)}
+.pslot{height:44px;border-bottom:1px dashed var(--line);cursor:pointer}
+.pslot:hover{background:var(--accent-soft)}
+.pev{position:absolute;left:3px;right:3px;background:var(--c);color:#fff;border-radius:8px;padding:3px 6px;font-size:11.5px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 2px 6px -2px rgba(0,0,0,.3)}
+.pev b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pnow{position:absolute;left:0;right:0;height:2px;background:var(--bad);pointer-events:none}
+.pnow::before{content:"";position:absolute;left:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--bad)}
+.phint{font-size:12.5px;color:var(--muted);margin:0}
+.plan-side{display:flex;flex-direction:column;gap:14px}
+.pcard{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.pcard-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ptag{font-size:11px;font-weight:700;background:var(--accent);color:#fff;border-radius:999px;padding:2px 8px}
+.pempty{font-size:13px;color:var(--muted);margin:0}
+.pag{display:flex;align-items:flex-start;gap:8px}
+.pag.done{opacity:.55}
+.pdot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--c);margin-top:5px;margin-left:4px}
+.pag-t,.ptask-t{flex:1;min-width:0;border:0;background:transparent;text-align:left;padding:0;color:var(--ink);font:inherit;display:flex;flex-direction:column;cursor:pointer}
+.pag-t b,.ptask-t b{font-size:14px;font-weight:600}
+.pag-t span,.ptask-t span{font-size:12px;color:var(--muted)}
+.pag.done b,.ptask.done b{text-decoration:line-through}
+.pcheck{flex:none;width:20px;height:20px;border-radius:6px;border:2px solid var(--c,var(--accent));background:transparent;color:#fff;font-size:12px;font-weight:800;line-height:1;padding:0;display:grid;place-items:center;cursor:pointer}
+.pcheck.on{background:var(--c,var(--accent))}
+.pquick input{width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:9px 12px;font:inherit;font-size:14px}
+.pquick input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.ptg{display:flex;flex-direction:column;gap:4px}
+.ptg-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.ptg-h span{font-weight:600;opacity:.8}
+.ptl{display:flex;flex-direction:column;gap:4px;min-height:8px;border-radius:10px}
+.ptask{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:var(--bg);border:1px solid transparent}
+.ptask.done{opacity:.6}
+.pgrip{cursor:grab;color:var(--muted);font-size:12px;letter-spacing:-3px;user-select:none}
+.dragging{opacity:.4}
+.dropover{outline:2px dashed var(--accent);outline-offset:-2px;background:var(--accent-soft)!important}
+.pmodal{position:fixed;inset:0;z-index:60;background:rgba(10,25,17,.42);display:grid;place-items:center;padding:16px}
+.pform{width:min(440px,100%);background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 24px 60px -20px rgba(0,0,0,.5);cursor:default}
+.pform-h{display:flex;align-items:center;justify-content:space-between}
+.pform-h b{font-size:17px}
+.pin{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;width:100%;box-sizing:border-box}
+.pin.big{font-size:16px;font-weight:600}
+.pin.err{border-color:var(--bad)}
+.pform-r{display:flex;gap:8px;flex-wrap:wrap}
+.pform-r label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--muted);flex:1;min-width:110px}
+.pform-c{display:flex;align-items:center;gap:8px;font-size:14px}
+.pcolors{display:flex;gap:8px}
+.pcolors label{cursor:pointer}
+.pcolors input{position:absolute;opacity:0;pointer-events:none}
+.pcolors span{display:block;width:24px;height:24px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px var(--surface),0 0 0 2px transparent}
+.pcolors input:checked+span{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--c)}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:80;background:var(--accent);color:#fff;font-weight:700;padding:12px 20px;border-radius:14px;box-shadow:0 12px 30px -10px rgba(0,0,0,.4);transition:opacity .5s,transform .5s}
+.toast.out{opacity:0;transform:translate(-50%,10px)}
+
+/* ===== Lá bay theo chuột ===== */
+.leaf-layer{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.leaf{position:fixed;display:block;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 1px 1px rgba(0,0,0,.15))}
+.leaf svg{width:100%;height:100%;display:block}
+@media (prefers-reduced-motion:reduce){.hero-leaves{display:none}}
 </style>
 </head>
 <body>
@@ -2602,7 +2749,7 @@ function gradeText(score){ return score>=85 ? "Tuyệt vời!" : score>=60 ? "Kh
 
 /* ===================== TRẠNG THÁI GIAO DIỆN ===================== */
 const ui = {
-  section:"pron", menuOpen:false,
+  section:"home", menuOpen:false, q:"",
   view:"home", lessonId:null, step:0,
   pid:null,        // bài phát âm đang mở
   pomoOpen:false, pomoMsg:null, musicOpen:false,
@@ -2652,24 +2799,36 @@ let LOGO_INTRO = true;
 function render(){
   const app = document.getElementById("app");
   let content;
-  if(ui.section === "pron") content = ui.view === "home" ? renderPronHome() : renderPron();
+  if(ui.section === "home") content = renderLanding();
+  else if(ui.section === "plan") content = renderPlan();
+  else if(ui.section === "pron") content = ui.view === "home" ? renderPronHome() : renderPron();
   else if(ui.section === "work") content = ui.view === "home" ? renderWorkHome() : renderLesson();
   else if(ui.section !== "speak") content = renderComing();
   else if(ui.view === "home") content = renderHome();
   else content = renderLesson();
+  /* giữ nguyên chữ đang gõ trong các ô nhập khi giao diện được vẽ lại */
+  const keep = {}, fa = document.activeElement, fk = fa && fa.dataset ? fa.dataset.keep : null, sel = fk ? [fa.selectionStart, fa.selectionEnd] : null;
+  app.querySelectorAll("[data-keep]").forEach(e => { keep[e.dataset.keep] = e.value; });
+  const wb = document.getElementById("pwbody"), wbs = wb ? wb.scrollTop : null;
   app.innerHTML = header() + `<div class="layout">${sidebar()}<main class="main">${content}</main></div>`;
+  app.classList.toggle("is-home", ui.section === "home");
+  app.querySelectorAll("[data-keep]").forEach(e => { if(keep[e.dataset.keep] !== undefined && e.dataset.keep !== "homeq") e.value = keep[e.dataset.keep]; });
+  if(fk){ const e = app.querySelector(`[data-keep="${fk}"]`); if(e){ e.focus(); try{ e.setSelectionRange(sel[0], sel[1]); }catch(err){} } }
+  const wb2 = document.getElementById("pwbody"); if(wb2) wb2.scrollTop = wbs !== null ? wbs : 44 * 2;
   /* Giữ nhịp chuyển động của logo liên tục dù giao diện được vẽ lại */
-  const lt = performance.now() / 1000, sp = app.querySelector(".lg-sprout");
-  if(sp) sp.style.animationDelay = `-${(lt % 4.8).toFixed(2)}s`;
+  const lt = performance.now() / 1000;
+  app.querySelectorAll(".lg-sprout").forEach(sp => { sp.style.animationDelay = `-${(lt % 4.8).toFixed(2)}s`; });
   LOGO_INTRO = false;
   Player.paint();
   fitMenu();
   const ml = document.querySelector(".mtracks [aria-pressed='true']"); if(ml && ml.scrollIntoViewIfNeeded) ml.scrollIntoViewIfNeeded(false);
 }
 const SECTIONS = [
+  {id:"home", name:"Trang chủ", ready:true},
   {id:"pron", name:"Phát âm", ready:true},
   {id:"speak", name:"{L} giao tiếp cơ bản", ready:true},
   {id:"work", name:"{L} giao tiếp trong công việc", ready:true},
+  {id:"plan", name:"Lịch & việc cần làm", ready:true},
   {id:"story", name:"Học qua truyện", ready:false},
   {id:"listen", name:"Luyện nghe", ready:false},
   {id:"vocab", name:"Từ vựng", ready:false},
@@ -2681,7 +2840,7 @@ function header(){
   const dark = store.prefs.theme === "dark";
   const sec = SECTIONS.find(s => s.id === ui.section) || SECTIONS[0];
   return `<header class="top">
-    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="img" aria-label="SFY — Study for yourself"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${vizHtml()}</div>
+    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="link" tabindex="0" data-act="section" data-v="home" title="Về trang chủ" aria-label="SFY — Study for yourself, về trang chủ"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${vizHtml()}</div>
     <div class="top-main">
     <h1 class="section-title">${esc(secName(sec))}</h1>
     <div class="topright">
@@ -2818,7 +2977,7 @@ function renderComing(){
   const sec = SECTIONS.find(s => s.id === ui.section);
   return `<div class="coming"><h2>${esc(secName(sec))} đang được xây dựng</h2>
     <p>${sec.id === "vocab" ? "Phần từ vựng riêng sẽ ra mắt sau. Hiện từ vựng của mỗi bài nằm ở bước cuối cùng (Từ vựng) trong bài học." : "Phần này sẽ ra mắt trong các bản cập nhật tới. Trong lúc chờ, bạn học giao tiếp theo tình huống trước nhé."}</p>
-    <button class="btn" data-act="section" data-v="speak">Về ${esc(secName(SECTIONS[1]))}</button></div>`;
+    <button class="btn" data-act="section" data-v="speak">Về ${esc(secName(SECTIONS.find(x => x.id === "speak")))}</button></div>`;
 }
 function renderHome(){
   const L = store.prefs.lang;
@@ -2895,7 +3054,7 @@ function renderPronHome(){
     <div class="page wide">
     ${voiceWarn(L)}
     ${cards}
-    <div class="tip">Mỗi bài có 4 bước: <b>nghe âm</b>, <b>xem cách đặt miệng và lưỡi</b>, <b>phân biệt các cặp âm dễ nhầm</b>, rồi <b>nói thử</b> vào micro. Học xong thì chuyển sang phần <button class="linkbtn" data-act="section" data-v="speak">${esc(secName(SECTIONS[1]))}</button>.</div>
+    <div class="tip">Mỗi bài có 4 bước: <b>nghe âm</b>, <b>xem cách đặt miệng và lưỡi</b>, <b>phân biệt các cặp âm dễ nhầm</b>, rồi <b>nói thử</b> vào micro. Học xong thì chuyển sang phần <button class="linkbtn" data-act="section" data-v="speak">${esc(secName(SECTIONS.find(x => x.id === "speak")))}</button>.</div>
     ${L==="en" ? `<p class="lvnote">Bản thu từng âm IPA lấy từ Wikimedia Commons (Peter Isotalo, Denelson83, Erutuon và người đóng góp khác), giấy phép CC BY-SA 3.0. Phiên âm tạo từ CMU Pronouncing Dictionary (© Carnegie Mellon University, giấy phép BSD), giọng Mỹ, viết theo ký hiệu IPA dùng trong các bài phát âm.</p>` : ""}
     </div>`;
 }
@@ -3014,7 +3173,7 @@ function renderPronSpeak(lesson, lang){
   const L = PRON[lang]; const idx = L.findIndex(x => x.id === lesson.id); const nxt = L[idx+1];
   return `<div class="status">${micStatus(lang)} Nghe mẫu, rồi bấm micro và đọc to, rõ từng từ.</div>
     <div class="list">${cards}</div>
-    <div class="next">${nxt?`<button class="btn" data-act="popen" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>`:`<button class="btn" data-act="section" data-v="speak">Học xong phát âm, sang ${esc(secName(SECTIONS[1]))} →</button>`}</div>`;
+    <div class="next">${nxt?`<button class="btn" data-act="popen" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>`:`<button class="btn" data-act="section" data-v="speak">Học xong phát âm, sang ${esc(secName(SECTIONS.find(x => x.id === "speak")))} →</button>`}</div>`;
 }
 function micStatus(lang){
   const m = Rec.mode(lang);
@@ -3308,6 +3467,7 @@ document.addEventListener("click", (ev) => {
   if(!el || el.tagName === "FORM") return;
   const act = el.dataset.act;
   if(act !== "psel" && act !== "sayw" && ui.sel){ ui.sel = null; }
+  if(act.startsWith("plan")){ if(Plan.act(act, el, ev)) render(); return; }
   if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
   if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
@@ -3341,7 +3501,7 @@ document.addEventListener("click", (ev) => {
   if(act === "theme"){ store.prefs.theme = store.prefs.theme === "dark" ? "light" : "dark"; saveStore(); applyTheme(); render(); return; }
   if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); return; }
   if(act === "popen"){ TTS.stop(); Rec.stop(); ui.section="pron"; ui.view="lesson"; ui.pid=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.pq=null; ui.playAll=false; ui.playingKey=null;
-    const c = curPron(); if(c){ store.prefs.lang = c.lang; saveStore(); } render(); window.scrollTo(0,0); return; }
+    const c = curPron(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"pron", id:c.lesson.id, lang:c.lang}; saveStore(); } render(); window.scrollTo(0,0); return; }
   if(act === "pqstart"){ TTS.stop(); const c = curPron(); if(!c) return; pqStart(c.lesson); render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return; }
   if(act === "pqpick"){
     const q = ui.pq; if(!q || q.picked != null) return;
@@ -3361,7 +3521,7 @@ document.addEventListener("click", (ev) => {
     render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return;
   }
   if(act === "open"){ TTS.stop(); Rec.stop(); ui.view="lesson"; ui.lessonId=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.rp=null; ui.playAll=false; ui.playingKey=null;
-    const c = curLesson(); if(c){ store.prefs.lang = c.lang; saveStore(); ui.section = c.lesson.work ? "work" : "speak"; } render(); window.scrollTo(0,0); return; }
+    const c = curLesson(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"les", id:c.lesson.id, lang:c.lang}; saveStore(); ui.section = c.lesson.work ? "work" : "speak"; } render(); window.scrollTo(0,0); return; }
   if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
   if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
   if(act === "psel"){ phonPick(el.dataset.key, +el.dataset.w, +el.dataset.i); return; }
@@ -3401,12 +3561,16 @@ document.addEventListener("click", (ev) => {
   if(act === "rpskip"){ if(ui.rp){ ui.rp.results[ui.rp.idx] = {skipped:true, score:0}; ui.rp.idx++; rpAdvance(); } return; }
 });
 document.addEventListener("input", (ev) => {
+  const hs = ev.target.closest("input[data-home-search]");
+  if(hs){ ui.q = hs.value; const r = document.getElementById("searchRes"); if(r) r.innerHTML = searchHtml(ui.q); return; }
   const v = ev.target.closest("input[data-music-vol]");
   if(v){ Sound.setVol(+v.value); }
   const sk = ev.target.closest("input[data-music-seek]");
   if(sk){ Player.seeking = true; const d = +sk.max || 0; sk.style.setProperty("--p", d ? (sk.value / d * 100) + "%" : "0%"); document.querySelectorAll("[data-mtime]").forEach(el => { el.textContent = `${fmtTime(+sk.value)} / ${d ? fmtTime(d) : "--:--"}`; }); }
 });
 document.addEventListener("change", (ev) => {
+  const lf = ev.target.closest("input[data-pref-leaves]");
+  if(lf){ store.prefs.leaves = lf.checked; saveStore(); return; }
   if(ev.target.closest("input[data-music-vol]")){ saveStore(); return; }
   const sk = ev.target.closest("input[data-music-seek]");
   if(sk){ Player.seeking = false; Player.seek(+sk.value); return; }
@@ -3437,6 +3601,364 @@ document.addEventListener("submit", (ev) => {
   handleResult(key, {texts:[val]}, true);
 });
 
+/* ===================== TRANG CHỦ: CHÀO MỪNG + TÌM BÀI HỌC ===================== */
+function normVi(s){ return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "d").toLowerCase(); }
+let SEARCH_IDX = null;
+function buildSearch(){
+  const out = [];
+  for(const lang of ["en", "zh"]){
+    const L = lang === "zh" ? "中文" : "EN";
+    PRON[lang].forEach(p => {
+      const ex = (p.sounds[0].ex || []).map(e => e.t + " " + (e.p || "") + " " + (e.v || "")).join(" ");
+      out.push({act:"popen", id:p.id, lang, L, kind:"Phát âm", title:`${p.title} · ${p.sub}`, sub:p.groupTitle,
+        hi:normVi(p.title + " " + p.sub), lo:normVi(p.groupTitle + " " + ex)});
+    });
+    LESSONS[lang].forEach(l => {
+      const ind = l.work ? (WORK_INDS[lang].find(i => i.id === l.ind) || {}).name || "" : "";
+      const lines = l.lines.map(x => x.t + " " + (x.p || "") + " " + x.v).join(" ");
+      const voc = (VOCAB_RAW[l.id] || "").replace(/[|=]/g, " ");
+      out.push({act:"open", id:l.id, lang, L, kind:l.work ? `Công việc · ${ind}` : "Giao tiếp cơ bản", title:l.title, sub:l.scene,
+        hi:normVi(l.title + " " + ind), mid:normVi(l.scene + " " + l.partner), lo:normVi(lines + " " + voc)});
+    });
+  }
+  SECTIONS.filter(s => s.id !== "home").forEach(s => out.push({act:"section", id:s.id, L:"", kind:s.ready ? "Mục" : "Mục · sắp có", title:secName(s), sub:"", hi:normVi(secName(s)) + " " + normVi(s.name)}));
+  return out;
+}
+function searchLessons(q){
+  const words = normVi(q).split(/\s+/).filter(Boolean); if(!words.length) return [];
+  if(!SEARCH_IDX) SEARCH_IDX = buildSearch();
+  const res = [];
+  for(const it of SEARCH_IDX){
+    let sc = 0, ok = true;
+    for(const w of words){
+      if(it.hi && it.hi.includes(w)) sc += 6; else if(it.mid && it.mid.includes(w)) sc += 3; else if(it.lo && it.lo.includes(w)) sc += 1; else { ok = false; break; }
+    }
+    if(ok){ if(it.lang === store.prefs.lang) sc += 0.5; res.push([sc, it]); }
+  }
+  return res.sort((a, b) => b[0] - a[0]).slice(0, 12).map(x => x[1]);
+}
+function searchHtml(q){
+  if(!q || !q.trim()) return "";
+  const r = searchLessons(q);
+  if(!r.length) return `<div class="sres-empty">Chưa tìm thấy bài nào khớp với “${esc(q)}”. Thử từ khác, ví dụ: khách sạn, phỏng vấn, ngân hàng, /æ/, 你好.</div>`;
+  return `<div class="sres-list" role="listbox">${r.map((it, i) => `<button class="sres" data-act="${it.act}" ${it.act === "section" ? `data-v="${it.id}"` : `data-id="${it.id}"`} role="option">
+      <span class="sres-k">${it.L ? `<b>${it.L}</b>` : ""}${esc(it.kind)}</span>
+      <span class="sres-t">${esc(it.title)}</span>
+      ${it.sub ? `<span class="sres-s">${esc(it.sub)}</span>` : ""}</button>`).join("")}</div>`;
+}
+const HOME_QUOTES = [
+  "Mỗi ngày một chút, cộng lại thành rất nhiều.",
+  "Nói sai cũng được, miễn là hôm nay bạn đã nói.",
+  "Học 25 phút thật tập trung hơn cả buổi học lơ đãng.",
+  "Ngôn ngữ là thói quen: lặp lại đủ nhiều, miệng sẽ tự quen.",
+  "Đừng so với người khác, hãy so với chính bạn hôm qua.",
+  "Nghe nhiều, nói to, ghi chép ngắn: ba việc nhỏ làm nên tiến bộ lớn.",
+  "Lên lịch cho việc học, rồi giữ lời hẹn với chính mình."
+];
+function greeting(){ const h = new Date().getHours(); return h < 11 ? "Chào buổi sáng" : h < 14 ? "Chào buổi trưa" : h < 18 ? "Chào buổi chiều" : "Chào buổi tối"; }
+function renderLanding(){
+  const td = ymd(new Date()), items = planItems();
+  const todayTasks = items.filter(x => x.kind === "task" && !x.done && x.date && x.date <= td).length;
+  const todayEv = items.filter(x => x.kind === "event" && x.date === td).sort((a, b) => (a.start || "").localeCompare(b.start || ""));
+  const nextEv = todayEv.find(x => !x.start || x.start >= hhmm(new Date()));
+  const last = store.prefs.last;
+  let lastHtml = "";
+  if(last){
+    const lst = last.kind === "pron" ? (PRON[last.lang] || []).find(x => x.id === last.id) : (LESSONS[last.lang] || []).find(x => x.id === last.id);
+    if(lst) lastHtml = `<button class="hcard" data-act="${last.kind === "pron" ? "popen" : "open"}" data-id="${lst.id}"><span class="hcard-k">Học tiếp</span><b>${esc(last.kind === "pron" ? lst.title + " · " + lst.sub : lst.title)}</b><span>${last.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"} · bấm để mở lại bài đang học</span></button>`;
+  }
+  const quote = HOME_QUOTES[Math.floor(Date.now() / 864e5) % HOME_QUOTES.length];
+  const tiles = SECTIONS.filter(s => s.id !== "home").map(s => `<button class="htile ${s.ready ? "" : "soon"}" data-act="section" data-v="${s.id}">
+      <span class="htile-i" aria-hidden="true">${SECTION_ICONS[s.id] || ""}</span><b>${esc(secName(s))}</b><span>${esc(SECTION_DESC[s.id] || "")}</span>${s.ready ? "" : '<em>Sắp có</em>'}</button>`).join("");
+  return `<section class="landing">
+    <div class="hero">
+      <div class="hero-leaves" aria-hidden="true">${Array.from({length: 9}, (_, i) => `<i style="--x:${(i * 37 + 7) % 100}%;--d:${(i * 1.7) % 9}s;--s:${0.6 + (i % 4) * 0.25};--r:${i * 40}deg">${LEAF_SVG}</i>`).join("")}</div>
+      <span class="logo hero${LOGO_INTRO ? " intro" : ""}" role="img" aria-label="SFY — Study for yourself"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>
+      <p class="hello">${greeting()}! Chào mừng bạn đến với <b>SFY</b></p>
+      <p class="hero-tag">Nơi bạn tự học tiếng Anh và tiếng Trung mỗi ngày: phát âm chuẩn từng âm, giao tiếp tự tin trong đời sống và công việc, kèm đồng hồ Pomodoro, nhạc nền và lịch học để giữ nhịp.</p>
+      <div class="hsearch">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" data-home-search data-keep="homeq" value="${esc(ui.q || "")}" placeholder="Tìm bài học: khách sạn, phỏng vấn, ngân hàng, /æ/, 你好…" aria-label="Tìm bài học" autocomplete="off">
+      </div>
+      <div class="hsearch-res" id="searchRes">${searchHtml(ui.q || "")}</div>
+      <p class="quote">“${esc(quote)}”</p>
+    </div>
+    <div class="hquick">
+      ${lastHtml}
+      <button class="hcard" data-act="section" data-v="plan"><span class="hcard-k">Hôm nay</span><b>${todayEv.length} lịch · ${todayTasks} việc cần làm</b><span>${nextEv ? `Tiếp theo: ${nextEv.start ? nextEv.start + " " : ""}${esc(nextEv.title)}` : "Mở lịch để sắp xếp việc học"}</span></button>
+      <button class="hcard" data-act="pomo"><span class="hcard-k">Pomodoro</span><b>Đã học ${store.pomo.done} lượt hôm nay</b><span>Bấm để mở đồng hồ tập trung</span></button>
+    </div>
+    <h2 class="hsec">Bắt đầu từ đâu?</h2>
+    <div class="htiles">${tiles}</div>
+    <div class="hfoot"><label class="hleaf"><input type="checkbox" data-pref-leaves ${store.prefs.leaves !== false ? "checked" : ""}> Hiệu ứng lá khi di chuột và bấm</label></div>
+  </section>`;
+}
+const SECTION_DESC = {pron:"Từng âm IPA và bính âm, có bản thu và chấm phát âm", speak:"Hội thoại đời sống, đóng vai và luyện nói", work:"24 ngành nghề, từ vựng chuyên ngành", plan:"Xem lịch, lên kế hoạch và danh sách việc cần làm", story:"Đọc và nghe truyện ngắn", listen:"Luyện nghe theo chủ đề", vocab:"Ôn từ vựng theo cấp độ", grammar:"Ngữ pháp trọng tâm"};
+const _I = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const SECTION_ICONS = {
+  pron: _I('<path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/>'),
+  speak: _I('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>'),
+  work: _I('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>'),
+  plan: _I('<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/>'),
+  story: _I('<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>'),
+  listen: _I('<path d="M3 14v-2a9 9 0 0 1 18 0v2"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/>'),
+  vocab: _I('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/>'),
+  grammar: _I('<path d="M4 20 10 4h1l6 16"/><path d="M6.5 14h8"/>')
+};
+
+/* ===================== LỊCH & VIỆC CẦN LÀM ===================== */
+const PLAN_COLORS = [{id:"green", c:"#2f9e5b"}, {id:"blue", c:"#3b82f6"}, {id:"orange", c:"#f59e0b"}, {id:"red", c:"#e5484d"}, {id:"purple", c:"#8b5cf6"}, {id:"teal", c:"#14b8a6"}];
+const WD = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"];
+const WD_S = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+store.plan = Object.assign({items:[], hideDone:false, notified:{}}, store.plan || {});
+function pad2(n){ return String(n).padStart(2, "0"); }
+function ymd(d){ return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+function hhmm(d){ return pad2(d.getHours()) + ":" + pad2(d.getMinutes()); }
+function pd(s){ const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
+function addDays(s, n){ const d = pd(s); d.setDate(d.getDate() + n); return ymd(d); }
+function wdIdx(d){ return (d.getDay() + 6) % 7; }   /* Thứ Hai = 0 */
+function planItems(){ return store.plan.items; }
+function planColor(id){ return (PLAN_COLORS.find(c => c.id === id) || PLAN_COLORS[0]).c; }
+function niceDate(s){ const d = pd(s); return `${WD[wdIdx(d)]}, ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`; }
+function dayItems(s){
+  return planItems().filter(x => x.date === s).sort((a, b) => (a.kind === b.kind ? 0 : a.kind === "event" ? -1 : 1) || (a.start || "99").localeCompare(b.start || "99"));
+}
+ui.plan = {view:"month", cursor:ymd(new Date()), sel:ymd(new Date()), edit:null};
+function chip(x, compact){
+  const col = planColor(x.color);
+  return `<span class="pchip ${x.kind} ${x.done ? "done" : ""}" draggable="true" data-drag-id="${x.id}" data-act="planedit" data-id="${x.id}" style="--c:${col}" title="${esc(x.title)}">${x.kind === "task" ? `<i class="pbox">${x.done ? "✓" : ""}</i>` : (x.start ? `<i class="ptime">${x.start}</i>` : "")}${esc(x.title)}</span>`;
+}
+function renderPlan(){
+  const P = ui.plan, today = ymd(new Date()), cur = pd(P.cursor);
+  let title, grid;
+  if(P.view === "month"){
+    title = `Tháng ${cur.getMonth() + 1}, ${cur.getFullYear()}`;
+    const first = new Date(cur.getFullYear(), cur.getMonth(), 1), start = addDays(ymd(first), -wdIdx(first));
+    let cells = "";
+    for(let i = 0; i < 42; i++){
+      const s = addDays(start, i), d = pd(s), its = dayItems(s), other = d.getMonth() !== cur.getMonth();
+      cells += `<div class="pcell ${other ? "other" : ""} ${s === today ? "today" : ""} ${s === P.sel ? "sel" : ""}" data-act="plansel" data-d="${s}" data-drop-date="${s}">
+        <span class="pday">${d.getDate()}</span>
+        <div class="pchips">${its.slice(0, 3).map(x => chip(x)).join("")}${its.length > 3 ? `<span class="pmore">+${its.length - 3} nữa</span>` : ""}</div></div>`;
+    }
+    grid = `<div class="pmonth"><div class="pwd">${WD_S.map(w => `<span>${w}</span>`).join("")}</div><div class="pcells">${cells}</div></div>`;
+  } else {
+    const start = addDays(P.cursor, -wdIdx(cur)), days = Array.from({length: 7}, (_, i) => addDays(start, i));
+    const a = pd(days[0]), b = pd(days[6]);
+    title = `${a.getDate()}/${a.getMonth() + 1} – ${b.getDate()}/${b.getMonth() + 1}/${b.getFullYear()}`;
+    const H0 = 6, H1 = 24, HH = 44;
+    const head = days.map((s, i) => `<button class="pwh ${s === today ? "today" : ""} ${s === P.sel ? "sel" : ""}" data-act="plansel" data-d="${s}"><span>${WD_S[i]}</span><b>${pd(s).getDate()}</b></button>`).join("");
+    const allday = days.map(s => `<div class="pall" data-drop-date="${s}">${dayItems(s).filter(x => x.kind === "task" || !x.start).map(x => chip(x)).join("")}</div>`).join("");
+    const hours = Array.from({length: H1 - H0}, (_, i) => `<span class="phrl" style="top:${i * HH}px">${pad2(H0 + i)}:00</span>`).join("");
+    const cols = days.map(s => {
+      const slots = Array.from({length: H1 - H0}, (_, i) => `<div class="pslot" data-act="planslot" data-d="${s}" data-h="${H0 + i}" data-drop-date="${s}" data-drop-h="${H0 + i}"></div>`).join("");
+      const evs = dayItems(s).filter(x => x.kind === "event" && x.start).map(x => {
+        const [sh, sm] = x.start.split(":").map(Number), [eh, em] = (x.end || "").split(":").map(Number);
+        const top = Math.max(0, (sh + sm / 60 - H0) * HH), endv = isNaN(eh) ? sh + sm / 60 + 1 : eh + em / 60, h = Math.max(22, (endv - sh - sm / 60) * HH - 2);
+        return `<div class="pev" draggable="true" data-drag-id="${x.id}" data-act="planedit" data-id="${x.id}" style="top:${top}px;height:${h}px;--c:${planColor(x.color)}"><b>${esc(x.title)}</b><span>${x.start}${x.end ? "–" + x.end : ""}</span></div>`;
+      }).join("");
+      const now = new Date(), nowLine = s === today && now.getHours() >= H0 ? `<i class="pnow" style="top:${(now.getHours() + now.getMinutes() / 60 - H0) * HH}px"></i>` : "";
+      return `<div class="pcol">${slots}${evs}${nowLine}</div>`;
+    }).join("");
+    grid = `<div class="pweek"><div class="pwhead"><span></span>${head}</div><div class="pwall"><span class="phr0">Cả ngày</span>${allday}</div>
+      <div class="pwbody" id="pwbody"><div class="phours" style="height:${(H1 - H0) * HH}px">${hours}</div>${cols}</div></div>`;
+  }
+  /* ---- bảng bên phải: chương trình ngày + việc cần làm ---- */
+  const sel = P.sel, selIts = dayItems(sel);
+  const agenda = selIts.length ? selIts.map(x => `<div class="pag ${x.done ? "done" : ""}" style="--c:${planColor(x.color)}">
+      ${x.kind === "task" ? `<button class="pcheck ${x.done ? "on" : ""}" data-act="plantoggle" data-id="${x.id}" aria-label="Đánh dấu xong">${x.done ? "✓" : ""}</button>` : `<i class="pdot"></i>`}
+      <button class="pag-t" data-act="planedit" data-id="${x.id}"><b>${esc(x.title)}</b><span>${x.kind === "event" ? (x.start ? `${x.start}${x.end ? "–" + x.end : ""}` : "Cả ngày") : (x.start ? `Hạn ${x.start}` : "Việc cần làm")}${x.note ? " · " + esc(x.note) : ""}</span></button></div>`).join("")
+    : `<p class="pempty">Chưa có lịch hay việc nào trong ngày này.</p>`;
+  const tasks = planItems().filter(x => x.kind === "task" && !(store.plan.hideDone && x.done));
+  const grp = [["Quá hạn", t => t.date && t.date < today && !t.done], ["Hôm nay", t => t.date === today], ["Sắp tới", t => t.date && t.date > today], ["Chưa có ngày", t => !t.date], ["Đã xong trước đó", t => t.date && t.date < today && t.done]];
+  const todo = grp.map(([name, f]) => {
+    const list = tasks.filter(f);
+    if(!list.length && name !== "Chưa có ngày") return "";
+    return `<div class="ptg"><div class="ptg-h">${name} <span>${list.length}</span></div>
+      <div class="ptl" ${name === "Chưa có ngày" ? 'data-drop-date=""' : ""}>${list.map(t => `<div class="ptask ${t.done ? "done" : ""}" draggable="true" data-drag-id="${t.id}" data-drop-task="${t.id}" style="--c:${planColor(t.color)}">
+        <span class="pgrip" aria-hidden="true">⋮⋮</span>
+        <button class="pcheck ${t.done ? "on" : ""}" data-act="plantoggle" data-id="${t.id}" aria-label="Đánh dấu xong">${t.done ? "✓" : ""}</button>
+        <button class="ptask-t" data-act="planedit" data-id="${t.id}"><b>${esc(t.title)}</b>${t.date ? `<span>${t.date === today ? "Hôm nay" : pd(t.date).getDate() + "/" + (pd(t.date).getMonth() + 1)}${t.start ? " · " + t.start : ""}</span>` : ""}</button></div>`).join("") || `<p class="pempty">Kéo việc vào đây để bỏ ngày.</p>`}</div></div>`;
+  }).join("");
+  const doneN = planItems().filter(x => x.kind === "task" && x.done).length;
+  return `<div class="plan">
+    <div class="plan-main">
+      <div class="ptool">
+        <button class="btn small ghost" data-act="plantoday">Hôm nay</button>
+        <button class="mbtn" data-act="plannav" data-v="-1" aria-label="Trước">‹</button><button class="mbtn" data-act="plannav" data-v="1" aria-label="Sau">›</button>
+        <h2 class="ptitle">${title}</h2>
+        <div class="pomo-modes pviews" role="group" aria-label="Kiểu xem"><button data-act="planview" data-v="month" aria-pressed="${P.view === "month"}">Tháng</button><button data-act="planview" data-v="week" aria-pressed="${P.view === "week"}">Tuần</button></div>
+        <button class="btn small" data-act="planadd" data-v="event">+ Tạo lịch</button>
+      </div>
+      ${grid}
+      <p class="phint">Bấm vào một ngày để xem chi tiết, bấm vào ô giờ (kiểu xem Tuần) để tạo lịch nhanh. Có thể kéo thả lịch và việc sang ngày khác.</p>
+    </div>
+    <aside class="plan-side">
+      <div class="pcard">
+        <div class="pcard-h"><b>${niceDate(sel)}</b>${sel === today ? '<span class="ptag">Hôm nay</span>' : ""}</div>
+        ${agenda}
+        <div class="row"><button class="btn small ghost" data-act="planadd" data-v="event">+ Lịch</button><button class="btn small ghost" data-act="planadd" data-v="task">+ Việc</button></div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-h"><b>Việc cần làm</b><button class="linkbtn" data-act="planhide">${store.plan.hideDone ? "Hiện việc đã xong" : "Ẩn việc đã xong"}</button></div>
+        <div class="pquick"><input type="text" data-plan-quick data-keep="planquick" placeholder="Thêm việc mới rồi nhấn Enter…" aria-label="Thêm việc cần làm"></div>
+        ${todo}
+        ${doneN ? `<button class="linkbtn" data-act="planclear" style="align-self:flex-start">Xoá ${doneN} việc đã xong</button>` : ""}
+        <p class="phint">Kéo ⋮⋮ để sắp xếp thứ tự, hoặc kéo việc thả vào một ngày trên lịch để đặt hạn.</p>
+      </div>
+    </aside>
+    ${P.edit ? planForm(P.edit) : ""}
+  </div>`;
+}
+function planForm(e){
+  const isEv = e.kind === "event";
+  return `<div class="pmodal" data-act="planclose"><form class="pform" onsubmit="return false" data-plan-form>
+    <div class="pform-h"><b>${e.id ? "Sửa" : "Tạo"} ${isEv ? "lịch" : "việc cần làm"}</b><button type="button" class="mbtn" data-act="planclose" aria-label="Đóng">✕</button></div>
+    <div class="pomo-modes" style="grid-template-columns:1fr 1fr" role="group"><button type="button" data-act="plankind" data-v="event" aria-pressed="${isEv}">Lịch / sự kiện</button><button type="button" data-act="plankind" data-v="task" aria-pressed="${!isEv}">Việc cần làm</button></div>
+    <input class="pin big" name="title" value="${esc(e.title || "")}" placeholder="${isEv ? "Ví dụ: Luyện nói tiếng Anh 30 phút" : "Ví dụ: Ôn 20 từ vựng ngành Tài chính"}" required>
+    <div class="pform-r"><label>Ngày<input class="pin" type="date" name="date" value="${e.date || ""}"></label>
+      <label>${isEv ? "Từ" : "Hạn lúc"}<input class="pin" type="time" name="start" value="${e.start || ""}"></label>
+      ${isEv ? `<label>Đến<input class="pin" type="time" name="end" value="${e.end || ""}"></label>` : ""}</div>
+    ${isEv ? "" : `<label class="pform-c"><input type="checkbox" name="done" ${e.done ? "checked" : ""}> Đã xong</label>`}
+    <div class="pcolors" role="radiogroup" aria-label="Màu">${PLAN_COLORS.map(c => `<label style="--c:${c.c}"><input type="radio" name="color" value="${c.id}" ${(e.color || "green") === c.id ? "checked" : ""}><span></span></label>`).join("")}</div>
+    <textarea class="pin" name="note" rows="2" placeholder="Ghi chú (không bắt buộc)">${esc(e.note || "")}</textarea>
+    <div class="row" style="justify-content:space-between">${e.id ? `<button type="button" class="btn small ghost danger" data-act="plandel">Xoá</button>` : "<span></span>"}
+      <span class="row"><button type="button" class="btn small ghost" data-act="planclose">Huỷ</button><button type="button" class="btn small" data-act="plansave">Lưu</button></span></div>
+  </form></div>`;
+}
+function planReadForm(){
+  const f = document.querySelector("[data-plan-form]"); if(!f) return null;
+  const g = n => f.elements[n];
+  return {title:(g("title").value || "").trim(), date:g("date").value, start:g("start").value, end:g("end") ? g("end").value : "",
+    done:g("done") ? g("done").checked : false, color:(f.querySelector("input[name=color]:checked") || {}).value || "green", note:(g("note").value || "").trim()};
+}
+const Plan = {
+  uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); },
+  find(id){ return planItems().find(x => x.id === id); },
+  save(){ saveStore(); },
+  act(act, el, ev){
+    const P = ui.plan;
+    if(act === "plansel"){ P.sel = el.dataset.d; if(P.view === "month" && pd(P.sel).getMonth() !== pd(P.cursor).getMonth()) P.cursor = P.sel; return true; }
+    if(act === "plannav"){ const n = +el.dataset.v, d = pd(P.cursor); if(P.view === "month"){ d.setDate(1); d.setMonth(d.getMonth() + n); } else d.setDate(d.getDate() + 7 * n); P.cursor = ymd(d); return true; }
+    if(act === "plantoday"){ P.cursor = P.sel = ymd(new Date()); return true; }
+    if(act === "planview"){ P.view = el.dataset.v; P.cursor = P.sel; return true; }
+    if(act === "planadd"){ P.edit = {kind:el.dataset.v, date:P.sel, color:el.dataset.v === "task" ? "orange" : "green"}; if(el.dataset.v === "event"){ P.edit.start = "19:00"; P.edit.end = "20:00"; } return true; }
+    if(act === "planslot"){ const h = +el.dataset.h; P.sel = el.dataset.d; P.edit = {kind:"event", date:el.dataset.d, start:pad2(h) + ":00", end:pad2(Math.min(23, h + 1)) + ":00", color:"green"}; return true; }
+    if(act === "planedit"){ const x = this.find(el.dataset.id); if(x) P.edit = Object.assign({}, x); return true; }
+    if(act === "plankind"){ const v = planReadForm() || {}; P.edit = Object.assign({}, P.edit, v, {kind:el.dataset.v}); return true; }
+    if(act === "planclose"){ if(el.classList.contains("pmodal") && ev && ev.target.closest(".pform")) return false; P.edit = null; return true; }
+    if(act === "plansave"){
+      const v = planReadForm(); if(!v) return false;
+      if(!v.title){ const t = document.querySelector("[data-plan-form] [name=title]"); if(t){ t.focus(); t.classList.add("err"); } return false; }
+      if(P.edit.kind === "event" && v.start && v.end && v.end <= v.start) v.end = "";
+      if(P.edit.id){ Object.assign(this.find(P.edit.id), v, {kind:P.edit.kind}); }
+      else planItems().push(Object.assign({id:this.uid(), kind:P.edit.kind}, v));
+      if(v.date) P.sel = v.date;
+      P.edit = null; this.save(); return true;
+    }
+    if(act === "plandel"){ store.plan.items = planItems().filter(x => x.id !== P.edit.id); P.edit = null; this.save(); return true; }
+    if(act === "plantoggle"){ const x = this.find(el.dataset.id); if(x){ x.done = !x.done; this.save(); if(x.done) leafBurst(el); } return true; }
+    if(act === "planhide"){ store.plan.hideDone = !store.plan.hideDone; this.save(); return true; }
+    if(act === "planclear"){ store.plan.items = planItems().filter(x => !(x.kind === "task" && x.done)); this.save(); return true; }
+    return false;
+  },
+  quickAdd(title){ title = title.trim(); if(!title) return; planItems().push({id:this.uid(), kind:"task", title, date:"", start:"", end:"", done:false, color:"orange", note:""}); this.save(); render(); const q = document.querySelector("[data-plan-quick]"); if(q) q.focus(); },
+  /* kéo thả: dời ngày / giờ, hoặc sắp xếp lại thứ tự việc */
+  drop(id, el){
+    const x = this.find(id); if(!x) return;
+    if(el.dataset.dropTask !== undefined){
+      const t = this.find(el.dataset.dropTask); if(!t || t === x) return;
+      const arr = planItems(); arr.splice(arr.indexOf(x), 1); arr.splice(arr.indexOf(t), 0, x);
+      x.date = t.date;
+    } else if(el.dataset.dropDate !== undefined){
+      x.date = el.dataset.dropDate;
+      if(el.dataset.dropH !== undefined && x.kind === "event"){
+        const h = +el.dataset.dropH, dur = x.start && x.end ? (pd2m(x.end) - pd2m(x.start)) : 60;
+        x.start = pad2(h) + ":00"; x.end = m2hh(Math.min(23 * 60 + 59, h * 60 + dur));
+      }
+      if(x.date) ui.plan.sel = x.date;
+    }
+    this.save(); render();
+  },
+  /* nhắc lịch khi trang đang mở */
+  check(){
+    const now = new Date(), d = ymd(now), t = hhmm(now), N = store.plan.notified;
+    for(const x of planItems()){
+      if(x.kind !== "event" || x.date !== d || !x.start || x.start !== t) continue;
+      const k = x.id + "@" + d + x.start; if(N[k]) continue;
+      N[k] = 1; saveStore();
+      Chime.play(store.pomo.cfocus, 1); showToast(`Đến giờ: ${x.title}`);
+      try{ if(document.hidden && "Notification" in window && Notification.permission === "granted") new Notification("SFY · Lịch học", {body:`${x.start} ${x.title}`, tag:"sfy-" + x.id}); }catch(e){}
+    }
+  }
+};
+function pd2m(s){ const [h, m] = s.split(":").map(Number); return h * 60 + m; }
+function m2hh(m){ return pad2(Math.floor(m / 60)) + ":" + pad2(m % 60); }
+setInterval(() => Plan.check(), 15000);
+function showToast(msg){
+  const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t);
+  setTimeout(() => t.classList.add("out"), 7000); setTimeout(() => t.remove(), 7600);
+}
+/* kéo thả */
+let DRAG_ID = null;
+document.addEventListener("dragstart", ev => { const el = ev.target.closest && ev.target.closest("[data-drag-id]"); if(!el) return; DRAG_ID = el.dataset.dragId; ev.dataTransfer.effectAllowed = "move"; try{ ev.dataTransfer.setData("text/plain", DRAG_ID); }catch(e){} el.classList.add("dragging"); });
+document.addEventListener("dragend", ev => { DRAG_ID = null; document.querySelectorAll(".dragging,.dropover").forEach(e => e.classList.remove("dragging", "dropover")); });
+document.addEventListener("dragover", ev => { if(!DRAG_ID) return; const t = ev.target.closest && ev.target.closest("[data-drop-task],[data-drop-date]"); if(!t) return; ev.preventDefault(); document.querySelectorAll(".dropover").forEach(e => e !== t && e.classList.remove("dropover")); t.classList.add("dropover"); });
+document.addEventListener("drop", ev => { if(!DRAG_ID) return; const t = ev.target.closest && ev.target.closest("[data-drop-task],[data-drop-date]"); if(!t) return; ev.preventDefault(); const id = DRAG_ID; DRAG_ID = null; Plan.drop(id, t); });
+
+/* ===================== HIỆU ỨNG LÁ KHI DI CHUỘT / BẤM ===================== */
+const LEAF_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3C10 3 4 8.5 4 15.5c0 1.8.5 3.4 1.3 4.7C6.8 13.8 11 9.6 16 7.5c-4.3 3-7.6 7.2-9 12.4 1.2.7 2.7 1.1 4.3 1.1C18.4 21 21 13 20 3z" fill="currentColor"/></svg>';
+const LEAF_COLORS = ["#2f9e5b", "#4cc27a", "#6ee39a", "#1a7a40", "#9bd8a6", "#86c66b"];
+const Leaves = {
+  layer:null, n:0, lastT:0, lx:-99, ly:-99,
+  on(){ return store.prefs.leaves !== false && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); },
+  ensure(){ if(!this.layer){ this.layer = document.createElement("div"); this.layer.className = "leaf-layer"; this.layer.setAttribute("aria-hidden", "true"); document.body.appendChild(this.layer); } return this.layer; },
+  spawn(x, y, kf, dur, size){
+    if(this.n > 60) return;
+    const el = document.createElement("i"); el.className = "leaf"; el.innerHTML = LEAF_SVG;
+    el.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;color:${LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]}`;
+    this.ensure().appendChild(el); this.n++;
+    const a = el.animate(kf, {duration:dur, easing:"cubic-bezier(.2,.6,.4,1)", fill:"forwards"});
+    a.onfinish = () => { el.remove(); this.n--; };
+  },
+  trail(x, y){
+    const r0 = Math.random() * 360, dx = (Math.random() - .5) * 40, dr = (Math.random() - .5) * 240;
+    this.spawn(x, y, [
+      {transform:`translate(-50%,-50%) rotate(${r0}deg) scale(.4)`, opacity:0},
+      {transform:`translate(calc(-50% + ${dx * .3}px),calc(-50% + 8px)) rotate(${r0 + dr * .3}deg) scale(1)`, opacity:.95, offset:.15},
+      {transform:`translate(calc(-50% + ${dx}px),calc(-50% + 70px)) rotate(${r0 + dr}deg) scale(.7)`, opacity:0}
+    ], 1100 + Math.random() * 500, 9 + Math.random() * 7);
+  },
+  burst(x, y, k){
+    for(let i = 0; i < (k || 9); i++){
+      const ang = (i / (k || 9)) * Math.PI * 2 + Math.random() * .5, dist = 34 + Math.random() * 40, r0 = Math.random() * 360;
+      const tx = Math.cos(ang) * dist, ty = Math.sin(ang) * dist;
+      this.spawn(x, y, [
+        {transform:`translate(-50%,-50%) rotate(${r0}deg) scale(.3)`, opacity:1},
+        {transform:`translate(calc(-50% + ${tx}px),calc(-50% + ${ty}px)) rotate(${r0 + 180}deg) scale(1)`, opacity:1, offset:.45},
+        {transform:`translate(calc(-50% + ${tx * 1.2}px),calc(-50% + ${ty + 55}px)) rotate(${r0 + 320}deg) scale(.8)`, opacity:0}
+      ], 900 + Math.random() * 400, 10 + Math.random() * 8);
+    }
+  }
+};
+function leafBurst(el){ if(!Leaves.on() || !el) return; const r = el.getBoundingClientRect(); Leaves.burst(r.left + r.width / 2, r.top + r.height / 2, 12); }
+document.addEventListener("pointermove", ev => {
+  if(ev.pointerType !== "mouse" || !Leaves.on()) return;
+  const t = performance.now(), d = Math.hypot(ev.clientX - Leaves.lx, ev.clientY - Leaves.ly);
+  if(t - Leaves.lastT < 70 || d < 28) return;
+  Leaves.lastT = t; Leaves.lx = ev.clientX; Leaves.ly = ev.clientY;
+  Leaves.trail(ev.clientX, ev.clientY);
+}, {passive:true});
+document.addEventListener("pointerdown", ev => { if(Leaves.on()) Leaves.burst(ev.clientX, ev.clientY); }, {passive:true});
+
+document.addEventListener("keydown", (ev) => {
+  const t = ev.target;
+  if(ev.key === "Enter" && t.matches && t.matches("input[data-home-search]")){ const f = document.querySelector("#searchRes .sres"); if(f){ ev.preventDefault(); f.click(); } return; }
+  if(ev.key === "Enter" && t.matches && t.matches("input[data-plan-quick]")){ ev.preventDefault(); const v = t.value; t.value = ""; Plan.quickAdd(v); return; }
+  if(ev.key === "Enter" && t.closest && t.closest("[data-plan-form]") && t.tagName === "INPUT"){ ev.preventDefault(); const b = document.querySelector('[data-plan-form] [data-act="plansave"]'); if(b) b.click(); return; }
+  if(ev.key === "Escape" && ui.plan && ui.plan.edit){ ui.plan.edit = null; render(); return; }
+  if(ev.key === "Enter" && t.matches && t.matches('.brand .logo')){ t.click(); }
+});
 render();
 </script>
 </body>
