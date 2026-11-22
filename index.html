@@ -390,6 +390,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .hplan:hover{border-color:var(--accent);transform:translateY(-1px)}
 .hplan-i{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
 .hplan-i svg{width:19px;height:19px}
+.hplan-i{position:relative}
+.hplan-i em{position:absolute;top:-5px;right:-6px;min-width:17px;height:17px;padding:0 4px;box-sizing:border-box;border-radius:999px;background:#e5484d;color:#fff;font-style:normal;font-size:10.5px;font-weight:800;display:grid;place-items:center;border:2px solid var(--bg)}
+.hplan.mini{padding:4px 12px 4px 4px;border-radius:12px}
+.hplan.mini .hplan-i{width:30px;height:30px}
+@media (max-width:1100px){.hplan.mini .hplan-t{display:none}.hplan.mini{padding:4px}}
+@media (max-width:1200px){.brand .logo{width:calc(48px * 372 / 80 * .375);overflow:hidden}.brand .logo i{pointer-events:none}.brand .logo .lg-text{display:none}}
 .hplan-t{display:flex;flex-direction:column;line-height:1.2;letter-spacing:0}
 .hplan-t b{font-size:14px;font-weight:800}
 .hplan-t small{font-size:12px;font-weight:500;color:var(--muted)}
@@ -2980,7 +2986,7 @@ function header(){
   const dark = store.prefs.theme === "dark";
   const sec = SECTIONS.find(s => s.id === ui.section) || SECTIONS[0];
   return `<header class="top">
-    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="link" tabindex="0" data-act="section" data-v="home" title="Về trang chủ" aria-label="SFY — Study for yourself, về trang chủ"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${sidebar()}${ui.section === "home" ? homePlanChip() : ""}${vizHtml()}</div>
+    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="link" tabindex="0" data-act="section" data-v="home" title="Về trang chủ" aria-label="SFY — Study for yourself, về trang chủ"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${sidebar()}${ui.section !== "plan" ? homePlanChip(ui.section !== "home") : ""}${vizHtml()}</div>
     <div class="top-main">
     <h1 class="section-title">${esc(secName(sec))}</h1>
     <div class="topright">
@@ -2993,9 +2999,10 @@ function header(){
     ${pomoHtml()}
     </div></div></header>`;
 }
-function homePlanChip(){
+function homePlanChip(compact){
   const td = ymd(new Date()), its = planItems();
   const n = its.filter(x => x.kind === "task" && !x.done && x.date === td).length + its.filter(x => x.kind === "event" && x.date === td).length;
+  if(compact) return `<button class="hplan mini" data-act="section" data-v="plan" title="Lịch & việc cần làm${n ? ` · hôm nay có ${n} mục` : ""}" aria-label="Mở lịch & việc cần làm"><span class="hplan-i" aria-hidden="true">${SECTION_ICONS.plan}${n ? `<em>${n > 9 ? "9+" : n}</em>` : ""}</span><span class="hplan-t"><b>Lịch</b></span></button>`;
   return `<button class="hplan" data-act="section" data-v="plan" title="Mở lịch & việc cần làm"><span class="hplan-i" aria-hidden="true">${SECTION_ICONS.plan}</span><span class="hplan-t"><b>Lịch & việc cần làm</b><small>${n ? `Hôm nay có ${n} mục` : "Lên kế hoạch học hôm nay"}</small></span></button>`;
 }
 function vizHtml(){
