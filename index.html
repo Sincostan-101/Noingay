@@ -237,6 +237,25 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .viz{border:0;background:transparent;padding:2px 4px;border-radius:8px;display:inline-flex;align-items:center;margin-left:2px}
 .viz:hover{background:var(--surface)}
 .viz canvas{width:72px;height:26px;display:block}
+.mnow{border:1px solid var(--line);border-radius:12px;padding:10px 11px;background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.mnow-t{display:flex;flex-direction:column;gap:1px}
+.mnow-t b{font-size:14px}
+.mnow-t span{font-size:12px;color:var(--muted)}
+.mseek{width:100%;accent-color:var(--accent);margin:0}
+.mctl{display:flex;align-items:center;gap:6px}
+.mtime{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin-right:auto}
+.mbtn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--ink);padding:0}
+.mbtn svg{width:16px;height:16px}
+.mbtn:hover{border-color:var(--accent);color:var(--accent)}
+.mbtn.main{width:40px;height:40px;background:var(--accent);border-color:var(--accent);color:#fff}
+.mbtn.main:hover{color:#fff;filter:brightness(1.08)}
+.mrate{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
+.mrate span{margin-right:4px}
+.mrate button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:3px 7px;font-size:12px;color:var(--ink)}
+.mrate button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600}
+.mtracks{max-height:230px;overflow-y:auto}
+.music-panel a{color:var(--accent)}
+.mtrack{padding:7px 10px}
 .merr{font-size:12px;background:var(--warn-soft);color:var(--ink);border-radius:10px;padding:7px 10px}
 /* Phát âm */
 .grp-h{margin:14px 0 -4px;font-size:15px;font-weight:800;color:var(--accent);letter-spacing:.01em}
@@ -259,6 +278,10 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .ex .t.zh{font-size:19px}
 .ex .py{display:inline;font-size:13px;margin:0 0 0 4px}
 .ex .vi{display:block;font-size:12px;margin-top:0}
+.ex .lv{display:inline-block;font-size:10.5px;line-height:1;padding:3px 5px;border-radius:5px;margin-left:6px;vertical-align:2px;font-weight:600;letter-spacing:.02em}
+.ex .lv.core{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.ex .lv.hi{background:color-mix(in srgb,#c76a12 15%,transparent);color:#b25e0f}
+.lvnote{font-size:12.5px;color:var(--muted);margin:4px 0 10px}
 .qopts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .qopt{border:2px solid var(--line);background:var(--bg);border-radius:var(--radius);padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:2px}
 .qopt .t{font-size:22px}
@@ -1382,46 +1405,97 @@ const VOCAB_RAW = {
  "en-weather":"weather=thời tiết|hot=nóng|cold=lạnh|cool=mát|warm=ấm|rain=mưa|sunny=nắng|cloudy=nhiều mây|windy=có gió|umbrella=cái ô|season=mùa|spring=mùa xuân|summer=mùa hè|autumn=mùa thu|winter=mùa đông|favorite=yêu thích nhất",
  "en-cafe":"coffee=cà phê|iced=có đá|tea=trà|order=gọi món|menu=thực đơn|size=cỡ|small=nhỏ|medium=vừa|large=lớn|for here=dùng tại quán|to go=mang đi|price=giá|cup=cốc|sugar=đường|milk=sữa|here you go=gửi bạn (khi đưa)",
  "en-shopping":"jacket=áo khoác|shirt=áo sơ mi|pants=quần dài|shoes=giày|smaller=nhỏ hơn|bigger=to hơn|try on=mặc thử|fitting room=phòng thử đồ|fit=vừa cỡ|suit=hợp, trông đẹp|color=màu sắc|cash=tiền mặt|card=thẻ|expensive=đắt|cheap=rẻ|on sale=đang giảm giá",
- "en-return":"return=trả lại|refund=hoàn tiền|exchange=đổi|receipt=hóa đơn|hole=lỗ thủng|broken=bị hỏng|damaged=bị hư hại|wrong=có vấn đề|too small=chật quá|too big=rộng quá|replace=thay thế|policy=chính sách|within=trong vòng|customer service=chăm sóc khách hàng|of course=tất nhiên|perfect=tuyệt vời",
- "en-directions":"excuse me=xin lỗi (để hỏi)|station=nhà ga|go straight=đi thẳng|turn left=rẽ trái|turn right=rẽ phải|traffic lights=đèn giao thông|corner=góc phố|block=dãy nhà|far=xa|near=gần|on foot=đi bộ|map=bản đồ|next to=bên cạnh|opposite=đối diện|between=ở giữa|cross=băng qua",
- "en-taxi":"taxi=xe taxi|driver=tài xế|airport=sân bay|terminal=nhà ga sân bay|traffic=giao thông|traffic jam=tắc đường|faster=nhanh hơn|slow down=đi chậm lại|stop here=dừng ở đây|fare=giá cước|change=tiền thừa|tip=tiền boa|seat belt=dây an toàn|address=địa chỉ|minute=phút|running late=đang bị muộn",
- "en-train":"ticket=vé|one way=một chiều|round trip=khứ hồi|train=tàu hỏa|platform=sân ga|leave=khởi hành|arrive=đến nơi|schedule=lịch trình|delay=chậm trễ|discount=giảm giá|student ID=thẻ sinh viên|seat=chỗ ngồi|window seat=ghế cạnh cửa sổ|aisle seat=ghế cạnh lối đi|next=tiếp theo|come back=quay về",
- "en-phone":"call=gọi điện|phone number=số điện thoại|free=rảnh|busy=bận|plan=kế hoạch|meet=gặp|time=thời gian|place=địa điểm|café=quán cà phê|park=công viên|grab coffee=đi cà phê|message=tin nhắn|text=nhắn tin|call back=gọi lại|cancel=hủy|sounds good=nghe ổn đấy",
+ "en-return":"return=trả lại|refund=hoàn tiền|exchange=đổi|receipt=hóa đơn|hole=lỗ thủng|broken=bị hỏng|dirty=bẩn|wrong=có vấn đề|too small=chật quá|too big=rộng quá|replace=thay thế|new=mới|wear=mặc|customer service=chăm sóc khách hàng|of course=tất nhiên|perfect=tuyệt vời",
+ "en-directions":"excuse me=xin lỗi (để hỏi)|station=nhà ga|go straight=đi thẳng|turn left=rẽ trái|turn right=rẽ phải|traffic lights=đèn giao thông|corner=góc phố|street=đường phố|far=xa|near=gần|on foot=đi bộ|map=bản đồ|next to=bên cạnh|opposite=đối diện|between=ở giữa|cross=băng qua",
+ "en-taxi":"taxi=xe taxi|driver=tài xế|airport=sân bay|terminal=nhà ga sân bay|traffic=giao thông|traffic jam=tắc đường|faster=nhanh hơn|slow down=đi chậm lại|stop here=dừng ở đây|money=tiền|change=tiền thừa|tip=tiền boa|seat belt=dây an toàn|address=địa chỉ|minute=phút|running late=đang bị muộn",
+ "en-train":"ticket=vé|one way=một chiều|round trip=khứ hồi|train=tàu hỏa|platform=sân ga|leave=khởi hành|arrive=đến nơi|schedule=lịch trình|wait=chờ|discount=giảm giá|student ID=thẻ sinh viên|seat=chỗ ngồi|window seat=ghế cạnh cửa sổ|ticket office=phòng bán vé|next=tiếp theo|come back=quay về",
+ "en-phone":"call=gọi điện|phone number=số điện thoại|free=rảnh|busy=bận|plan=kế hoạch|meet=gặp|time=thời gian|place=địa điểm|café=quán cà phê|park=công viên|grab coffee=đi cà phê|message=tin nhắn|text=nhắn tin|call back=gọi lại|tomorrow=ngày mai|sounds good=nghe ổn đấy",
  "en-weekend":"weekend=cuối tuần|last=vừa qua|beach=bãi biển|sea=biển|swim=bơi|seafood=hải sản|trip=chuyến đi|stay home=ở nhà|went=đã đi (go)|ate=đã ăn (eat)|swam=đã bơi (swim)|had=đã có (have)|saw=đã thấy (see)|great=tuyệt vời|tired=mệt|lucky=may mắn",
- "en-plans":"plan=kế hoạch|travel=du lịch|vacation=kỳ nghỉ|stay=ở lại|visit=thăm|book=đặt chỗ|hotel=khách sạn|flight=chuyến bay|passport=hộ chiếu|visa=thị thực|luggage=hành lý|abroad=ở nước ngoài|sightseeing=tham quan|souvenir=quà lưu niệm|yet=chưa|trip=chuyến đi",
- "en-hotel":"reservation=sự đặt phòng|check in=nhận phòng|check out=trả phòng|room=phòng|single room=phòng đơn|double room=phòng đôi|key card=thẻ phòng|front desk=quầy lễ tân|breakfast=bữa sáng|night=đêm|floor=tầng|elevator=thang máy|password=mật khẩu|towel=khăn tắm|late checkout=trả phòng muộn|available=còn trống",
- "en-bank":"bank=ngân hàng|exchange money=đổi tiền|currency=tiền tệ|exchange rate=tỷ giá|dollar=đô la|cash=tiền mặt|bill=tờ tiền giấy|coin=đồng xu|passport=hộ chiếu|account=tài khoản|withdraw=rút tiền|deposit=gửi tiền|ATM=máy rút tiền|fee=phí|sign=ký tên|counter=quầy giao dịch",
- "en-rent":"apartment=căn hộ|rent=tiền thuê nhà|landlord=chủ nhà|available=còn trống|utilities=điện nước|electricity=điện|water=nước|deposit=tiền đặt cọc|contract=hợp đồng|furnished=có sẵn nội thất|bedroom=phòng ngủ|kitchen=bếp|bathroom=phòng tắm|bus stop=trạm xe buýt|neighborhood=khu phố|move in=dọn vào ở",
- "en-doctor":"doctor=bác sĩ|sick=ốm|headache=đau đầu|sore throat=đau họng|fever=sốt|cough=ho|cold=cảm lạnh|symptom=triệu chứng|medicine=thuốc|prescription=đơn thuốc|pharmacy=nhà thuốc|appointment=lịch hẹn|rest=nghỉ ngơi|twice a day=ngày hai lần|after meals=sau bữa ăn|allergy=dị ứng",
- "en-lost":"lose=làm mất|wallet=ví|phone=điện thoại|bag=túi|key=chìa khóa|find=tìm thấy|look for=tìm kiếm|lost and found=quầy đồ thất lạc|security=bảo vệ|black=màu đen|red=màu đỏ|stripe=sọc|help=giúp đỡ|careful=cẩn thận|police=cảnh sát|thank you so much=cảm ơn rất nhiều",
- "en-interview":"interview=phỏng vấn|job=công việc|position=vị trí|internship=thực tập|experience=kinh nghiệm|skill=kỹ năng|strength=điểm mạnh|weakness=điểm yếu|hard-working=chăm chỉ|team=đội nhóm|company=công ty|salary=lương|resume=sơ yếu lý lịch|apply=ứng tuyển|role=vai trò|get back to=liên lạc lại",
+ "en-plans":"plan=kế hoạch|travel=du lịch|vacation=kỳ nghỉ|stay=ở lại|visit=thăm|book=đặt chỗ|hotel=khách sạn|flight=chuyến bay|passport=hộ chiếu|holiday=kỳ nghỉ|photo=ảnh|abroad=ở nước ngoài|city=thành phố|gift=quà tặng|yet=chưa|trip=chuyến đi",
+ "en-hotel":"reservation=sự đặt phòng|check in=nhận phòng|check out=trả phòng|room=phòng|single room=phòng đơn|double room=phòng đôi|key card=thẻ phòng|front desk=quầy lễ tân|breakfast=bữa sáng|night=đêm|floor=tầng|bed=giường|bathroom=phòng tắm|towel=khăn tắm|late checkout=trả phòng muộn|available=còn trống",
+ "en-bank":"bank=ngân hàng|exchange money=đổi tiền|currency=tiền tệ|exchange rate=tỷ giá|dollar=đô la|cash=tiền mặt|bill=tờ tiền giấy|money=tiền|passport=hộ chiếu|card=thẻ|pay=trả tiền|count=đếm|ATM=máy rút tiền|cost=chi phí|sign=ký tên|number=số",
+ "en-rent":"apartment=căn hộ|rent=tiền thuê nhà|landlord=chủ nhà|available=còn trống|utilities=điện nước|electricity=điện|water=nước|month=tháng|room=phòng|chair=cái ghế|bedroom=phòng ngủ|kitchen=bếp|bathroom=phòng tắm|bus stop=trạm xe buýt|quiet=yên tĩnh|move in=dọn vào ở",
+ "en-doctor":"doctor=bác sĩ|sick=ốm|headache=đau đầu|sore throat=đau họng|fever=sốt|hurt=đau|cold=cảm lạnh|symptom=triệu chứng|medicine=thuốc|body=cơ thể|hospital=bệnh viện|health=sức khỏe|rest=nghỉ ngơi|twice a day=ngày hai lần|after meals=sau bữa ăn|feel=cảm thấy",
+ "en-lost":"lose=làm mất|wallet=ví|phone=điện thoại|bag=túi|key=chìa khóa|find=tìm thấy|look for=tìm kiếm|lost and found=quầy đồ thất lạc|shop=cửa hàng|black=màu đen|red=màu đỏ|stripe=sọc|help=giúp đỡ|careful=cẩn thận|police=cảnh sát|thank you so much=cảm ơn rất nhiều",
+ "en-interview":"interview=phỏng vấn|job=công việc|position=vị trí|office=văn phòng|experience=kinh nghiệm|skill=kỹ năng|strength=điểm mạnh|question=câu hỏi|hard-working=chăm chỉ|team=đội nhóm|company=công ty|salary=lương|manager=người quản lý|apply=ứng tuyển|role=vai trò|get back to=liên lạc lại",
  "zh-meet":"你好 nǐ hǎo=xin chào|叫 jiào=tên là|名字 míngzi=tên|认识 rènshi=quen biết|高兴 gāoxìng=vui|国 guó=nước|人 rén=người|越南 Yuènán=Việt Nam|中国 Zhōngguó=Trung Quốc|工作 gōngzuò=công việc|做生意 zuò shēngyi=kinh doanh|老师 lǎoshī=giáo viên|学生 xuésheng=học sinh, sinh viên|朋友 péngyou=bạn bè|联系 liánxì=liên lạc|再见 zàijiàn=tạm biệt",
  "zh-family":"家 jiā=nhà, gia đình|口 kǒu=lượng từ người trong nhà|爸爸 bàba=bố|妈妈 māma=mẹ|哥哥 gēge=anh trai|姐姐 jiějie=chị gái|弟弟 dìdi=em trai|妹妹 mèimei=em gái|父母 fùmǔ=bố mẹ|护士 hùshi=y tá|医院 yīyuàn=bệnh viện|岁 suì=tuổi|高中 gāozhōng=cấp ba|大学 dàxué=đại học|宿舍 sùshè=ký túc xá|住 zhù=sống, ở",
  "zh-routine":"每天 měitiān=mỗi ngày|起床 qǐchuáng=thức dậy|洗澡 xǐzǎo=tắm|早饭 zǎofàn=bữa sáng|午饭 wǔfàn=bữa trưa|晚饭 wǎnfàn=bữa tối|上课 shàngkè=lên lớp|下课 xiàkè=tan học|健身房 jiànshēnfáng=phòng gym|作业 zuòyè=bài tập|睡觉 shuìjiào=ngủ|然后 ránhòu=sau đó|左右 zuǒyòu=khoảng|早上 zǎoshang=buổi sáng|下午 xiàwǔ=buổi chiều|晚上 wǎnshang=buổi tối",
  "zh-hobby":"爱好 àihào=sở thích|周末 zhōumò=cuối tuần|一般 yìbān=thường|打羽毛球 dǎ yǔmáoqiú=chơi cầu lông|踢足球 tī zúqiú=đá bóng|看书 kàn shū=đọc sách|做饭 zuò fàn=nấu cơm|听音乐 tīng yīnyuè=nghe nhạc|看电影 kàn diànyǐng=xem phim|喜欢 xǐhuan=thích|次 cì=lần|星期 xīngqī=tuần|菜 cài=món ăn|尝 cháng=nếm|不错 búcuò=khá tốt|有意思 yǒu yìsi=thú vị",
- "zh-weather":"天气 tiānqì=thời tiết|热 rè=nóng|冷 lěng=lạnh|凉快 liángkuai=mát mẻ|暖和 nuǎnhuo=ấm áp|下雨 xià yǔ=mưa|晴天 qíngtiān=trời nắng|阴天 yīntiān=trời âm u|刮风 guā fēng=có gió|伞 sǎn=cái ô|雨季 yǔjì=mùa mưa|春天 chūntiān=mùa xuân|夏天 xiàtiān=mùa hè|秋天 qiūtiān=mùa thu|冬天 dōngtiān=mùa đông|听说 tīngshuō=nghe nói",
+ "zh-weather":"天气 tiānqì=thời tiết|热 rè=nóng|冷 lěng=lạnh|凉快 liángkuai=mát mẻ|暖和 nuǎnhuo=ấm áp|下雨 xià yǔ=mưa|晴天 qíngtiān=trời nắng|阴天 yīntiān=trời âm u|雪 xuě=tuyết|伞 sǎn=cái ô|雨季 yǔjì=mùa mưa|春天 chūntiān=mùa xuân|夏天 xiàtiān=mùa hè|秋天 qiūtiān=mùa thu|冬天 dōngtiān=mùa đông|听说 tīngshuō=nghe nói",
  "zh-restaurant":"欢迎光临 huānyíng guānglín=chào mừng quý khách|位 wèi=lượng từ người (lịch sự)|菜单 càidān=thực đơn|吃 chī=ăn|喝 hē=uống|碗 wǎn=bát|面 miàn=mì|牛肉 niúròu=thịt bò|米饭 mǐfàn=cơm|辣 là=cay|杯 bēi=cốc|茶 chá=trà|服务员 fúwùyuán=nhân viên phục vụ|买单 mǎidān=tính tiền|稍等 shāo děng=đợi một lát|好吃 hǎochī=ngon",
  "zh-bargain":"老板 lǎobǎn=chủ cửa hàng|衣服 yīfu=quần áo|件 jiàn=lượng từ áo|多少钱 duōshao qián=bao nhiêu tiền|块 kuài=đồng (tệ)|贵 guì=đắt|便宜 piányi=rẻ|一点儿 yìdiǎnr=một chút|最低 zuì dī=thấp nhất|可以 kěyǐ=có thể|支付 zhīfù=thanh toán|微信 Wēixìn=WeChat|扫 sǎo=quét|颜色 yánsè=màu sắc|大小 dàxiǎo=cỡ|试试 shìshi=thử",
  "zh-return":"退 tuì=trả lại|换 huàn=đổi|退钱 tuì qián=hoàn tiền|衬衫 chènshān=áo sơ mi|问题 wèntí=vấn đề|小 xiǎo=nhỏ|大 dà=to|洞 dòng=lỗ thủng|坏了 huài le=bị hỏng|小票 xiǎopiào=hóa đơn|带 dài=mang theo|还是 háishi=hay là|号 hào=cỡ|中号 zhōng hào=cỡ M|当然 dāngrán=tất nhiên|不好意思 bù hǎoyìsi=xin lỗi (nhẹ)",
  "zh-directions":"请问 qǐngwèn=cho hỏi|地铁站 dìtiězhàn=ga tàu điện ngầm|怎么走 zěnme zǒu=đi thế nào|一直 yìzhí=thẳng một mạch|往前 wǎng qián=về phía trước|左 zuǒ=trái|右 yòu=phải|拐 guǎi=rẽ|红绿灯 hónglǜdēng=đèn giao thông|路口 lùkǒu=ngã tư|远 yuǎn=xa|近 jìn=gần|走路 zǒulù=đi bộ|分钟 fēnzhōng=phút|旁边 pángbiān=bên cạnh|对面 duìmiàn=đối diện",
- "zh-taxi":"出租车 chūzūchē=taxi|打车 dǎchē=bắt taxi|师傅 shīfu=bác tài|机场 jīchǎng=sân bay|航站楼 hángzhànlóu=nhà ga sân bay|堵车 dǔchē=tắc đường|小时 xiǎoshí=tiếng (giờ)|急 jí=vội|快 kuài=nhanh|慢 màn=chậm|停 tíng=dừng|到了 dào le=đến rồi|一共 yígòng=tổng cộng|扫码 sǎomǎ=quét mã|地址 dìzhǐ=địa chỉ|尽量 jǐnliàng=cố hết sức",
- "zh-train":"火车 huǒchē=tàu hỏa|票 piào=vé|张 zhāng=lượng từ vé|单程 dānchéng=một chiều|往返 wǎngfǎn=khứ hồi|回来 huílai=quay về|开 kāi=chạy, khởi hành|到 dào=đến|站台 zhàntái=sân ga|趟 tàng=chuyến|优惠 yōuhuì=ưu đãi|学生证 xuéshengzhèng=thẻ sinh viên|打折 dǎzhé=giảm giá|一刻 yí kè=mười lăm phút|座位 zuòwèi=chỗ ngồi|高铁 gāotiě=tàu cao tốc",
- "zh-phone":"打电话 dǎ diànhuà=gọi điện|喂 wéi=a lô|手机 shǒujī=điện thoại di động|号码 hàomǎ=số|有空 yǒu kòng=rảnh|忙 máng=bận|一起 yìqǐ=cùng nhau|咖啡 kāfēi=cà phê|咖啡馆 kāfēiguǎn=quán cà phê|公园 gōngyuán=công viên|见面 jiànmiàn=gặp mặt|周六 zhōuliù=thứ Bảy|上午 shàngwǔ=buổi sáng|没问题 méi wèntí=không vấn đề gì|发短信 fā duǎnxìn=nhắn tin|回电话 huí diànhuà=gọi lại",
+ "zh-taxi":"出租车 chūzūchē=taxi|打车 dǎchē=bắt taxi|师傅 shīfu=bác tài|机场 jīchǎng=sân bay|航站楼 hángzhànlóu=nhà ga sân bay|堵车 dǔchē=tắc đường|小时 xiǎoshí=tiếng (giờ)|急 jí=vội|快 kuài=nhanh|慢 màn=chậm|停 tíng=dừng|到了 dào le=đến rồi|一共 yígòng=tổng cộng|扫码 sǎomǎ=quét mã|路 lù=đường|尽量 jǐnliàng=cố hết sức",
+ "zh-train":"火车 huǒchē=tàu hỏa|票 piào=vé|张 zhāng=lượng từ vé|单程 dānchéng=một chiều|往返 wǎngfǎn=khứ hồi|回来 huílai=quay về|开 kāi=chạy, khởi hành|到 dào=đến|站台 zhàntái=sân ga|趟 tàng=chuyến|优惠 yōuhuì=ưu đãi|学生证 xuéshengzhèng=thẻ sinh viên|打折 dǎzhé=giảm giá|一刻 yí kè=mười lăm phút|座位 zuòwèi=chỗ ngồi|车站 chēzhàn=nhà ga, bến xe",
+ "zh-phone":"打电话 dǎ diànhuà=gọi điện|喂 wéi=a lô|手机 shǒujī=điện thoại di động|电话 diànhuà=điện thoại|有空 yǒu kòng=rảnh|忙 máng=bận|一起 yìqǐ=cùng nhau|咖啡 kāfēi=cà phê|咖啡馆 kāfēiguǎn=quán cà phê|公园 gōngyuán=công viên|见面 jiànmiàn=gặp mặt|周六 zhōuliù=thứ Bảy|上午 shàngwǔ=buổi sáng|没问题 méi wèntí=không vấn đề gì|发短信 fā duǎnxìn=nhắn tin|回电话 huí diànhuà=gọi lại",
  "zh-weekend":"周末 zhōumò=cuối tuần|过 guò=trải qua|家人 jiārén=người nhà|海边 hǎibiān=bờ biển|游泳 yóuyǒng=bơi|海鲜 hǎixiān=hải sản|旅游 lǚyóu=du lịch|在家 zài jiā=ở nhà|学习 xuéxí=học|羡慕 xiànmù=ngưỡng mộ|下次 xià cì=lần sau|跟 gēn=cùng với|上个星期 shàng ge xīngqī=tuần trước|昨天 zuótiān=hôm qua|累 lèi=mệt|开心 kāixīn=vui vẻ",
- "zh-plans":"暑假 shǔjià=nghỉ hè|寒假 hánjià=nghỉ đông|打算 dǎsuàn=dự định|日本 Rìběn=Nhật Bản|大概 dàgài=khoảng|地方 dìfang=nơi|酒店 jiǔdiàn=khách sạn|订 dìng=đặt|机票 jīpiào=vé máy bay|护照 hùzhào=hộ chiếu|签证 qiānzhèng=thị thực|行李 xíngli=hành lý|出国 chūguó=ra nước ngoài|还没有 hái méiyǒu=chưa|祝 zhù=chúc|愉快 yúkuài=vui vẻ",
- "zh-hotel":"预订 yùdìng=đặt trước|房间 fángjiān=phòng|单人间 dānrénjiān=phòng đơn|双人间 shuāngrénjiān=phòng đôi|入住 rùzhù=nhận phòng|退房 tuìfáng=trả phòng|护照 hùzhào=hộ chiếu|房卡 fángkǎ=thẻ phòng|前台 qiántái=lễ tân|早饭 zǎofàn=bữa sáng|密码 mìmǎ=mật khẩu|电梯 diàntī=thang máy|楼 lóu=tầng|晚上 wǎnshang=đêm, buổi tối|开始 kāishǐ=bắt đầu|毛巾 máojīn=khăn tắm",
- "zh-bank":"银行 yínháng=ngân hàng|换钱 huàn qián=đổi tiền|美元 Měiyuán=đô la Mỹ|人民币 Rénmínbì=nhân dân tệ|越南盾 Yuènán dùn=tiền Việt Nam|汇率 huìlǜ=tỷ giá|现金 xiànjīn=tiền mặt|零钱 língqián=tiền lẻ|护照 hùzhào=hộ chiếu|账户 zhànghù=tài khoản|取钱 qǔ qián=rút tiền|存钱 cún qián=gửi tiền|取款机 qǔkuǎnjī=máy ATM|手续费 shǒuxùfèi=phí dịch vụ|签字 qiānzì=ký tên|屏幕 píngmù=màn hình",
- "zh-rent":"房子 fángzi=nhà|出租 chūzū=cho thuê|租 zū=thuê|房租 fángzū=tiền thuê nhà|房东 fángdōng=chủ nhà|押金 yājīn=tiền đặt cọc|合同 hétong=hợp đồng|水电 shuǐdiàn=điện nước|电费 diànfèi=tiền điện|包 bāo=bao gồm|交 jiāo=nộp, trả|卧室 wòshì=phòng ngủ|厨房 chúfáng=nhà bếp|卫生间 wèishēngjiān=nhà vệ sinh|离 lí=cách (khoảng cách)|搬家 bānjiā=chuyển nhà",
- "zh-doctor":"医生 yīshēng=bác sĩ|看病 kànbìng=khám bệnh|舒服 shūfu=dễ chịu|疼 téng=đau|头 tóu=đầu|嗓子 sǎngzi=họng|肚子 dùzi=bụng|发烧 fāshāo=sốt|咳嗽 késou=ho|感冒 gǎnmào=bị cảm|药 yào=thuốc|药店 yàodiàn=nhà thuốc|休息 xiūxi=nghỉ ngơi|饭后 fàn hòu=sau bữa ăn|过敏 guòmǐn=dị ứng|一天三次 yì tiān sān cì=ngày ba lần",
- "zh-lost":"丢 diū=mất|钱包 qiánbāo=ví|手机 shǒujī=điện thoại|钥匙 yàoshi=chìa khóa|包 bāo=túi|找 zhǎo=tìm|找到 zhǎodào=tìm thấy|帮 bāng=giúp|着急 zháojí=sốt ruột|最后 zuìhòu=cuối cùng|黑色 hēisè=màu đen|红色 hóngsè=màu đỏ|失物招领处 shīwù zhāolǐng chù=quầy đồ thất lạc|感谢 gǎnxiè=cảm ơn|小心 xiǎoxīn=cẩn thận|警察 jǐngchá=cảnh sát",
- "zh-interview":"面试 miànshì=phỏng vấn|公司 gōngsī=công ty|介绍 jièshào=giới thiệu|自己 zìjǐ=bản thân|大学生 dàxuéshēng=sinh viên đại học|专业 zhuānyè=chuyên ngành, chuyên nghiệp|团队 tuánduì=đội nhóm|优点 yōudiǎn=ưu điểm|缺点 quēdiǎn=nhược điểm|努力 nǔlì=chăm chỉ|经验 jīngyàn=kinh nghiệm|实习 shíxí=thực tập|工资 gōngzī=lương|简历 jiǎnlì=sơ yếu lý lịch|通知 tōngzhī=thông báo|主要 zhǔyào=chủ yếu"
+ "zh-plans":"暑假 shǔjià=nghỉ hè|飞机 fēijī=máy bay|打算 dǎsuàn=dự định|日本 Rìběn=Nhật Bản|大概 dàgài=khoảng|地方 dìfang=nơi|酒店 jiǔdiàn=khách sạn|订 dìng=đặt|机票 jīpiào=vé máy bay|护照 hùzhào=hộ chiếu|国家 guójiā=quốc gia|行李 xíngli=hành lý|出国 chūguó=ra nước ngoài|还没有 hái méiyǒu=chưa|祝 zhù=chúc|愉快 yúkuài=vui vẻ",
+ "zh-hotel":"预订 yùdìng=đặt trước|房间 fángjiān=phòng|床 chuáng=giường|洗手间 xǐshǒujiān=nhà vệ sinh|住 zhù=ở|离开 líkāi=rời đi|护照 hùzhào=hộ chiếu|房卡 fángkǎ=thẻ phòng|前台 qiántái=lễ tân|早饭 zǎofàn=bữa sáng|密码 mìmǎ=mật khẩu|电梯 diàntī=thang máy|楼 lóu=tầng|晚上 wǎnshang=đêm, buổi tối|开始 kāishǐ=bắt đầu|电视 diànshì=tivi",
+ "zh-bank":"银行 yínháng=ngân hàng|换钱 huàn qián=đổi tiền|美元 Měiyuán=đô la Mỹ|人民币 Rénmínbì=nhân dân tệ|越南盾 Yuènán dùn=tiền Việt Nam|汇率 huìlǜ=tỷ giá|现金 xiànjīn=tiền mặt|零钱 língqián=tiền lẻ|护照 hùzhào=hộ chiếu|钱 qián=tiền|取钱 qǔ qián=rút tiền|存钱 cún qián=gửi tiền|卡 kǎ=thẻ|多少 duōshao=bao nhiêu|写 xiě=viết|屏幕 píngmù=màn hình",
+ "zh-rent":"房子 fángzi=nhà|出租 chūzū=cho thuê|租 zū=thuê|房租 fángzū=tiền thuê nhà|房东 fángdōng=chủ nhà|月 yuè=tháng|安静 ānjìng=yên tĩnh|水电 shuǐdiàn=điện nước|电费 diànfèi=tiền điện|包 bāo=bao gồm|交 jiāo=nộp, trả|房间 fángjiān=phòng|厨房 chúfáng=nhà bếp|卫生间 wèishēngjiān=nhà vệ sinh|离 lí=cách (khoảng cách)|搬家 bānjiā=chuyển nhà",
+ "zh-doctor":"医生 yīshēng=bác sĩ|看病 kànbìng=khám bệnh|舒服 shūfu=dễ chịu|疼 téng=đau|头 tóu=đầu|嗓子 sǎngzi=họng|身体 shēntǐ=cơ thể, sức khỏe|发烧 fāshāo=sốt|病 bìng=bệnh|感冒 gǎnmào=bị cảm|药 yào=thuốc|药店 yàodiàn=nhà thuốc|休息 xiūxi=nghỉ ngơi|饭后 fàn hòu=sau bữa ăn|觉得 juéde=cảm thấy|一天三次 yì tiān sān cì=ngày ba lần",
+ "zh-lost":"丢 diū=mất|钱包 qiánbāo=ví|手机 shǒujī=điện thoại|东西 dōngxi=đồ vật|包 bāo=túi|找 zhǎo=tìm|找到 zhǎodào=tìm thấy|帮 bāng=giúp|着急 zháojí=sốt ruột|最后 zuìhòu=cuối cùng|黑色 hēisè=màu đen|红色 hóngsè=màu đỏ|失物招领处 shīwù zhāolǐng chù=quầy đồ thất lạc|感谢 gǎnxiè=cảm ơn|小心 xiǎoxīn=cẩn thận|警察 jǐngchá=cảnh sát",
+ "zh-interview":"面试 miànshì=phỏng vấn|公司 gōngsī=công ty|介绍 jièshào=giới thiệu|自己 zìjǐ=bản thân|大学生 dàxuéshēng=sinh viên đại học|专业 zhuānyè=chuyên ngành, chuyên nghiệp|团队 tuánduì=đội nhóm|优点 yōudiǎn=ưu điểm|缺点 quēdiǎn=nhược điểm|努力 nǔlì=chăm chỉ|经验 jīngyàn=kinh nghiệm|实习 shíxí=thực tập|工资 gōngzī=lương|经理 jīnglǐ=giám đốc, quản lý|通知 tōngzhī=thông báo|主要 zhǔyào=chủ yếu"
+};
+/* Cấp độ từng từ, cùng thứ tự với VOCAB_RAW. Tiếng Anh: 1=A1 2=A2 3=B1 4=B2 5=C1 (Oxford 3000/5000).
+   Tiếng Trung: 1–6 = HSK 1–6, 7 = HSK 7–9 (chuẩn HSK 3.0). 0 = ngoài danh sách (tên riêng, từ chủ đề). */
+const VOCAB_LV = {
+ "en-meet":"1111110011211111",
+ "en-family":"1111111111110111",
+ "en-routine":"1111111101111111",
+ "en-hobby":"1110111111111111",
+ "en-weather":"1111111221211111",
+ "en-cafe":"1111121311111111",
+ "en-shopping":"1121111022121112",
+ "en-return":"1033221111211211",
+ "en-directions":"4121112111111112",
+ "en-taxi":"1114121111122112",
+ "en-train":"1121211213422111",
+ "en-phone":"1111111111411111",
+ "en-weekend":"1111101111111112",
+ "en-plans":"1111111111121221",
+ "en-hotel":"3111221111111202",
+ "en-bank":"1333121111120121",
+ "en-rent":"1352521111111111",
+ "en-doctor":"1120421321112111",
+ "en-lost":"1011111411101211",
+ "en-interview":"1121213121122221",
+ "zh-meet":"1111111011711131",
+ "zh-family":"1111111134112151",
+ "zh-routine":"3121111152123111",
+ "zh-hobby":"1225612211111522",
+ "zh-weather":"1112312224422222",
+ "zh-restaurant":"4221122314113451",
+ "zh-bargain":"3121112122344221",
+ "zh-return":"3233211511211132",
+ "zh-directions":"1212211671121212",
+ "zh-taxi":"2151041211212713",
+ "zh-train":"1130711166534221",
+ "zh-phone":"1211311302121221",
+ "zh-weekend":"2112342117111112",
+ "zh-plans":"4120312312132136",
+ "zh-hotel":"4111122071441131",
+ "zh-bank":"2233043721232116",
+ "zh-rent":"1223312131215323",
+ "zh-doctor":"1122271413221111",
+ "zh-lost":"5111111141220223",
+ "zh-interview":"4212136332323222"
 };
 const VOCAB = {};
 function vocabOf(id){
   if(VOCAB[id]) return VOCAB[id];
   const raw = VOCAB_RAW[id]; if(!raw) return [];
   const lang = id.slice(0, 2);
-  return VOCAB[id] = raw.split("|").map(x => pItem(x, lang));
+  const lv = VOCAB_LV[id] || "";
+  return VOCAB[id] = raw.split("|").map((x, i) => { const it = pItem(x, lang); if(lv[i] !== undefined) it.lv = +lv[i]; return it; });
+}
+function lvTag(item, lang){
+  if(item.lv === undefined) return "";
+  const n = item.lv, txt = n === 0 ? "Chủ đề" : lang === "zh" ? (n >= 7 ? "HSK 7+" : "HSK " + n) : ["","A1","A2","B1","B2","C1"][n];
+  const core = n > 0 && n <= (lang === "zh" ? 3 : 2);
+  return `<span class="lv ${core ? "core" : "hi"}" title="${core ? "Từ cơ bản trong chuẩn" : n === 0 ? "Tên riêng hoặc từ chủ đề, ngoài danh sách chuẩn" : "Vượt cấp cơ bản nhưng cần cho tình huống này"}">${txt}</span>`;
 }
 
 const LANG_INFO = {
@@ -1515,15 +1589,36 @@ const Pomo = {
 setInterval(() => Pomo.tick(), 1000);
 
 /* ===================== NHẠC NỀN ===================== */
-/* Nhạc chill: các đài radio chỉ có âm thanh trên laut.fm (đã kiểm tra 22/11/2026: phát được và cho phép đọc sóng âm). */
-const RADIO = [
-  {id:"lofi", url:"https://lofi.stream.laut.fm/lofi", name:"Lofi", desc:"Lofi chill nhẹ nhàng, hợp học bài"},
-  {id:"loungetunes", url:"https://loungetunes.stream.laut.fm/loungetunes", name:"Loungetunes", desc:"Chill beats, jazzhop và lofi"},
-  {id:"lofi-radio", url:"https://lofi-radio.stream.laut.fm/lofi-radio", name:"Lofi Radio", desc:"Lofi pha jazz, chậm rãi"},
-  {id:"relaxing-piano", url:"https://relaxing-piano.stream.laut.fm/relaxing-piano", name:"Relaxing Piano", desc:"Piano êm, kiểu Einaudi và neoclassical"},
-  {id:"piano-dreams", url:"https://piano-dreams.stream.laut.fm/piano-dreams", name:"Piano Dreams", desc:"Piano solo không lời"},
-  {id:"radio_relax", url:"https://radiorelax.stream.laut.fm/radio_relax", name:"Radio Relax", desc:"Ambient, chillout thư giãn"}
-];
+/* Nhạc lofi: bài thật của HoliznaCC0 trên Free Music Archive, giấy phép CC0 1.0 (miền công cộng).
+   Đã kiểm tra 22/11/2026: tệp mp3 phát được trên web và cho phép đọc sóng âm. */
+const LOFI_ARTIST = {name:"HoliznaCC0", url:"https://freemusicarchive.org/music/holiznacc0", license:"CC0 1.0", licenseUrl:"https://creativecommons.org/publicdomain/zero/1.0/"};
+const ALBUMS = {
+  pd:{name:"Public Domain Lofi", url:"https://freemusicarchive.org/music/holiznacc0/public-domain-lofi"},
+  om:{name:"Ocean Memory", url:"https://freemusicarchive.org/music/holiznacc0/ocean-memory-lo-fi-chill"},
+  sa:{name:"Summer Air", url:"https://freemusicarchive.org/music/holiznacc0/summer-air-lo-fi"},
+  wl:{name:"Winter Lofi", url:"https://freemusicarchive.org/music/holiznacc0/winter-lofi"}
+};
+const TRACKS = [
+  {t:"Tranquil Mindscape", al:"pd", f:"uxGaqYrlWHy1w4jA6fJki0NlNx6xkkFG5BMwI8JN"},
+  {t:"Calm Currents", al:"pd", f:"4rKapZUMNnNSPAOvpjlfSH6B5Ib8rgEWdvjnM7C6"},
+  {t:"Still Life", al:"pd", f:"X2xAunfMENT4KSm1XpnQC2qUUC4hcMVbDXBMw9GI"},
+  {t:"Theta Frequency", al:"pd", f:"rSIDyunfJfiKNelwFuwbGKoLj5TO8eHFbdSa1zAb"},
+  {t:"Waiting Around", al:"pd", f:"aVNvUkfJVw1NI9zHSC3I8d760YbwCt31a3Wi6Ydl"},
+  {t:"Tokyo Sunset", al:"pd", f:"Xnd9Hr5AVzB68IlWcImKtXPlwCePD2G2m8ZFSVj4"},
+  {t:"Peaceful Drift", al:"pd", f:"SQvtLguk6S1VSthv0oXWycoB6ipUS0pt8jzAxxPq"},
+  {t:"Reminders", al:"pd", f:"r7Y9jjWggY2LIKonpPhkYrAQNJgm2daRHr5Kcc0I"},
+  {t:"Shimmer", al:"pd", f:"JX8dB2Y2tCty4tibXtqqd04m1IVgPegvzOeLOSzP"},
+  {t:"Wetlands", al:"pd", f:"4ZpahEeu0NHfAIjJXrlAvVUg8C4y71ycbjonRGke"},
+  {t:"Into The Mist", al:"pd", f:"cI5iv9Xga0OOvGsS7mGZn9BlTshZdzAqLW7bmArA"},
+  {t:"Ease into Night", al:"pd", f:"XobMN43VCXdGmXCTuVc964P0O4gzMe0p2RoPTLKC"},
+  {t:"Ocean Breeze", al:"pd", f:"7ahdWvuUuDCVriuh5RvYsl96eUmAJuaVvC30sqlW"},
+  {t:"Ocean Memory", al:"om", f:"jkiKJYaKX3gCpdz1GF8UuNr17z0h0WAf8bIFY409"},
+  {t:"Roof Tops", al:"sa", f:"2hFTiuqYI7onbLzpi9ldoBP8AYeuStsCUxTqm6vd"},
+  {t:"Faded in the Sunlight", al:"sa", f:"N2IaHMtlOUlfXdZHt4UGciKbJV7mB4vemZjAlj5K"},
+  {t:"Winter Blues", al:"wl", f:"b9aaLxa3HIdDsfDmLDUsR27znNe0aldiVWRJbDF9"},
+  {t:"Fire Place", al:"wl", f:"qUQGTyL3bMTaIVqsuZ3dUS2u2ep2ZmVr86sWwZ0j"}
+].map(x => Object.assign(x, {url:"https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/" + x.f + ".mp3"}));
+const RATES = [0.75, 1, 1.25, 1.5];
 /* Âm thanh tập trung: web tự tạo bằng Web Audio, không cần mạng. */
 const SOUNDS = [
   {id:"brown", name:"Tiếng ồn nâu", desc:"Trầm, êm như thác nước ở xa. Che tiếng ồn xung quanh rất tốt."},
@@ -1533,7 +1628,8 @@ const SOUNDS = [
   {id:"beta", name:"Sóng beta 16 Hz", desc:"Âm binaural, cần đeo tai nghe. Hợp khi cần tỉnh táo, tập trung cao."},
   {id:"hz432", name:"Nền 432 Hz", desc:"Hợp âm êm, ngân dài, dựng trên tần số 432 Hz."}
 ];
-store.music = Object.assign({tab:"lofi", vol:0.5}, store.music || {});
+store.music = Object.assign({tab:"lofi", vol:0.5, track:0, rate:1}, store.music || {});
+if(!TRACKS[store.music.track]) store.music.track = 0;
 const Sound = {
   ctx:null, master:null, nodes:[], cur:null, bufs:{},
   ensure(){
@@ -1602,23 +1698,49 @@ const Sound = {
   setVol(v){ store.music.vol = v; if(this.vol) this.vol.gain.setTargetAtTime(this.ducked ? v*0.15 : v, this.ctx.currentTime, 0.05); },
   duck(on){ this.ducked = on; if(this.vol) this.vol.gain.setTargetAtTime(on ? store.music.vol*0.15 : store.music.vol, this.ctx.currentTime, 0.1); }
 };
-const Radio = {
-  el:null, cur:null, err:false, loading:false,
-  play(id){
-    const st = RADIO.find(x => x.id === id); if(!st || !Sound.ensure()) return;
-    if(!this.el){
-      const a = this.el = new Audio(); a.crossOrigin = "anonymous"; a.preload = "none";
-      Sound.ctx.createMediaElementSource(a).connect(Sound.bus);
-      a.addEventListener("playing", () => { this.loading = false; this.err = false; render(); });
-      a.addEventListener("error", () => { if(this.cur){ this.err = true; this.loading = false; render(); } });
-    }
-    this.cur = id; this.err = false; this.loading = true;
-    this.el.src = st.url;
-    this.el.play().catch(() => { if(this.cur === id){ this.err = true; this.loading = false; render(); } });
-    Viz.start();
+/* Trình phát danh sách lofi: chọn bài, phát lại từ đầu, tua, đổi tốc độ */
+const Player = {
+  el:null, cur:null, playing:false, loading:false, err:false, seeking:false,
+  ensureEl(){
+    if(this.el) return true;
+    if(!Sound.ensure()) return false;
+    const a = this.el = new Audio(); a.crossOrigin = "anonymous"; a.preload = "metadata";
+    try{ Sound.ctx.createMediaElementSource(a).connect(Sound.bus); }catch(e){}
+    a.addEventListener("playing", () => { this.playing = true; this.loading = false; this.err = false; render(); Viz.start(); });
+    a.addEventListener("pause", () => { this.playing = false; render(); });
+    a.addEventListener("waiting", () => { this.loading = true; this.paint(); });
+    a.addEventListener("timeupdate", () => this.paint());
+    a.addEventListener("loadedmetadata", () => this.paint());
+    a.addEventListener("ended", () => this.next());
+    a.addEventListener("error", () => { if(this.cur !== null){ this.err = true; this.loading = false; this.playing = false; render(); } });
+    return true;
   },
-  stop(){ this.cur = null; this.err = false; this.loading = false; if(this.el){ this.el.pause(); this.el.removeAttribute("src"); this.el.load(); } }
+  play(i){
+    if(!this.ensureEl()) return;
+    if(i === undefined) i = this.cur === null ? store.music.track : this.cur;
+    i = (i + TRACKS.length) % TRACKS.length;
+    if(this.cur !== i){ this.el.src = TRACKS[i].url; this.cur = i; store.music.track = i; saveStore(); }
+    this.err = false; this.loading = true;
+    this.el.playbackRate = store.music.rate;
+    this.el.play().catch(() => { this.err = true; this.loading = false; render(); });
+  },
+  pause(){ if(this.el) this.el.pause(); },
+  toggle(){ if(this.playing) this.pause(); else this.play(); },
+  restart(){ if(this.cur === null){ this.play(); return; } this.el.currentTime = 0; if(!this.playing) this.play(); },
+  next(){ this.play((this.cur === null ? store.music.track : this.cur) + 1); },
+  prev(){ if(this.el && this.cur !== null && this.el.currentTime > 3){ this.el.currentTime = 0; return; } this.play((this.cur === null ? store.music.track : this.cur) - 1); },
+  seek(t){ if(this.el && isFinite(this.el.duration)) this.el.currentTime = Math.max(0, Math.min(this.el.duration - 0.2, t)); },
+  setRate(r){ store.music.rate = r; saveStore(); if(this.el) this.el.playbackRate = r; },
+  stop(){ if(this.el){ this.el.pause(); this.el.removeAttribute("src"); this.el.load(); } this.cur = null; this.playing = false; this.loading = false; },
+  /* cập nhật thời gian và thanh tua mà không dựng lại cả trang */
+  paint(){
+    const a = this.el; if(!a) return;
+    const d = isFinite(a.duration) ? a.duration : 0, t = a.currentTime || 0;
+    document.querySelectorAll("[data-mtime]").forEach(el => { el.textContent = `${fmtTime(t)} / ${d ? fmtTime(d) : "--:--"}`; });
+    if(!this.seeking) document.querySelectorAll("input[data-music-seek]").forEach(el => { el.max = d || 1; el.value = t; el.style.setProperty("--p", d ? (t / d * 100) + "%" : "0%"); });
+  }
 };
+function fmtTime(x){ x = Math.max(0, Math.floor(x)); return Math.floor(x / 60) + ":" + String(x % 60).padStart(2, "0"); }
 /* Dải âm cạnh logo: vẽ theo sóng âm thật của nhạc đang phát */
 const Viz = {
   raf:0, data:null,
@@ -1639,7 +1761,7 @@ const Viz = {
         g.beginPath(); if(g.roundRect) g.roundRect(x, y, bw - 4, bh, r); else g.rect(x, y, bw - 4, bh); g.fill();
       }
     }
-    if(Sound.cur || Radio.cur) this.raf = requestAnimationFrame(() => this.draw());
+    if(Sound.cur || Player.playing) this.raf = requestAnimationFrame(() => this.draw());
   }
 };
 /* Khi bật micro: vặn nhỏ nhạc nền để máy nghe rõ giọng người học */
@@ -1918,6 +2040,8 @@ function render(){
   else if(ui.view === "home") content = renderHome();
   else content = renderLesson();
   app.innerHTML = header() + `<div class="layout">${sidebar()}<main class="main">${content}</main></div>`;
+  Player.paint();
+  const ml = document.querySelector(".mtracks [aria-pressed='true']"); if(ml && ml.scrollIntoViewIfNeeded) ml.scrollIntoViewIfNeeded(false);
 }
 const SECTIONS = [
   {id:"pron", name:"Phát âm", ready:true},
@@ -1946,21 +2070,37 @@ function header(){
     </div></div></header>`;
 }
 function vizHtml(){
-  if(!(Sound.cur || Radio.cur)) return "";
-  const name = Radio.cur ? RADIO.find(x => x.id === Radio.cur).name : SOUNDS.find(x => x.id === Sound.cur).name;
+  if(!(Sound.cur || Player.playing)) return "";
+  const name = Player.playing ? TRACKS[Player.cur].t : SOUNDS.find(x => x.id === Sound.cur).name;
   return `<button class="viz" data-act="music" title="Đang phát: ${esc(name)}. Bấm để chọn nhạc" aria-label="Đang phát ${esc(name)}, bấm để chọn nhạc"><canvas id="viz" width="144" height="52"></canvas></button>`;
 }
 function musicHtml(){
-  const playing = Sound.cur || Radio.cur;
+  const playing = Sound.cur || Player.playing;
   const tab = store.music.tab;
-  const lofi = RADIO.map(x => `<button class="mitem" data-act="radio" data-v="${x.id}" aria-pressed="${Radio.cur===x.id}"><b>${esc(x.name)}</b><span>${esc(Radio.cur===x.id && Radio.loading ? "Đang kết nối…" : x.desc)}</span></button>`).join("");
+  const ti = Player.cur === null ? store.music.track : Player.cur, tr = TRACKS[ti], al = ALBUMS[tr.al];
+  const I = (d, fill) => `<svg viewBox="0 0 24 24" ${fill ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'} aria-hidden="true">${d}</svg>`;
+  const ICON_PAUSE = I('<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>', 1);
+  const now = `<div class="mnow">
+      <div class="mnow-t"><b>${esc(tr.t)}</b><span>${esc(LOFI_ARTIST.name)} · ${esc(al.name)}${Player.cur!==null && Player.loading && !Player.err ? " · đang tải…" : ""}</span></div>
+      <input type="range" class="mseek" min="0" max="1" step="0.1" value="0" data-music-seek aria-label="Tua bài nhạc" ${Player.cur===null?"disabled":""}>
+      <div class="mctl">
+        <span class="mtime" data-mtime>0:00 / --:--</span>
+        <button class="mbtn" data-act="mprev" aria-label="Bài trước" title="Bài trước">${I('<path d="M6 5v14"/><path d="M18 6l-9 6 9 6z" fill="currentColor"/>')}</button>
+        <button class="mbtn" data-act="mrestart" aria-label="Phát lại từ đầu" title="Phát lại từ đầu">${I('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>')}</button>
+        <button class="mbtn main" data-act="mtoggle" aria-label="${Player.playing?"Tạm dừng":"Phát"}">${Player.playing?ICON_PAUSE:ICON_PLAY}</button>
+        <button class="mbtn" data-act="mnext" aria-label="Bài tiếp" title="Bài tiếp">${I('<path d="M18 5v14"/><path d="M6 6l9 6-9 6z" fill="currentColor"/>')}</button>
+      </div>
+      <div class="mrate" role="group" aria-label="Tốc độ phát"><span>Tốc độ</span>${RATES.map(r => `<button data-act="mrate" data-v="${r}" aria-pressed="${store.music.rate===r}">${r}×</button>`).join("")}</div>
+    </div>`;
+  const lofi = TRACKS.map((x, i) => `<button class="mitem mtrack" data-act="mtrack" data-v="${i}" aria-pressed="${ti===i && Player.cur!==null}"><b>${i+1}. ${esc(x.t)}</b><span>${esc(ALBUMS[x.al].name)}</span></button>`).join("");
   const vol = `<label class="mvol">Âm lượng <input type="range" min="0" max="1" step="0.05" value="${store.music.vol}" data-music-vol aria-label="Âm lượng nhạc nền"></label>`;
   const snds = SOUNDS.map(x => `<button class="mitem" data-act="sound" data-v="${x.id}" aria-pressed="${Sound.cur===x.id}"><b>${esc(x.name)}</b><span>${esc(x.desc)}</span></button>`).join("");
   const body = tab === "lofi"
-    ? `<div class="mlist">${lofi}</div>
-       ${Radio.err ? `<div class="merr">Đài này đang tạm dừng hoặc mạng yếu. Hãy chọn đài khác.</div>` : ""}
+    ? `${now}
+       ${Player.err ? `<div class="merr">Không tải được bài này, có thể do mạng yếu. Hãy thử lại hoặc chọn bài khác.</div>` : ""}
        ${vol}
-       <div class="pomo-msg" style="text-align:left">Nhạc phát trực tiếp từ các đài radio trên laut.fm nên cần có mạng. Bấm lại vào đài đang phát để tắt.</div>`
+       <div class="mlist mtracks">${lofi}</div>
+       <div class="pomo-msg" style="text-align:left">Nhạc của <a href="${LOFI_ARTIST.url}" target="_blank" rel="noopener">${esc(LOFI_ARTIST.name)}</a> trên Free Music Archive, giấy phép <a href="${LOFI_ARTIST.licenseUrl}" target="_blank" rel="noopener">${LOFI_ARTIST.license}</a> (miền công cộng). Cần có mạng để nghe. Hết bài sẽ tự chuyển bài tiếp theo.</div>`
     : `<div class="mlist">${snds}</div>
        ${vol}
        <div class="pomo-msg" style="text-align:left">Âm thanh do web tự tạo, không cần mạng. Tác dụng của sóng binaural và tần số 432 Hz chưa được khoa học chứng minh rõ. Tiếng ồn nâu và hồng giúp che tiếng ồn xung quanh. Hãy thử và chọn loại hợp với bạn.</div>`;
@@ -2112,7 +2252,7 @@ function exBtn(item, lang, key){
   const py = lang==="zh" && store.prefs.showPy && item.p ? `<span class="py">${esc(item.p)}</span>` : "";
   const vi = store.prefs.showVi && item.v ? `<span class="vi">${esc(item.v)}</span>` : "";
   return `<button class="ex ${playing?"playing":""}" data-act="say" data-key="${key}" aria-label="Nghe ${esc(item.t)}">${playing?ICON_STOP:ICON_PLAY}
-    <span><span class="t ${lang}">${esc(item.t)}</span>${py}${vi}</span></button>`;
+    <span><span class="t ${lang}">${esc(item.t)}</span>${py}${lvTag(item, lang)}${vi}</span></button>`;
 }
 function renderPronListen(lesson, lang){
   const p = pprog(lesson.id);
@@ -2359,6 +2499,7 @@ function renderVocab(lesson, lang){
   const L = lessonsOf(lang); const idx = L.findIndex(x => x.id===lesson.id); const nxt = L[idx+1];
   return `<div class="row"><button class="btn" data-act="vocaball">${ui.playAll?ICON_STOP+" Dừng":ICON_PLAY+" Nghe cả danh sách"}</button>
       <span class="status">${words.length} từ nên học sau bài này. Bấm vào từng từ để nghe.</span></div>
+    <p class="lvnote">Nhãn cấp độ đối chiếu ${lang==="zh"?"danh sách HSK 3.0 (nhãn xanh: HSK 1–3)":"Oxford 3000/5000 theo CEFR (nhãn xanh: A1–A2)"}. Nhãn cam là từ vượt cấp nhưng cần cho tình huống của bài.</p>
     <div class="vgrid">${words.map((w,i) => exBtn(w, lang, `V${i}`)).join("")}</div>
     <div class="next">${nxt?`<button class="btn" data-act="open" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>`:`<button class="btn ghost" data-act="home">Về danh sách bài</button>`}</div>`;
 }
@@ -2375,7 +2516,7 @@ function renderVocabSection(){
       return `<div class="vblock"><div class="vhead"><b>${li+1}. ${esc(les.title)}</b><button class="linkbtn" data-act="open" data-id="${les.id}">Mở bài luyện nói</button></div>
         <div class="vgrid">${vocabOf(les.id).map((w,i) => exBtn(w, L, `W${li}_${i}`)).join("")}</div></div>`; }).join(""); }).join("");
   return `<section class="intro"><h2 class="intro-h">Từ vựng ${L==="zh"?"tiếng Trung":"tiếng Anh"} theo bài</h2>
-      <p>${all.reduce((n, les) => n + vocabOf(les.id).length, 0)} từ cơ bản đi kèm ${all.length} bài luyện nói. Bấm vào từ để nghe phát âm.</p></section>
+      <p>${all.reduce((n, les) => n + vocabOf(les.id).length, 0)} từ đi kèm ${all.length} bài luyện nói, đối chiếu ${L==="zh"?"HSK 3.0":"Oxford 3000 (CEFR)"}. Bấm vào từ để nghe phát âm.</p></section>
     <div class="page wide">${voiceWarn(L)}${blocks}</div>`;
 }
 function renderMicStates(){ render(); }
@@ -2495,7 +2636,12 @@ document.addEventListener("click", (ev) => {
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "music"){ ui.musicOpen = !ui.musicOpen; render(); return; }
   if(act === "musictab"){ store.music.tab = el.dataset.v; saveStore(); render(); return; }
-  if(act === "radio"){ if(Radio.cur === el.dataset.v) Radio.stop(); else Radio.play(el.dataset.v); render(); Viz.start(); return; }
+  if(act === "mtrack"){ const i = +el.dataset.v; if(Player.cur === i) Player.toggle(); else Player.play(i); render(); return; }
+  if(act === "mtoggle"){ Player.toggle(); render(); return; }
+  if(act === "mrestart"){ Player.restart(); render(); return; }
+  if(act === "mnext"){ Player.next(); render(); return; }
+  if(act === "mprev"){ Player.prev(); render(); return; }
+  if(act === "mrate"){ Player.setRate(+el.dataset.v); render(); return; }
   if(act === "sound"){ if(Sound.cur === el.dataset.v) Sound.stop(); else Sound.play(el.dataset.v); render(); Viz.start(); return; }
   if(act === "pomocfg"){ store.pomo.showCfg = !store.pomo.showCfg; saveStore(); render(); return; }
   if(act === "pomopreset"){ const pr = POMO_PRESETS.find(p => p.id === el.dataset.v); if(pr){ Pomo.setCfg(pr.cfg); render(); Pomo.tick(); } return; }
@@ -2572,9 +2718,13 @@ document.addEventListener("click", (ev) => {
 document.addEventListener("input", (ev) => {
   const v = ev.target.closest("input[data-music-vol]");
   if(v){ Sound.setVol(+v.value); }
+  const sk = ev.target.closest("input[data-music-seek]");
+  if(sk){ Player.seeking = true; const d = +sk.max || 0; sk.style.setProperty("--p", d ? (sk.value / d * 100) + "%" : "0%"); document.querySelectorAll("[data-mtime]").forEach(el => { el.textContent = `${fmtTime(+sk.value)} / ${d ? fmtTime(d) : "--:--"}`; }); }
 });
 document.addEventListener("change", (ev) => {
   if(ev.target.closest("input[data-music-vol]")){ saveStore(); return; }
+  const sk = ev.target.closest("input[data-music-seek]");
+  if(sk){ Player.seeking = false; Player.seek(+sk.value); return; }
   const pc = ev.target.closest("input[data-pomo-cfg]");
   if(pc){ Pomo.setCfg({[pc.dataset.pomoCfg]: pc.value}); render(); Pomo.tick(); return; }
   const sel = ev.target.closest("select[data-act='voice']");
