@@ -71,7 +71,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 }
 .layout{position:relative;padding-top:56px;transition:padding-top .25s ease}
 /* Mục lục: một hàng ngang phía trên tiêu đề, mở ra theo chiều ngang, không đẩy nội dung */
-.side{position:absolute;left:0;right:0;top:0;z-index:20;display:flex;align-items:flex-start;gap:8px;min-height:44px}
+.side{position:absolute;left:0;right:0;top:0;z-index:20;display:flex;align-items:flex-start;gap:8px;min-height:44px;pointer-events:none}
+/* Mục lục đóng vẫn chiếm chỗ (chữ ẩn): không cho nó chặn bấm vào nội dung bên dưới */
+.side .side-toggle,.side-list.open{pointer-events:auto}
 .side button{border:0;background:transparent;text-align:left;padding:8px 14px;border-radius:999px;font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex:none}
 .side button:hover{background:var(--surface)}
 .side button[aria-current="page"]{background:var(--btn);color:var(--btn-ink)}
@@ -235,6 +237,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pomo-field{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px}
 .pomo-num{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px}
 .pomo-num input{width:64px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 8px;font:inherit;text-align:right}
+.pomo-sel{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 6px;font:inherit;font-size:13px}
+.pomo-num .mbtn{width:30px;height:30px}
 .pomo-alert{font-size:14px;font-weight:700;text-align:center;background:var(--good-soft);color:var(--good);border-radius:10px;padding:8px}
 /* Từ vựng */
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
@@ -261,8 +265,13 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .mnow-t b{font-size:14px}
 .mnow-t span{font-size:12px;color:var(--muted)}
 .mseek{width:100%;accent-color:var(--accent);margin:0}
-.mctl{display:flex;align-items:center;gap:6px}
-.mtime{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin-right:auto}
+.mctl{display:flex;align-items:center;justify-content:center;gap:8px}
+.mbtn.mode{position:relative;border-color:transparent;background:transparent;color:var(--muted)}
+.mbtn.mode.on{color:var(--accent)}
+.mbtn.mode.on::after{content:"";position:absolute;bottom:1px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--accent)}
+.mbtn .mone{position:absolute;top:2px;right:2px;font-style:normal;font-size:9px;font-weight:800;line-height:13px;width:13px;height:13px;border-radius:50%;background:var(--accent);color:#fff}
+.mmode{font-size:12px;color:var(--muted);text-align:center;margin-top:-2px}
+.mtime{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;margin-top:-4px}
 .mbtn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;color:var(--ink);padding:0}
 .mbtn svg{width:16px;height:16px}
 .mbtn:hover{border-color:var(--accent);color:var(--accent)}
@@ -1855,6 +1864,58 @@ function applyTheme(){
 }
 applyTheme();
 
+/* ===================== CHUÔNG BÁO POMODORO =====================
+   Âm thanh do web tự tổng hợp (Web Audio), không cần tải file. */
+const CHIMES = [
+  {id:"bell", name:"Chuông ngân"}, {id:"temple", name:"Chuông chùa"}, {id:"wind", name:"Chuông gió"},
+  {id:"marimba", name:"Marimba"}, {id:"musicbox", name:"Hộp nhạc"}, {id:"birds", name:"Chim hót"},
+  {id:"digital", name:"Bíp điện tử"}, {id:"alarm", name:"Báo thức"}, {id:"none", name:"Không chuông"}
+];
+const Chime = {
+  ready(){ return Sound.ensure(); },
+  /* một nốt: nhiều họa âm, tắt dần theo hàm mũ */
+  note(out, f, at, dur, parts, type){
+    const ctx = Sound.ctx;
+    parts.forEach(([m, a]) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type || "sine"; o.frequency.value = f * m; o.connect(g); g.connect(out);
+      g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(a, at + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + dur * (m > 1 ? 0.6 : 1));
+      o.start(at); o.stop(at + dur + 0.05);
+    });
+  },
+  /* phát một kiểu chuông, trả về độ dài (giây) */
+  once(id, out, t0){
+    const N = (f, t, d, p, ty) => this.note(out, f, t0 + t, d, p, ty);
+    const BELL = [[1, .5], [2, .22], [3, .12], [4.2, .07], [5.4, .04]];
+    switch(id){
+      case "bell": N(784, 0, 2.2, BELL); N(659, 0.55, 2.6, BELL); return 3.2;
+      case "temple": N(196, 0, 5, [[1, .6], [1.004, .3], [2.76, .25], [5.4, .1], [8.93, .05]]); return 5;
+      case "wind": { const sc = [1047, 1175, 1319, 1568, 1760, 2093]; let t = 0;
+        for(let i = 0; i < 8; i++){ N(sc[Math.floor(Math.random() * sc.length)], t, 1.8, [[1, .22], [2.7, .05]]); t += 0.1 + Math.random() * 0.18; } return t + 1.8; }
+      case "marimba": [523, 659, 784, 1047].forEach((f, i) => N(f, i * 0.16, 0.7, [[1, .45], [4, .08], [10, .02]])); return 1.3;
+      case "musicbox": [784, 1047, 1319, 1568, 1319, 1047, 1175, 1568].forEach((f, i) => N(f, i * 0.2, 1.1, [[1, .3], [3, .05], [5.1, .02]])); return 2.6;
+      case "birds": { const ctx = Sound.ctx; let t = 0;
+        for(let k = 0; k < 3; k++){ for(let i = 0; i < 4; i++){
+          const o = ctx.createOscillator(), g = ctx.createGain(), at = t0 + t, f0 = 2800 + Math.random() * 900;
+          o.frequency.setValueAtTime(f0, at); o.frequency.exponentialRampToValueAtTime(f0 * 1.45, at + 0.06); o.frequency.exponentialRampToValueAtTime(f0 * 0.9, at + 0.11);
+          o.connect(g); g.connect(out); g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.18, at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.12);
+          o.start(at); o.stop(at + 0.13); t += 0.13; } t += 0.35; } return t; }
+      case "digital": for(let i = 0; i < 4; i++){ N(1320, i * 0.32, 0.12, [[1, .16]], "square"); N(1320, i * 0.32 + 0.14, 0.12, [[1, .16]], "square"); } return 1.3;
+      case "alarm": for(let i = 0; i < 6; i++) N(i % 2 ? 988 : 1319, i * 0.18, 0.16, [[1, .14]], "triangle"); return 1.2;
+      default: return 0;
+    }
+  },
+  /* phát chuông n lần, vặn nhỏ nhạc nền trong lúc chuông kêu */
+  play(id, times){
+    if(id === "none" || !this.ready()) return;
+    const ctx = Sound.ctx, out = ctx.createGain(); out.gain.value = store.pomo.cvol; out.connect(ctx.destination);
+    let t = ctx.currentTime + 0.05;
+    for(let i = 0; i < (times || 1); i++) t += this.once(id, out, t) + 0.5;
+    Sound.duck(true); clearTimeout(this.dt);
+    this.dt = setTimeout(() => { if(!Sound.micDuck) Sound.duck(false); }, (t - ctx.currentTime) * 1000);
+  }
+};
 /* ===================== POMODORO ===================== */
 const POMO_MODES = {focus:{name:"Tập trung"}, short:{name:"Nghỉ ngắn"}, long:{name:"Nghỉ dài"}};
 /* Gợi ý cách chia giờ học/nghỉ */
@@ -1869,11 +1930,12 @@ function pomoMin(m){ return store.pomo.cfg[m]; }
 function todayStr(){ const d = new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
 store.pomo = Object.assign({mode:"focus", running:false, endAt:0, left:25*60, done:0, cycle:0, day:todayStr(), showCfg:false}, store.pomo || {});
 store.pomo.cfg = Object.assign({focus:25, short:5, long:15, rounds:4}, store.pomo.cfg || {});
+store.pomo = Object.assign({cfocus:"bell", cbreak:"marimba", cvol:0.8, ring:2, notify:false, showSnd:false}, store.pomo);
 if(store.pomo.day !== todayStr()){ store.pomo.day = todayStr(); store.pomo.done = 0; }
 const Pomo = {
   left(){ const s = store.pomo; return s.running ? Math.max(0, Math.ceil((s.endAt - Date.now())/1000)) : s.left; },
   fmt(sec){ return String(Math.floor(sec/60)).padStart(2,"0") + ":" + String(sec%60).padStart(2,"0"); },
-  start(){ const s = store.pomo; if(s.running) return; s.endAt = Date.now() + s.left*1000; s.running = true; saveStore(); },
+  start(){ Chime.ready(); const s = store.pomo; if(s.running) return; s.endAt = Date.now() + s.left*1000; s.running = true; saveStore(); },
   pause(){ const s = store.pomo; if(!s.running) return; s.left = this.left(); s.running = false; saveStore(); },
   setMode(m){ const s = store.pomo; s.mode = m; s.running = false; s.left = pomoMin(m)*60; saveStore(); },
   setCfg(cfg){
@@ -1884,7 +1946,7 @@ const Pomo = {
   },
   reset(){ this.setMode(store.pomo.mode); },
   finish(){
-    const s = store.pomo;
+    const s = store.pomo, endedFocus = s.mode === "focus";
     if(s.mode === "focus"){
       s.done++; s.cycle++;
       const longBreak = s.cycle % s.cfg.rounds === 0;
@@ -1895,9 +1957,13 @@ const Pomo = {
       this.setMode("focus");
     }
     this.start();
-    this.beep();
+    Chime.play(endedFocus ? s.cfocus : s.cbreak, s.ring);
+    this.notify(ui.pomoMsg);
     ui.pomoOpen = true;
     render();
+  },
+  notify(msg){
+    try{ if(store.pomo.notify && document.hidden && "Notification" in window && Notification.permission === "granted") new Notification("Study for yourself", {body: msg, tag: "sfy-pomo"}); }catch(e){}
   },
   beep(){
     try{
@@ -1965,7 +2031,7 @@ const SOUNDS = [
   {id:"beta", name:"Sóng beta 16 Hz", desc:"Âm binaural, cần đeo tai nghe. Hợp khi cần tỉnh táo, tập trung cao."},
   {id:"hz432", name:"Nền 432 Hz", desc:"Hợp âm êm, ngân dài, dựng trên tần số 432 Hz."}
 ];
-store.music = Object.assign({tab:"lofi", vol:0.5, track:0, rate:1}, store.music || {});
+store.music = Object.assign({tab:"lofi", vol:0.5, track:0, rate:1, repeat:"all", shuffle:false}, store.music || {});
 if(!TRACKS[store.music.track]) store.music.track = 0;
 const Sound = {
   ctx:null, master:null, nodes:[], cur:null, bufs:{},
@@ -2048,7 +2114,7 @@ const Player = {
     a.addEventListener("waiting", () => { this.loading = true; this.paint(); });
     a.addEventListener("timeupdate", () => this.paint());
     a.addEventListener("loadedmetadata", () => this.paint());
-    a.addEventListener("ended", () => this.next());
+    a.addEventListener("ended", () => { if(store.music.repeat === "one"){ a.currentTime = 0; a.play().catch(() => {}); } else this.next(true); });
     a.addEventListener("error", () => { if(this.cur !== null){ this.err = true; this.loading = false; this.playing = false; render(); } });
     return true;
   },
@@ -2064,8 +2130,37 @@ const Player = {
   pause(){ if(this.el) this.el.pause(); },
   toggle(){ if(this.playing) this.pause(); else this.play(); },
   restart(){ if(this.cur === null){ this.play(); return; } this.el.currentTime = 0; if(!this.playing) this.play(); },
-  next(){ this.play((this.cur === null ? store.music.track : this.cur) + 1); },
-  prev(){ if(this.el && this.cur !== null && this.el.currentTime > 3){ this.el.currentTime = 0; return; } this.play((this.cur === null ? store.music.track : this.cur) - 1); },
+  /* Thứ tự phát: tuần tự, hoặc trộn bài (mỗi bài phát một lần rồi mới trộn lại) */
+  order:null, hist:[],
+  shuffled(start){ const o = TRACKS.map((_, i) => i).filter(i => i !== start); for(let i = o.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [o[i], o[j]] = [o[j], o[i]]; } return [start, ...o]; },
+  next(auto){
+    const m = store.music, c = this.cur === null ? m.track : this.cur;
+    let n;
+    if(m.shuffle){
+      if(!this.order || !this.order.includes(c)) this.order = this.shuffled(c);
+      let k = this.order.indexOf(c) + 1;
+      if(k >= this.order.length){
+        if(auto && m.repeat === "off"){ this.stopEnd(); return; }
+        const o = this.shuffled(c); o.push(o.shift()); this.order = o; k = 0;   /* vòng trộn mới, bài vừa nghe xếp cuối */
+      }
+      n = this.order[k];
+    } else {
+      n = c + 1;
+      if(n >= TRACKS.length && auto && m.repeat === "off"){ this.stopEnd(); return; }
+    }
+    if(this.cur !== null) this.hist.push(c);
+    this.play(n);
+  },
+  prev(){
+    if(this.el && this.cur !== null && this.el.currentTime > 3){ this.el.currentTime = 0; return; }
+    const c = this.cur === null ? store.music.track : this.cur;
+    if(store.music.shuffle && this.hist.length){ this.play(this.hist.pop()); return; }
+    this.play(c - 1);
+  },
+  /* Hết danh sách ở chế độ "không lặp": dừng, quay về bài đầu */
+  stopEnd(){ if(this.el){ this.el.pause(); this.el.currentTime = 0; } this.playing = false; render(); },
+  toggleShuffle(){ const m = store.music; m.shuffle = !m.shuffle; this.order = m.shuffle ? this.shuffled(this.cur === null ? m.track : this.cur) : null; this.hist = []; saveStore(); },
+  cycleRepeat(){ const m = store.music, seq = ["all", "one", "off"]; m.repeat = seq[(seq.indexOf(m.repeat) + 1) % seq.length]; saveStore(); },
   seek(t){ if(this.el && isFinite(this.el.duration)) this.el.currentTime = Math.max(0, Math.min(this.el.duration - 0.2, t)); },
   setRate(r){ store.music.rate = r; saveStore(); if(this.el) this.el.playbackRate = r; },
   stop(){ if(this.el){ this.el.pause(); this.el.removeAttribute("src"); this.el.load(); } this.cur = null; this.playing = false; this.loading = false; },
@@ -2102,7 +2197,7 @@ const Viz = {
   }
 };
 /* Khi bật micro: vặn nhỏ nhạc nền để máy nghe rõ giọng người học */
-function muteForMic(on){ Sound.duck(on); }
+function muteForMic(on){ Sound.micDuck = on; Sound.duck(on); }
 function prog(id){ return store.progress[id] || (store.progress[id] = {listen:false, phrases:{}, role:false, roleScore:null}); }
 store.pron = store.pron || {};
 function pprog(id){ return store.pron[id] || (store.pron[id] = {listen:{}, tips:false, quiz:null, speak:{}}); }
@@ -2604,6 +2699,7 @@ function vizHtml(){
   const name = Player.playing ? TRACKS[Player.cur].t : SOUNDS.find(x => x.id === Sound.cur).name;
   return `<button class="viz" data-act="music" title="Đang phát: ${esc(name)}. Bấm để chọn nhạc" aria-label="Đang phát ${esc(name)}, bấm để chọn nhạc"><canvas id="viz" width="144" height="52"></canvas></button>`;
 }
+const REPEAT_NAMES = {all:"Lặp lại cả danh sách", one:"Lặp lại 1 bài", off:"Phát hết danh sách rồi dừng"};
 function musicHtml(){
   const playing = Sound.cur || Player.playing;
   const tab = store.music.tab;
@@ -2613,13 +2709,16 @@ function musicHtml(){
   const now = `<div class="mnow">
       <div class="mnow-t"><b>${esc(tr.t)}</b><span>${esc(LOFI_ARTIST.name)} · ${esc(al.name)}${Player.cur!==null && Player.loading && !Player.err ? " · đang tải…" : ""}</span></div>
       <input type="range" class="mseek" min="0" max="1" step="0.1" value="0" data-music-seek aria-label="Tua bài nhạc" ${Player.cur===null?"disabled":""}>
+      <span class="mtime" data-mtime>0:00 / --:--</span>
       <div class="mctl">
-        <span class="mtime" data-mtime>0:00 / --:--</span>
+        <button class="mbtn mode ${store.music.shuffle?"on":""}" data-act="mshuffle" aria-pressed="${store.music.shuffle}" aria-label="Trộn bài" title="${store.music.shuffle?"Đang trộn bài":"Phát theo thứ tự"}">${I('<path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/>')}</button>
         <button class="mbtn" data-act="mprev" aria-label="Bài trước" title="Bài trước">${I('<path d="M6 5v14"/><path d="M18 6l-9 6 9 6z" fill="currentColor"/>')}</button>
         <button class="mbtn" data-act="mrestart" aria-label="Phát lại từ đầu" title="Phát lại từ đầu">${I('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>')}</button>
         <button class="mbtn main" data-act="mtoggle" aria-label="${Player.playing?"Tạm dừng":"Phát"}">${Player.playing?ICON_PAUSE:ICON_PLAY}</button>
         <button class="mbtn" data-act="mnext" aria-label="Bài tiếp" title="Bài tiếp">${I('<path d="M18 5v14"/><path d="M6 6l9 6-9 6z" fill="currentColor"/>')}</button>
+        <button class="mbtn mode ${store.music.repeat!=="off"?"on":""}" data-act="mrepeat" aria-label="Chế độ lặp: ${REPEAT_NAMES[store.music.repeat]}" title="${REPEAT_NAMES[store.music.repeat]}">${I('<path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/>')}${store.music.repeat==="one"?'<i class="mone">1</i>':""}</button>
       </div>
+      <div class="mmode">${store.music.shuffle ? "Trộn bài · " : ""}${REPEAT_NAMES[store.music.repeat]}</div>
       <div class="mrate" role="group" aria-label="Tốc độ phát"><span>Tốc độ</span>${RATES.map(r => `<button data-act="mrate" data-v="${r}" aria-pressed="${store.music.rate===r}">${r}×</button>`).join("")}</div>
     </div>`;
   const lofi = TRACKS.map((x, i) => `<button class="mitem mtrack" data-act="mtrack" data-v="${i}" aria-pressed="${ti===i && Player.cur!==null}"><b>${i+1}. ${esc(x.t)}</b><span>${esc(ALBUMS[x.al].name)}</span></button>`).join("");
@@ -2654,6 +2753,21 @@ function pomoTip(){
   if(h >= 13 && h < 15) return "Đầu giờ chiều cơ thể dễ buồn ngủ. Thử chế độ Nhẹ nhàng 15/3 hoặc chợp mắt 10–20 phút trước khi học.";
   return "Trong lượt học: tắt thông báo, để điện thoại xa tầm tay và chỉ làm một việc.";
 }
+function pomoSndHtml(){
+  const s = store.pomo;
+  const pick = (k, label) => `<div class="pomo-field"><span>${label}</span><span class="pomo-num">
+      <select class="pomo-sel" data-pomo-snd="${k}" aria-label="${label}">${CHIMES.map(c => `<option value="${c.id}" ${s[k]===c.id?"selected":""}>${c.name}</option>`).join("")}</select>
+      <button class="mbtn" data-act="pomotest" data-v="${k}" aria-label="Nghe thử" title="Nghe thử">${ICON_PLAY}</button></span></div>`;
+  return `<div class="pomo-cfg">
+      <div class="pomo-sub">Chuông báo</div>
+      ${pick("cfocus", "Hết giờ học")}
+      ${pick("cbreak", "Hết giờ nghỉ")}
+      <label class="pomo-field"><span>Âm lượng chuông</span><input type="range" min="0.1" max="1" step="0.05" value="${s.cvol}" data-pomo-cvol style="width:120px;accent-color:var(--accent)"></label>
+      <div class="pomo-field"><span>Số lần chuông</span><span class="pomo-modes" style="grid-template-columns:repeat(3,1fr);width:132px">${[1,2,3].map(n => `<button data-act="pomoring" data-v="${n}" aria-pressed="${s.ring===n}">${n} lần</button>`).join("")}</span></div>
+      <label class="pomo-field" style="justify-content:flex-start"><input type="checkbox" data-pomo-notify ${s.notify?"checked":""}> <span>Hiện thông báo trên máy khi đang mở tab khác</span></label>
+      <div class="pomo-msg" style="text-align:left">Tiếng chuông do web tự tạo. Nhạc nền sẽ tự nhỏ lại trong lúc chuông kêu.</div>
+    </div>`;
+}
 function pomoHtml(){
   const s = store.pomo, c = s.cfg;
   const cls = s.running ? (s.mode === "focus" ? "run" : "brk") : "";
@@ -2680,6 +2794,8 @@ function pomoHtml(){
       </div>
       <div class="pomo-tip">${esc(pomoTip())}</div>
       <div class="pomo-msg">Học ${c.focus} phút, nghỉ ${c.short} phút. Cứ ${c.rounds} lượt học thì nghỉ dài ${c.long} phút.<br>Hôm nay bạn đã học <b>${s.done}</b> lượt.</div>
+      <button class="linkbtn" data-act="pomosnd" style="align-self:center">${s.showSnd ? "Ẩn phần chuông báo" : "Chọn tiếng chuông báo"}</button>
+      ${s.showSnd ? pomoSndHtml() : ""}
       <button class="linkbtn" data-act="pomocfg" style="align-self:center">${s.showCfg ? "Ẩn phần chỉnh thời gian" : "Chỉnh thời gian học và nghỉ"}</button>
       ${cfgBox}
     </div>` : "";
@@ -3197,13 +3313,18 @@ document.addEventListener("click", (ev) => {
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "music"){ ui.musicOpen = !ui.musicOpen; render(); return; }
   if(act === "musictab"){ store.music.tab = el.dataset.v; saveStore(); render(); return; }
-  if(act === "mtrack"){ const i = +el.dataset.v; if(Player.cur === i) Player.toggle(); else Player.play(i); render(); return; }
+  if(act === "mtrack"){ const i = +el.dataset.v; if(Player.cur === i) Player.toggle(); else { if(store.music.shuffle) Player.order = Player.shuffled(i); Player.play(i); } render(); return; }
   if(act === "mtoggle"){ Player.toggle(); render(); return; }
   if(act === "mrestart"){ Player.restart(); render(); return; }
   if(act === "mnext"){ Player.next(); render(); return; }
+  if(act === "mshuffle"){ Player.toggleShuffle(); render(); return; }
+  if(act === "mrepeat"){ Player.cycleRepeat(); render(); return; }
   if(act === "mprev"){ Player.prev(); render(); return; }
   if(act === "mrate"){ Player.setRate(+el.dataset.v); render(); return; }
   if(act === "sound"){ if(Sound.cur === el.dataset.v) Sound.stop(); else Sound.play(el.dataset.v); render(); Viz.start(); return; }
+  if(act === "pomosnd"){ store.pomo.showSnd = !store.pomo.showSnd; saveStore(); render(); return; }
+  if(act === "pomotest"){ Chime.play(store.pomo[el.dataset.v], 1); return; }
+  if(act === "pomoring"){ store.pomo.ring = +el.dataset.v; saveStore(); render(); return; }
   if(act === "pomocfg"){ store.pomo.showCfg = !store.pomo.showCfg; saveStore(); render(); return; }
   if(act === "pomopreset"){ const pr = POMO_PRESETS.find(p => p.id === el.dataset.v); if(pr){ Pomo.setCfg(pr.cfg); render(); Pomo.tick(); } return; }
   if(act === "pomomode"){ Pomo.setMode(el.dataset.v); ui.pomoMsg = null; render(); Pomo.tick(); return; }
@@ -3289,6 +3410,14 @@ document.addEventListener("change", (ev) => {
   if(ev.target.closest("input[data-music-vol]")){ saveStore(); return; }
   const sk = ev.target.closest("input[data-music-seek]");
   if(sk){ Player.seeking = false; Player.seek(+sk.value); return; }
+  const ps = ev.target.closest("select[data-pomo-snd]");
+  if(ps){ store.pomo[ps.dataset.pomoSnd] = ps.value; saveStore(); Chime.play(ps.value, 1); return; }
+  if(ev.target.closest("input[data-pomo-cvol]")){ store.pomo.cvol = +ev.target.value; saveStore(); Chime.play(store.pomo.cfocus, 1); return; }
+  const pn = ev.target.closest("input[data-pomo-notify]");
+  if(pn){ store.pomo.notify = pn.checked; saveStore();
+    if(pn.checked && "Notification" in window && Notification.permission === "default") Notification.requestPermission().then(r => { if(r !== "granted"){ store.pomo.notify = false; saveStore(); render(); } });
+    else if(pn.checked && (!("Notification" in window) || Notification.permission === "denied")){ store.pomo.notify = false; saveStore(); ui.pomoMsg = "Trình duyệt đang chặn thông báo của trang này. Hãy cho phép thông báo trong cài đặt trình duyệt rồi bật lại."; render(); }
+    return; }
   const pc = ev.target.closest("input[data-pomo-cfg]");
   if(pc){ Pomo.setCfg({[pc.dataset.pomoCfg]: pc.value}); render(); Pomo.tick(); return; }
   const sel = ev.target.closest("select[data-act='voice']");
