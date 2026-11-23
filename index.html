@@ -429,6 +429,20 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .logo.hero .lg-text{display:block}
 .hello{margin:6px 0 0;font-size:clamp(20px,2.6vw,28px);font-weight:800;letter-spacing:-.02em;color:var(--ink)}
 .hello b{color:var(--accent)}
+.achbtn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--btn-soft, var(--surface));color:inherit;font:inherit;font-weight:700;cursor:pointer}
+.achbtn svg{width:18px;height:18px;color:#c7901a}.achbtn b{min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:linear-gradient(180deg,#fde68a,#f5c542);color:#6b3f0c;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+.achbtn.on,.achbtn:hover{border-color:#e8b931;box-shadow:0 0 0 3px rgba(245,197,66,.25)}
+@media (max-width:1200px){.achbtn-t{display:none}}
+.hlangs{display:flex;flex-direction:column;align-items:center;gap:10px;margin:4px 0 2px}
+.hlangs-t{font-size:15px;color:var(--muted);font-weight:600}
+.hlangs-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.hlang{position:relative;display:flex;align-items:center;gap:10px;min-width:170px;padding:10px 16px 10px 10px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:inherit;font:inherit;text-align:left;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s}
+.hlang:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(0,0,0,.25)}
+.hlang.on{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+.hlang span{display:flex;flex-direction:column;line-height:1.2}.hlang small{color:var(--muted);font-size:12.5px}
+.hlang-ic{width:40px;height:40px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:17px;color:#fff;background:var(--c)}
+.hlang em{position:absolute;top:-9px;right:10px;font-style:normal;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--accent);color:#fff}
+.hlang.soon{opacity:.55;cursor:default}.hlang.soon:hover{transform:none;box-shadow:none}.hlang.soon em{background:#9ca3af}
 .hero-tag{margin:0;max-width:640px;color:var(--muted);font-size:15.5px;line-height:1.6}
 .hsearch{position:relative;width:min(640px,100%);margin-top:8px}
 .hsearch svg{position:absolute;left:18px;top:50%;width:20px;height:20px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
@@ -3977,15 +3991,19 @@ function header(){
     <div class="top-main">
     <h1 class="section-title">${esc(secName(sec))}</h1>
     <div class="topright">
-    <div class="seg" role="group" aria-label="Chọn ngôn ngữ">
-      <button data-act="lang" data-v="en" aria-pressed="${L==="en"}">Tiếng Anh</button>
-      <button data-act="lang" data-v="zh" aria-pressed="${L==="zh"}">中文</button>
-    </div>
+    <button class="achbtn ${ui.section === "achieve" ? "on" : ""}" data-act="section" data-v="achieve" title="Thành tựu đã đạt" aria-label="Thành tựu, đã đạt ${Object.keys(store.ach || {}).length}">${SECTION_ICONS.achieve}<span class="achbtn-t">Thành tựu</span><b>${Object.keys(store.ach || {}).length}</b></button>
     <button class="themebtn" data-act="theme" aria-label="${dark?"Chuyển sang chế độ ban ngày":"Chuyển sang chế độ ban đêm"}">${dark?ICON_SUN+" Ban ngày":ICON_MOON+" Ban đêm"}</button>
     ${musicHtml()}
     ${pomoHtml()}
     </div></div></header>`;
 }
+/* Danh sách ngôn ngữ: thêm ngôn ngữ mới ở đây (ready:false = hiện "Sắp có") */
+const LANGS = [
+  {id:"en", name:"Tiếng Anh", native:"English", mark:"En", c:"#2563eb", ready:true},
+  {id:"zh", name:"Tiếng Trung", native:"中文", mark:"中", c:"#dc2626", ready:true},
+  {id:"ja", name:"Tiếng Nhật", native:"日本語", mark:"あ", c:"#db2777", ready:false},
+  {id:"ko", name:"Tiếng Hàn", native:"한국어", mark:"한", c:"#7c3aed", ready:false}
+];
 function homePlanChip(compact){
   const td = ymd(new Date()), its = planItems();
   const n = its.filter(x => x.kind === "task" && !x.done && x.date === td).length + its.filter(x => x.kind === "event" && x.date === td).length;
@@ -5149,7 +5167,7 @@ function renderAchieve(){
       return `<div class="ach-scard ${on ? "on" : ""}" title="${esc(a.desc)}">${achSmallIcon(a, on, 58)}<div><b>${esc(a.name)}</b><small>${esc(a.desc)}</small>
         ${on ? `<small class="ach-date">Đạt ngày ${st[a.id].split("-").reverse().join("/")}</small>` : `<i class="vt-bar"><i style="width:${p}%"></i></i>`}</div></div>`; }).join("")}</div></div>`).join("");
   return `<section class="intro"><h2 class="intro-h">🏆 Thành tựu ${ACH_LANG[L]}</h2>
-      <p>Đã đạt ${got}/${list.length} thành tựu. Hoàn thành một phần học lớn để nhận cúp vàng, đi được 30% hay 60% để nhận huy chương. Đổi ngôn ngữ ở góc trên để xem thành tựu ${L === "en" ? "tiếng Trung" : "tiếng Anh"}.</p></section>
+      <p>Đã đạt ${got}/${list.length} thành tựu. Hoàn thành một phần học lớn để nhận cúp vàng, đi được 30% hay 60% để nhận huy chương. Đổi ngôn ngữ đang học ở trang chủ để xem thành tựu ${L === "en" ? "tiếng Trung" : "tiếng Anh"}.</p></section>
     <div class="page wide">
       <h3 class="ach-h">Thành tựu lớn</h3><div class="ach-bgrid">${bigCards}</div>
       <h3 class="ach-h">Thành tựu nhỏ</h3>${groups}
@@ -5497,7 +5515,12 @@ function renderLanding(){
       <div class="hero-leaves" aria-hidden="true">${Array.from({length: 9}, (_, i) => `<i style="--x:${(i * 37 + 7) % 100}%;--d:${(i * 1.7) % 9}s;--s:${0.6 + (i % 4) * 0.25};--r:${i * 40}deg">${LEAF_SVG}</i>`).join("")}</div>
       <span class="logo hero${LOGO_INTRO ? " intro" : ""}" role="img" aria-label="SFY — Study for yourself"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>
       <p class="hello">${greeting()}! Chào mừng bạn đến với <b>SFY</b></p>
-      <p class="hero-tag">Nơi bạn tự học tiếng Anh và tiếng Trung mỗi ngày: phát âm chuẩn từng âm, giao tiếp tự tin trong đời sống và công việc, kèm đồng hồ Pomodoro, nhạc nền và lịch học để giữ nhịp.</p>
+      <div class="hlangs" role="group" aria-label="Chọn ngôn ngữ muốn học">
+        <span class="hlangs-t">Bạn muốn học ngôn ngữ nào?</span>
+        <div class="hlangs-row">${LANGS.map(g => g.ready
+          ? `<button class="hlang ${store.prefs.lang === g.id ? "on" : ""}" data-act="lang" data-v="${g.id}" aria-pressed="${store.prefs.lang === g.id}"><i class="hlang-ic" style="--c:${g.c}">${g.mark}</i><span><b>${g.name}</b><small>${g.native}</small></span>${store.prefs.lang === g.id ? '<em>Đang học</em>' : ""}</button>`
+          : `<div class="hlang soon" aria-disabled="true"><i class="hlang-ic" style="--c:${g.c}">${g.mark}</i><span><b>${g.name}</b><small>${g.native}</small></span><em>Sắp có</em></div>`).join("")}</div>
+      </div>
       <div class="hsearch">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input type="search" data-home-search data-keep="homeq" value="${esc(ui.q || "")}" placeholder="Tìm bài học: khách sạn, phỏng vấn, ngân hàng, /æ/, 你好…" aria-label="Tìm bài học" autocomplete="off">

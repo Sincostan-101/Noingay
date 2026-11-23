@@ -67,3 +67,7 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Mục "Thành tựu" (section "achieve", có trong Mục lục). Mỗi phần học (Phát âm, Giao tiếp cơ bản, Giao tiếp công việc, Từ vựng) × mỗi thứ tiếng có: bài đầu tiên, 30%, 60% (thành tựu nhỏ: huy chương đồng/bạc) và 100% (thành tựu lớn: cúp vàng, tia sáng xoay, nguyệt quế, lấp lánh). Thêm 3 thành tựu huyền thoại: Bậc thầy tiếng Anh, Bậc thầy tiếng Trung, Song ngữ toàn năng.
 - Code: ACH_SECS (cách tính tiến độ từng phần), ACH_LIST, achCheck() (gọi sau mỗi lần render, có trễ 120ms), achShowNext() (thành tựu lớn hiện hộp chúc mừng có pháo giấy, thành tựu nhỏ hiện thông báo góc dưới), achBigIcon/achSmallIcon (SVG), renderAchieve(). Lưu ở store.ach; lần đầu chạy chỉ ghi nhận im lặng (store.achInit).
 - Bài phát âm tính là xong khi đủ 4 bước; bài giao tiếp tính là xong khi đủ 3 bước nghe, câu then chốt, đóng vai. Khi làm Luyện nghe / Học qua truyện thì thêm vào ACH_SECS.
+
+## Chọn ngôn ngữ ở trang chủ (23/11/2026)
+- Bộ chọn ngôn ngữ đã chuyển từ thanh đầu trang xuống trang chủ, thay cho dòng giới thiệu dưới lời chào: các thẻ ngôn ngữ theo danh sách LANGS (id, tên, tên gốc, ký hiệu, màu, ready). Đã có tiếng Anh, tiếng Trung; tiếng Nhật, tiếng Hàn đang hiện "Sắp có". Thêm ngôn ngữ mới: thêm vào LANGS và làm dữ liệu bài học cho id đó.
+- Chỗ cũ trên thanh đầu trang giờ là nút "Thành tựu" (cúp + số thành tựu đã đạt), mở mục Thành tựu.
