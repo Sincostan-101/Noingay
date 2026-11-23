@@ -431,6 +431,20 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .hello b{color:var(--accent)}
 .achbtn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--btn-soft, var(--surface));color:inherit;font:inherit;font-weight:700;cursor:pointer}
 .achbtn svg{width:18px;height:18px;color:#c7901a}.achbtn b{min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:linear-gradient(180deg,#fde68a,#f5c542);color:#6b3f0c;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+.achbtn-av{width:26px;height:26px;margin-left:-8px;border-radius:50%;background:var(--btn);color:var(--btn-ink);display:inline-grid;place-items:center;font-size:13px;font-weight:800}
+.achbtn-av svg{width:15px;height:15px;color:inherit}.achbtn b svg{width:12px;height:12px;margin-right:2px;color:#6b3f0c}
+.prof-head{max-width:1200px;width:100%;align-self:center;display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.prof-av{width:72px;height:72px;border-radius:50%;background:var(--btn);color:var(--btn-ink);display:grid;place-items:center;font-size:32px;font-weight:800;flex:none}
+.prof-av svg{width:38px;height:38px}
+.prof-id{flex:1 1 260px;min-width:0}.prof-id h2{margin:0 0 6px;font-size:24px;letter-spacing:-.02em;overflow-wrap:anywhere}.prof-id .vt-name{margin:0}
+.prof-stats{display:grid;grid-template-columns:repeat(4,minmax(78px,auto));gap:10px}
+.prof-stats div{text-align:center;padding:8px 10px;border-radius:12px;background:var(--bg,transparent);border:1px solid var(--line)}.prof-stats b{display:block;font-size:20px}.prof-stats span{font-size:12px;color:var(--muted)}
+.prof-tabs{max-width:1200px;width:100%;align-self:center;display:flex;gap:6px;border-bottom:2px solid var(--line);margin-top:4px}
+.prof-tabs button{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:700;font-size:16px;padding:10px 16px;margin-bottom:-2px;border-bottom:3px solid transparent;cursor:pointer}
+.prof-tabs button svg{width:18px;height:18px}
+.prof-tabs button[aria-selected="true"]{color:inherit;border-bottom-color:var(--btn)}
+.prof-note{color:var(--muted);margin:4px 0 12px}
+@media (max-width:700px){.prof-stats{grid-template-columns:repeat(2,1fr);width:100%}.prof-head{padding:14px}}
 .achbtn.on,.achbtn:hover{border-color:#e8b931;box-shadow:0 0 0 3px rgba(245,197,66,.25)}
 @media (max-width:1200px){.achbtn-t{display:none}}
 .hlangs{display:flex;flex-direction:column;align-items:center;gap:10px;margin:4px 0 2px}
@@ -3947,7 +3961,7 @@ function render(){
   else if(ui.section === "pron") content = ui.view === "home" ? renderPronHome() : renderPron();
   else if(ui.section === "work") content = ui.view === "home" ? renderWorkHome() : renderLesson();
   else if(ui.section === "vocab") content = renderVT();
-  else if(ui.section === "achieve") content = renderAchieve();
+  else if(ui.section === "profile") content = renderProfile();
   else if(ui.section !== "speak") content = renderComing();
   else if(ui.view === "home") content = renderHome();
   else content = renderLesson();
@@ -3975,7 +3989,7 @@ const SECTIONS = [
   {id:"speak", name:"{L} giao tiếp cơ bản", ready:true},
   {id:"work", name:"{L} giao tiếp trong công việc", ready:true},
   {id:"plan", name:"Lịch & việc cần làm", ready:true},
-  {id:"achieve", name:"Thành tựu", ready:true},
+  {id:"profile", name:"Hồ sơ", ready:true},
   {id:"story", name:"Học qua truyện", ready:false},
   {id:"listen", name:"Luyện nghe", ready:false},
   {id:"vocab", name:"Từ vựng", ready:true},
@@ -3991,7 +4005,7 @@ function header(){
     <div class="top-main">
     <h1 class="section-title">${esc(secName(sec))}</h1>
     <div class="topright">
-    <button class="achbtn ${ui.section === "achieve" ? "on" : ""}" data-act="section" data-v="achieve" title="Thành tựu đã đạt" aria-label="Thành tựu, đã đạt ${Object.keys(store.ach || {}).length}">${SECTION_ICONS.achieve}<span class="achbtn-t">Thành tựu</span><b>${Object.keys(store.ach || {}).length}</b></button>
+    <button class="achbtn ${ui.section === "profile" ? "on" : ""}" data-act="section" data-v="profile" title="Hồ sơ: thành tựu và bảng xếp hạng" aria-label="Hồ sơ, đã đạt ${Object.keys(store.ach || {}).length} thành tựu"><span class="achbtn-av" aria-hidden="true">${profInitial()}</span><span class="achbtn-t">Hồ sơ</span><b title="Thành tựu đã đạt">${SECTION_ICONS.achieve}${Object.keys(store.ach || {}).length}</b></button>
     <button class="themebtn" data-act="theme" aria-label="${dark?"Chuyển sang chế độ ban ngày":"Chuyển sang chế độ ban đêm"}">${dark?ICON_SUN+" Ban ngày":ICON_MOON+" Ban đêm"}</button>
     ${musicHtml()}
     ${pomoHtml()}
@@ -4889,12 +4903,11 @@ function vtStats(noBtn){
     <div class="vt-stat"><b>🔥 ${st}</b><span>ngày liên tiếp</span></div>
     <div class="vt-stat"><b>${vtLearned(L)}</b><span>từ ${L === "zh" ? "tiếng Trung" : "tiếng Anh"} đã nhớ</span></div>
     <div class="vt-stat"><b>${today}</b><span>XP hôm nay</span></div>
-    ${noBtn ? "" : `<button class="btn vt-rankbtn" data-act="vtrank">🏆 Bảng xếp hạng</button>`}</div>`;
+    ${noBtn ? "" : `<button class="btn vt-rankbtn" data-act="vtrank">👤 Hồ sơ</button>`}</div>`;
 }
 function renderVT(){
   ui.vt = ui.vt || {topic:null, part:"b", mode:"list"};
-  if(ui.vt.view === "rank") return renderVTRank();
-  if(ui.vt.view === "lessons") return renderVocabSection() + `<div class="page wide"><div class="next"><button class="btn ghost" data-act="vthome">← Về từ vựng theo chủ đề</button></div></div>`;
+    if(ui.vt.view === "lessons") return renderVocabSection() + `<div class="page wide"><div class="next"><button class="btn ghost" data-act="vthome">← Về từ vựng theo chủ đề</button></div></div>`;
   if(ui.vt.topic) return renderVTTopic();
   const L = store.prefs.lang;
   const cards = VT_TOPICS.map((T, i) => {
@@ -4950,7 +4963,7 @@ function renderVTTopic(){
   }
   return `<div class="page wide">
     <div><button class="back" data-act="vthome">← Tất cả chủ đề</button></div>
-    <div class="vt-head"><div class="lesson-head"><h2>${T.icon} ${esc(T.name)}</h2><p class="sub">${L==="zh"?"Tiếng Trung":"Tiếng Anh"} · ${T[L].b.length + T[L].a.length} từ · ${vtTopicDone(L, T)} từ đã nhớ · ${vtState().xp} XP</p></div><button class="btn ghost" data-act="vtrank">🏆 Bảng xếp hạng</button></div>
+    <div class="vt-head"><div class="lesson-head"><h2>${T.icon} ${esc(T.name)}</h2><p class="sub">${L==="zh"?"Tiếng Trung":"Tiếng Anh"} · ${T[L].b.length + T[L].a.length} từ · ${vtTopicDone(L, T)} từ đã nhớ · ${vtState().xp} XP</p></div><button class="btn ghost" data-act="vtrank">👤 Hồ sơ</button></div>
     ${voiceWarn(L)}
     <div class="toolbar">${tabs}</div><div class="toolbar">${modes}
       ${L==="zh" ? `<button class="chip" data-act="pref" data-v="showPy" aria-pressed="${store.prefs.showPy}">Bính âm</button>` : `<button class="chip" data-act="pref" data-v="showIpa" aria-pressed="${store.prefs.showIpa}">Phiên âm IPA</button>`}
@@ -4975,8 +4988,8 @@ function renderVTRank(){
   const badges = VT_BADGES.map(b => `<div class="vt-badge ${v.badges[b.id] ? "on" : ""}" title="${v.badges[b.id] ? "Đạt ngày " + v.badges[b.id] : "Chưa đạt"}"><span>${b.icon}</span><small>${esc(b.name)}</small></div>`).join("");
   const days = []; const d = new Date(); d.setDate(d.getDate() - 27);
   for(let i = 0; i < 28; i++){ const k = vtToday(d), x = v.days[k] || 0; days.push(`<i class="h${x === 0 ? 0 : x < 20 ? 1 : x < 60 ? 2 : 3}" title="${k}: ${x} XP"></i>`); d.setDate(d.getDate() + 1); }
-  return `<div class="page wide"><div><button class="back" data-act="vthome">← Về từ vựng</button></div>
-    <section class="intro"><h2 class="intro-h">🏆 Bảng xếp hạng học từ vựng</h2><p>Thẻ ghi nhớ: +2 XP mỗi từ mới nhớ. Kiểm tra: +10 XP mỗi câu đúng. Học mỗi ngày để giữ chuỗi 🔥.</p></section>
+  return `<div class="page wide">
+    <p class="prof-note">Điểm XP lấy từ mục <button class="linkbtn" data-act="section" data-v="vocab">Từ vựng</button>. Thẻ ghi nhớ: +2 XP mỗi từ mới nhớ. Kiểm tra: +10 XP mỗi câu đúng. Học mỗi ngày để giữ chuỗi 🔥.</p>
     ${vtStats(true)}
     <div class="vt-rank2">
       <div class="vt-box"><h3>Bảng xếp hạng chung</h3>${Board.view()}</div>
@@ -4996,7 +5009,7 @@ const Board = {
     if(!this.on() || this.loading) return; this.loading = true;
     try{ const r = await fetch(`${BOARD_CFG.url}/rest/v1/sfy_board?select=uid,name,xp,week,week_xp&order=xp.desc&limit=30`, {headers:this.hdr()}); this.rows = await r.json(); this.err = Array.isArray(this.rows) ? null : "Không đọc được bảng"; }
     catch(e){ this.err = "Không kết nối được máy chủ"; }
-    this.loading = false; if(ui.section === "vocab" && ui.vt && ui.vt.view === "rank") render();
+    this.loading = false; if(ui.section === "profile" && ui.prof === "rank") render();
   },
   push(){
     const v = vtState(); if(!this.on() || !v.name) return;
@@ -5008,7 +5021,7 @@ const Board = {
   },
   view(){
     const v = vtState();
-    const nameRow = `<div class="vt-name"><label>Tên hiển thị <input data-vt-name value="${esc(v.name || "")}" maxlength="24" placeholder="Ví dụ: Minh SFY"></label><button class="btn ghost" data-act="vtname">Lưu tên</button></div>`;
+    const nameRow = ""; /* ô đặt tên hiển thị đã chuyển lên đầu trang Hồ sơ */
     if(!this.on()) return `${nameRow}<table class="vt-table"><tr class="me"><td>#1</td><td>${esc(v.name || "Bạn")}</td><td><b>${v.xp}</b> XP</td></tr></table>
       <p class="vt-note">Bảng xếp hạng chung giữa các người học sẽ ra mắt khi SFY có tài khoản người dùng. Hiện điểm chỉ lưu trên máy này.</p>`;
     if(!this.rows && !this.err){ this.load(); return nameRow + `<p class="vt-note">Đang tải bảng xếp hạng…</p>`; }
@@ -5023,7 +5036,8 @@ function vtAct(act, el){
   if(act === "vtopen"){ ui.vt = {topic:el.dataset.v, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vthome"){ ui.vt = {topic:null, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vtlessons"){ ui.vt = {view:"lessons"}; render(); window.scrollTo(0,0); return true; }
-  if(act === "vtrank"){ ui.section = "vocab"; ui.vt = Object.assign({}, ui.vt, {view:"rank"}); Board.rows = null; Board.err = null; render(); window.scrollTo(0,0); return true; }
+  if(act === "vtrank"){ ui.section = "profile"; ui.view = "home"; ui.prof = "rank"; Board.rows = null; Board.err = null; render(); window.scrollTo(0,0); return true; }
+  if(act === "proftab"){ ui.section = "profile"; ui.prof = el.dataset.v === "rank" ? "rank" : "ach"; if(ui.prof === "rank"){ Board.rows = null; Board.err = null; } render(); return true; }
   if(act === "vtreload"){ Board.rows = null; Board.err = null; render(); return true; }
   if(act === "vtname"){ const inp = document.querySelector("[data-vt-name]"); v.name = (inp ? inp.value : "").trim().slice(0, 24); saveStore(); Board.last = 0; Board.push(); Board.rows = null; setTimeout(() => { Board.rows = null; render(); }, 800); render(); return true; }
   if(act === "vtpart"){ ui.vt.part = el.dataset.v; ui.vt.card = null; ui.vt.quiz = null; render(); return true; }
@@ -5088,7 +5102,7 @@ function achCheck(){
       if(p >= 1){ st[a.id] = vtToday(); changed = true; if(!first) ACH.queue.push(a); }
     }
     if(first){ store.achInit = 1; changed = true; }
-    if(changed){ saveStore(); ACH.queue.sort((a, b) => (b.big ? 1 : 0) - (a.big ? 1 : 0)); if(ui.section === "achieve") render(); }
+    if(changed){ saveStore(); ACH.queue.sort((a, b) => (b.big ? 1 : 0) - (a.big ? 1 : 0)); if(ui.section === "profile") render(); }
     achShowNext();
   }, 120);
 }
@@ -5106,7 +5120,7 @@ function achShowNext(){
     try{ Chime && Chime.play && Chime.play(); }catch(e){}
     const close = () => { el.remove(); ACH.busy = false; achShowNext(); };
     el.addEventListener("click", ev => {
-      if(ev.target.closest("[data-ach-view]")){ close(); ui.section = "achieve"; ui.view = "home"; render(); window.scrollTo(0, 0); return; }
+      if(ev.target.closest("[data-ach-view]")){ close(); ui.section = "profile"; ui.prof = "ach"; ui.view = "home"; render(); window.scrollTo(0, 0); return; }
       if(ev.target.closest("[data-ach-close]") || ev.target === el) close();
     });
   } else {
@@ -5153,6 +5167,29 @@ function achBigIcon(a, on, size = 150){
     <g fill="#fff">${sparks}</g>
     ${on ? "" : `<g transform="translate(112 112)"><circle r="16" fill="#fff" stroke="#9ca3af" stroke-width="2"/><text y="6" text-anchor="middle" font-size="16">🔒</text></g>`}</svg>`;
 }
+/* ===================== HỒ SƠ =====================
+   Gom Thành tựu và Bảng xếp hạng vào một trang, chọn bằng 2 thẻ (ui.prof = "ach" | "rank"). */
+function profInitial(){ const n = ((store.vocab && store.vocab.name) || "").trim(); return n ? esc(n[0].toUpperCase()) : SECTION_ICONS.profile; }
+function renderProfile(){
+  const tab = ui.prof === "rank" ? "rank" : "ach";
+  const v = vtState(), lvl = vtLevel(v.xp), L = store.prefs.lang;
+  const nAch = Object.keys(store.ach || {}).length, nBadge = Object.keys(v.badges || {}).length;
+  return `<section class="prof-head">
+      <div class="prof-av" aria-hidden="true">${profInitial()}</div>
+      <div class="prof-id"><h2>${esc(v.name || "Người học SFY")}</h2>
+        <div class="vt-name"><label>Tên hiển thị <input data-vt-name data-keep="profname" value="${esc(v.name || "")}" maxlength="24" placeholder="Ví dụ: Minh SFY"></label><button class="btn ghost" data-act="vtname">Lưu tên</button></div></div>
+      <div class="prof-stats">
+        <div><b>${nAch}</b><span>thành tựu</span></div>
+        <div><b>${v.xp}</b><span>XP · cấp ${lvl.lv}</span></div>
+        <div><b>🔥 ${vtStreak()}</b><span>ngày liên tiếp</span></div>
+        <div><b>${nBadge}</b><span>huy hiệu</span></div>
+      </div></section>
+    <div class="prof-tabs" role="tablist">
+      <button role="tab" data-act="proftab" data-v="ach" aria-selected="${tab === "ach"}">${SECTION_ICONS.achieve} Thành tựu</button>
+      <button role="tab" data-act="proftab" data-v="rank" aria-selected="${tab === "rank"}"><span aria-hidden="true">📊</span> Bảng xếp hạng</button>
+    </div>
+    ${tab === "rank" ? renderVTRank() : renderAchieve()}`;
+}
 function renderAchieve(){
   const L = store.prefs.lang, st = achState();
   const list = ACH_LIST.filter(a => a.lang === L || a.lang === "both");
@@ -5166,12 +5203,11 @@ function renderAchieve(){
   const groups = ACH_SECS.map(S => `<div class="ach-group"><h4>${S.icon} ${esc(S.name)}</h4><div class="ach-sgrid">${small.filter(a => a.sec === S.id).map(a => { const on = !!st[a.id], p = pct(a);
       return `<div class="ach-scard ${on ? "on" : ""}" title="${esc(a.desc)}">${achSmallIcon(a, on, 58)}<div><b>${esc(a.name)}</b><small>${esc(a.desc)}</small>
         ${on ? `<small class="ach-date">Đạt ngày ${st[a.id].split("-").reverse().join("/")}</small>` : `<i class="vt-bar"><i style="width:${p}%"></i></i>`}</div></div>`; }).join("")}</div></div>`).join("");
-  return `<section class="intro"><h2 class="intro-h">🏆 Thành tựu ${ACH_LANG[L]}</h2>
-      <p>Đã đạt ${got}/${list.length} thành tựu. Hoàn thành một phần học lớn để nhận cúp vàng, đi được 30% hay 60% để nhận huy chương. Đổi ngôn ngữ đang học ở trang chủ để xem thành tựu ${L === "en" ? "tiếng Trung" : "tiếng Anh"}.</p></section>
-    <div class="page wide">
+  return `<div class="page wide">
+      <p class="prof-note">Đã đạt ${got}/${list.length} thành tựu ${ACH_LANG[L]}. Hoàn thành một phần học lớn để nhận cúp vàng, đi được 30% hay 60% để nhận huy chương. Đổi ngôn ngữ đang học ở trang chủ để xem thành tựu ${L === "en" ? "tiếng Trung" : "tiếng Anh"}.</p>
       <h3 class="ach-h">Thành tựu lớn</h3><div class="ach-bgrid">${bigCards}</div>
       <h3 class="ach-h">Thành tựu nhỏ</h3>${groups}
-      <div class="tip">Huy hiệu học từ vựng (chuỗi ngày, số từ…) nằm trong <button class="linkbtn" data-act="vtrank">bảng xếp hạng từ vựng</button>. Phần Luyện nghe và Học qua truyện sẽ có thành tựu riêng khi ra mắt.</div>
+      <div class="tip">Huy hiệu học từ vựng (chuỗi ngày, số từ…) nằm ở thẻ <button class="linkbtn" data-act="vtrank">Bảng xếp hạng</button>. Phần Luyện nghe và Học qua truyện sẽ có thành tựu riêng khi ra mắt.</div>
     </div>`;
 }
 
@@ -5305,7 +5341,7 @@ document.addEventListener("click", (ev) => {
   const act = el.dataset.act;
   if(act !== "psel" && act !== "sayw" && ui.sel){ ui.sel = null; }
   if(act.startsWith("plan")){ if(Plan.act(act, el, ev)) render(); return; }
-  if(act.startsWith("vt") && vtAct(act, el)) return;
+  if((act.startsWith("vt") || act === "proftab") && vtAct(act, el)) return;
   if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
   if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
@@ -5538,7 +5574,7 @@ function renderLanding(){
     <div class="hfoot"><label class="hleaf"><input type="checkbox" data-pref-leaves ${store.prefs.leaves !== false ? "checked" : ""}> Hiệu ứng lá khi di chuột và bấm</label></div>
   </section>`;
 }
-const SECTION_DESC = {pron:"Từng âm IPA và bính âm, có bản thu và chấm phát âm", speak:"Hội thoại đời sống, đóng vai và luyện nói", work:"24 ngành nghề, từ vựng chuyên ngành", plan:"Xem lịch, lên kế hoạch và danh sách việc cần làm", story:"Đọc và nghe truyện ngắn", listen:"Luyện nghe theo chủ đề", vocab:"Ôn từ vựng theo cấp độ", grammar:"Ngữ pháp trọng tâm"};
+const SECTION_DESC = {profile:"Thành tựu, cúp, huy hiệu và bảng xếp hạng của bạn", pron:"Từng âm IPA và bính âm, có bản thu và chấm phát âm", speak:"Hội thoại đời sống, đóng vai và luyện nói", work:"24 ngành nghề, từ vựng chuyên ngành", plan:"Xem lịch, lên kế hoạch và danh sách việc cần làm", story:"Đọc và nghe truyện ngắn", listen:"Luyện nghe theo chủ đề", vocab:"Ôn từ vựng theo cấp độ", grammar:"Ngữ pháp trọng tâm"};
 const _I = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 const SECTION_ICONS = {
   pron: _I('<path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/>'),
@@ -5549,6 +5585,7 @@ const SECTION_ICONS = {
   listen: _I('<path d="M6 9a6 6 0 1 1 12 0c0 3.2-2.6 4.3-3.4 6.6-.6 1.9-1.4 4.4-4.1 4.4A3.5 3.5 0 0 1 7 17"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.4-1.3 1.9-1.6 3.2"/>'),
   home: _I('<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/>'),
   vocab: _I('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/>'),
+  profile: _I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
   achieve: _I('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M9 20h6"/>'),
   grammar: _I('<path d="M4 20 10 4h1l6 16"/><path d="M6.5 14h8"/>')
 };
@@ -6018,7 +6055,7 @@ const Route = {
   hash(){
     if(ui.view === "lesson" && ui.section === "pron" && ui.pid) return `#pron/${ui.pid}/${ui.step}`;
     if(ui.view === "lesson" && (ui.section === "speak" || ui.section === "work") && ui.lessonId) return `#${ui.section}/${ui.lessonId}/${ui.step}`;
-    if(ui.section === "vocab" && ui.vt && ui.vt.view === "rank") return "#vocab/rank";
+    if(ui.section === "profile") return ui.prof === "rank" ? "#profile/rank" : "#profile";
     if(ui.section === "vocab" && ui.vt && ui.vt.topic) return `#vocab/${ui.vt.topic}`;
     return ui.section && ui.section !== "home" ? `#${ui.section}` : "";
   },
@@ -6030,16 +6067,22 @@ const Route = {
   },
   restore(){
     const m = (location.hash || "").slice(1).split("/").map(decodeURIComponent);
-    const sec = m[0] || "home", ok = sec === "home" || SECTIONS.some(x => x.id === sec) || sec === "plan";
+    let sec = m[0] || "home";
+    /* địa chỉ cũ: #achieve và #vocab/rank giờ nằm trong Hồ sơ */
+    if(sec === "achieve"){ sec = "profile"; m[1] = "ach"; }
+    if(sec === "vocab" && m[1] === "rank"){ sec = "profile"; }
+    const legacy = sec === "profile" && m[0] !== "profile";
+    const ok = sec === "home" || SECTIONS.some(x => x.id === sec) || sec === "plan";
     ui.section = ok ? sec : "home"; ui.view = "home"; ui.step = 0;
     if(!ok){ this.last = this.hash(); return; }
     const step = Math.max(0, parseInt(m[2], 10) || 0);
     if(sec === "pron" && m[1]){ for(const l of ["en","zh"]) if(PRON[l].some(x => x.id === m[1])){ store.prefs.lang = l; ui.pid = m[1]; ui.view = "lesson"; ui.step = Math.min(step, PSTEP_NAMES.length - 1); } }
     if((sec === "speak" || sec === "work") && m[1]){ for(const l of ["en","zh"]) if(LESSONS[l].some(x => x.id === m[1])){ store.prefs.lang = l; ui.lessonId = m[1]; ui.view = "lesson"; ui.step = Math.min(step, STEP_NAMES.length - 1); } }
     ui.vt = {topic:null, part:"b", mode:"list"};
-    if(sec === "vocab" && m[1] === "rank") ui.vt = {view:"rank"};
-    else if(sec === "vocab" && m[1] && VT_TOPICS.some(x => x.id === m[1])) ui.vt = {topic:m[1], part:"b", mode:"list"};
+    ui.prof = sec === "profile" && m[1] === "rank" ? "rank" : "ach";
+    if(sec === "vocab" && m[1] && VT_TOPICS.some(x => x.id === m[1])) ui.vt = {topic:m[1], part:"b", mode:"list"};
     this.last = this.hash();
+    if(legacy) try{ history.replaceState(null, "", this.last); }catch(e){}
   }
 };
 Route.restore();

@@ -71,3 +71,9 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 ## Chọn ngôn ngữ ở trang chủ (23/11/2026)
 - Bộ chọn ngôn ngữ đã chuyển từ thanh đầu trang xuống trang chủ, thay cho dòng giới thiệu dưới lời chào: các thẻ ngôn ngữ theo danh sách LANGS (id, tên, tên gốc, ký hiệu, màu, ready). Đã có tiếng Anh, tiếng Trung; tiếng Nhật, tiếng Hàn đang hiện "Sắp có". Thêm ngôn ngữ mới: thêm vào LANGS và làm dữ liệu bài học cho id đó.
 - Chỗ cũ trên thanh đầu trang giờ là nút "Thành tựu" (cúp + số thành tựu đã đạt), mở mục Thành tựu.
+
+## Hồ sơ (24/11/2026)
+- Mục "Hồ sơ" (section "profile") thay cho mục "Thành tựu" trong Mục lục và thay nút Thành tựu trên thanh đầu trang (nút Hồ sơ: ô chữ cái đầu của tên + số thành tựu đã đạt).
+- Đầu trang Hồ sơ: ảnh đại diện chữ cái, tên hiển thị (sửa ngay tại đây, lưu ở store.vocab.name), 4 số: thành tựu, XP · cấp, chuỗi ngày, huy hiệu. Dưới là 2 thẻ: Thành tựu (renderAchieve) và Bảng xếp hạng (renderVTRank). Code: renderProfile(), profInitial(), ui.prof = "ach" | "rank", action "proftab".
+- Các nút "Bảng xếp hạng" trong mục Từ vựng đổi thành "👤 Hồ sơ" (action vtrank, mở Hồ sơ ở thẻ Bảng xếp hạng).
+- Địa chỉ: #profile, #profile/rank. Link cũ #achieve và #vocab/rank tự chuyển sang Hồ sơ.
