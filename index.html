@@ -218,7 +218,11 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .mv-bar{display:flex;align-items:center;gap:12px;margin-top:12px}.mv-play{white-space:nowrap}
 .mv-prog{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.mv-prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
 .mv-cap{margin:10px 0 0;font-weight:700;min-height:1.4em}.mv-legend{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
-.mv .mv-face{fill:#f3cdb8;stroke:#c99a80;stroke-width:1.2}.mv .mv-airsp{fill:#fff8ef}.mv .mv-ptr{stroke:#b08878;stroke-width:.8;fill:none}.mv .mv-cav{fill:#8c3a46}.mv .mv-nose{fill:#d9a796}.mv .mv-pal{fill:none;stroke:#b0596a;stroke-width:3;stroke-linecap:round}
+.mv .mv-face{fill:#f3cdb8;stroke:#c99a80;stroke-width:1.2}.mv .mv-airsp{fill:#fff8ef}.mv .mv-ptr{stroke:#b08878;stroke-width:.8;fill:none}
+.mv #mv-front .mv-lip{fill:#e59b98;stroke:#c47975}.mv .ch-skin{fill:#f6d3bb;stroke:#d7a487;stroke-width:1.4}.mv .ch-hair{fill:#3b2a24}.mv .ch-brow{fill:none;stroke:#3b2a24;stroke-width:3.4;stroke-linecap:round}
+.mv .ch-eye{fill:#fff;stroke:#3b2a24;stroke-width:1.6}.mv .ch-pupil{fill:#2a1d18}.mv .ch-shine{fill:#fff}.mv .ch-cheek{fill:#f19aa0;opacity:.4}
+.mv .ch-nose{fill:none;stroke:#c98d72;stroke-width:2;stroke-linecap:round}.mv .ch-shirt{fill:#4cae74;stroke:#2f8a55;stroke-width:1.4}.mv .ch-collar{fill:#eaf7ee}
+.mv .ch-badge{fill:#fff8ef;stroke:#2f8a55}.mv .ch-leafw{fill:#2f8a55}.mv .ch-stem{fill:none;stroke:#2f8a55;stroke-width:2.4;stroke-linecap:round}.mv .ch-leaf{fill:#6cc88f;stroke:#2f8a55;stroke-width:1.2}.mv .mv-cav{fill:#8c3a46}.mv .mv-nose{fill:#d9a796}.mv .mv-pal{fill:none;stroke:#b0596a;stroke-width:3;stroke-linecap:round}
 .mv .mv-velum{fill:#e08c96}.mv .mv-tooth{fill:#fff;stroke:#c9c2b8;stroke-width:1}.mv .mv-tongue{fill:#ec7c88;stroke:#b84a5a;stroke-width:1.2}.mv .mv-tongue2{fill:#c95b6a}
 .mv .mv-lip{fill:#d97b84;stroke:#b25864;stroke-width:1.2}.mv .mv-in{fill:#4a1a22}.mv .mv-seam{fill:none;stroke:#9c4553;stroke-width:2;stroke-linecap:round}
 .mv .mv-air circle{fill:#2fa864}.mv .mv-vib{fill:none;stroke:#2fa864;stroke-width:2.2;stroke-linejoin:round}.mv .mv-lb{font-size:9.5px;fill:#8a6a5a;font-family:inherit}
@@ -4316,23 +4320,41 @@ function mvSide(o, time){
     <text class="mv-lb" x="92" y="51">khoang mũi</text><text class="mv-lb" x="98" y="88">vòm miệng</text><text class="mv-lb" x="250" y="62" text-anchor="end">ngạc mềm</text><path class="mv-ptr" d="M232,65 L196,80"/><text class="mv-lb" x="2" y="122">môi</text><text class="mv-lb" x="130" y="150">lưỡi</text>`;
 }
 /* Môi nhìn thẳng */
-function mvFront(o){
+function mvLips(o){
   const cx = 100, cy = 74;
   const a = 40 + o.spread * 12 - o.protr * 14;
   let h = (1 - o.close) * (4 + o.jaw * 46); if(o.ld > .5) h = Math.min(h, 7);
   const ai = Math.max(6, Math.min(a * .82, o.protr > .3 ? h * .5 + 8 + (1 - o.protr) * 10 : a * .82));
-  const lipT = 11 + o.protr * 4, hh = h / 2;
+  const lipT = 7 + o.protr * 4, hh = h / 2;
   const outer = `M${cx-a-6},${cy} C${cx-a+4},${cy-hh-lipT-6} ${cx-12},${cy-hh-lipT-4} ${cx},${cy-hh-lipT+2} C${cx+12},${cy-hh-lipT-4} ${cx+a-4},${cy-hh-lipT-6} ${cx+a+6},${cy} C${cx+a-6},${cy+hh+lipT+10} ${cx-a+6},${cy+hh+lipT+10} ${cx-a-6},${cy} Z`;
   const inner = `M${cx-ai},${cy} C${cx-ai*.6},${cy-hh} ${cx+ai*.6},${cy-hh} ${cx+ai},${cy} C${cx+ai*.6},${cy+hh} ${cx-ai*.6},${cy+hh} ${cx-ai},${cy} Z`;
   const showUp = h > 5, showLo = h > 24;
   const tongueOut = o.tx < 50 ? `<ellipse class="mv-tongue" cx="${cx}" cy="${cy+1}" rx="${Math.min(ai-3, 16)}" ry="${Math.max(2, hh-1)}"/>` : "";
   const tongueIn = h > 14 ? `<ellipse class="mv-tongue2" cx="${cx}" cy="${cy+hh-2}" rx="${ai*.7}" ry="${Math.min(10, hh*.5)}"/>` : "";
   return `<defs><clipPath id="mv-clip"><path d="${inner}"/></clipPath></defs>
-    <ellipse class="mv-face" cx="100" cy="80" rx="96" ry="78"/>
     <path class="mv-lip" d="${outer}"/>
     ${h > .6 ? `<path class="mv-in" d="${inner}"/>
     <g clip-path="url(#mv-clip)">${tongueIn}${showUp ? `<rect class="mv-tooth" x="${cx-28}" y="${cy-hh-1}" width="56" height="${Math.min(9, h*.55)}" rx="2"/>` : ""}${showLo ? `<rect class="mv-tooth" x="${cx-24}" y="${cy+hh-6}" width="48" height="7" rx="2"/>` : ""}${tongueOut}</g>` : `<path class="mv-seam" d="M${cx-a+2},${cy} C${cx-12},${cy+2} ${cx+12},${cy+2} ${cx+a-2},${cy}"/>`}
     ${o.ld > .5 && o.close < .5 ? `<rect class="mv-tooth" x="${cx-24}" y="${cy-4}" width="48" height="6" rx="2"/>` : ""}`;
+}
+/* Nhân vật SFY nhìn thẳng: mặt, tóc, mắt biết chớp, chồi lá trên đầu; miệng lấy từ mvLips */
+function mvFront(o, time = 0){
+  const J = o.jaw * 7, blink = (time % 3.2) > 3.05 ? .12 : 1, sway = Math.sin(time * 2.4) * 6;
+  const brow = o.jaw > .5 ? 3 : o.protr > .6 ? 1 : 0, eyeH = 7.5 * blink;
+  return `<path class="ch-shirt" d="M30,200 C34,172 60,160 100,160 C140,160 166,172 170,200 Z"/>
+    <path class="ch-collar" d="M78,162 L100,182 L122,162 L114,160 L100,172 L86,160 Z"/>
+    <circle class="ch-badge" cx="138" cy="182" r="7"/><path class="ch-leafw" d="M134,184 C134,178 139,176 142,177 C142,182 139,185 134,184 Z"/>
+    <rect class="ch-skin" x="86" y="140" width="28" height="${24}" rx="8"/>
+    <g transform="translate(100,30) rotate(${sway.toFixed(1)})"><path class="ch-stem" d="M0,6 C0,0 1,-6 2,-10"/><path class="ch-leaf" d="M2,-10 C-8,-14 -14,-24 -12,-30 C-2,-30 6,-22 2,-10 Z"/><path class="ch-leaf" d="M2,-9 C10,-16 20,-16 24,-12 C18,-4 8,-4 2,-9 Z"/></g>
+    <ellipse class="ch-skin" cx="44" cy="${96}" rx="9" ry="13"/><ellipse class="ch-skin" cx="156" cy="${96}" rx="9" ry="13"/>
+    <ellipse class="ch-skin" cx="100" cy="${92+J/2}" rx="56" ry="${62+J/2}"/>
+    <path class="ch-hair" d="M44,92 C38,52 62,28 100,28 C140,28 164,52 156,92 C152,76 146,64 136,58 C124,70 104,72 86,64 C78,70 66,72 58,68 C52,74 48,82 44,92 Z"/>
+    <path class="ch-brow" d="M66,${70-brow} Q76,${64-brow} 86,${69-brow}"/><path class="ch-brow" d="M114,${69-brow} Q124,${64-brow} 134,${70-brow}"/>
+    <ellipse class="ch-eye" cx="76" cy="86" rx="8" ry="${eyeH}"/><ellipse class="ch-eye" cx="124" cy="86" rx="8" ry="${eyeH}"/>
+    ${blink > .5 ? `<circle class="ch-pupil" cx="77" cy="87" r="4.6"/><circle class="ch-pupil" cx="125" cy="87" r="4.6"/><circle class="ch-shine" cx="79" cy="84.5" r="1.6"/><circle class="ch-shine" cx="127" cy="84.5" r="1.6"/>` : ""}
+    <circle class="ch-cheek" cx="66" cy="${108+J/3}" r="8"/><circle class="ch-cheek" cx="134" cy="${108+J/3}" r="8"/>
+    <path class="ch-nose" d="M98,98 Q102,106 96,108"/>
+    <g transform="translate(100,${126+J*.6}) scale(.5) translate(-100,-74)">${mvLips(o)}</g>`;
 }
 /* Đường thanh điệu cho bài thanh điệu tiếng Trung */
 const MV_TONES = {"ā":[[0,5],[1,5]], "á":[[0,3],[1,5]], "ǎ":[[0,2],[.45,1],[1,4]], "à":[[0,5],[1,1]], "a":[[0,3],[.5,2.6],[1,2.5]]};
@@ -4349,9 +4371,9 @@ function mvLesson(lesson, lang){ return {sym: lang === "en" ? lesson.title : les
 function mvRenderCard(lesson, lang){
   const tl = mvTimeline(mvSeq(lesson.title, lang, lesson.group)), o = mvKeyFrame(tl), tone = lesson.group === "pzh-tones";
   return `<div class="mv" id="mv" data-id="${esc(lesson.id)}">
-    <div class="mv-head"><b>Video khẩu hình</b><span>${tone ? "Nghe và nhìn đường cao độ của thanh điệu" : "Nhìn môi (bên trái) và lưỡi (bên phải) khi phát âm"}</span></div>
+    <div class="mv-head"><b>Video khẩu hình</b><span>${tone ? "Nghe và nhìn đường cao độ của thanh điệu" : "Xem miệng bạn nhỏ SFY (bên trái) và lưỡi bên trong (bên phải) khi phát âm"}</span></div>
     <div class="mv-stage">
-      <figure><svg id="mv-front" viewBox="0 0 200 150" role="img" aria-label="Khẩu hình môi nhìn thẳng">${mvFront(o)}</svg><figcaption>Nhìn thẳng</figcaption></figure>
+      <figure><svg id="mv-front" viewBox="0 0 200 200" role="img" aria-label="Nhân vật SFY đang phát âm">${mvFront(o)}</svg><figcaption>Bạn nhỏ SFY</figcaption></figure>
       <figure><svg id="mv-side" viewBox="0 0 ${tone ? "200 130" : "260 220"}" role="img" aria-label="${tone ? "Đường thanh điệu" : "Mặt cắt nghiêng khoang miệng"}">${tone ? mvTone(lesson.title, 0) : mvSide(o, 0)}</svg><figcaption>${tone ? "Thanh điệu" : "Mặt cắt nghiêng"}</figcaption></figure>
     </div>
     <div class="mv-bar"><button class="btn mv-play" data-act="mvplay">${ICON_PLAY} Phát video</button>
@@ -4365,7 +4387,7 @@ function mvDraw(time){
   const fr = document.getElementById("mv-front"), sd = document.getElementById("mv-side");
   if(!fr || !sd || document.getElementById("mv").dataset.id !== MV.id) return false;
   const o = mvAt(MV.tl, time), tone = c.lesson.group === "pzh-tones";
-  fr.innerHTML = mvFront(o);
+  fr.innerHTML = mvFront(o, time);
   sd.innerHTML = tone ? mvTone(c.lesson.title, Math.min(1, Math.max(0, (time - MV.tl.at) / 1.0))) : mvSide(o, time);
   const pg = document.getElementById("mv-prog"); if(pg) pg.style.width = Math.min(100, time / MV.tl.dur * 100) + "%";
   const cp = document.getElementById("mv-cap"); if(cp && !tone) cp.textContent = o.cap;
