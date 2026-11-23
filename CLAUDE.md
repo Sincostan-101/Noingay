@@ -114,3 +114,7 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 ## Gợi ý lộ trình (24/11/2026)
 - Trang chủ: phần "Bắt đầu từ đâu?" (ô các mục, có cả Hồ sơ) đã thay bằng "Gợi ý lộ trình" (ROUTES, routeStep, routeHtml, routeAct). 4 mục tiêu: Mất gốc, Đi du lịch, Dùng trong công việc, Nói trôi chảy; mỗi mục tiêu 5–6 bước theo thứ tự, tiến độ tính từ dữ liệu học thật (bài phát âm/giao tiếp đã xong, từ đã nhớ theo chủ đề, ngành đã học xong, bài báo đã đọc, số từ trong sổ). Bước hiện tại có nút Bắt đầu/Học tiếp mở đúng bài cần học; bước sau hiện "Sau bước n". Lộ trình đang chọn lưu ở store.prefs.route.
 - Lộ trình chỉ là gợi ý thứ tự; bài học không bị khóa nên người học vẫn mở được bất kỳ bài nào.
+
+## Xác nhận hoàn thành bài (24/11/2026, thay cho khóa bước)
+- Đã bỏ khóa giữa các bước: bấm bước nào cũng được (chỉ còn phần "Vì sao nói vậy?" mở sau khi đóng vai xong, như thiết kế ban đầu). Trong bước vẫn giữ: câu sau mở khi câu trước đạt ≥ 50 điểm; đóng vai mỗi lượt ≥ 50 mới Tiếp tục.
+- Bài chỉ tính là hoàn thành khi người học bấm "✓ Xác nhận hoàn thành bài · sang bài tiếp theo" ở bước cuối (Từ vựng với bài giao tiếp, Nói thử với bài phát âm). Nút này chỉ hiện khi đủ điều kiện (lesReady/pronReady). Bấm thì lưu progress.done / pron.done (ngày), ghi lịch sử "✓ Hoàn thành bài", rồi mở bài tiếp theo. lesDone/pronDone (dùng cho thành tựu, lộ trình, dấu ✓ trên danh sách bài) đọc cờ done này.
