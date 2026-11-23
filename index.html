@@ -5563,20 +5563,23 @@ document.addEventListener("keydown", (ev) => {
 /* ===================== GIỮ CHỖ KHI TẢI LẠI TRANG =====================
    Ghi trang đang mở lên địa chỉ (#phần/bài/bước). Tải lại trang (F5) thì mở lại đúng chỗ đó thay vì về trang chủ. */
 const Route = {
-  last:"",
+  last:null,
   hash(){
     if(ui.view === "lesson" && ui.section === "pron" && ui.pid) return `#pron/${ui.pid}/${ui.step}`;
     if(ui.view === "lesson" && (ui.section === "speak" || ui.section === "work") && ui.lessonId) return `#${ui.section}/${ui.lessonId}/${ui.step}`;
     return ui.section && ui.section !== "home" ? `#${ui.section}` : "";
   },
   save(){
-    const h = this.hash(); if(h === this.last) return; this.last = h;
-    try{ history.replaceState(null, "", h || location.pathname + location.search); }catch(e){}
+    const h = this.hash(); if(h === this.last) return;
+    const first = this.last === null; this.last = h;
+    /* mỗi lần chuyển trang thì thêm một mục vào lịch sử, để nút Back của trình duyệt quay về trang trước trong web */
+    try{ history[first ? "replaceState" : "pushState"](null, "", h || location.pathname + location.search); }catch(e){}
   },
   restore(){
-    const m = (location.hash || "").slice(1).split("/").map(decodeURIComponent); if(!m[0]) return;
-    const sec = m[0], ok = SECTIONS.some(x => x.id === sec) || sec === "plan"; if(!ok) return;
-    ui.section = sec; ui.view = "home";
+    const m = (location.hash || "").slice(1).split("/").map(decodeURIComponent);
+    const sec = m[0] || "home", ok = sec === "home" || SECTIONS.some(x => x.id === sec) || sec === "plan";
+    ui.section = ok ? sec : "home"; ui.view = "home"; ui.step = 0;
+    if(!ok){ this.last = this.hash(); return; }
     const step = Math.max(0, parseInt(m[2], 10) || 0);
     if(sec === "pron" && m[1]){ for(const l of ["en","zh"]) if(PRON[l].some(x => x.id === m[1])){ store.prefs.lang = l; ui.pid = m[1]; ui.view = "lesson"; ui.step = Math.min(step, PSTEP_NAMES.length - 1); } }
     if((sec === "speak" || sec === "work") && m[1]){ for(const l of ["en","zh"]) if(LESSONS[l].some(x => x.id === m[1])){ store.prefs.lang = l; ui.lessonId = m[1]; ui.view = "lesson"; ui.step = Math.min(step, STEP_NAMES.length - 1); } }
@@ -5584,6 +5587,12 @@ const Route = {
   }
 };
 Route.restore();
+/* nút Back/Forward của trình duyệt: mở lại trang tương ứng trong web */
+window.addEventListener("popstate", () => {
+  try{ TTS.stop(); Rec.stop(); }catch(e){}
+  ui.menuOpen = false; ui.results = {}; ui.typing = {}; ui.rp = null; ui.pq = null; ui.playAll = false; ui.playingKey = null;
+  Route.restore(); render(); window.scrollTo(0, 0);
+});
 render();
 </script>
 </body>

@@ -46,4 +46,4 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Có một bản sao để xem trong Claude (artifact "Study for yourself"). Bản đó dùng tính năng đọc chính tả của Claude thay cho micro.
 
 ## Giữ chỗ khi tải lại trang
-- Trang đang mở được ghi lên địa chỉ dạng #phần/bài/bước (ví dụ #pron/pen-iu-3/1, #speak/zh-delay/2). Tải lại (F5) thì mở lại đúng trang đó (đối tượng Route, gọi Route.save() đầu hàm render, Route.restore() trước lần render đầu).
+- Trang đang mở được ghi lên địa chỉ dạng #phần/bài/bước (ví dụ #pron/pen-iu-3/1, #speak/zh-delay/2). Tải lại (F5) thì mở lại đúng trang đó (đối tượng Route, gọi Route.save() đầu hàm render, Route.restore() trước lần render đầu). Mỗi lần chuyển trang thêm một mục lịch sử (pushState), nên nút Back/Forward của trình duyệt đi lùi/tới trong web (sự kiện popstate) thay vì thoát ra.
