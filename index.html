@@ -613,6 +613,14 @@ button.hs-row{cursor:pointer}button.hs-row:hover{border-color:var(--accent)}
 .hlang em{position:absolute;top:-9px;right:10px;font-style:normal;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--accent);color:#fff}
 .hlang.soon{opacity:.55;cursor:default}.hlang.soon:hover{transform:none;box-shadow:none}.hlang.soon em{background:#9ca3af}
 .hero-tag{margin:0;max-width:640px;color:var(--muted);font-size:15.5px;line-height:1.6}
+.hsrch-btn .hplan-i svg{width:18px;height:18px}
+.hsrch{position:relative;display:inline-flex;align-items:center;margin-left:6px;width:min(460px,38vw)}
+.hsrch input{width:100%;box-sizing:border-box;border:1.5px solid var(--accent);background:var(--surface);color:var(--ink);border-radius:14px;padding:11px 40px 11px 42px;font:inherit;font-size:14.5px;font-weight:500;outline:none;box-shadow:0 0 0 4px var(--accent-soft)}
+.hsrch-i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);display:grid}.hsrch-i svg{width:18px;height:18px}
+.hsrch-x{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;font-size:22px;line-height:1;color:var(--muted);padding:4px 8px;cursor:pointer}
+.hsrch-res{position:absolute;left:0;top:calc(100% + 8px);width:max(100%,420px);z-index:75;font-size:14px;font-weight:500;letter-spacing:0;white-space:normal}
+.hsrch-res .sres-list{box-shadow:0 12px 32px rgba(0,0,0,.16)}
+.hsrch-res .sres-empty{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:0 12px 32px rgba(0,0,0,.16)}
 .hsearch{position:relative;width:min(640px,100%);margin-top:8px}
 .hsearch svg{position:absolute;left:18px;top:50%;width:20px;height:20px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
 .hsearch input{width:100%;box-sizing:border-box;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:15px 20px 15px 50px;font:inherit;font-size:16px;outline:none;box-shadow:0 6px 24px -12px rgba(18,53,36,.35);transition:border-color .2s,box-shadow .2s}
@@ -4747,6 +4755,7 @@ I18N_RX.unshift([/^🔒 Câu (\d+): đạt từ (\d+) điểm ở câu phía tr�
   [/^Cần đạt từ (\d+) điểm để qua câu này\. Nghe câu mẫu rồi nói lại nhé\.$/, "Score $1+ to pass this line. Listen to the example and try again.", "这句需要达到 $1 分。听一听示范再说一遍吧。"],
   [/^Cần đúng từ (\d+)% để mở bước Nói thử\. Nghe lại các từ ví dụ ở bước 1 rồi làm lại nhé\.$/, "You need $1%+ to unlock Try speaking. Listen to the step 1 examples again and redo it.", "需要答对 $1% 才能解锁“试说”。回到第 1 步再听听例词，然后重做吧。"]);
 Object.assign(I18N_DICT, {"Đang ghi âm… nói xong bấm vào đây để kết thúc": ["Recording… click here when you finish speaking", "正在录音…说完后点这里结束"], "Đang nghe… bấm để dừng": ["Listening… click to stop", "正在听…点击停止"]});
+Object.assign(I18N_DICT, {"Tìm kiếm": ["Search", "搜索"], "Tìm bài học, âm, chủ đề": ["Lessons, sounds, topics", "课程、发音、主题"], "Đóng tìm kiếm": ["Close search", "关闭搜索"], "Đóng": ["Close", "关闭"]});
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -5633,7 +5642,7 @@ function header(){
   const dark = store.prefs.theme === "dark";
   const sec = SECTIONS.find(s => s.id === ui.section) || SECTIONS[0];
   return `<header class="top">
-    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="link" tabindex="0" data-act="section" data-v="home" title="Về trang chủ" aria-label="SFY — Study for yourself, về trang chủ"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${sidebar()}${ui.section !== "plan" ? homePlanChip(ui.section !== "home") : ""}${vizHtml()}</div>
+    <div class="brand"><span class="logo${LOGO_INTRO ? " intro" : ""}" role="link" tabindex="0" data-act="section" data-v="home" title="Về trang chủ" aria-label="SFY — Study for yourself, về trang chủ"><i class="lg-mark"></i><i class="lg-sprout"></i><i class="lg-text"></i></span>${sidebar()}${ui.section !== "plan" ? homePlanChip(ui.section !== "home") : ""}${ui.section === "home" ? searchChip() : ""}${vizHtml()}</div>
     <div class="top-main">
     <h1 class="section-title">${esc(secName(sec))}</h1>
     <div class="topright">
@@ -5651,6 +5660,15 @@ const LANGS = [
   {id:"ja", name:"Tiếng Nhật", native:"日本語", mark:"あ", c:"#db2777", ready:false},
   {id:"ko", name:"Tiếng Hàn", native:"한국어", mark:"한", c:"#7c3aed", ready:false}
 ];
+/* Nút Tìm kiếm cạnh nút Lịch (trang chủ): bấm để mở ô tìm bài học, kết quả hiện ngay bên dưới */
+const ICON_SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+function searchChip(){
+  if(!ui.searchOpen) return `<button class="hplan hsrch-btn" data-act="hsearch" title="Tìm bài học"><span class="hplan-i" aria-hidden="true">${ICON_SEARCH}</span><span class="hplan-t"><b>Tìm kiếm</b><small>Tìm bài học, âm, chủ đề</small></span></button>`;
+  return `<div class="hsrch"><span class="hsrch-i" aria-hidden="true">${ICON_SEARCH}</span>
+    <input type="text" data-home-search data-keep="homeq" value="${esc(ui.q || "")}" placeholder="Tìm bài học: khách sạn, phỏng vấn, ngân hàng, /æ/, 你好…" aria-label="Tìm bài học" autocomplete="off">
+    <button class="hsrch-x" data-act="hsearch" aria-label="Đóng tìm kiếm" title="Đóng">×</button>
+    <div class="hsrch-res" id="searchRes">${searchHtml(ui.q || "")}</div></div>`;
+}
 function homePlanChip(compact){
   const td = ymd(new Date()), its = planItems();
   const n = its.filter(x => x.kind === "task" && !x.done && x.date === td).length + its.filter(x => x.kind === "event" && x.date === td).length;
@@ -7008,6 +7026,7 @@ document.addEventListener("click", (ev) => {
   if(el && el.dataset.act.startsWith("pk")){ Picker.act(el.dataset.act, el, ev); return; }
   if(ev.target.closest(".pk-pop")) return;
   if(ui.pomoOpen && !ev.target.closest(".pomo")){ ui.pomoOpen = false; ui.pomoMsg = null; if(!el) render(); }
+  if(ui.searchOpen && !ev.target.closest(".hsrch") && !(el && el.dataset.act === "hsearch")){ ui.searchOpen = false; ui.q = ""; if(!el) render(); }
   if(ui.setgOpen && !ev.target.closest(".setg")){ ui.setgOpen = false; if(!el) render(); }
   if(ui.musicOpen && !ev.target.closest(".music:not(.setg)")){ ui.musicOpen = false; if(!el) render(); }
   if(!el || el.tagName === "FORM") return;
@@ -7023,6 +7042,7 @@ document.addEventListener("click", (ev) => {
   if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "music"){ ui.musicOpen = !ui.musicOpen; render(); return; }
+  if(act === "hsearch"){ ui.searchOpen = !ui.searchOpen; if(!ui.searchOpen) ui.q = ""; render(); if(ui.searchOpen){ const i = document.querySelector("input[data-home-search]"); if(i) i.focus(); } return; }
   if(act === "setgopen"){ ui.setgOpen = !ui.setgOpen; ui.musicOpen = false; ui.pomoOpen = false; render(); return; }
   if(act === "uilang"){ store.prefs.ui = el.dataset.v; saveStore(); document.documentElement.lang = store.prefs.ui; render(); return; }
   if(act === "setg"){ const k = el.dataset.v;
@@ -7246,11 +7266,6 @@ function renderLanding(){
           ? `<button class="hlang ${store.prefs.lang === g.id ? "on" : ""}" data-act="lang" data-v="${g.id}" aria-pressed="${store.prefs.lang === g.id}"><i class="hlang-ic" style="--c:${g.c}">${g.mark}</i><span><b>${g.name}</b><small>${g.native}</small></span>${store.prefs.lang === g.id ? '<em>Đang học</em>' : ""}</button>`
           : `<div class="hlang soon" aria-disabled="true"><i class="hlang-ic" style="--c:${g.c}">${g.mark}</i><span><b>${g.name}</b><small>${g.native}</small></span><em>Sắp có</em></div>`).join("")}</div>
       </div>
-      <div class="hsearch">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input type="search" data-home-search data-keep="homeq" value="${esc(ui.q || "")}" placeholder="Tìm bài học: khách sạn, phỏng vấn, ngân hàng, /æ/, 你好…" aria-label="Tìm bài học" autocomplete="off">
-      </div>
-      <div class="hsearch-res" id="searchRes">${searchHtml(ui.q || "")}</div>
       <p class="quote">“${esc(quote)}”</p>
     </div>
     <div class="hquick">
@@ -7733,6 +7748,7 @@ document.addEventListener("keydown", (ev) => {
   if(ev.key === "Enter" && t.closest && t.closest("[data-plan-form]") && t.tagName === "INPUT"){ ev.preventDefault(); const b = document.querySelector('[data-plan-form] [data-act="plansave"]'); if(b) b.click(); return; }
   if(ev.key === "Enter" && t.matches && t.matches("input[data-plan-dayadd],input[data-plan-daytime]")){ ev.preventDefault(); Plan.dayAdd(); return; }
   if(ev.key === "Escape" && Picker.pop){ Picker.close(); return; }
+  if(ev.key === "Escape" && ui.searchOpen){ ui.searchOpen = false; ui.q = ""; render(); return; }
   if(ev.key === "Escape" && ui.menuOpen){ ui.menuOpen = false; render(); return; }
   if(ev.key === "Escape" && ui.plan && (ui.plan.edit || ui.plan.day)){ if(ui.plan.edit) ui.plan.edit = null; else ui.plan.day = null; render(); return; }
   if(ev.key === "Enter" && t.matches && t.matches('.brand .logo')){ t.click(); }
