@@ -266,14 +266,15 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .vt-head .vt-parts{margin-top:10px}
 /* Trang chủ đề từ vựng: nút quay lại nằm dưới logo, phần đầu dồn lên, thẻ ghi nhớ to hơn */
 .vt-topic{gap:12px}
-.vt-back{position:absolute;left:0;top:4px;font-size:19px;font-weight:700;padding:8px 16px 8px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);gap:8px}
-.vt-back:hover{border-color:var(--accent)}
+/* Nút quay lại của mọi bài học / tính năng: to, có khung; nếu bên trái còn chỗ thì nằm dưới logo (lớp .out, do placeBack() quyết định) */
+.pback{font-size:19px;font-weight:700;padding:8px 16px 8px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);gap:8px;align-self:flex-start;margin-top:-6px;transition:border-color .15s}
+.pback:hover{border-color:var(--accent)}
+.pback.out{position:absolute;left:0;top:4px;margin:0}
 .vt-topic .vt-flash{width:100%;max-width:720px;margin:4px auto 0}
 .vt-topic .vt-front{min-height:340px;border-radius:24px;padding:28px;gap:12px}
 .vt-topic .vt-word{font-size:clamp(40px,5vw,60px)}.vt-topic .vt-word.zh{font-size:clamp(52px,6vw,76px)}
 .vt-topic .vt-ph{font-size:20px}.vt-topic .vt-mean{font-size:26px}.vt-topic .vt-hint{font-size:15px}
 .vt-topic .vt-flash .row .btn{font-size:17px;padding:12px 22px}
-@media (max-width:1640px){.vt-back{position:static;align-self:flex-start;margin-top:-6px;margin-left:calc(-1 * clamp(0px, (100vw - 1248px) / 2, 80px))}}
 @media (max-width:700px){.vt-topic .vt-front{min-height:260px}}
 .vt-count{margin-top:0;min-width:170px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 16px;text-align:right}
 .vt-count span{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
@@ -3967,6 +3968,14 @@ const ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 
 /* ===================== RENDER ===================== */
 let LOGO_INTRO = true;
+/* Đặt nút quay lại: đủ chỗ bên trái thì đưa ra dưới logo, không thì dời sang trái tối đa 80px */
+function placeBack(){
+  const b = document.querySelector(".pback"), lay = document.querySelector(".layout"); if(!b || !lay) return;
+  b.classList.remove("out"); b.style.marginLeft = "";
+  const off = b.parentElement.getBoundingClientRect().left - lay.getBoundingClientRect().left;
+  if(off >= b.offsetWidth + 24) b.classList.add("out"); else b.style.marginLeft = -Math.max(0, Math.min(off, 80)) + "px";
+}
+window.addEventListener("resize", () => { try{ placeBack(); }catch(e){} });
 function render(){
   try{ Route.save(); }catch(e){}
   try{ achCheck(); }catch(e){}
@@ -3998,6 +4007,7 @@ function render(){
   LOGO_INTRO = false;
   Player.paint();
   fitMenu();
+  placeBack();
   const ml = document.querySelector(".mtracks [aria-pressed='true']"); if(ml && ml.scrollIntoViewIfNeeded) ml.scrollIntoViewIfNeeded(false);
 }
 const SECTIONS = [
@@ -4260,7 +4270,7 @@ function renderPron(){
   if(st===2) body = renderPronQuiz(lesson, lang);
   if(st===3) body = renderPronSpeak(lesson, lang);
   return `<div class="page">
-    <div><button class="back" data-act="home">← Tất cả bài phát âm</button></div>
+    <button class="back pback" data-act="home">← Tất cả bài phát âm</button>
     <div class="lesson-head"><p class="grp-tag">${esc(lesson.groupTitle)}</p><h2 class="ipa-big">${esc(lesson.title)}${lesson.hz ? `<span class="hz zh">${esc(lesson.hz.t)}</span><span class="hz-py">${esc(lesson.hz.p)} · ${esc(lesson.hz.v)}</span>` : ""}</h2><p>${esc(lesson.sub)}</p></div>
     <nav class="steps" aria-label="Các bước">${stepBtns}</nav>
     ${toggles}
@@ -4716,7 +4726,7 @@ function renderLesson(){
   if(st===3) body = renderNotes(lesson, lang);
   if(st===4) body = renderVocab(lesson, lang);
   return `<div class="page">
-    <div><button class="back" data-act="home">← Tất cả bài học</button></div>
+    <button class="back pback" data-act="home">← Tất cả bài học</button>
     <div class="lesson-head"><h2>${esc(lesson.title)}</h2><p>${esc(lesson.scene)} Bạn là người bên phải.</p></div>
     <nav class="steps" aria-label="Các bước">${stepBtns}</nav>
     ${toggles}
@@ -4979,7 +4989,7 @@ function renderVTTopic(){
     }
   }
   return `<div class="page wide vt-topic">
-    <button class="back vt-back" data-act="vthome">← Tất cả chủ đề</button>
+    <button class="back pback" data-act="vthome">← Tất cả chủ đề</button>
     <div class="vt-head"><div class="lesson-head"><h2>${T.icon} ${esc(T.name)}</h2><div class="toolbar vt-parts">${tabs}</div></div>
       ${(() => { const tot = T[L].b.length + T[L].a.length, dn = vtTopicDone(L, T); return `<div class="vt-count" title="${L==="zh"?"Tiếng Trung":"Tiếng Anh"} · ${vtState().xp} XP"><span>Đã học</span><b>${dn}<small>/${tot} từ</small></b><i class="vt-bar"><i style="width:${Math.round(dn / tot * 100)}%"></i></i></div>`; })()}</div>
     ${voiceWarn(L)}
