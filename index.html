@@ -70,6 +70,11 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   .top-main .section-title{order:3;flex-basis:100%;text-align:center}
 }
 .layout{position:relative;padding-top:18px}
+/* Máy tính: Mục lục nằm ngay dưới logo, nút Lịch đứng cạnh logo */
+@media (min-width:861px){
+  .top .brand{position:relative}
+  .top .brand .side{position:absolute;left:0;top:calc(100% + 8px);z-index:60}
+}
 /* Mục lục: nút trên thanh đầu trang, bấm vào thả danh sách xuống theo chiều dọc */
 .side{position:relative;flex:none}
 .side .side-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:8px 14px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:0}
@@ -5365,16 +5370,30 @@ function newsAct(act, el){
 /* ===================== RENDER ===================== */
 let LOGO_INTRO = true;
 /* Đặt nút quay lại: đủ chỗ bên trái thì đưa ra dưới logo, không thì dời sang trái tối đa 80px */
+/* Mục lục nằm dưới logo (máy tính): đẩy nội dung xuống nếu bị đè */
+function menuClear(){
+  const side = document.querySelector(".top .brand .side"), main = document.querySelector(".main"); if(!main) return 0;
+  main.style.paddingTop = "";
+  if(!side || getComputedStyle(side).position !== "absolute") return 0;
+  const m = side.querySelector(".side-toggle").getBoundingClientRect(), first = main.firstElementChild;
+  if(!first || first.classList.contains("pback")) return m.bottom;
+  const pb = first.querySelector(":scope > .pback");
+  const r = (pb ? pb : first).getBoundingClientRect();
+  if(r.left < m.right + 8 && r.top < m.bottom + 10) main.style.paddingTop = Math.ceil(m.bottom + 12 - r.top) + "px";
+  return m.bottom;
+}
 function placeBack(){
+  const menuBottom = menuClear();
   const b = document.querySelector(".pback"), lay = document.querySelector(".layout"); if(!b || !lay) return;
   const pg = b.parentElement, r = document.querySelector(".prail");
-  b.classList.remove("out", "in"); b.style.marginLeft = ""; pg.classList.remove("has-rail");
+  b.classList.remove("out", "in"); b.style.marginLeft = ""; b.style.top = ""; pg.classList.remove("has-rail");
   if(r){ r.classList.remove("out"); r.style.top = ""; }
   const off = pg.getBoundingClientRect().left - lay.getBoundingClientRect().left;
   const fitsOut = off >= b.offsetWidth + 24, railW = Math.min(240, off - 24);
   if(fitsOut && (!r || railW >= 180)){
-    /* đủ chỗ bên trái: nút quay lại và thanh tùy chọn nằm dưới logo */
+    /* đủ chỗ bên trái: nút quay lại và thanh tùy chọn nằm dưới logo (dưới cả nút Mục lục) */
     b.classList.add("out");
+    if(menuBottom) b.style.top = Math.max(4, Math.ceil(menuBottom + 12 - lay.getBoundingClientRect().top)) + "px";
     if(r){ r.style.setProperty("--rail-w", railW + "px"); r.style.top = (b.offsetTop + b.offsetHeight + 16) + "px"; r.classList.add("out"); }
   } else if(r && window.innerWidth >= 1000){
     /* không đủ chỗ ngoài lề: chia trang thành cột trái (nút quay lại + tùy chọn) và nội dung bên phải */
