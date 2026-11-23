@@ -270,6 +270,16 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pback{font-size:19px;font-weight:700;padding:8px 16px 8px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);gap:8px;align-self:flex-start;margin-top:-6px;transition:border-color .15s}
 .pback:hover{border-color:var(--accent)}
 .pback.out{position:absolute;left:0;top:4px;margin:0}
+/* Thanh tùy chọn (cách học, đọc chậm, IPA, giọng đọc): đủ chỗ thì xếp dọc bên trái, dưới nút quay lại */
+.prail-h{display:none}
+.page.has-rail{position:relative;padding-left:234px;box-sizing:border-box;min-height:420px}
+.pback.in{position:absolute;left:0;top:0;margin:0}
+.prail.out{position:absolute;left:0;top:70px;width:var(--rail-w,210px);flex-direction:column;align-items:stretch;flex-wrap:nowrap;gap:8px;z-index:2}
+.prail.out .prail-h{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:6px 0 0 6px}
+.prail.out .prail-h:first-child{margin-top:0}
+.prail.out .chip{width:100%;text-align:left;justify-content:flex-start;padding:10px 14px;font-size:15px}
+.prail.out .voicepick{flex-direction:column;align-items:stretch;border-radius:14px;padding:8px 10px;gap:4px}
+.prail.out .voicepick select{max-width:100%;width:100%}
 .vt-topic .vt-flash{width:100%;max-width:720px;margin:4px auto 0}
 .vt-topic .vt-front{min-height:340px;border-radius:24px;padding:28px;gap:12px}
 .vt-topic .vt-word{font-size:clamp(40px,5vw,60px)}.vt-topic .vt-word.zh{font-size:clamp(52px,6vw,76px)}
@@ -3971,9 +3981,21 @@ let LOGO_INTRO = true;
 /* Đặt nút quay lại: đủ chỗ bên trái thì đưa ra dưới logo, không thì dời sang trái tối đa 80px */
 function placeBack(){
   const b = document.querySelector(".pback"), lay = document.querySelector(".layout"); if(!b || !lay) return;
-  b.classList.remove("out"); b.style.marginLeft = "";
-  const off = b.parentElement.getBoundingClientRect().left - lay.getBoundingClientRect().left;
-  if(off >= b.offsetWidth + 24) b.classList.add("out"); else b.style.marginLeft = -Math.max(0, Math.min(off, 80)) + "px";
+  const pg = b.parentElement, r = document.querySelector(".prail");
+  b.classList.remove("out", "in"); b.style.marginLeft = ""; pg.classList.remove("has-rail");
+  if(r){ r.classList.remove("out"); r.style.top = ""; }
+  const off = pg.getBoundingClientRect().left - lay.getBoundingClientRect().left;
+  const fitsOut = off >= b.offsetWidth + 24, railW = Math.min(240, off - 24);
+  if(fitsOut && (!r || railW >= 180)){
+    /* đủ chỗ bên trái: nút quay lại và thanh tùy chọn nằm dưới logo */
+    b.classList.add("out");
+    if(r){ r.style.setProperty("--rail-w", railW + "px"); r.style.top = (b.offsetTop + b.offsetHeight + 16) + "px"; r.classList.add("out"); }
+  } else if(r && window.innerWidth >= 1000){
+    /* không đủ chỗ ngoài lề: chia trang thành cột trái (nút quay lại + tùy chọn) và nội dung bên phải */
+    pg.classList.add("has-rail"); b.classList.add("in");
+    r.style.setProperty("--rail-w", "210px"); r.style.top = (b.offsetHeight + 16) + "px"; r.classList.add("out");
+  } else if(fitsOut) b.classList.add("out");
+  else b.style.marginLeft = -Math.max(0, Math.min(off, 80)) + "px";
 }
 window.addEventListener("resize", () => { try{ placeBack(); }catch(e){} });
 function render(){
@@ -4258,7 +4280,7 @@ function renderPron(){
   const st = ui.step;
   const stepBtns = PSTEP_NAMES.map((n,i) => `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${pStepDone(lesson,i)?"done":""}">
       <span class="n">${i+1}</span>${n}</button>`).join("");
-  const toggles = `<div class="toolbar">
+  const toggles = `<div class="toolbar prail"><span class="prail-h">Tùy chọn</span>
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>
       <button class="chip" data-act="pref" data-v="showVi" aria-pressed="${store.prefs.showVi}">Nghĩa tiếng Việt</button>
       ${lang==="zh"?`<button class="chip" data-act="pref" data-v="showPy" aria-pressed="${store.prefs.showPy}">Bính âm</button>`:`<button class="chip" data-act="pref" data-v="showIpa" aria-pressed="${store.prefs.showIpa}">Phiên âm IPA</button>`}
@@ -4713,7 +4735,7 @@ function renderLesson(){
     return `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${done?"done":""}" ${locked?"disabled":""}>
       <span class="n">${i+1}</span>${n}</button>`;
   }).join("");
-  const toggles = `<div class="toolbar">
+  const toggles = `<div class="toolbar prail"><span class="prail-h">Tùy chọn</span>
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>
       <button class="chip" data-act="pref" data-v="showVi" aria-pressed="${store.prefs.showVi}">Nghĩa tiếng Việt</button>
       ${lang==="zh"?`<button class="chip" data-act="pref" data-v="showPy" aria-pressed="${store.prefs.showPy}">Bính âm</button>`:`<button class="chip" data-act="pref" data-v="showIpa" aria-pressed="${store.prefs.showIpa}">Phiên âm IPA</button>`}
@@ -4934,7 +4956,7 @@ function vtStats(noBtn){
 }
 function renderVT(){
   ui.vt = ui.vt || {topic:null, part:"b", mode:"list"};
-    if(ui.vt.view === "lessons") return renderVocabSection() + `<div class="page wide"><div class="next"><button class="btn ghost" data-act="vthome">← Về từ vựng theo chủ đề</button></div></div>`;
+    if(ui.vt.view === "lessons") return `<div class="page wide"><button class="back pback" data-act="vthome">← Từ vựng theo chủ đề</button></div>` + renderVocabSection();
   if(ui.vt.topic) return renderVTTopic();
   const L = store.prefs.lang;
   const cards = VT_TOPICS.map((T, i) => {
@@ -4993,7 +5015,7 @@ function renderVTTopic(){
     <div class="vt-head"><div class="lesson-head"><h2>${T.icon} ${esc(T.name)}</h2><div class="toolbar vt-parts">${tabs}</div></div>
       ${(() => { const tot = T[L].b.length + T[L].a.length, dn = vtTopicDone(L, T); return `<div class="vt-count" title="${L==="zh"?"Tiếng Trung":"Tiếng Anh"} · ${vtState().xp} XP"><span>Đã học</span><b>${dn}<small>/${tot} từ</small></b><i class="vt-bar"><i style="width:${Math.round(dn / tot * 100)}%"></i></i></div>`; })()}</div>
     ${voiceWarn(L)}
-    <div class="toolbar">${modes}
+    <div class="toolbar prail"><span class="prail-h">Cách học</span>${modes}<span class="prail-h">Tùy chọn</span>
       ${L==="zh" ? `<button class="chip" data-act="pref" data-v="showPy" aria-pressed="${store.prefs.showPy}">Bính âm</button>` : `<button class="chip" data-act="pref" data-v="showIpa" aria-pressed="${store.prefs.showIpa}">Phiên âm IPA</button>`}
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>${voicePicker(L)}</div>
     ${body}</div>`;
