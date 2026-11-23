@@ -31,7 +31,7 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Sửa lỗi tách bính âm: âm tiết giữa từ không được bắt đầu bằng nguyên âm (trước đây "niúròu" bị tách thành "niúr òu", "kěnéng" thành "kěn éng"…). Sửa được 105 chỗ hiển thị sai trong bài cũ.
 
 ## Video khẩu hình (23/11/2026)
-- Bước “Khẩu hình” của mỗi bài phát âm (104 bài) có video hoạt hình SFY tự vẽ bằng SVG (hàm mvRenderCard, mvPlay, MV_SHAPES, mvSeq): bên trái là nhân vật sinh viên phong cách anime (hoodie xanh SFY, kẹp tóc hình lá, mắt biết chớp; hàm mvFront, miệng vẽ bằng mvLips) đang nói; bên phải là lưỡi và họng vẽ kiểu ảnh siêu âm (nền tối hình quạt, nhiễu hạt, mặt lưỡi là vệt sáng; hàm mvSide). Chấm xanh là luồng hơi, gợn sóng ở cổ là dây thanh rung. Tiếng phát cùng lúc với hình (tiếng Anh dùng bản thu Wikimedia, tiếng Trung dùng giọng trình duyệt). Bài thanh điệu tiếng Trung hiện đường cao độ thay cho ảnh siêu âm. Bật “Đọc chậm” để xem chậm.
+- Bước “Khẩu hình” của mỗi bài phát âm (104 bài) có video hình vẽ SFY tự làm bằng SVG (mvRenderCard, mvPlay, MV_SHAPES, mvSeq): bên trái là môi thật nhìn thẳng (mvLipsReal: môi có viền cung, tô chuyển sắc, răng, lưỡi), bên phải là ô tròn nhìn vào trong miệng vẽ nét, lưỡi màu hồng (mvSideLens, mvSideLine). Chấm xanh là luồng hơi, gợn sóng ở cổ là dây thanh rung. Tiếng phát cùng lúc với hình (tiếng Anh dùng bản thu Wikimedia, tiếng Trung dùng giọng trình duyệt). Bài thanh điệu tiếng Trung hiện đường cao độ ở bên phải. Bật “Đọc chậm” để xem chậm. Đã thử và bỏ kiểu nhân vật hoạt hình (người dùng thấy không khả thi).
 
 ## Việc tiếp theo (chọn khi làm tiếp)
 1. **Giao diện điện thoại riêng**: người dùng muốn kiểu khác với bản máy tính, sẽ mô tả sau.
