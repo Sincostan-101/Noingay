@@ -215,6 +215,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .mv-stage figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;align-items:center}
 .mv-stage svg{width:100%;height:auto;max-height:240px;display:block}
 .mv-stage figcaption{font-size:12px;color:#8a6a5a;margin-top:2px}
+.mv-src{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:12px;font-size:13.5px;color:var(--muted)}
 .mv-bar{display:flex;align-items:center;gap:12px;margin-top:12px}.mv-play{white-space:nowrap}
 .mv-prog{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.mv-prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
 .mv-cap{margin:10px 0 0;font-weight:700;min-height:1.4em}.mv-legend{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
@@ -4452,6 +4453,11 @@ function mvRenderCard(lesson, lang){
       <figure><svg id="mv-front" viewBox="24 34 152 102" role="img" aria-label="Khẩu hình môi nhìn thẳng">${mvLipsInk(o)}</svg><figcaption>Môi nhìn thẳng</figcaption></figure>
       <figure><svg id="mv-side" viewBox="0 0 ${tone ? "200 130" : "220 220"}" role="img" aria-label="${tone ? "Đường thanh điệu" : "Bên trong miệng nhìn nghiêng"}">${tone ? mvTone(lesson.title, 0) : mvSideLens(o, 0)}</svg><figcaption id="mv-sidecap" class="${tone ? "" : "mv-focus"}">${tone ? "Thanh điệu" : esc((lnFocus(o) || {t:"Bên trong miệng"}).t)}</figcaption></figure>
     </div>
+    ${lang === "en" ? (() => { const tts = store.prefs.mvSrc === "tts", ex = lesson.sounds[0].ex[0].t;
+      return `<div class="mv-src"><span>Tiếng trong video:</span>
+        <button class="chip" data-act="mvsrc" data-v="rec" aria-pressed="${!tts}">Âm gốc (bản thu)</button>
+        <button class="chip" data-act="mvsrc" data-v="tts" aria-pressed="${tts}">Giọng đọc đã chọn · “${esc(ex)}”</button></div>
+        <p class="mv-legend">${tts ? `Đang dùng giọng trong ô “Giọng đọc” để đọc từ ví dụ “${esc(ex)}”, vì giọng máy không đọc được một âm đứng riêng.` : `Âm gốc là bản thu giọng người thật của riêng âm này nên luôn giữ một giọng, không đổi theo ô “Giọng đọc”. Muốn nghe bằng giọng đã chọn thì bấm nút bên cạnh.`}</p>`; })() : ""}
     <div class="mv-bar"><button class="btn mv-play" data-act="mvplay">${ICON_PLAY} Phát video</button>
       <div class="mv-prog"><i id="mv-prog"></i></div></div>
     <p class="mv-cap" id="mv-cap">${esc(tone ? "Bấm phát để nghe và xem giọng đi lên xuống thế nào" : o.cap)}</p>
@@ -4477,7 +4483,8 @@ function mvPlay(){
   MV.tl = mvTimeline(mvSeq(lesson.title, lang, lesson.group)); MV.id = lesson.id;
   MV.speed = store.prefs.slow ? .55 : 1; MV.t0 = performance.now(); let said = false;
   const say = () => {
-    if(lang === "en") PhonAudio.play([lesson.title.replace(/\//g, "")]);
+    if(lang === "en" && store.prefs.mvSrc !== "tts") PhonAudio.play([lesson.title.replace(/\//g, "")]);
+    else if(lang === "en") TTS.speak(lesson.sounds[0].ex[0].t, "en");
     else TTS.speak(lesson.hz ? lesson.hz.t : lesson.title, "zh");
   };
   const step = (now) => {
@@ -4919,6 +4926,7 @@ document.addEventListener("click", (ev) => {
   if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
   if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
   if(act === "mvplay"){ mvPlay(); return; }
+  if(act === "mvsrc"){ store.prefs.mvSrc = el.dataset.v; saveStore(); TTS.stop(); render(); return; }
   if(act === "psel"){ phonPick(el.dataset.key, +el.dataset.w, +el.dataset.i); return; }
   if(act === "sayw"){ phonWord(el.dataset.key, +el.dataset.w); return; }
   if(act === "pref"){ const k = el.dataset.v; store.prefs[k] = !store.prefs[k]; saveStore(); render(); return; }
