@@ -33,6 +33,12 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 ## Video khẩu hình (23/11/2026)
 - Bước “Khẩu hình” của mỗi bài phát âm (104 bài) có video hình vẽ SFY tự làm bằng SVG (mvRenderCard, mvPlay, MV_SHAPES, mvSeq): bên trái là môi nhìn thẳng kiểu ký họa đen trắng (mvLipsInk: nét mực, tô xám, chỉ có môi, răng, lưỡi và bóng dưới môi; vẫn giữ mvLipsReal là bản môi màu), bên phải là ô tròn nhìn vào trong miệng (mvSideLens, mvSideLine), tham khảo cách vẽ của Sounds American, có mũi, không có nếp cằm: màu và bố cục gần giống Sounds American: mô xám #eee viền #4c4c4c, khoang hơi trắng, lưỡi trắng viền đỏ #ce4c4c, chấm xám mờ là đường hơi đi (qua miệng hoặc qua mũi), vòng tròn ở cổ là dây thanh, có hai vạch đỏ rung khi âm có rung. Dưới ô tròn có nhãn phần đang hoạt động như “đầu lưỡi uốn lên” (lnFocus). Chấm xanh là luồng hơi, gợn sóng ở cổ là dây thanh rung. Tiếng phát cùng lúc với hình. Tiếng Anh có nút chọn “Âm gốc (bản thu)” (bản thu Wikimedia, giọng cố định, không đổi theo ô Giọng đọc) hoặc “Giọng đọc đã chọn” (giọng máy đọc từ ví dụ đầu tiên, vì giọng máy không đọc được âm đứng riêng); lưu ở store.prefs.mvSrc. Tiếng Trung luôn dùng giọng đã chọn. Bài thanh điệu tiếng Trung hiện đường cao độ ở bên phải. Bật “Đọc chậm” để xem chậm. Đã thử và bỏ kiểu nhân vật hoạt hình (người dùng thấy không khả thi).
 
+## Cấu trúc code và quy tắc chia file
+- Sơ đồ code (22 nhóm, 345 khai báo, 1.029 chỗ gọi nhau): https://claude.ai/artifact/DRmCikiTMAyGu84MvDcQJf
+- Nút trung tâm: store, ui, esc (gần như mọi màn hình dùng). Khoảng 60% dung lượng index.html là dữ liệu.
+- Dự án mới: chia nhiều file nhỏ ngay từ đầu (core/, speech/, features/, pages/, data/, i18n/, css/), dùng ES module, không cần build.
+- SFY nếu tách: 1) dữ liệu ra data/ + i18n/, 2) CSS ra css/, 3) lõi ra core/, 4) giọng nói ra speech/, 5) từng trang ra pages/.
+
 ## Việc tiếp theo (chọn khi làm tiếp)
 - **Chấm phát âm chuyên dụng (ghi chú 24/11/2026):** hiện web chấm bằng nhận giọng nói của trình duyệt, chỉ biết chữ máy nghe được nên chỉ suy ra lỗi khi máy nghe nhầm thành từ/chữ khác; chưa bắt được trọng âm, ngữ điệu, độ dài âm hay lỗi nhỏ mà máy vẫn đoán đúng từ. Muốn chấm tới từng âm cần dịch vụ chấm phát âm có trả phí, gợi ý:
   - Azure AI Speech – Pronunciation Assessment (Microsoft): điểm từng âm vị, từng từ, độ chính xác, độ trôi chảy, độ đầy đủ, ngữ điệu; hỗ trợ tiếng Anh và tiếng Trung; có gói miễn phí giới hạn theo giờ mỗi tháng.
