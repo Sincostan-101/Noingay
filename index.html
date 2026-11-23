@@ -5536,10 +5536,12 @@ function placeBack(){
   const menuBottom = menuClear();
   const b = document.querySelector(".pback"), lay = document.querySelector(".layout"); if(!b || !lay) return;
   const pg = b.parentElement, r = document.querySelector(".prail");
-  b.classList.remove("out", "in", "railed"); b.style.marginLeft = ""; b.style.top = ""; b.style.width = ""; pg.classList.remove("has-rail");
+  b.classList.remove("out", "in"); b.style.marginLeft = ""; b.style.top = "";
+  /* mọi nút quay lại đều cùng cỡ với các nút ở cột tùy chọn */
+  b.classList.add("railed"); b.style.width = "210px"; pg.classList.remove("has-rail");
   if(r){ r.classList.remove("out"); r.style.top = ""; }
   const off = pg.getBoundingClientRect().left - lay.getBoundingClientRect().left;
-  const fitsOut = off >= b.offsetWidth + 24, railW = Math.min(240, off - 24);
+  const fitsOut = off >= b.offsetWidth + 24, railW = Math.min(210, off - 24);
   if(fitsOut && (!r || railW >= 180)){
     /* đủ chỗ bên trái: nút quay lại và thanh tùy chọn nằm dưới logo (dưới cả nút Mục lục) */
     b.classList.add("out");
