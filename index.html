@@ -209,6 +209,21 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .big{font-size:34px;font-weight:800;letter-spacing:-.02em}
 
 /* Notes */
+.mv{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px}
+.mv-head{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;margin-bottom:10px}.mv-head b{font-size:16px}.mv-head span{color:var(--muted);font-size:13px}
+.mv-stage{display:grid;grid-template-columns:1fr 1.2fr;gap:12px}
+.mv-stage figure{margin:0;background:#fff8ef;border:1px solid var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;align-items:center}
+.mv-stage svg{width:100%;height:auto;max-height:240px;display:block}
+.mv-stage figcaption{font-size:12px;color:#8a6a5a;margin-top:2px}
+.mv-bar{display:flex;align-items:center;gap:12px;margin-top:12px}.mv-play{white-space:nowrap}
+.mv-prog{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.mv-prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
+.mv-cap{margin:10px 0 0;font-weight:700;min-height:1.4em}.mv-legend{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
+.mv .mv-face{fill:#f3cdb8;stroke:#c99a80;stroke-width:1.2}.mv .mv-airsp{fill:#fff8ef}.mv .mv-ptr{stroke:#b08878;stroke-width:.8;fill:none}.mv .mv-cav{fill:#8c3a46}.mv .mv-nose{fill:#d9a796}.mv .mv-pal{fill:none;stroke:#b0596a;stroke-width:3;stroke-linecap:round}
+.mv .mv-velum{fill:#e08c96}.mv .mv-tooth{fill:#fff;stroke:#c9c2b8;stroke-width:1}.mv .mv-tongue{fill:#ec7c88;stroke:#b84a5a;stroke-width:1.2}.mv .mv-tongue2{fill:#c95b6a}
+.mv .mv-lip{fill:#d97b84;stroke:#b25864;stroke-width:1.2}.mv .mv-in{fill:#4a1a22}.mv .mv-seam{fill:none;stroke:#9c4553;stroke-width:2;stroke-linecap:round}
+.mv .mv-air circle{fill:#2fa864}.mv .mv-vib{fill:none;stroke:#2fa864;stroke-width:2.2;stroke-linejoin:round}.mv .mv-lb{font-size:9.5px;fill:#8a6a5a;font-family:inherit}
+.mv .mv-grid{stroke:#e5d8c8;stroke-width:1}.mv .mv-tline{fill:none;stroke:#1a7a40;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.mv .mv-tdot{fill:#ec7c88;stroke:#fff;stroke-width:2}
+@media (max-width:600px){.mv-stage{grid-template-columns:1fr}}
 .note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--sun);border-radius:10px;padding:14px 16px}
 .note h4{margin:0 0 4px;font-size:16px}
 .note p{margin:0;color:var(--muted)}
@@ -4147,6 +4162,235 @@ function renderPronListen(lesson, lang){
     <div class="list">${cards}</div>
     <div class="next"><button class="btn ghost" data-act="step" data-v="1">Tiếp: Khẩu hình →</button></div>`;
 }
+/* ===================== VIDEO KHẨU HÌNH (hoạt hình SFY tự vẽ) =====================
+   Mỗi âm là một chuỗi khung hình: nghỉ → khẩu hình của âm → (nhả ra nguyên âm) → nghỉ.
+   Hai góc nhìn: môi nhìn thẳng và mặt cắt nghiêng (môi, răng, lưỡi, vòm miệng, mũi).
+   Thông số: jaw độ mở hàm, spread kéo khóe môi (-1 chu tròn … 1 kéo dẹt), protr chu môi ra trước,
+   close hai môi khép, ld môi dưới chạm răng trên, tx/ty đầu lưỡi (null = nằm sau răng dưới),
+   bx/by mặt lưỡi, vel ngạc mềm hạ xuống (hơi ra mũi). */
+const MV_REST = {jaw:.05, spread:0, protr:0, close:1, ld:0, tx:null, ty:null, bx:125, by:104, vel:0};
+const MV_SHAPES = {
+  rest:{cap:"Thả lỏng"},
+  "iː":{jaw:.12, spread:.9, close:0, bx:96, by:80, cap:"Kéo khóe môi sang hai bên, lưỡi nâng cao phía trước, giữ lâu"},
+  "ɪ":{jaw:.2, spread:.5, close:0, bx:102, by:87, cap:"Miệng hé, lưỡi cao vừa phải, thả lỏng, ngắn gọn"},
+  "i":{jaw:.12, spread:.9, close:0, bx:96, by:80, cap:"Kéo khóe môi sang hai bên, lưỡi nâng cao phía trước"},
+  "e":{jaw:.32, spread:.45, close:0, bx:106, by:94, cap:"Miệng mở vừa, khóe môi hơi kéo ra"},
+  "ɛ":{jaw:.32, spread:.45, close:0, bx:106, by:94, cap:"Miệng mở vừa, khóe môi hơi kéo ra"},
+  "æ":{jaw:.62, spread:.6, close:0, bx:112, by:106, cap:"Hạ hàm thấp, kéo khóe môi, lưỡi thấp phía trước"},
+  "a":{jaw:.75, spread:.2, close:0, bx:128, by:114, cap:"Mở miệng to, lưỡi nằm thấp"},
+  "ɑː":{jaw:.82, spread:0, close:0, bx:150, by:114, cap:"Mở miệng thật to, lưỡi thấp và lùi về sau"},
+  "ʌ":{jaw:.45, spread:.1, close:0, bx:132, by:104, cap:"Miệng mở vừa, môi thả lỏng, bật ngắn"},
+  "ə":{jaw:.28, spread:0, close:0, bx:126, by:98, cap:"Mọi thứ thả lỏng, miệng hé, âm rất nhẹ"},
+  "ɜː":{jaw:.3, spread:.15, close:0, bx:122, by:94, cap:"Miệng hé, lưỡi ở giữa, giữ âm “ơ” dài"},
+  "ɒ":{jaw:.62, spread:-.4, protr:.35, close:0, bx:152, by:110, cap:"Hạ hàm, môi hơi tròn, lưỡi lùi sau, ngắn"},
+  "ɔː":{jaw:.45, spread:-.65, protr:.6, close:0, bx:152, by:98, cap:"Môi tròn và đưa ra trước, giữ âm dài"},
+  "o":{jaw:.42, spread:-.65, protr:.6, close:0, bx:150, by:96, cap:"Môi tròn, lưỡi lùi về sau"},
+  "ʊ":{jaw:.22, spread:-.5, protr:.45, close:0, bx:146, by:88, cap:"Môi hơi tròn, thả lỏng, ngắn"},
+  "uː":{jaw:.12, spread:-.9, protr:.95, close:0, bx:152, by:80, cap:"Chu môi tròn ra trước, lưỡi nâng cao phía sau"},
+  "u":{jaw:.12, spread:-.9, protr:.95, close:0, bx:152, by:80, cap:"Chu môi tròn ra trước, lưỡi nâng cao phía sau"},
+  "ü":{jaw:.12, spread:-.85, protr:.85, close:0, bx:96, by:80, cap:"Lưỡi giữ như “i”, nhưng môi chu tròn như “u”"},
+  "ɤ":{jaw:.3, spread:.2, close:0, bx:145, by:94, cap:"Môi không tròn, lưỡi lùi về sau, gần “ưa/ơ”"},
+  /* phụ âm */
+  "p":{jaw:.04, close:1, bx:124, by:100, air:"stop", asp:1, cap:"Hai môi khép chặt, giữ hơi lại"},
+  "b":{jaw:.04, close:1, bx:124, by:100, air:"stop", voice:1, cap:"Hai môi khép chặt, cổ họng rung"},
+  "bz":{jaw:.04, close:1, bx:124, by:100, air:"stop", cap:"Hai môi khép, bật nhẹ, không phả hơi"},
+  "m":{jaw:.04, close:1, bx:124, by:100, vel:1, air:"nasal", voice:1, cap:"Hai môi khép, hơi đi ra đằng mũi"},
+  "f":{jaw:.1, ld:1, close:0, bx:124, by:100, air:"lips", cap:"Răng trên chạm nhẹ môi dưới, thổi hơi qua khe"},
+  "v":{jaw:.1, ld:1, close:0, bx:124, by:100, air:"lips", voice:1, cap:"Răng trên chạm môi dưới, thổi hơi và rung cổ"},
+  "θ":{jaw:.16, spread:.2, close:0, tx:44, ty:99, bx:118, by:102, air:"tip", cap:"Đầu lưỡi đặt giữa hai hàm răng, thổi hơi ra"},
+  "ð":{jaw:.16, spread:.2, close:0, tx:44, ty:99, bx:118, by:102, air:"tip", voice:1, cap:"Đầu lưỡi giữa hai hàm răng, thổi hơi và rung cổ"},
+  "t":{jaw:.16, spread:.2, close:0, tx:68, ty:86, bx:116, by:100, air:"stop", asp:1, cap:"Đầu lưỡi chạm lợi sau răng trên, giữ hơi"},
+  "d":{jaw:.16, spread:.2, close:0, tx:68, ty:86, bx:116, by:100, air:"stop", voice:1, cap:"Đầu lưỡi chạm lợi sau răng trên, cổ họng rung"},
+  "dz":{jaw:.16, spread:.2, close:0, tx:68, ty:86, bx:116, by:100, air:"stop", cap:"Đầu lưỡi chạm lợi, bật nhẹ, không phả hơi"},
+  "n":{jaw:.16, spread:.2, close:0, tx:68, ty:86, bx:116, by:100, vel:1, air:"nasal", voice:1, cap:"Đầu lưỡi chạm lợi, hơi đi ra đằng mũi"},
+  "l":{jaw:.22, spread:.2, close:0, tx:68, ty:86, bx:132, by:108, air:"side", voice:1, cap:"Đầu lưỡi chạm lợi, hơi đi ra hai bên lưỡi"},
+  "s":{jaw:.1, spread:.35, close:0, tx:66, ty:92, bx:112, by:96, air:"tip", cap:"Đầu lưỡi sát lợi nhưng không chạm, hai hàm răng gần nhau, xì hơi"},
+  "z":{jaw:.1, spread:.35, close:0, tx:66, ty:92, bx:112, by:96, air:"tip", voice:1, cap:"Như /s/ nhưng cổ họng rung"},
+  "ʃ":{jaw:.12, spread:-.5, protr:.6, close:0, tx:76, ty:90, bx:104, by:88, air:"tip", cap:"Chu môi, đầu lưỡi lùi sau lợi, thổi hơi “sh”"},
+  "ʒ":{jaw:.12, spread:-.5, protr:.6, close:0, tx:76, ty:90, bx:104, by:88, air:"tip", voice:1, cap:"Như /ʃ/ nhưng cổ họng rung"},
+  "tʃ":{jaw:.12, spread:-.5, protr:.6, close:0, tx:74, ty:85, bx:104, by:88, air:"stop", asp:1, cap:"Chu môi, đầu lưỡi chạm sau lợi rồi bật ra thành “ch”"},
+  "dʒ":{jaw:.12, spread:-.5, protr:.6, close:0, tx:74, ty:85, bx:104, by:88, air:"stop", voice:1, cap:"Chu môi, đầu lưỡi chạm sau lợi, bật ra và rung cổ"},
+  "k":{jaw:.22, close:0, bx:164, by:80, air:"stop", asp:1, cap:"Cuống lưỡi nâng lên chạm ngạc mềm, giữ hơi"},
+  "g":{jaw:.22, close:0, bx:164, by:80, air:"stop", voice:1, cap:"Cuống lưỡi chạm ngạc mềm, cổ họng rung"},
+  "gz":{jaw:.22, close:0, bx:164, by:80, air:"stop", cap:"Cuống lưỡi chạm ngạc mềm, bật nhẹ, không phả hơi"},
+  "ŋ":{jaw:.22, close:0, bx:164, by:80, vel:1, air:"nasal", voice:1, cap:"Cuống lưỡi chạm ngạc mềm, hơi ra đằng mũi"},
+  "h":{jaw:.38, close:0, bx:128, by:104, air:"throat", cap:"Miệng mở, đẩy một luồng hơi nhẹ từ cổ họng"},
+  "x":{jaw:.25, close:0, bx:160, by:88, air:"velar", cap:"Cuống lưỡi nâng gần ngạc mềm, hơi cọ xát “kh”"},
+  "r":{jaw:.16, spread:-.45, protr:.45, close:0, tx:84, ty:92, bx:126, by:96, air:"none", voice:1, cap:"Môi hơi tròn, cong đầu lưỡi về sau, không chạm vòm"},
+  "w":{jaw:.1, spread:-.95, protr:1, close:0, bx:152, by:80, voice:1, cap:"Chu tròn môi thật nhỏ rồi mở nhanh"},
+  "j":{jaw:.12, spread:.9, close:0, bx:96, by:80, voice:1, cap:"Lưỡi như âm “i”, rồi lướt nhanh sang nguyên âm"},
+  /* tiếng Trung */
+  "zj":{jaw:.1, spread:.7, close:0, bx:96, by:76, air:"stop", cap:"Đầu lưỡi tì răng dưới, mặt lưỡi chạm vòm cứng, kéo khóe môi"},
+  "zq":{jaw:.1, spread:.7, close:0, bx:96, by:76, air:"stop", asp:1, cap:"Như j, nhưng bật hơi thật mạnh"},
+  "zx":{jaw:.1, spread:.7, close:0, bx:96, by:81, air:"blade", cap:"Mặt lưỡi gần vòm cứng, kéo khóe môi, xì hơi"},
+  "zzh":{jaw:.14, spread:-.1, protr:.2, close:0, tx:84, ty:79, bx:122, by:98, air:"stop", cap:"Uốn đầu lưỡi chạm vòm cứng phía trước, bật nhẹ"},
+  "zch":{jaw:.14, spread:-.1, protr:.2, close:0, tx:84, ty:79, bx:122, by:98, air:"stop", asp:1, cap:"Uốn đầu lưỡi chạm vòm, bật hơi mạnh"},
+  "zsh":{jaw:.14, spread:-.1, protr:.2, close:0, tx:84, ty:83, bx:122, by:98, air:"tip", cap:"Uốn đầu lưỡi gần vòm, không chạm, thổi hơi"},
+  "zr":{jaw:.14, spread:-.1, protr:.2, close:0, tx:84, ty:85, bx:122, by:98, air:"tip", voice:1, cap:"Uốn đầu lưỡi gần vòm, rung cổ, hơi cọ nhẹ"},
+  "zz":{jaw:.1, spread:.35, close:0, tx:58, ty:96, bx:112, by:98, air:"stop", cap:"Đầu lưỡi tì sau răng trên, bật nhẹ thành “ch” mảnh"},
+  "zc":{jaw:.1, spread:.35, close:0, tx:58, ty:96, bx:112, by:98, air:"stop", asp:1, cap:"Đầu lưỡi tì sau răng trên, bật hơi mạnh"},
+  "zs":{jaw:.1, spread:.35, close:0, tx:59, ty:99, bx:112, by:98, air:"tip", cap:"Đầu lưỡi gần răng trên, xì hơi như “x”"},
+  "zi":{jaw:.14, spread:.2, close:0, bx:122, by:96, cap:"Giữ nguyên vị trí lưỡi, kéo dài phần vần"}
+};
+for(const k in MV_SHAPES) MV_SHAPES[k] = Object.assign({}, MV_REST, MV_SHAPES[k]);
+/* Chuỗi khung hình cho mỗi âm. Phần tử: [khẩu hình, thời gian chuyển (s), thời gian giữ (s)]; "@" đánh dấu lúc phát tiếng. */
+function mvSeq(sym, lang, group){
+  const V = (a) => [["rest",.3,.25],[a,.3,1.0,"@"],["rest",.45,.3]];
+  const D = (a, b) => [["rest",.3,.25],[a,.28,.3,"@"],[b,.42,.55],["rest",.45,.3]];
+  const T = (...xs) => [["rest",.3,.25], ...xs.map((x, i) => [x, i ? .3 : .28, i === xs.length - 1 ? .55 : .25, i ? undefined : "@"]), ["rest",.45,.3]];
+  const STOP = (c, v) => [["rest",.3,.2],[c,.3,.45],[v,.16,.7,"@"],["rest",.45,.3]];
+  const CONT = (c, v) => [["rest",.3,.2],[c,.3,.85,"@"],[v,.25,.35],["rest",.45,.3]];
+  if(lang === "en"){
+    const s = sym.replace(/\//g, "");
+    const di = {"eɪ":["e","ɪ"],"aɪ":["a","ɪ"],"ɔɪ":["ɔː","ɪ"],"aʊ":["a","ʊ"],"əʊ":["ə","ʊ"],"ɪə":["ɪ","ə"],"eə":["e","ə"],"ʊə":["ʊ","ə"]}[s];
+    if(di) return D(...di);
+    if(["p","b","t","d","k","g","tʃ","dʒ"].includes(s)) return STOP(s, "a");
+    if(["w","j"].includes(s)) return D(s, "a");
+    if(MV_SHAPES[s] && MV_SHAPES[s].air === undefined && !MV_SHAPES[s].voice) return V(s);
+    return CONT(s, "a");
+  }
+  if(group === "pzh-tones") return V("a");
+  const zv = {a:"a", o:"o", e:"ɤ", i:"i", u:"u", "ü":"ü"};
+  if(zv[sym]) return V(zv[sym]);
+  const zc = {b:["bz","a"], p:["p","a"], m:["m","a"], f:["f","a"], d:["dz","a"], t:["t","a"], n:["n","a"], l:["l","a"],
+    g:["gz","ɤ"], k:["k","ɤ"], h:["x","ɤ"], j:["zj","i"], q:["zq","i"], x:["zx","i"],
+    zh:["zzh","zi"], ch:["zch","zi"], sh:["zsh","zi"], r:["zr","zi"], z:["zz","zi"], c:["zc","zi"], s:["zs","zi"]}[sym];
+  if(zc) return ["bz","p","dz","t","gz","k","zj","zq","zzh","zch","zz","zc"].includes(zc[0]) ? STOP(zc[0], zc[1]) : CONT(zc[0], zc[1]);
+  const zf = {ai:["a","i"], ei:["e","i"], ao:["a","o"], ou:["o","u"], an:["a","n"], en:["ə","n"], ang:["ɑː","ŋ"], eng:["ə","ŋ"], ong:["ʊ","ŋ"],
+    ia:["i","a"], ie:["i","e"], iao:["i","a","o"], iu:["i","o","u"], ian:["i","e","n"], in:["i","n"], iang:["i","ɑː","ŋ"], ing:["i","ŋ"], iong:["i","ʊ","ŋ"],
+    ua:["u","a"], uo:["u","o"], uai:["u","a","i"], ui:["u","e","i"], uan:["u","a","n"], un:["u","ə","n"], uang:["u","ɑː","ŋ"],
+    "üe":["ü","e"], "üan":["ü","e","n"], "ün":["ü","n"]}[sym];
+  if(zf) return zf.length === 2 ? D(...zf) : T(...zf);
+  return V("ə");
+}
+function mvTimeline(seq){
+  let t = 0, at = 0, key = -1; const kf = [{t:0, s:MV_SHAPES.rest}];
+  for(const [name, tr, hold, mark] of seq){ const s = MV_SHAPES[name] || MV_SHAPES.rest;
+    t += tr; if(mark) at = t; if(key < 0 && name !== "rest") key = t + hold / 2; kf.push({t, s}); t += hold; kf.push({t, s}); }
+  return {kf, dur:t, at, key};
+}
+const mvEase = x => x < .5 ? 2*x*x : 1 - Math.pow(-2*x + 2, 2) / 2;
+function mvAt(tl, t){
+  const kf = tl.kf; let i = 0; while(i < kf.length - 1 && kf[i+1].t < t) i++;
+  const a = kf[i], b = kf[Math.min(i+1, kf.length-1)];
+  const u = b.t > a.t ? mvEase(Math.min(1, Math.max(0, (t - a.t) / (b.t - a.t)))) : 1;
+  const tipOf = (s) => s.tx == null ? [62, 106 + s.jaw * 28] : [s.tx, s.ty];
+  const ta = tipOf(a.s), tb = tipOf(b.s), m = (x, y) => x + (y - x) * u, o = {};
+  for(const k of ["jaw","spread","protr","close","ld","bx","by","vel"]) o[k] = m(a.s[k], b.s[k]);
+  o.tx = m(ta[0], tb[0]); o.ty = m(ta[1], tb[1]);
+  const cur = u > .5 ? b.s : a.s; o.air = cur.air; o.voice = cur.voice; o.asp = cur.asp; o.cap = cur.cap;
+  o.release = a.s.air === "stop" && b.s !== a.s ? u : 0;
+  return o;
+}
+/* Mặt cắt nghiêng: miệng quay sang trái. Mô (da, thịt) màu hồng nhạt, khoang chứa hơi màu kem. */
+function mvSide(o, time){
+  const J = o.jaw * 30, px = o.protr * 9;
+  const upY = 95, gap = (1 - o.close) * (2 + J), loY = upY + 1 + gap - o.ld * gap * .9;
+  const ulx = 38 - px, llx = 40 - px + o.ld * 10;
+  const tx = o.tx, ty = o.ty, bx = o.bx, by = o.by;
+  const head = `M74,0 C64,14 58,26 50,34 C40,42 24,48 22,54 C21,60 30,64 40,64 C44,66 47,68 48,72 C46,78 ${ulx+4},82 ${ulx},88 C${ulx-1},92 ${ulx+2},${upY} ${ulx+8},${upY} L56,${upY}
+    L56,${loY} L${llx+8},${loY} C${llx+1},${loY+1} ${llx-2},${loY+6} ${llx},${loY+11} C${llx+2},${loY+16} 50,${loY+18} 50,${loY+22} C44,${loY+34} 44,${loY+48} 62,${loY+54} C84,${loY+60} 110,196 118,220 L260,220 L260,0 Z`;
+  const oral = `M56,${upY} L57,86 C64,79 70,79 74,81 C96,73 130,69 166,72 C184,74 198,80 204,92 L206,220 L176,220 C170,190 150,${168+J} 110,${160+J} C86,${154+J} 70,${130+J} 62,${116+J} L56,${loY} Z`;
+  const nasal = "M40,64 C62,57 104,52 150,55 C180,57 198,66 204,80 L204,92 C197,82 182,73 166,70 C132,66 92,67 48,72 Z";
+  const vt = [200 - 16 * o.vel, 88 + 22 * o.vel];
+  const velum = `M150,70 C170,70 186,74 ${vt[0]+3},${vt[1]-6} C${vt[0]+2},${vt[1]+2} ${vt[0]-6},${vt[1]+3} ${vt[0]-9},${vt[1]-3} C${vt[0]-16},${vt[1]-12} 168,${80+o.vel*6} 150,78 Z`;
+  const tongue = `M${tx},${ty} C${tx+14},${ty-7} ${bx-30},${by} ${bx},${by} C${bx+26},${by} 184,${by+14} 186,${Math.max(by+30, 132)} C188,170 186,196 178,206 L132,202 C108,${190+J*.4} 86,${150+J} 72,${126+J} C66,${120+J} ${tx+6},${ty+10} ${tx},${ty} Z`;
+  let air = "";
+  const ph = (time * 2.2) % 1, dots = (x1, y1, x2, y2, n, r) => { let s = ""; for(let k = 0; k < n; k++){ const q = (ph + k / n) % 1; s += `<circle cx="${(x1 + (x2 - x1) * q).toFixed(1)}" cy="${(y1 + (y2 - y1) * q).toFixed(1)}" r="${r}" opacity="${(1 - q * .8).toFixed(2)}"/>`; } return s; };
+  if(o.air === "nasal") air = dots(200, 104, 196, 72, 2, 2.4) + dots(190, 66, 110, 60, 3, 2.4) + dots(110, 60, 30, 62, 3, 2.4);
+  else if(o.air === "lips") air = dots(52, 97, 12, 98, 4, 2.2);
+  else if(o.air === "tip") air = dots(tx - 2, ty + 1, 10, 98, 4, 2.2);
+  else if(o.air === "blade") air = dots(bx - 24, by + 6, 10, 98, 4, 2.2);
+  else if(o.air === "velar") air = dots(bx - 4, by + 6, 12, 98, 5, 2.2);
+  else if(o.air === "throat") air = dots(195, 190, 12, 100, 6, 2.6);
+  else if(o.air === "side") air = dots(tx + 34, ty + 10, 12, 100, 4, 2.2);
+  if(o.release > 0 && o.release < 1){ const q = o.release, n = o.asp ? 6 : 3; for(let k = 0; k < n; k++) air += `<circle cx="${(34 - q * (12 + k * 7)).toFixed(1)}" cy="${(97 + (k % 3 - 1) * 5 * q).toFixed(1)}" r="${o.asp ? 3.4 : 2}" opacity="${(1 - q).toFixed(2)}"/>`; }
+  const vib = o.voice ? `<path class="mv-vib" d="M186,204 l4,-5 l4,10 l4,-10 l4,10 l4,-5" transform="translate(0,${(Math.sin(time * 40) * 1.2).toFixed(2)})"/><text class="mv-lb" x="160" y="216">rung</text>` : "";
+  return `<path class="mv-face" d="${head}"/>
+    <path class="mv-airsp" d="${nasal}"/><path class="mv-airsp" d="${oral}"/>
+    <path class="mv-velum" d="${velum}"/>
+    <path class="mv-tooth" d="M53,98 L51,92 C52,86 56,82 61,82 L64,85 L58,98 Z"/>
+    <path class="mv-tooth" d="M54,${100+J} L59,${99+J} L64,${113+J} C62,${117+J} 58,${117+J} 56,${114+J} Z"/>
+    <path class="mv-tongue" d="${tongue}"/>
+    <g class="mv-air">${air}</g>${vib}
+    <text class="mv-lb" x="92" y="51">khoang mũi</text><text class="mv-lb" x="98" y="88">vòm miệng</text><text class="mv-lb" x="250" y="62" text-anchor="end">ngạc mềm</text><path class="mv-ptr" d="M232,65 L196,80"/><text class="mv-lb" x="2" y="122">môi</text><text class="mv-lb" x="130" y="150">lưỡi</text>`;
+}
+/* Môi nhìn thẳng */
+function mvFront(o){
+  const cx = 100, cy = 74;
+  const a = 40 + o.spread * 12 - o.protr * 14;
+  let h = (1 - o.close) * (4 + o.jaw * 46); if(o.ld > .5) h = Math.min(h, 7);
+  const ai = Math.max(6, Math.min(a * .82, o.protr > .3 ? h * .5 + 8 + (1 - o.protr) * 10 : a * .82));
+  const lipT = 11 + o.protr * 4, hh = h / 2;
+  const outer = `M${cx-a-6},${cy} C${cx-a+4},${cy-hh-lipT-6} ${cx-12},${cy-hh-lipT-4} ${cx},${cy-hh-lipT+2} C${cx+12},${cy-hh-lipT-4} ${cx+a-4},${cy-hh-lipT-6} ${cx+a+6},${cy} C${cx+a-6},${cy+hh+lipT+10} ${cx-a+6},${cy+hh+lipT+10} ${cx-a-6},${cy} Z`;
+  const inner = `M${cx-ai},${cy} C${cx-ai*.6},${cy-hh} ${cx+ai*.6},${cy-hh} ${cx+ai},${cy} C${cx+ai*.6},${cy+hh} ${cx-ai*.6},${cy+hh} ${cx-ai},${cy} Z`;
+  const showUp = h > 5, showLo = h > 24;
+  const tongueOut = o.tx < 50 ? `<ellipse class="mv-tongue" cx="${cx}" cy="${cy+1}" rx="${Math.min(ai-3, 16)}" ry="${Math.max(2, hh-1)}"/>` : "";
+  const tongueIn = h > 14 ? `<ellipse class="mv-tongue2" cx="${cx}" cy="${cy+hh-2}" rx="${ai*.7}" ry="${Math.min(10, hh*.5)}"/>` : "";
+  return `<defs><clipPath id="mv-clip"><path d="${inner}"/></clipPath></defs>
+    <ellipse class="mv-face" cx="100" cy="80" rx="96" ry="78"/>
+    <path class="mv-lip" d="${outer}"/>
+    ${h > .6 ? `<path class="mv-in" d="${inner}"/>
+    <g clip-path="url(#mv-clip)">${tongueIn}${showUp ? `<rect class="mv-tooth" x="${cx-28}" y="${cy-hh-1}" width="56" height="${Math.min(9, h*.55)}" rx="2"/>` : ""}${showLo ? `<rect class="mv-tooth" x="${cx-24}" y="${cy+hh-6}" width="48" height="7" rx="2"/>` : ""}${tongueOut}</g>` : `<path class="mv-seam" d="M${cx-a+2},${cy} C${cx-12},${cy+2} ${cx+12},${cy+2} ${cx+a-2},${cy}"/>`}
+    ${o.ld > .5 && o.close < .5 ? `<rect class="mv-tooth" x="${cx-24}" y="${cy-4}" width="48" height="6" rx="2"/>` : ""}`;
+}
+/* Đường thanh điệu cho bài thanh điệu tiếng Trung */
+const MV_TONES = {"ā":[[0,5],[1,5]], "á":[[0,3],[1,5]], "ǎ":[[0,2],[.45,1],[1,4]], "à":[[0,5],[1,1]], "a":[[0,3],[.5,2.6],[1,2.5]]};
+function mvTone(sym, q){
+  const pts = MV_TONES[sym] || MV_TONES.a, X = (x) => 20 + x * 150, Y = (v) => 108 - (v - 1) * 22;
+  const path = "M" + pts.map(([x, v]) => `${X(x)},${Y(v)}`).join(" L");
+  let dot = pts[0]; if(q > 0){ for(let i = 0; i < pts.length - 1; i++){ const [x1, v1] = pts[i], [x2, v2] = pts[i+1]; if(q <= x2 || i === pts.length - 2){ const u = Math.min(1, (q - x1) / (x2 - x1)); dot = [x1 + (x2 - x1) * u, v1 + (v2 - v1) * u]; break; } } }
+  const grid = [1,2,3,4,5].map(v => `<line class="mv-grid" x1="16" x2="176" y1="${Y(v)}" y2="${Y(v)}"/><text class="mv-lb" x="182" y="${Y(v)+4}">${v}</text>`).join("");
+  return `${grid}<path class="mv-tline" d="${path}"/><circle class="mv-tdot" cx="${X(dot[0])}" cy="${Y(dot[1])}" r="7"/><text class="mv-lb" x="16" y="16">Cao độ giọng</text>`;
+}
+const MV = {raf:0, tl:null, t0:0, speed:1, id:null};
+function mvKeyFrame(tl){ return mvAt(tl, tl.key); }
+function mvLesson(lesson, lang){ return {sym: lang === "en" ? lesson.title : lesson.title, group: lesson.group}; }
+function mvRenderCard(lesson, lang){
+  const tl = mvTimeline(mvSeq(lesson.title, lang, lesson.group)), o = mvKeyFrame(tl), tone = lesson.group === "pzh-tones";
+  return `<div class="mv" id="mv" data-id="${esc(lesson.id)}">
+    <div class="mv-head"><b>Video khẩu hình</b><span>${tone ? "Nghe và nhìn đường cao độ của thanh điệu" : "Nhìn môi (bên trái) và lưỡi (bên phải) khi phát âm"}</span></div>
+    <div class="mv-stage">
+      <figure><svg id="mv-front" viewBox="0 0 200 150" role="img" aria-label="Khẩu hình môi nhìn thẳng">${mvFront(o)}</svg><figcaption>Nhìn thẳng</figcaption></figure>
+      <figure><svg id="mv-side" viewBox="0 0 ${tone ? "200 130" : "260 220"}" role="img" aria-label="${tone ? "Đường thanh điệu" : "Mặt cắt nghiêng khoang miệng"}">${tone ? mvTone(lesson.title, 0) : mvSide(o, 0)}</svg><figcaption>${tone ? "Thanh điệu" : "Mặt cắt nghiêng"}</figcaption></figure>
+    </div>
+    <div class="mv-bar"><button class="btn mv-play" data-act="mvplay">${ICON_PLAY} Phát video</button>
+      <div class="mv-prog"><i id="mv-prog"></i></div></div>
+    <p class="mv-cap" id="mv-cap">${esc(tone ? "Bấm phát để nghe và xem giọng đi lên xuống thế nào" : o.cap)}</p>
+    <p class="mv-legend">${tone ? "Đường càng cao thì giọng càng cao (thang 1–5)." : "Chấm xanh là luồng hơi đi ra. Gợn sóng ở cổ họng là dây thanh đang rung. Bật “Đọc chậm” để xem chậm hơn."}</p>
+  </div>`;
+}
+function mvDraw(time){
+  const c = curPron(); if(!c || !MV.tl) return false;
+  const fr = document.getElementById("mv-front"), sd = document.getElementById("mv-side");
+  if(!fr || !sd || document.getElementById("mv").dataset.id !== MV.id) return false;
+  const o = mvAt(MV.tl, time), tone = c.lesson.group === "pzh-tones";
+  fr.innerHTML = mvFront(o);
+  sd.innerHTML = tone ? mvTone(c.lesson.title, Math.min(1, Math.max(0, (time - MV.tl.at) / 1.0))) : mvSide(o, time);
+  const pg = document.getElementById("mv-prog"); if(pg) pg.style.width = Math.min(100, time / MV.tl.dur * 100) + "%";
+  const cp = document.getElementById("mv-cap"); if(cp && !tone) cp.textContent = o.cap;
+  return true;
+}
+function mvPlay(){
+  const c = curPron(); if(!c) return;
+  cancelAnimationFrame(MV.raf); TTS.stop(); PhonAudio.stop && PhonAudio.stop();
+  const {lesson, lang} = c;
+  MV.tl = mvTimeline(mvSeq(lesson.title, lang, lesson.group)); MV.id = lesson.id;
+  MV.speed = store.prefs.slow ? .55 : 1; MV.t0 = performance.now(); let said = false;
+  const say = () => {
+    if(lang === "en") PhonAudio.play([lesson.title.replace(/\//g, "")]);
+    else TTS.speak(lesson.hz ? lesson.hz.t : lesson.title, "zh");
+  };
+  const step = (now) => {
+    const t = (now - MV.t0) / 1000 * MV.speed;
+    if(!said && t >= MV.tl.at - .05){ said = true; say(); }
+    if(!mvDraw(Math.min(t, MV.tl.dur))) return;
+    if(t < MV.tl.dur) MV.raf = requestAnimationFrame(step);
+    else { mvDraw(MV.tl.key); const pg = document.getElementById("mv-prog"); if(pg) pg.style.width = "100%"; }
+  };
+  MV.raf = requestAnimationFrame(step);
+}
+
 function renderPronTips(lesson, lang){
   const p = pprog(lesson.id);
   if(!p.tips){ p.tips = true; saveStore(); }
@@ -4154,7 +4398,7 @@ function renderPronTips(lesson, lang){
       <h4>${esc(s.s)} · ${esc(s.vn)}</h4><p>${esc(s.tip)}</p>
       <div class="exs" style="margin-top:8px">${s.ex.slice(0,2).map((e,k) => exBtn(e, lang, `X${i}_${k}`)).join("")}</div></div>`).join("");
   const mistake = lesson.mistake ? `<div class="warnbox"><b>Lỗi người Việt hay mắc:</b> ${esc(lesson.mistake)}</div>` : "";
-  return `${mistake}<div class="list">${notes}</div>
+  return `${mvRenderCard(lesson, lang)}${mistake}<div class="list">${notes}</div>
     <div class="next"><button class="btn ghost" data-act="step" data-v="2">Tiếp: Phân biệt →</button></div>`;
 }
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
@@ -4575,6 +4819,7 @@ document.addEventListener("click", (ev) => {
     const c = curLesson(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"les", id:c.lesson.id, lang:c.lang}; saveStore(); ui.section = c.lesson.work ? "work" : "speak"; } render(); window.scrollTo(0,0); return; }
   if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
   if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
+  if(act === "mvplay"){ mvPlay(); return; }
   if(act === "psel"){ phonPick(el.dataset.key, +el.dataset.w, +el.dataset.i); return; }
   if(act === "sayw"){ phonWord(el.dataset.key, +el.dataset.w); return; }
   if(act === "pref"){ const k = el.dataset.v; store.prefs[k] = !store.prefs[k]; saveStore(); render(); return; }

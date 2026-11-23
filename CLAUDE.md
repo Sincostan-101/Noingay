@@ -30,6 +30,9 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Mỗi bài 16 từ vựng có nhãn cấp độ (Oxford 3000/5000 CEFR, HSK 3.0). IPA mới lấy từ CMUdict, đổi sang kiểu IPA Anh của web.
 - Sửa lỗi tách bính âm: âm tiết giữa từ không được bắt đầu bằng nguyên âm (trước đây "niúròu" bị tách thành "niúr òu", "kěnéng" thành "kěn éng"…). Sửa được 105 chỗ hiển thị sai trong bài cũ.
 
+## Video khẩu hình (23/11/2026)
+- Bước “Khẩu hình” của mỗi bài phát âm (104 bài) có video hoạt hình SFY tự vẽ bằng SVG (hàm mvRenderCard, mvPlay, MV_SHAPES, mvSeq): môi nhìn thẳng + mặt cắt nghiêng (lưỡi, răng, vòm miệng, ngạc mềm, khoang mũi), chấm xanh là luồng hơi, gợn sóng ở cổ là dây thanh rung. Tiếng phát cùng lúc với hình (tiếng Anh dùng bản thu Wikimedia, tiếng Trung dùng giọng trình duyệt). Bài thanh điệu tiếng Trung hiện đường cao độ thay cho mặt cắt. Bật “Đọc chậm” để xem chậm.
+
 ## Việc tiếp theo (chọn khi làm tiếp)
 1. **Giao diện điện thoại riêng**: người dùng muốn kiểu khác với bản máy tính, sẽ mô tả sau.
 2. Thêm bài Luyện nói (mục tiêu khoảng 10 bài mỗi ngôn ngữ: phỏng vấn, gọi điện, khám bệnh, taxi…).
