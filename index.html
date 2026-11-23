@@ -158,6 +158,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .card.locked{opacity:.55;cursor:not-allowed;filter:grayscale(.4)}.card.locked:hover{transform:none;box-shadow:none}
 .phr.locked{color:var(--muted);font-size:14px;border-style:dashed;background:transparent}
 .need{font-size:13px;color:#b45309;margin:4px 0}
+.result .fb{display:block;margin-top:6px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.55);color:var(--ink);font-size:14px;line-height:1.5}
+.result .fb.good{color:var(--accent);font-weight:600}
 .next .need{margin-right:auto;align-self:center}
 .btn.finish{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 6px 16px -6px var(--accent)}
 .lprog{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:74px}
@@ -4081,9 +4083,37 @@ function evaluate(item, lang, texts, typed){
       if(r.score > best.score) best = Object.assign({heard:h, isMain: t===item.t}, r);
     }
   }
-  let html = esc(item.t);
-  if(!best.pinyin && best.isMain) html = diffHtml(item.t, lang, best.matched);
-  return {score: best.score, heard: best.heard, html, pinyin: !!best.pinyin};
+  let html = esc(item.t), miss = [];
+  if(!best.pinyin && best.isMain){ html = diffHtml(item.t, lang, best.matched); miss = missWords(item.t, lang, best.matched); }
+  const heardLen = lang === "en" ? tokensEn(best.heard || "").length : tokensZh(best.heard || "").length, wantLen = lang === "en" ? tokensEn(item.t).length : tokensZh(item.t).length;
+  return {score: best.score, heard: best.heard, html, pinyin: !!best.pinyin, tip: speakTip(best.score, lang, miss, heardLen, wantLen, !!best.pinyin)};
+}
+/* những từ (tiếng Anh) hoặc chữ (tiếng Trung) chưa khớp */
+function missWords(text, lang, matched){
+  const out = []; let k = 0;
+  if(lang === "en"){
+    for(const w of text.split(/\s+/)){ const toks = tokensEn(w); if(!toks.length) continue; let ok = true; for(let x = 0; x < toks.length; x++) if(!matched[k+x]) ok = false; k += toks.length; if(!ok) out.push(w.replace(/^[^A-Za-z']+|[^A-Za-z']+$/g, "")); }
+  } else for(const ch of Array.from(text)){ if(isHan(ch) || /[a-z0-9]/i.test(ch)){ if(!matched[k]) out.push(ch); k++; } }
+  return out.filter(Boolean);
+}
+/* Lời khen hoặc gợi ý cải thiện cho từng câu, dựa trên điểm và những từ chưa khớp */
+function speakTip(score, lang, miss, heardLen, wantLen, pinyin){
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  const q = miss.slice(0, 4).map(w => `“${w}”`).join(", ");
+  if(score >= 90) return {good:true, text:pick(["Xuất sắc! Câu nói rõ ràng và chính xác.", "Rất tốt! Người bản xứ sẽ hiểu bạn ngay.", "Hoàn hảo, giữ phong độ này nhé!", "Tuyệt vời, phát âm rất chuẩn!"])};
+  if(score >= 75) return {good:true, text:"Tốt lắm! " + (miss.length ? `Chỉ cần nói rõ hơn ${lang === "zh" ? "chữ" : "từ"} ${q}.` : "Thử nói liền mạch, tự nhiên hơn một chút.")};
+  const parts = [];
+  if(heardLen && heardLen < wantLen * 0.6) parts.push("Máy mới nghe được một phần câu. Hãy nói trọn cả câu, to và gần micro hơn.");
+  else if(heardLen > wantLen * 1.5) parts.push("Bạn nói dư khá nhiều từ. Hãy nói đúng câu mẫu, không thêm bớt.");
+  if(miss.length) parts.push(`${lang === "zh" ? "Các chữ" : "Các từ"} chưa rõ: ${q}${miss.length > 4 ? "…" : ""}.`);
+  if(lang === "en"){
+    if(miss.some(w => /[stdkpz]$|ed$|es$/i.test(w))) parts.push("Nhớ đọc rõ âm cuối (s, t, d, k…), người Việt hay nuốt mất âm này.");
+    if(miss.some(w => /th/i.test(w))) parts.push("Âm “th”: đặt đầu lưỡi giữa hai hàm răng rồi thổi hơi.");
+    if(miss.some(w => /^r|r[aeiou]/i.test(w))) parts.push("Âm “r” tiếng Anh: cong lưỡi lên, không rung như “r” tiếng Việt.");
+  } else if(!pinyin) parts.push("Chú ý thanh điệu của những chữ chưa rõ; bật Bính âm để xem dấu thanh.");
+  if(score < 50) parts.push("Bật “Đọc chậm”, nghe mẫu vài lần rồi nói theo từng cụm ngắn.");
+  else parts.unshift("Khá ổn!");
+  return {good:false, text:parts.join(" ")};
 }
 function diffHtml(text, lang, matched){
   let k = 0, out = "";
@@ -4132,8 +4162,8 @@ function pStepDone(les, i){
   const p = store.pron[les.id]; if(!p) return false;
   if(i===0) return les.sounds.every((_,k) => p.listen[k]);
   if(i===1) return p.tips;
-  if(i===2) return p.quiz != null && p.quiz >= PASS;
-  if(i===3) return les.speak.every((_,k) => (p.speak[k] || 0) >= PASS);
+  if(i===2) return p.quiz != null;
+  if(i===3) return les.speak.every((_,k) => p.speak[k] != null);
   return false;
 }
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
@@ -4178,7 +4208,7 @@ function finishBtn(les, kind, nxt, fallback){
   const nextAttr = nxt ? `data-next="${nxt.id}"` : "";
   if(!done && ready) return `<button class="btn finish" data-act="lesfinish" data-kind="${kind}" data-id="${les.id}" ${nextAttr}>✓ Xác nhận hoàn thành bài${nxt ? " · sang bài tiếp theo →" : ""}</button>`;
   const go = nxt ? `<button class="btn ${done ? "" : "ghost"}" data-act="${kind === "pron" ? "popen" : "open"}" data-id="${nxt.id}">Bài tiếp theo: ${esc(nxt.title)} →</button>` : fallback;
-  return (done ? `<span class="pill good">✓ Đã hoàn thành bài</span>` : `<span class="need">${kind === "pron" ? "Nghe đủ các âm, làm phần Phân biệt và nói mỗi từ từ 50 điểm" : "Nghe hết hội thoại, nói mỗi câu then chốt từ 50 điểm và đóng vai xong"} để xác nhận hoàn thành bài.</span>`) + go;
+  return (done ? `<span class="pill good">✓ Đã hoàn thành bài</span>` : `<span class="need">${kind === "pron" ? "Nghe đủ các âm, làm phần Phân biệt và nói thử từng từ" : "Nghe hết hội thoại, nói thử từng câu then chốt và đóng vai xong"} để xác nhận hoàn thành bài.</span>`) + go;
 }
 function lesList(les){ const l = les.id.slice(0, 2); return les.work ? LESSONS[l].filter(x => x.work && x.ind === les.ind) : lessonsOf(l); }
 function pronList(les){ for(const l of ["en","zh"]) if(PRON[l].includes(les)) return PRON[l]; return [les]; }
@@ -4203,7 +4233,7 @@ function lockStepBtns(html, open){
 function stepDone(lesson, i){
   const p = prog(lesson.id);
   if(i===0) return p.listen;
-  if(i===1) return lesson.phrases.every((_,k) => (p.phrases[k] || 0) >= PASS);
+  if(i===1) return lesson.phrases.every((_,k) => p.phrases[k] != null);
   if(i===2) return p.role;
   if(i===3) return p.role;
   return false;
@@ -6474,7 +6504,7 @@ function renderPronQuiz(lesson, lang){
     return `<div class="summary">
       <span>Hoàn thành phần phân biệt</span>
       <span class="big">${q.correct}/${q.items.length} câu đúng</span>
-      <span class="status">${sc>=85?"Tai bạn đã phân biệt tốt các âm này!":sc>=PASS?"Nghe lại các từ ví dụ ở bước 1 rồi làm thêm một lượt nhé.":`Cần đúng từ ${PASS}% để mở bước Nói thử. Nghe lại các từ ví dụ ở bước 1 rồi làm lại nhé.`}</span>
+      <span class="status">${sc>=85?"Tai bạn đã phân biệt tốt các âm này!":"Nghe lại các từ ví dụ ở bước 1 rồi làm thêm một lượt nhé."}</span>
       <div class="row"><button class="btn" data-act="step" data-v="3">Tiếp: Nói thử →</button>
       <button class="btn ghost" data-act="pqstart">Làm lại</button></div></div>`;
   }
@@ -6505,7 +6535,6 @@ function renderPronSpeak(lesson, lang){
   const cards = lesson.speak.map((it, i) => {
     const key = `S${i}`;
     const best = p.speak[i];
-    if(i > 0 && (p.speak[i-1] || 0) < PASS) return `<div class="phr locked">🔒 Từ ${i+1}: đạt từ ${PASS} điểm ở từ phía trên để mở.</div>`;
     return `<div class="phr">
       <div class="row" style="justify-content:space-between">
         <div class="row"><button class="play" data-act="say" data-key="${key}" aria-label="Nghe mẫu">${ui.playingKey===key?ICON_STOP:ICON_PLAY}</button>
@@ -6513,7 +6542,6 @@ function renderPronSpeak(lesson, lang){
           ${store.prefs.showVi?`<div class="vi">${esc(it.v)}</div>`:""}</div></div>
         ${best!=null?`<span class="pill ${grade(best)}">Cao nhất ${best}</span>`:""}
       </div>
-      ${best!=null && best < PASS ? `<div class="need">Cần đạt từ ${PASS} điểm để qua từ tiếp theo.</div>` : ""}
       ${speakBlock(it, lang, key)}
     </div>`;
   }).join("");
@@ -6590,7 +6618,8 @@ function speakBlock(item, lang, key){
     else resHtml = `<div class="result ${grade(res.score)}">
         <span class="score">${res.score} điểm · ${gradeText(res.score)}</span>
         <span class="diff">${res.html}</span>
-        <span class="heard">${res.pinyin?"Bạn gõ":"Máy nghe được"}: “${esc(res.heard)}”</span></div>`;
+        <span class="heard">${res.pinyin?"Bạn gõ":"Máy nghe được"}: “${esc(res.heard)}”</span>
+        ${res.tip ? `<span class="fb ${res.tip.good ? "good" : ""}">${res.tip.good ? "🎉" : "💡"} ${esc(res.tip.text)}</span>` : ""}</div>`;
   }
   const typing = ui.typing[key] || Rec.mode(lang) === "none";
   const typeBox = typing ? `<form class="typebox" data-act="typed" data-key="${key}">
@@ -6606,7 +6635,6 @@ function renderPhrases(lesson, lang){
   const cards = lesson.phrases.map((ph, i) => {
     const key = `P${i}`;
     const best = p.phrases[i];
-    if(i > 0 && (p.phrases[i-1] || 0) < PASS) return `<div class="phr locked">🔒 Câu ${i+1}: đạt từ ${PASS} điểm ở câu phía trên để mở câu này.</div>`;
     return `<div class="phr">
       <div class="row" style="justify-content:space-between">
         <div class="row"><button class="play" data-act="say" data-key="${key}" aria-label="Nghe mẫu">${ui.playingKey===key?ICON_STOP:ICON_PLAY}</button>
@@ -6614,7 +6642,6 @@ function renderPhrases(lesson, lang){
           ${store.prefs.showVi?`<div class="vi">${esc(ph.v)}</div>`:""}</div></div>
         ${best!=null?`<span class="pill ${grade(best)}">Cao nhất ${best}</span>`:""}
       </div>
-      ${best!=null && best < PASS ? `<div class="need">Cần đạt từ ${PASS} điểm để qua câu tiếp theo.</div>` : ""}
       ${speakBlock(ph, lang, key)}
     </div>`;
   }).join("");
@@ -6648,8 +6675,7 @@ function renderRole(lesson, lang){
     } else {
       const key = `R${rp.idx}`;
       const res = ui.results[key];
-      const passed = res && !res.error && !res.empty && res.score >= PASS;
-      const low = res && !res.error && !res.empty && res.score < PASS;
+      const passed = res && !res.error && !res.empty;
       turn = `<div class="turn">
         <h4>Đến lượt bạn</h4>
         <div class="prompt">${esc(ln.v)}</div>
@@ -6658,7 +6684,8 @@ function renderRole(lesson, lang){
         <div class="row">
           ${passed?`<button class="btn small" data-act="rpnext">Tiếp tục →</button>`:""}
           <button class="btn small ghost" data-act="say" data-key="${key}">${ICON_PLAY} Nghe câu mẫu</button>
-        </div>${low ? `<div class="need">Cần đạt từ ${PASS} điểm để qua câu này. Nghe câu mẫu rồi nói lại nhé.</div>` : ""}</div>`;
+          ${!passed?`<button class="linkbtn" data-act="rpskip">Bỏ qua câu này</button>`:""}
+        </div></div>`;
     }
   } else {
     const scored = rp.results.filter(r => r && !r.skipped);
@@ -7328,7 +7355,8 @@ document.addEventListener("click", (ev) => {
   if(act === "toggletype"){ const k = el.dataset.key; ui.typing[k] = !ui.typing[k]; render(); const inp = document.getElementById("in-"+k); if(inp) inp.focus(); return; }
   if(act === "rpstart"){ TTS.stop(); Rec.stop(); ui.results = {}; ui.typing = {}; ui.rp = {idx:0, revealed:false, results:[]}; rpAdvance(); return; }
   if(act === "reveal"){ if(ui.rp){ ui.rp.revealed = true; render(); } return; }
-  if(act === "rpnext"){ if(ui.rp){ const r = ui.rp.results[ui.rp.idx]; if(!r || r.score < PASS){ toast("Cần đạt từ 50 điểm để qua câu này."); return; } ui.rp.idx++; rpAdvance(); } return; }
+  if(act === "rpnext"){ if(ui.rp){ ui.rp.idx++; rpAdvance(); } return; }
+  if(act === "rpskip"){ if(ui.rp){ ui.rp.results[ui.rp.idx] = {skipped:true, score:0}; ui.rp.idx++; rpAdvance(); } return; }
 
 });
 document.addEventListener("input", (ev) => {
