@@ -83,3 +83,8 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Ngôn ngữ giao diện: Tiếng Việt (mặc định), English, 中文, lưu ở store.prefs.ui. Code viết giao diện bằng tiếng Việt; khi chọn ngôn ngữ khác, I18N (MutationObserver trên body) thay chữ trên màn hình theo I18N_DICT (khớp nguyên đoạn chữ) và I18N_RX (đoạn có số/tên). Thêm chữ giao diện mới thì thêm vào I18N_DICT: "tiếng Việt": ["English", "中文"].
 - Chưa dịch: nội dung bài học (tên bài, tình huống, nghĩa câu/từ, mô tả âm, giải thích).
 - Nút quay lại (.pback) và thanh tùy chọn (.prail) của bài học: placeBack() đặt nút dưới logo và xếp tùy chọn thành cột dọc bên trái khi đủ chỗ; không đủ thì chia trang 2 cột (.has-rail); điện thoại giữ hàng ngang.
+
+## Sổ từ vựng và tra từ (24/11/2026)
+- Sổ từ vựng: mục Từ vựng → ô "📒 Sổ từ vựng của bạn" (địa chỉ #vocab/notebook, renderNotebook, nbAct, NB). Gõ từ → tự tra (chờ 0,7 giây hoặc Enter) → "Lưu vào sổ". Lưu ở store.notebook: t, p, ipa, v, alts, defs, lv, audio, at, known. Lọc Tất cả / Đang học / Đã thuộc.
+- Tra từ (Dict.lookup): dữ liệu có sẵn trong web trước (nghĩa, bính âm, cấp độ) + IPA từ CMUdict; trên mạng: Google Dịch bản miễn phí (translate.googleapis.com client=gtx: nghĩa, từ loại, bính âm), dự phòng MyMemory; tiếng Anh thêm Free Dictionary API (dictionaryapi.dev: định nghĩa, ví dụ, file phát âm). Google Dịch bản miễn phí không chính thức, có thể bị chặn bất cứ lúc nào; khi đó cân nhắc API có khóa.
+- Bảng tra nhanh (WordPop): bấm một từ tiếng Anh trong câu (nút .w) hoặc một chữ Hán (.rb-c), hoặc bôi đen chữ trong phần nội dung → 🔍 Tra từ · 🌐 Dịch · ＋ Lưu vào sổ. Bôi đen tiếng Việt thì chỉ có Dịch (sang ngôn ngữ đang học).

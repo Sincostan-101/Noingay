@@ -260,6 +260,45 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .vt-name{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}.vt-name label{display:flex;flex-direction:column;font-size:12.5px;color:var(--muted);gap:4px}
 .vt-name input{font:inherit;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:inherit}
 .vt-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+/* Sổ từ vựng và bảng tra từ */
+.nb-entry{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),var(--surface));transition:transform .15s,box-shadow .15s}
+.nb-entry:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08)}.nb-entry .vt-cb{flex:1;display:flex;flex-direction:column;gap:2px}.nb-entry b{font-size:17px}.nb-entry small{color:var(--muted)}
+.nb-entry-go{font-weight:700;color:var(--accent);white-space:nowrap}
+.nb-add{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.nb-inp{display:flex;gap:8px}.nb-inp input{flex:1;min-width:0;font:inherit;font-size:17px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.nb-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}.nb-head h3{margin:0;font-size:18px}
+.nb-list{display:flex;flex-direction:column;gap:8px}
+.nb-row{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.nb-row.known{opacity:.75}.nb-main{flex:1;min-width:0}.nb-w{font-size:19px}.nb-w.zh{font-family:var(--font-zh);font-size:22px}
+.nb-v{font-weight:600;color:var(--accent);margin-top:2px}.nb-more{font-size:13px;color:var(--muted);margin-top:3px}.nb-more i{font-style:normal;font-weight:700}
+.nb-act{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.nb-act small{color:var(--muted);font-size:12px}
+.nb-del{border:0;background:transparent;font-size:16px;opacity:.6;padding:2px 4px}.nb-del:hover{opacity:1}
+.nb-row .lv,.dc .lv{display:inline-block;font-size:10.5px;line-height:1;padding:3px 5px;border-radius:5px;margin-left:6px;vertical-align:2px;font-weight:600}
+.nb-row .lv.core,.dc .lv.core{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.nb-row .lv.hi,.dc .lv.hi{background:color-mix(in srgb,#c76a12 15%,transparent);color:#b25e0f}
+.dc{display:flex;flex-direction:column;gap:6px}
+.dc-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.dc-w{font-size:24px}.dc-w.zh{font-family:var(--font-zh);font-size:28px}
+.dc-ph{color:var(--muted);font-size:15px}
+.dc-say{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;flex:none;align-self:center;padding:0}
+.dc-say svg{width:14px;height:14px}
+.dc-v{font-size:18px;font-weight:700;color:var(--accent)}.dc-v2{font-size:13px;color:var(--muted)}
+.dc-sec{display:flex;flex-direction:column;gap:4px;border-top:1px dashed var(--line);padding-top:6px}
+.dc-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.dc-alt,.dc-def{font-size:14px}.dc-alt i,.dc-def i{font-style:normal;font-weight:700;color:var(--muted);margin-right:4px}.dc-def em{display:block;color:var(--muted);font-size:13px;margin-top:1px}
+.dc-err{font-size:13px;color:#b45309}
+.dc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:4px}
+.dc-links{font-size:12.5px;color:var(--muted)}.dc-links a{color:var(--accent)}.dc-saved{font-weight:700;color:var(--accent);font-size:14px}
+.wpop{position:fixed;z-index:80;max-width:min(380px,calc(100vw - 16px));background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:8px}
+.wpop.info,.wpop.trans{width:360px;padding:14px 16px}
+.wp-x{position:absolute;right:6px;top:4px;border:0;background:transparent;font-size:20px;color:var(--muted);line-height:1;padding:4px 8px}
+.wp-menu{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.wp-menu button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:14px;font-weight:600;padding:7px 10px;border-radius:9px;white-space:nowrap}
+.wp-menu button:hover{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.wp-q{font-weight:700;padding:0 8px 0 6px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-right:1px solid var(--line);margin-right:2px}
+.wp-q.zh,.wp-src.zh{font-family:var(--font-zh)}
+.wp-ok{font-size:14px;font-weight:700;color:var(--accent);padding:6px 8px}
+.wp-load{padding:6px 2px;color:var(--muted)}
+.wp-tr{display:flex;flex-direction:column;gap:6px;padding-right:18px}.wp-src{font-size:15px;color:var(--muted)}.wp-out{font-size:18px;font-weight:700;color:var(--accent)}
 .vt-flash .btn svg,.vt-qword .btn svg,.mv-play svg{width:18px;height:18px;vertical-align:-3px;margin-right:4px}
 .vt-front .lv{display:inline-block;font-size:11px;padding:3px 7px;border-radius:6px;font-weight:700}.vt-front .lv.core{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}.vt-front .lv.hi{background:color-mix(in srgb,#c76a12 15%,transparent);color:#b25e0f}
 .vt-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
@@ -4496,6 +4535,33 @@ Object.assign(I18N_DICT, {
 });
 Object.assign(I18N_DICT, {"Gia đình và mọi người": ["Family and people", "家庭与人"], "Ngoại hình và tính cách": ["Appearance and personality", "外貌与性格"], "Cơ thể và sức khỏe": ["Body and health", "身体与健康"], "Đồ ăn và đồ uống": ["Food and drink", "食物与饮料"], "Nấu ăn và nhà hàng": ["Cooking and restaurants", "烹饪与餐厅"], "Nhà cửa và đồ dùng": ["Home and household items", "住房与家居用品"], "Thói quen hằng ngày": ["Daily routines", "日常习惯"], "Thời gian và ngày tháng": ["Time and dates", "时间与日期"], "Thời tiết và mùa": ["Weather and seasons", "天气与季节"], "Quần áo và mua sắm": ["Clothes and shopping", "服装与购物"], "Thành phố và địa điểm": ["City and places", "城市与地点"], "Giao thông và đi lại": ["Transport and travel", "交通与出行"], "Du lịch và khách sạn": ["Travel and hotels", "旅游与酒店"], "Trường học và học tập": ["School and study", "学校与学习"], "Công việc và nghề nghiệp": ["Work and jobs", "工作与职业"], "Sở thích và thể thao": ["Hobbies and sports", "爱好与运动"], "Cảm xúc": ["Feelings", "情感"], "Thiên nhiên và động vật": ["Nature and animals", "自然与动物"], "Công nghệ và mạng": ["Technology and the internet", "科技与网络"], "Tiền bạc và ngân hàng": ["Money and banking", "金钱与银行"]});
 I18N_RX.push([/^(\d+\. |\S+ )(.+)$/, (m, pre, x) => { const d = I18N_DICT[x]; return d ? [pre + d[0], pre + d[1]] : [m, m]; }]);
+Object.assign(I18N_DICT, {
+  "Sổ từ vựng của bạn": ["Your vocabulary notebook", "你的生词本"],
+  "Thêm những từ bạn cần học, web tự tra nghĩa và phiên âm": ["Add the words you want to learn; meaning and pronunciation are filled in automatically", "添加想学的词，网站自动查出释义和发音"],
+  "Mở sổ →": ["Open →", "打开 →"], "Mở sổ": ["Open notebook", "打开生词本"],
+  "Mẹo: trong bài học, bôi đen hoặc bấm vào một từ để tra từ, dịch và lưu vào sổ từ vựng.": ["Tip: in lessons, select or click a word to look it up, translate it and save it to your notebook.", "提示：在课程中，选中或点击一个词即可查词、翻译并存入生词本。"],
+  "📒 Sổ từ vựng tiếng Anh": ["📒 English vocabulary notebook", "📒 英语生词本"], "📒 Sổ từ vựng tiếng Trung": ["📒 Chinese vocabulary notebook", "📒 中文生词本"],
+  "Gõ từ bạn muốn học, web tự tra nghĩa, phiên âm và thông tin của từ. Trong bài học, bôi đen hoặc bấm vào một từ để tra, dịch và lưu vào đây.": ["Type a word you want to learn and the site looks up its meaning, pronunciation and details. In lessons, select or click a word to look it up, translate it and save it here.", "输入想学的词，网站会自动查出释义、发音和相关信息。在课程中，选中或点击一个词即可查词、翻译并保存到这里。"],
+  "Gõ từ tiếng Anh, ví dụ: improve": ["Type an English word, e.g. improve", "输入英语单词，例如：improve"], "Gõ chữ Hán, ví dụ: 学习": ["Type Chinese characters, e.g. 学习", "输入汉字，例如：学习"],
+  "Từ muốn thêm": ["Word to add", "要添加的词"], "Tra từ": ["Look up", "查词"], "🔍 Tra từ": ["🔍 Look up", "🔍 查词"], "🌐 Dịch": ["🌐 Translate", "🌐 翻译"],
+  "＋ Lưu vào sổ": ["＋ Save to notebook", "＋ 存入生词本"], "✓ Trong sổ": ["✓ In notebook", "✓ 已在生词本"], "✓ Đã có trong sổ": ["✓ Already in notebook", "✓ 已在生词本中"],
+  "Tất cả": ["All", "全部"], "Đang học": ["Learning", "学习中"], "Đã thuộc": ["Known", "已掌握"], "✓ Đã thuộc": ["✓ Known", "✓ 已掌握"], "Đánh dấu thuộc": ["Mark as known", "标记已掌握"],
+  "Xoá khỏi sổ": ["Remove from notebook", "从生词本删除"], "Không có từ nào ở mục này.": ["No words here.", "这里还没有词。"],
+  "Sổ đang trống. Gõ một từ ở ô phía trên để bắt đầu.": ["Your notebook is empty. Type a word above to start.", "生词本是空的。在上方输入一个词开始吧。"],
+  "Định nghĩa tiếng Anh": ["English definitions", "英文释义"], "Đang dịch…": ["Translating…", "正在翻译…"], "Đang tra…": ["Looking up…", "正在查询…"],
+  "Không tra được nghĩa trên mạng. Kiểm tra kết nối mạng rồi thử lại.": ["Couldn't look this up online. Check your connection and try again.", "无法在线查询。请检查网络后重试。"],
+  "Không dịch được. Kiểm tra kết nối mạng rồi thử lại.": ["Couldn't translate. Check your connection and try again.", "无法翻译。请检查网络后重试。"]
+});
+I18N_RX.push(
+  [/^Từ đã lưu · (\d+)$/, "Saved words · $1", "已保存 · $1"],
+  [/^(\d+) từ đã lưu$/, "$1 words saved", "已保存 $1 个词"],
+  [/^Xem thêm:$/, "More:", "更多："],
+  [/^Nghĩa khác: (.+)$/, "Also: $1", "其他释义：$1"],
+  [/^Đang tra “(.+)”…$/, "Looking up “$1”…", "正在查询“$1”…"],
+  [/^✓ Đã lưu “(.+)” vào sổ từ vựng$/, "✓ Saved “$1” to your notebook", "✓ 已将“$1”存入生词本"],
+  [/^Sổ còn (\d+) từ (tiếng Anh|tiếng Trung)\. Đổi ngôn ngữ đang học ở trang chủ để xem\.$/, (m, n, l) => [`The notebook also has ${n} ${l === "tiếng Anh" ? "English" : "Chinese"} words. Switch the language you're learning on the home page to see them.`, `生词本里还有 ${n} 个${l === "tiếng Anh" ? "英语" : "中文"}词。在首页切换正在学习的语言即可查看。`]]
+);
+I18N_RX.unshift(I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop());
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -4537,6 +4603,255 @@ const I18N = {
 };
 
 I18N.start();
+
+/* ===================== TRA TỪ, DỊCH VÀ SỔ TỪ VỰNG =====================
+   Dict.lookup(chữ, ngôn ngữ): lấy nghĩa và thông tin của từ.
+     1) Dữ liệu sẵn trong web (từ vựng theo chủ đề, từ vựng theo bài): nghĩa tiếng Việt, bính âm, cấp độ.
+     2) Phiên âm IPA từ CMUdict có sẵn (ipaOf).
+     3) Trên mạng: Google Dịch (bản miễn phí, có từ loại và nghĩa khác), dự phòng MyMemory; tiếng Anh thêm Free Dictionary API
+        (dictionaryapi.dev: từ loại, định nghĩa tiếng Anh, câu ví dụ, file phát âm).
+   NB: sổ từ vựng, lưu ở store.notebook. WordPop: bảng nhỏ hiện ra khi bấm một từ hoặc bôi đen chữ. */
+const Dict = {
+  cache:{}, idx:null,
+  detect(s){
+    if(/[㐀-鿿]/.test(s)) return "zh";
+    if(/[ăâđêôơưàáạảãầấậẩẫằắặẳẵèéẹẻẽềếệểễìíịỉĩòóọỏõồốộổỗờớợởỡùúụủũừứựửữỳýỵỷỹ]/i.test(s)) return "vi";
+    return "en";
+  },
+  norm(s, lang){ s = String(s || "").trim().replace(/\s+/g, " "); return lang === "zh" ? s.replace(/[，。！？、；：“”‘’（）《》\s]/g, "") : s.replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g, ""); },
+  /* chỉ mục từ có sẵn trong web */
+  index(){
+    if(this.idx) return this.idx;
+    const idx = {}, put = (lang, it, src) => { const k = lang + ":" + it.t.toLowerCase(); if(!idx[k]) idx[k] = Object.assign({src}, it); };
+    try{ for(const T of VT_TOPICS) for(const lang of ["en","zh"]) for(const p of ["b","a"]) for(const it of (T[lang] && T[lang][p]) || []) put(lang, it, "topic"); }catch(e){}
+    try{ for(const id of Object.keys(VOCAB_RAW)) for(const it of vocabOf(id)) put(id.slice(0, 2), it, "lesson"); }catch(e){}
+    return this.idx = idx;
+  },
+  local(t, lang){ return this.index()[lang + ":" + t.toLowerCase()] || null; },
+  tl(lang){ const u = I18N.lang(); return u === "vi" || u === lang ? "vi" : (u === "zh" ? "zh-CN" : "en"); },
+  async gtx(q, sl, tl){
+    const u = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&hl=${tl}&dt=t&dt=bd&dt=rm&q=${encodeURIComponent(q)}`;
+    const r = await fetch(u); if(!r.ok) throw new Error("gtx " + r.status);
+    const d = await r.json();
+    const parts = (d[0] || []).filter(x => x && typeof x[0] === "string");
+    const rm = (d[0] || []).find(x => x && x[3]);
+    return {tr:parts.map(x => x[0]).join(""), rom:rm ? rm[3] : "", alts:(d[1] || []).map(e => ({pos:e[0], terms:(e[1] || []).slice(0, 6)})), src:d[2] || sl};
+  },
+  async mymemory(q, sl, tl){
+    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(q)}&langpair=${sl === "auto" ? "en" : sl}|${tl}`);
+    const d = await r.json(); const tr = d && d.responseData && d.responseData.translatedText;
+    if(!tr) throw new Error("mymemory"); return {tr, rom:"", alts:[], src:sl};
+  },
+  async translate(q, sl, tl){
+    const k = `tr:${sl}:${tl}:${q}`; if(this.cache[k]) return this.cache[k];
+    let res; try{ res = await this.gtx(q, sl, tl); }catch(e){ res = await this.mymemory(q, sl === "zh" ? "zh-CN" : sl, tl); }
+    return this.cache[k] = res;
+  },
+  async enDict(w){
+    const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(w.toLowerCase())}`);
+    if(!r.ok) return null;
+    const d = await r.json(); if(!Array.isArray(d) || !d.length) return null;
+    const ph = d.flatMap(e => e.phonetics || []), audio = (ph.find(p => p.audio && /-us\./.test(p.audio)) || ph.find(p => p.audio) || {}).audio || "";
+    const defs = [];
+    for(const e of d) for(const m of e.meanings || []){ const df = (m.definitions || [])[0]; if(df && defs.length < 4) defs.push({pos:m.partOfSpeech, d:df.definition, ex:df.example || ((m.definitions || []).find(x => x.example) || {}).example || ""}); }
+    return {phonetic:d[0].phonetic || (ph.find(p => p.text) || {}).text || "", audio, defs};
+  },
+  /* thông tin đầy đủ của một từ/cụm từ */
+  async lookup(raw, lang){
+    lang = lang || this.detect(raw);
+    const t = this.norm(raw, lang); if(!t) return null;
+    const ck = `lk:${lang}:${t.toLowerCase()}:${this.tl(lang)}`; if(this.cache[ck]) return this.cache[ck];
+    const loc = this.local(t, lang);
+    const info = {lang, t:loc ? loc.t : t, p:loc && loc.p || "", ipa:"", v:loc && loc.v || "", lv:loc ? loc.lv : undefined, alts:[], defs:[], audio:"", local:!!loc, err:null};
+    if(lang === "en"){ const words = t.split(/\s+/), ph = words.map(w => ipaOf(w)); if(ph.every(Boolean)) info.ipa = ph.map(x => x.join("")).join(" "); }
+    const jobs = [this.translate(t, lang === "zh" ? "zh-CN" : lang, this.tl(lang)).then(r => {
+        if(!info.v || this.tl(lang) !== "vi") info.v = r.tr;
+        else if(r.tr && r.tr.toLowerCase() !== info.v.toLowerCase()) info.v2 = r.tr;
+        info.alts = r.alts; if(lang === "zh" && !info.p && r.rom) info.p = r.rom;
+      })];
+    if(lang === "en" && !/\s/.test(t)) jobs.push(this.enDict(t).then(r => { if(!r) return; info.defs = r.defs; info.audio = r.audio; if(!info.ipa && r.phonetic) info.ipa = r.phonetic.replace(/^\/|\/$/g, ""); }));
+    const res = await Promise.allSettled(jobs);
+    if(res[0].status === "rejected" && !info.v) info.err = "Không tra được nghĩa trên mạng. Kiểm tra kết nối mạng rồi thử lại.";
+    if(!info.err) this.cache[ck] = info;
+    return info;
+  },
+  links(t, lang){
+    const q = encodeURIComponent(t);
+    return lang === "zh"
+      ? [["MDBG", `https://www.mdbg.net/chinese/dictionary?page=worddict&wdqb=${q}`], ["Google", `https://www.google.com/search?q=${q}+nghĩa+là+gì`]]
+      : [["Cambridge", `https://dictionary.cambridge.org/dictionary/english-vietnamese/${q.replace(/%20/g, "-")}`], ["Oxford", `https://www.oxfordlearnersdictionaries.com/search/english/?q=${q}`], ["Google", `https://www.google.com/search?q=${q}+nghĩa+là+gì`]];
+  }
+};
+const NB = {
+  list(){ return store.notebook = store.notebook || []; },
+  find(lang, t){ const k = t.toLowerCase(); return this.list().find(x => x.lang === lang && x.t.toLowerCase() === k); },
+  add(info){
+    if(!info || !info.t || (info.lang !== "en" && info.lang !== "zh")) return null;
+    const ex = this.find(info.lang, info.t); if(ex) return ex;
+    const it = {id:Date.now().toString(36) + Math.random().toString(36).slice(2, 6), lang:info.lang, t:info.t, p:info.p || "", ipa:info.ipa || "", v:info.v || "",
+      alts:(info.alts || []).slice(0, 3), defs:(info.defs || []).slice(0, 3), lv:info.lv, audio:info.audio || "", at:ymd(new Date()), known:false};
+    this.list().unshift(it); saveStore(); return it;
+  },
+  remove(id){ store.notebook = this.list().filter(x => x.id !== id); saveStore(); }
+};
+/* Phần hiển thị thông tin một từ: dùng chung cho bảng tra từ và sổ từ vựng */
+function dictCard(info, opt = {}){
+  if(!info) return "";
+  const L = info.lang, saved = NB.find(L, info.t);
+  const pron = L === "zh" ? (info.p ? `<span class="dc-ph">${esc(info.p)}</span>` : "") : (info.ipa ? `<span class="dc-ph">/${esc(info.ipa)}/</span>` : "");
+  const lv = info.lv !== undefined ? lvTag(info, L) : "";
+  const alts = (info.alts || []).slice(0, 3).map(a => `<div class="dc-alt"><i>${esc(a.pos)}</i> ${esc(a.terms.join(", "))}</div>`).join("");
+  const defs = (info.defs || []).slice(0, 3).map(d => `<div class="dc-def"><i>${esc(d.pos)}</i> ${esc(d.d)}${d.ex ? `<em>“${esc(d.ex)}”</em>` : ""}</div>`).join("");
+  const links = Dict.links(info.t, L).map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ");
+  return `<div class="dc">
+    <div class="dc-top"><b class="dc-w ${L}">${esc(info.t)}</b>${pron}${lv}<button class="dc-say" data-wp="say" data-t="${esc(info.t)}" data-l="${L}" title="Nghe" aria-label="Nghe">${ICON_PLAY}</button></div>
+    ${info.v ? `<div class="dc-v">${esc(info.v)}</div>` : ""}${info.v2 ? `<div class="dc-v2">Nghĩa khác: ${esc(info.v2)}</div>` : ""}
+    ${alts ? `<div class="dc-sec">${alts}</div>` : ""}
+    ${defs ? `<div class="dc-sec"><div class="dc-h">Định nghĩa tiếng Anh</div>${defs}</div>` : ""}
+    ${info.err ? `<div class="dc-err">${esc(info.err)}</div>` : ""}
+    <div class="dc-foot"><span class="dc-links">Xem thêm: ${links}</span>
+      ${opt.noSave ? "" : saved ? `<span class="dc-saved">✓ Đã có trong sổ</span>` : `<button class="btn dc-save" data-wp="save">＋ Lưu vào sổ</button>`}</div></div>`;
+}
+/* Bảng nhỏ khi bấm một từ hoặc bôi đen chữ: Tra từ · Dịch · Lưu vào sổ */
+const WordPop = {
+  el:null, text:"", lang:"en", view:"menu", info:null, tr:null, busy:false, rect:null,
+  ensure(){
+    if(this.el) return this.el;
+    const el = this.el = document.createElement("div"); el.className = "wpop"; el.setAttribute("role", "dialog"); el.hidden = true;
+    document.body.appendChild(el);
+    el.addEventListener("mousedown", e => { if(!e.target.closest("button,a")) e.stopPropagation(); });
+    el.addEventListener("click", e => { const b = e.target.closest("[data-wp]"); if(!b) return; e.stopPropagation(); this.act(b.dataset.wp, b); });
+    document.addEventListener("mousedown", e => { if(this.el && !this.el.hidden && !this.el.contains(e.target)) this.close(); }, true);
+    document.addEventListener("keydown", e => { if(e.key === "Escape") this.close(); });
+    window.addEventListener("scroll", () => { if(this.el && !this.el.hidden && this.view === "menu") this.close(); }, {passive:true});
+    return el;
+  },
+  open(text, rect, lang){
+    text = String(text || "").trim().replace(/\s+/g, " "); if(!text || text.length > 300) return;
+    lang = lang || Dict.detect(text);
+    if(lang !== "vi" && text.split(" ").length <= 4){ const n = Dict.norm(text, lang); if(n) text = n; }
+    this.ensure(); this.text = text; this.lang = lang; this.view = "menu"; this.info = null; this.tr = null; this.rect = rect;
+    this.paint();
+  },
+  close(){ if(this.el){ this.el.hidden = true; this.el.innerHTML = ""; } },
+  isWord(){ return this.lang !== "vi" && (this.lang === "zh" ? this.text.length <= 8 : this.text.split(" ").length <= 4); },
+  paint(){
+    const el = this.el, short = this.text.length > 40 ? this.text.slice(0, 40) + "…" : this.text;
+    let body = "";
+    if(this.view === "menu"){
+      body = `<div class="wp-menu"><span class="wp-q ${this.lang}">${esc(short)}</span>
+        ${this.isWord() ? `<button data-wp="info">🔍 Tra từ</button>` : ""}
+        <button data-wp="trans">🌐 Dịch</button>
+        ${this.isWord() ? (NB.find(this.lang, Dict.norm(this.text, this.lang)) ? `<span class="wp-ok">✓ Trong sổ</span>` : `<button data-wp="save">＋ Lưu vào sổ</button>`) : ""}</div>`;
+    } else if(this.view === "info"){
+      body = this.busy ? `<div class="wp-load">Đang tra “${esc(short)}”…</div>` : dictCard(this.info);
+    } else if(this.view === "trans"){
+      body = this.busy ? `<div class="wp-load">Đang dịch…</div>` : this.tr && this.tr.err ? `<div class="dc-err">${esc(this.tr.err)}</div>`
+        : `<div class="wp-tr"><div class="wp-src ${this.lang}">${esc(this.text)}</div>${this.tr && this.tr.rom ? `<div class="dc-ph">${esc(this.tr.rom)}</div>` : ""}<div class="wp-out">${esc(this.tr ? this.tr.tr : "")}</div>
+          <div class="dc-foot">${this.lang !== "vi" ? `<button class="dc-say" data-wp="say" data-t="${esc(this.text)}" data-l="${this.lang}" title="Nghe" aria-label="Nghe">${ICON_PLAY}</button>` : ""}
+          ${this.isWord() ? `<button class="btn ghost" data-wp="info">🔍 Tra từ</button>` : ""}
+          ${this.isWord() && !NB.find(this.lang, Dict.norm(this.text, this.lang)) ? `<button class="btn dc-save" data-wp="save">＋ Lưu vào sổ</button>` : ""}</div></div>`;
+    } else if(this.view === "saved"){
+      body = `<div class="wp-menu"><span class="wp-ok">✓ Đã lưu “${esc(short)}” vào sổ từ vựng</span><button data-wp="opennb">Mở sổ</button></div>`;
+    }
+    el.className = "wpop " + this.view; el.innerHTML = (this.view === "menu" || this.view === "saved" ? "" : `<button class="wp-x" data-wp="close" aria-label="Đóng">×</button>`) + body;
+    el.hidden = false;
+    this.place();
+  },
+  place(){
+    const el = this.el, r = this.rect || {left:innerWidth / 2, top:innerHeight / 2, bottom:innerHeight / 2, width:0};
+    el.style.left = "0px"; el.style.top = "0px";
+    const w = el.offsetWidth, h = el.offsetHeight;
+    let x = r.left + (r.width || 0) / 2 - w / 2; x = Math.max(8, Math.min(x, innerWidth - w - 8));
+    let y = r.top - h - 10; if(y < 8) y = Math.min(r.bottom + 10, innerHeight - h - 8);
+    el.style.left = x + "px"; el.style.top = Math.max(8, y) + "px";
+  },
+  async act(a, b){
+    if(a === "close"){ this.close(); return; }
+    if(a === "say"){ const l = b.dataset.l; if(this.info && this.info.audio && l === "en" && this.info.t === b.dataset.t){ try{ new Audio(this.info.audio).play(); return; }catch(e){} } TTS.speak(b.dataset.t, l); return; }
+    if(a === "opennb"){ this.close(); ui.section = "vocab"; ui.view = "home"; ui.vt = {view:"notebook"}; render(); window.scrollTo(0, 0); return; }
+    if(a === "info" || a === "save"){
+      if(!this.info){ this.view = a === "info" ? "info" : this.view; this.busy = true; if(a === "info") this.paint();
+        this.info = await Dict.lookup(this.text, this.lang); this.busy = false; }
+      if(a === "save"){ if(NB.add(this.info)){ this.view = "saved"; if(ui.section === "vocab" && ui.vt && ui.vt.view === "notebook") render(); } }
+      else this.view = "info";
+      this.paint(); return;
+    }
+    if(a === "trans"){
+      this.view = "trans"; this.busy = true; this.paint();
+      const tl = this.lang === "vi" ? (store.prefs.lang === "zh" ? "zh-CN" : "en") : Dict.tl(this.lang);
+      try{ this.tr = await Dict.translate(this.text, this.lang === "zh" ? "zh-CN" : this.lang, tl); }
+      catch(e){ this.tr = {err:"Không dịch được. Kiểm tra kết nối mạng rồi thử lại."}; }
+      this.busy = false; this.paint();
+    }
+  }
+};
+/* Bôi đen chữ trong nội dung bài học thì hiện bảng tra từ */
+document.addEventListener("mouseup", e => {
+  if(e.target.closest && (e.target.closest(".wpop,input,textarea,select,header.top,.music-panel"))) return;
+  setTimeout(() => {
+    const s = window.getSelection(); if(!s || s.isCollapsed || !s.rangeCount) return;
+    const txt = s.toString().trim(); if(!txt || txt.length > 300 || !/[A-Za-z㐀-鿿à-ỹđ]/i.test(txt)) return;
+    const node = s.anchorNode && (s.anchorNode.nodeType === 1 ? s.anchorNode : s.anchorNode.parentElement);
+    if(!node || !node.closest("main")) return;
+    WordPop.open(txt, s.getRangeAt(0).getBoundingClientRect());
+  }, 10);
+});
+/* Trang Sổ từ vựng */
+function renderNotebook(){
+  const L = store.prefs.lang, nb = ui.nb = ui.nb || {q:"", info:null, busy:false, filter:"all"};
+  const all = NB.list().filter(x => x.lang === L);
+  const rows = all.filter(x => nb.filter === "all" || (nb.filter === "known" ? x.known : !x.known));
+  const other = NB.list().length - all.length;
+  const list = rows.map(x => `<div class="nb-row ${x.known ? "known" : ""}">
+      <button class="dc-say" data-act="nbsay" data-v="${x.id}" title="Nghe" aria-label="Nghe">${ICON_PLAY}</button>
+      <div class="nb-main"><div><b class="nb-w ${x.lang}">${esc(x.t)}</b> <span class="dc-ph">${x.lang === "zh" ? esc(x.p) : x.ipa ? "/" + esc(x.ipa) + "/" : ""}</span>${x.lv !== undefined ? lvTag(x, x.lang) : ""}</div>
+        <div class="nb-v">${esc(x.v || "")}</div>
+        ${(x.alts || []).length ? `<div class="nb-more">${x.alts.map(a => `<i>${esc(a.pos)}</i> ${esc(a.terms.slice(0, 4).join(", "))}`).join(" · ")}</div>` : ""}
+        ${(x.defs || []).length ? `<div class="nb-more">${esc(x.defs[0].pos)}: ${esc(x.defs[0].d)}${x.defs[0].ex ? ` <em>“${esc(x.defs[0].ex)}”</em>` : ""}</div>` : ""}</div>
+      <div class="nb-act"><small>${x.at.split("-").reverse().join("/")}</small>
+        <button class="chip" data-act="nbknow" data-v="${x.id}" aria-pressed="${!!x.known}">${x.known ? "✓ Đã thuộc" : "Đánh dấu thuộc"}</button>
+        <button class="nb-del" data-act="nbdel" data-v="${x.id}" title="Xoá khỏi sổ" aria-label="Xoá khỏi sổ">🗑</button></div></div>`).join("");
+  const preview = nb.busy ? `<div class="wp-load">Đang tra…</div>` : nb.info ? dictCard(nb.info, {nb:true}).replace('data-wp="save"', 'data-act="nbadd"').replace(/data-wp="say"/g, 'data-act="nbsayq"') : "";
+  return `<div class="page wide">
+    <button class="back pback" data-act="vthome">← Từ vựng theo chủ đề</button>
+    <section class="intro" style="text-align:left;padding-top:0"><h2 class="intro-h">📒 Sổ từ vựng ${L === "zh" ? "tiếng Trung" : "tiếng Anh"}</h2>
+      <p style="margin:0">Gõ từ bạn muốn học, web tự tra nghĩa, phiên âm và thông tin của từ. Trong bài học, bôi đen hoặc bấm vào một từ để tra, dịch và lưu vào đây.</p></section>
+    <div class="nb-add">
+      <div class="nb-inp"><input data-nb-q data-keep="nbq" value="${esc(nb.q)}" placeholder="${L === "zh" ? "Gõ chữ Hán, ví dụ: 学习" : "Gõ từ tiếng Anh, ví dụ: improve"}" autocomplete="off" spellcheck="false" aria-label="Từ muốn thêm">
+        <button class="btn" data-act="nblook">Tra từ</button></div>
+      ${preview}
+    </div>
+    <div class="nb-head"><h3>Từ đã lưu · ${all.length}</h3>
+      <div class="seg">${[["all","Tất cả"],["new","Đang học"],["known","Đã thuộc"]].map(([k, n]) => `<button data-act="nbfilter" data-v="${k}" aria-pressed="${nb.filter === k}">${n}</button>`).join("")}</div></div>
+    ${rows.length ? `<div class="nb-list">${list}</div>` : `<p class="vt-note">${all.length ? "Không có từ nào ở mục này." : "Sổ đang trống. Gõ một từ ở ô phía trên để bắt đầu."}</p>`}
+    ${other ? `<p class="vt-note">Sổ còn ${other} từ ${L === "zh" ? "tiếng Anh" : "tiếng Trung"}. Đổi ngôn ngữ đang học ở trang chủ để xem.</p>` : ""}
+  </div>`;
+}
+async function nbLookup(){
+  const nb = ui.nb, inp = document.querySelector("[data-nb-q]"); if(inp) nb.q = inp.value;
+  const q = (nb.q || "").trim(); if(!q){ nb.info = null; render(); return; }
+  let lang = Dict.detect(q); if(lang === "vi") lang = store.prefs.lang;
+  nb.busy = true; render();
+  const info = await Dict.lookup(q, lang); nb.busy = false;
+  if((ui.nb.q || "").trim() === q){ nb.info = info; render(); }
+}
+function nbAct(act, el){
+  const nb = ui.nb = ui.nb || {q:"", info:null, busy:false, filter:"all"};
+  if(act === "nblook"){ nbLookup(); return true; }
+  if(act === "nbadd"){ if(nb.info && NB.add(nb.info)){ nb.q = ""; nb.info = null; const i = document.querySelector("[data-nb-q]"); if(i) i.value = ""; } render(); return true; }
+  if(act === "nbsayq"){ TTS.speak(el.dataset.t, el.dataset.l); return true; }
+  if(act === "nbsay"){ const x = NB.list().find(y => y.id === el.dataset.v); if(x){ if(x.audio && x.lang === "en"){ try{ new Audio(x.audio).play(); return true; }catch(e){} } TTS.speak(x.t, x.lang); } return true; }
+  if(act === "nbknow"){ const x = NB.list().find(y => y.id === el.dataset.v); if(x){ x.known = !x.known; saveStore(); render(); } return true; }
+  if(act === "nbdel"){ NB.remove(el.dataset.v); render(); return true; }
+  if(act === "nbfilter"){ nb.filter = el.dataset.v; render(); return true; }
+  return false;
+}
+document.addEventListener("keydown", e => { if(e.key === "Enter" && e.target.matches && e.target.matches("[data-nb-q]")){ e.preventDefault(); nbLookup(); } });
+document.addEventListener("input", e => {
+  if(!e.target.matches || !e.target.matches("[data-nb-q]")) return;
+  ui.nb.q = e.target.value; clearTimeout(nbLookup.t); nbLookup.t = setTimeout(nbLookup, 700);
+});
 
 /* ===================== RENDER ===================== */
 let LOGO_INTRO = true;
@@ -5544,8 +5859,10 @@ function vtStats(noBtn){
 function renderVT(){
   ui.vt = ui.vt || {topic:null, part:"b", mode:"list"};
     if(ui.vt.view === "lessons") return `<div class="page wide"><button class="back pback" data-act="vthome">← Từ vựng theo chủ đề</button></div>` + renderVocabSection();
+  if(ui.vt.view === "notebook") return renderNotebook();
   if(ui.vt.topic) return renderVTTopic();
   const L = store.prefs.lang;
+  const nbN = NB.list().filter(x => x.lang === L).length;
   const cards = VT_TOPICS.map((T, i) => {
     const total = T[L].b.length + T[L].a.length, done = vtTopicDone(L, T);
     return `<button class="vt-card" data-act="vtopen" data-v="${T.id}"><span class="vt-ic" aria-hidden="true">${T.icon}</span>
@@ -5555,8 +5872,10 @@ function renderVT(){
   return `<section class="intro"><h2 class="intro-h">Từ vựng ${L==="zh"?"tiếng Trung":"tiếng Anh"} theo chủ đề</h2>
       <p>20 chủ đề quen thuộc, xếp theo ${L==="zh"?"giáo trình Hán ngữ và chuẩn HSK 3.0":"English Vocabulary in Use và danh sách Oxford 3000/5000"}. Mỗi chủ đề có phần cơ bản và phần nâng cao. Học bằng danh sách, thẻ ghi nhớ hoặc bài kiểm tra để tích điểm XP.</p></section>
     <div class="page wide">${voiceWarn(L)}${vtStats()}
+      <button class="nb-entry" data-act="vtnotebook"><span class="vt-ic" aria-hidden="true">📒</span><span class="vt-cb"><b>Sổ từ vựng của bạn</b><small>${nbN ? `${nbN} từ đã lưu` : "Thêm những từ bạn cần học, web tự tra nghĩa và phiên âm"}</small></span><span class="nb-entry-go">Mở sổ →</span></button>
       <div class="vt-grid">${cards}</div>
-      <div class="tip">Muốn xem lại từ vựng đi kèm từng bài giao tiếp? <button class="linkbtn" data-act="vtlessons">Từ vựng theo bài học</button></div></div>`;
+      <div class="tip">Muốn xem lại từ vựng đi kèm từng bài giao tiếp? <button class="linkbtn" data-act="vtlessons">Từ vựng theo bài học</button></div>
+      <div class="tip">Mẹo: trong bài học, bôi đen hoặc bấm vào một từ để tra từ, dịch và lưu vào sổ từ vựng.</div></div>`;
 }
 function renderVTTopic(){
   const L = store.prefs.lang, T = VT_TOPICS.find(x => x.id === ui.vt.topic), v = vtState();
@@ -5672,6 +5991,7 @@ function vtAct(act, el){
   const v = vtState(), L = store.prefs.lang;
   if(act === "vtopen"){ ui.vt = {topic:el.dataset.v, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vthome"){ ui.vt = {topic:null, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
+  if(act === "vtnotebook"){ ui.vt = {view:"notebook"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vtlessons"){ ui.vt = {view:"lessons"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vtrank"){ ui.section = "profile"; ui.view = "home"; ui.prof = "rank"; Board.rows = null; Board.err = null; render(); window.scrollTo(0,0); return true; }
   if(act === "proftab"){ ui.section = "profile"; ui.prof = el.dataset.v === "rank" ? "rank" : "ach"; if(ui.prof === "rank"){ Board.rows = null; Board.err = null; } render(); return true; }
@@ -5979,6 +6299,7 @@ document.addEventListener("click", (ev) => {
   const act = el.dataset.act;
   if(act !== "psel" && act !== "sayw" && ui.sel){ ui.sel = null; }
   if(act.startsWith("plan")){ if(Plan.act(act, el, ev)) render(); return; }
+  if(act.startsWith("nb") && nbAct(act, el)) return;
   if((act.startsWith("vt") || act === "proftab") && vtAct(act, el)) return;
   if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
   if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
@@ -6045,8 +6366,8 @@ document.addEventListener("click", (ev) => {
   if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
   if(act === "mvplay"){ mvPlay(); return; }
   if(act === "mvsrc"){ store.prefs.mvSrc = el.dataset.v; saveStore(); TTS.stop(); render(); return; }
-  if(act === "psel"){ phonPick(el.dataset.key, +el.dataset.w, +el.dataset.i); return; }
-  if(act === "sayw"){ phonWord(el.dataset.key, +el.dataset.w); return; }
+  if(act === "psel"){ const r = el.getBoundingClientRect(), ch = el.textContent; phonPick(el.dataset.key, +el.dataset.w, +el.dataset.i); WordPop.open(ch, r, "zh"); return; }
+  if(act === "sayw"){ phonWord(el.dataset.key, +el.dataset.w); WordPop.open(el.textContent, el.getBoundingClientRect(), "en"); return; }
   if(act === "pref"){ const k = el.dataset.v; store.prefs[k] = !store.prefs[k]; saveStore(); render(); return; }
   if(act === "say"){
     ui.playAll = false;
@@ -6700,6 +7021,7 @@ const Route = {
     if(ui.view === "lesson" && ui.section === "pron" && ui.pid) return `#pron/${ui.pid}/${ui.step}`;
     if(ui.view === "lesson" && (ui.section === "speak" || ui.section === "work") && ui.lessonId) return `#${ui.section}/${ui.lessonId}/${ui.step}`;
     if(ui.section === "profile") return ui.prof === "rank" ? "#profile/rank" : "#profile";
+    if(ui.section === "vocab" && ui.vt && ui.vt.view === "notebook") return "#vocab/notebook";
     if(ui.section === "vocab" && ui.vt && ui.vt.topic) return `#vocab/${ui.vt.topic}`;
     return ui.section && ui.section !== "home" ? `#${ui.section}` : "";
   },
@@ -6724,7 +7046,8 @@ const Route = {
     if((sec === "speak" || sec === "work") && m[1]){ for(const l of ["en","zh"]) if(LESSONS[l].some(x => x.id === m[1])){ store.prefs.lang = l; ui.lessonId = m[1]; ui.view = "lesson"; ui.step = Math.min(step, STEP_NAMES.length - 1); } }
     ui.vt = {topic:null, part:"b", mode:"list"};
     ui.prof = sec === "profile" && m[1] === "rank" ? "rank" : "ach";
-    if(sec === "vocab" && m[1] && VT_TOPICS.some(x => x.id === m[1])) ui.vt = {topic:m[1], part:"b", mode:"list"};
+    if(sec === "vocab" && m[1] === "notebook") ui.vt = {view:"notebook"};
+    else if(sec === "vocab" && m[1] && VT_TOPICS.some(x => x.id === m[1])) ui.vt = {topic:m[1], part:"b", mode:"list"};
     this.last = this.hash();
     if(legacy) try{ history.replaceState(null, "", this.last); }catch(e){}
   }
