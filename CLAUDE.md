@@ -48,3 +48,4 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 ## Giữ chỗ khi tải lại trang
 - Trang đang mở được ghi lên địa chỉ dạng #phần/bài/bước (ví dụ #pron/pen-iu-3/1, #speak/zh-delay/2). Tải lại (F5) thì mở lại đúng trang đó (đối tượng Route, gọi Route.save() đầu hàm render, Route.restore() trước lần render đầu). Mỗi lần chuyển trang thêm một mục lịch sử (pushState), nên nút Back/Forward của trình duyệt đi lùi/tới trong web (sự kiện popstate) thay vì thoát ra.
 - Phần Phát âm: mỗi âm có 10 từ ví dụ (cả tiếng Anh và tiếng Trung), hiện đủ ở bước Nghe âm và bước Khẩu hình. IPA của từ mới lấy từ CMUdict; bính âm đã kiểm tra khớp từng chữ.
+- Từ ví dụ trong phần Phát âm đọc chậm hơn bình thường (tốc độ 0.72, bật “Đọc chậm” thì 0.5), các phần khác vẫn 0.95 / 0.7.
