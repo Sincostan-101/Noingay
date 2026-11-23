@@ -49,3 +49,15 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Trang đang mở được ghi lên địa chỉ dạng #phần/bài/bước (ví dụ #pron/pen-iu-3/1, #speak/zh-delay/2). Tải lại (F5) thì mở lại đúng trang đó (đối tượng Route, gọi Route.save() đầu hàm render, Route.restore() trước lần render đầu). Mỗi lần chuyển trang thêm một mục lịch sử (pushState), nên nút Back/Forward của trình duyệt đi lùi/tới trong web (sự kiện popstate) thay vì thoát ra.
 - Phần Phát âm: mỗi âm có 10 từ ví dụ (cả tiếng Anh và tiếng Trung), hiện đủ ở bước Nghe âm và bước Khẩu hình. IPA của từ mới lấy từ CMUdict; bính âm đã kiểm tra khớp từng chữ.
 - Từ ví dụ trong phần Phát âm đọc chậm hơn bình thường (tốc độ 0.5, bật “Đọc chậm” thì 0.25; giọng Microsoft trên Windows nén thang tốc độ nên phải đặt thấp mới nghe rõ chậm), các phần khác vẫn 0.95 / 0.7.
+
+## Từ vựng theo chủ đề và bảng xếp hạng (23/11/2026)
+- Mục Từ vựng (section "vocab") đã mở: 20 chủ đề, mỗi chủ đề ~47–48 từ cơ bản + 12 từ nâng cao, cho tiếng Anh và tiếng Trung (~1.200 từ mỗi thứ tiếng). Chủ đề theo English Vocabulary in Use và giáo trình chuẩn HSK/Hán ngữ; nhãn cấp độ theo Oxford 3000/5000 và HSK 3.0; bính âm tự lấy từ dữ liệu pypinyin và chỉnh tay thanh nhẹ, đa âm.
+- Dữ liệu: VT_RAW (sinh từ vt_en.txt, vt_zh.txt khi build), VT_TOPICS. Code: renderVT, renderVTTopic, renderVTRank, vtAct. Học bằng Danh sách / Thẻ ghi nhớ / Kiểm tra (10 câu, 4 lựa chọn). Từ vựng theo bài học cũ vẫn xem được qua link "Từ vựng theo bài học".
+- Điểm: thẻ ghi nhớ +2 XP mỗi từ mới nhớ, kiểm tra +10 XP mỗi câu đúng. Lưu trong store.vocab (known, xp, days, badges, name, uid). Có cấp độ, chuỗi ngày, 8 huy hiệu, bảng các tuần, lưới 28 ngày.
+- Bảng xếp hạng chung: đối tượng Board, dùng Supabase REST. Chưa bật: điền BOARD_CFG = {url:"https://xxx.supabase.co", key:"anon key"}. Bảng cần tạo:
+  create table sfy_board (uid text primary key, name text, xp int, week text, week_xp int, updated_at timestamptz default now());
+  alter table sfy_board enable row level security;
+  create policy "read" on sfy_board for select using (true);
+  create policy "write" on sfy_board for insert with check (true);
+  create policy "update" on sfy_board for update using (true);
+- Địa chỉ trang: #vocab, #vocab/<chủ đề>, #vocab/rank.
