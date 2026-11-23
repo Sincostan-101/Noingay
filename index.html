@@ -159,6 +159,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .phr.locked{color:var(--muted);font-size:14px;border-style:dashed;background:transparent}
 .need{font-size:13px;color:#b45309;margin:4px 0}
 .result .fb{display:block;margin-top:6px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.55);color:var(--ink);font-size:14px;line-height:1.5}
+.pa{display:block;margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.65);color:var(--ink)}
+.pa-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}
+.pa-i{padding:8px 0;border-top:1px dashed var(--line)}.pa-i:first-of-type{border-top:0;padding-top:2px}
+.pa-w{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}.pa-w b{font-size:16px}
+.pa-ph{font-size:13px;color:var(--accent);font-family:inherit}.pa-ph.bad{color:#b42318}
+.pa-m{font-size:14px;line-height:1.55;margin:3px 0 2px}
 .result .fb.good{color:var(--accent);font-weight:600}
 .next .need{margin-right:auto;align-self:center}
 .btn.finish{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 6px 16px -6px var(--accent)}
@@ -4074,20 +4080,233 @@ function evaluate(item, lang, texts, typed){
   if(!cands.length) return {score:0, heard:"", html:esc(item.t), empty:true};
   const targets = [item.t].concat(item.alt || []);
   let best = {score:-1};
-  for(const h of cands){
+  /* tiếng Trung: chữ đồng âm (cùng bính âm, cùng thanh) với chữ trong câu mẫu thì coi như đọc đúng */
+  const zhFix = h => { try{ const al = pyAlign(item.t, item.p); if(!al) return h; const M = paZhMap(), byPy = {};
+      for(const [c, py] of al) if(py && isHan(c)) byPy[py.toLowerCase()] = c;
+      return Array.from(h).map(c => isHan(c) && !item.t.includes(c) && M[c] ? ([...M[c]].map(x => byPy[x]).find(Boolean) || c) : c).join(""); }catch(e){ return h; } };
+  /* tiếng Anh: từ đồng âm (cùng phiên âm, ví dụ meet/meat) với từ trong câu mẫu thì coi như đọc đúng */
+  const enFix = h => { try{ const tw = item.t.toLowerCase().split(/\s+/).map(w => w.replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, "")).filter(Boolean), byIpa = {};
+      for(const w of tw){ const r = ipaOf(w); if(r) byIpa[r.join("").replace(/[ˈˌ]/g, "")] = w; }
+      return h.split(/\s+/).map(w => { const c = w.toLowerCase().replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, ""); if(!c || tw.includes(c)) return w; const r = ipaOf(c); const m = r && byIpa[r.join("").replace(/[ˈˌ]/g, "")]; return m || w; }).join(" "); }catch(e){ return h; } };
+  for(const h0 of cands){
+    const h = lang === "zh" ? (/[㐀-鿿]/.test(h0) ? zhFix(h0) : h0) : enFix(h0);
     const pinyinTyped = lang==="zh" && typed && !/[㐀-鿿]/.test(h);
     for(const t of targets){
       let r;
       if(pinyinTyped){ r = scoreOne(lettersPy(item.p || ""), lettersPy(h)); r.pinyin = true; }
       else r = scoreOne(lang==="en" ? tokensEn(t) : tokensZh(t), lang==="en" ? tokensEn(h) : tokensZh(h));
-      if(r.score > best.score) best = Object.assign({heard:h, isMain: t===item.t}, r);
+      if(r.score > best.score) best = Object.assign({heard:h0, isMain: t===item.t}, r);
     }
   }
   let html = esc(item.t), miss = [];
   if(!best.pinyin && best.isMain){ html = diffHtml(item.t, lang, best.matched); miss = missWords(item.t, lang, best.matched); }
   const heardLen = lang === "en" ? tokensEn(best.heard || "").length : tokensZh(best.heard || "").length, wantLen = lang === "en" ? tokensEn(item.t).length : tokensZh(item.t).length;
-  return {score: best.score, heard: best.heard, html, pinyin: !!best.pinyin, tip: speakTip(best.score, lang, miss, heardLen, wantLen, !!best.pinyin)};
+  let detail = [];
+  if(best.score < 100 && !best.pinyin && best.isMain){ try{ detail = lang === "en" ? analyzeEn(item.t, best.heard) : analyzeZh(item, best.heard); }catch(e){ detail = []; } }
+  return {score: best.score, heard: best.heard, html, pinyin: !!best.pinyin, tip: speakTip(best.score, lang, miss, heardLen, wantLen, !!best.pinyin), detail};
 }
+/* ===================== PHÂN TÍCH PHÁT ÂM CHI TIẾT =====================
+   Máy nhận giọng nói chỉ trả về chữ, nên web so sánh chữ máy nghe được với câu mẫu ở mức ÂM:
+   - Tiếng Anh: ghép từng từ của câu mẫu với từ máy nghe được, đổi cả hai sang phiên âm IPA (CMUdict có sẵn),
+     rồi so từng âm: âm bị thay (ví dụ /ɪ/ thành /iː/), âm bị mất (thường là âm cuối), âm thừa.
+   - Tiếng Trung: ghép từng chữ, so bính âm: phụ âm đầu (thanh mẫu), vần (vận mẫu), thanh điệu.
+     Chữ đồng âm (cùng bính âm và thanh) được tính là đọc đúng.
+   Mỗi lỗi kèm cách sửa và nút mở bài luyện đúng âm đó. */
+const PA_EN = {
+  "ɪ":"i ngắn: miệng hé, lưỡi thả lỏng, nói thật nhanh, không kéo dài như “i” tiếng Việt.",
+  "iː":"i dài: kéo khóe môi sang hai bên như cười, lưỡi nâng cao và giữ âm lâu hơn.",
+  "ʊ":"u ngắn: môi hơi tròn, thả lỏng, nói gọn.",
+  "uː":"u dài: chu tròn môi ra trước và giữ âm lâu.",
+  "e":"như “e” tiếng Việt, miệng mở vừa.",
+  "æ":"mở miệng rộng, hạ hàm dưới, kéo khóe môi: âm nằm giữa “e” và “a”.",
+  "ʌ":"gần “ă/â” tiếng Việt, miệng mở vừa, nói ngắn.",
+  "ɑː":"“a” dài: mở miệng thật to, lưỡi hạ thấp, kéo dài.",
+  "ɒ":"“o” ngắn, môi tròn, nói gọn.",
+  "ɔː":"“o” dài, môi tròn, kéo dài.",
+  "ɜː":"“ơ” dài: miệng hé, lưỡi ở giữa, giữ âm.",
+  "ə":"âm “ơ” rất nhẹ và ngắn ở âm tiết không nhấn.",
+  "eɪ":"như “ây”: trượt từ “e” sang “i”.", "aɪ":"như “ai”: trượt từ “a” sang “i”.", "ɔɪ":"như “oi”.",
+  "aʊ":"như “ao”: trượt từ “a” sang “u”.", "əʊ":"như “âu”: trượt từ “ơ” sang “u”, môi tròn dần.",
+  "ɪə":"như “ia”.", "eə":"như “e-ơ” đọc liền.", "ʊə":"như “u-ơ” đọc liền.",
+  "p":"bật hơi mạnh ở đầu từ (đặt tay trước miệng thấy hơi phả ra); ở cuối từ phải khép môi rõ.",
+  "b":"hai môi khép rồi bật, cổ họng rung.",
+  "t":"đầu lưỡi chạm lợi trên rồi bật hơi; ở cuối từ phải đọc rõ, đừng nuốt.",
+  "d":"đầu lưỡi chạm lợi trên, cổ họng rung; ở cuối từ phải đọc rõ.",
+  "k":"cuống lưỡi chạm ngạc mềm rồi bật hơi; ở cuối từ đọc rõ như “c” dứt khoát.",
+  "g":"như “g” tiếng Việt nhưng bật gọn.",
+  "f":"răng trên chạm nhẹ môi dưới, thổi hơi qua khe.",
+  "v":"răng trên chạm môi dưới, thổi hơi và rung cổ; không đọc thành “b” hay “w”.",
+  "θ":"đặt đầu lưỡi giữa hai hàm răng rồi thổi hơi ra; không đọc thành “t”, “s” hay “f”.",
+  "ð":"đầu lưỡi giữa hai hàm răng, thổi hơi và rung cổ; không đọc thành “d” hay “z”.",
+  "s":"âm xì /s/: răng gần nhau, xì hơi; ở cuối từ (số nhiều, động từ ngôi thứ ba) phải đọc rõ.",
+  "z":"như /s/ nhưng rung cổ (đặt tay lên cổ thấy rung).",
+  "ʃ":"chu môi, đầu lưỡi lùi sau lợi, thổi hơi “sh”; khác /s/.",
+  "ʒ":"như /ʃ/ nhưng rung cổ.",
+  "tʃ":"chu môi, đầu lưỡi chạm sau lợi rồi bật ra thành “ch”.",
+  "dʒ":"như /tʃ/ nhưng rung cổ, gần “gi” bật mạnh.",
+  "h":"chỉ là luồng hơi nhẹ từ cổ họng.",
+  "m":"hai môi khép, hơi đi ra đằng mũi; ở cuối từ phải khép môi.",
+  "n":"đầu lưỡi chạm lợi, hơi đi ra đằng mũi; ở cuối từ giữ lưỡi ở lợi.",
+  "ŋ":"cuống lưỡi chạm ngạc mềm như “ng”; đừng thêm âm “g” phía sau.",
+  "l":"đầu lưỡi chạm lợi trên, hơi đi hai bên lưỡi; ở cuối từ vẫn phải chạm lưỡi.",
+  "r":"cong đầu lưỡi lên nhưng không chạm vòm, môi hơi tròn; không rung như “r” tiếng Việt.",
+  "w":"chu tròn môi thật nhỏ rồi mở nhanh.", "j":"lưỡi như âm “i” rồi lướt nhanh sang nguyên âm."
+};
+const PA_EN_PAIR = {
+  "ɪ>iː":"Bạn kéo dài thành i dài /iː/. Hãy nói ngắn và thả lỏng hơn (ship ≠ sheep).",
+  "iː>ɪ":"Bạn nói thành i ngắn /ɪ/. Hãy kéo khóe môi và giữ âm lâu hơn (sheep ≠ ship).",
+  "ʊ>uː":"Bạn kéo dài thành /uː/. Nói ngắn, môi thả lỏng hơn.", "uː>ʊ":"Bạn nói ngắn thành /ʊ/. Chu môi và kéo dài hơn.",
+  "æ>e":"Bạn đọc thành /e/. Mở miệng rộng hơn, hạ hàm xuống (bad ≠ bed).", "e>æ":"Bạn mở miệng quá rộng thành /æ/. Khép miệng lại vừa phải.",
+  "ʌ>ɑː":"Bạn kéo dài thành /ɑː/. Nói ngắn và gọn hơn.", "ɑː>ʌ":"Âm quá ngắn. Mở miệng to và kéo dài hơn.",
+  "θ>t":"Bạn đọc /θ/ thành /t/. Đưa đầu lưỡi ra giữa hai hàm răng và thổi hơi, đừng chặn hơi lại.",
+  "θ>s":"Bạn đọc /θ/ thành /s/. Đưa đầu lưỡi ra giữa hai hàm răng thay vì để sau răng.",
+  "θ>f":"Bạn đọc /θ/ thành /f/. Dùng đầu lưỡi giữa hai hàm răng, không dùng môi dưới.",
+  "ð>d":"Bạn đọc /ð/ thành /d/. Đầu lưỡi đặt giữa hai hàm răng, thổi hơi và rung cổ.",
+  "ð>z":"Bạn đọc /ð/ thành /z/. Đưa đầu lưỡi ra giữa hai hàm răng.",
+  "ʃ>s":"Bạn đọc /ʃ/ thành /s/. Chu môi và lùi đầu lưỡi về sau để có tiếng “sh”.", "s>ʃ":"Bạn đọc /s/ thành /ʃ/. Không chu môi, giữ đầu lưỡi sát lợi.",
+  "z>s":"Bạn đọc /z/ thành /s/. Thêm rung cổ họng.", "s>z":"Bạn đọc /s/ thành /z/. Đừng rung cổ, chỉ xì hơi.",
+  "v>b":"Bạn đọc /v/ thành /b/. Răng trên chạm môi dưới, đừng khép hai môi.", "v>w":"Bạn đọc /v/ thành /w/. Răng trên phải chạm môi dưới.",
+  "r>l":"Bạn đọc /r/ thành /l/. Cong lưỡi lên, không để đầu lưỡi chạm lợi.", "l>r":"Bạn đọc /l/ thành /r/. Cho đầu lưỡi chạm lợi trên.",
+  "l>n":"Bạn đọc /l/ thành /n/. Hơi phải đi hai bên lưỡi, không qua mũi.", "n>l":"Bạn đọc /n/ thành /l/. Cho hơi đi ra đằng mũi.",
+  "tʃ>ʃ":"Bạn đọc /tʃ/ thành /ʃ/. Chạm lưỡi vào sau lợi rồi mới bật ra.", "dʒ>z":"Bạn đọc /dʒ/ thành /z/. Chu môi, chạm lưỡi rồi bật mạnh.",
+  "p>b":"Bạn đọc /p/ thành /b/. Bật hơi mạnh hơn.", "b>p":"Bạn đọc /b/ thành /p/. Thêm rung cổ, bớt bật hơi.",
+  "t>d":"Bạn đọc /t/ thành /d/. Bật hơi mạnh, không rung cổ.", "d>t":"Bạn đọc /d/ thành /t/. Thêm rung cổ.",
+  "k>g":"Bạn đọc /k/ thành /g/. Bật hơi mạnh hơn.", "g>k":"Bạn đọc /g/ thành /k/. Thêm rung cổ."
+};
+const PA_ZH_INIT = {
+  "zh>z":"Bạn đọc zh thành z. Uốn đầu lưỡi lên chạm vòm cứng phía trước.", "z>zh":"Bạn uốn lưỡi thành zh. Để đầu lưỡi thẳng, tì sau răng trên.",
+  "ch>c":"Bạn đọc ch thành c. Uốn đầu lưỡi lên rồi bật hơi.", "c>ch":"Bạn uốn lưỡi thành ch. Để đầu lưỡi thẳng, tì sau răng trên rồi bật hơi.",
+  "sh>s":"Bạn đọc sh thành s. Uốn đầu lưỡi lên gần vòm, không chạm.", "s>sh":"Bạn uốn lưỡi thành sh. Để lưỡi thẳng, xì hơi như “x”.",
+  "r>l":"Bạn đọc r thành l. Uốn lưỡi gần vòm, rung nhẹ, không chạm lợi.", "l>r":"Bạn đọc l thành r. Cho đầu lưỡi chạm lợi trên.",
+  "n>l":"Bạn đọc n thành l. Cho hơi đi ra đằng mũi.", "l>n":"Bạn đọc l thành n. Hơi đi hai bên lưỡi, không qua mũi.",
+  "j>zh":"Bạn đọc j thành zh. Đầu lưỡi tì răng dưới, mặt lưỡi chạm vòm cứng.", "q>ch":"Bạn đọc q thành ch. Kéo khóe môi, đầu lưỡi tì răng dưới.", "x>sh":"Bạn đọc x thành sh. Kéo khóe môi, đầu lưỡi tì răng dưới.",
+  "b>p":"Bạn bật hơi quá mạnh thành p. b không bật hơi.", "p>b":"Bạn đọc p thành b. Bật hơi thật mạnh.",
+  "d>t":"Bạn bật hơi thành t. d không bật hơi.", "t>d":"Bạn đọc t thành d. Bật hơi mạnh.",
+  "g>k":"Bạn bật hơi thành k. g không bật hơi.", "k>g":"Bạn đọc k thành g. Bật hơi mạnh.",
+  "f>h":"Bạn đọc f thành h. Răng trên chạm môi dưới.", "h>f":"Bạn đọc h thành f. Hơi đi từ cuống lưỡi như “kh”."
+};
+const PA_ZH_FIN = {
+  "ang>an":"Vần -ang bị đọc thành -an. Kết thúc bằng “ng” (cuống lưỡi), không phải “n”.", "an>ang":"Vần -an bị đọc thành -ang. Kết thúc bằng đầu lưỡi chạm lợi (n).",
+  "eng>en":"Vần -eng bị đọc thành -en. Kết thúc bằng “ng”.", "en>eng":"Vần -en bị đọc thành -eng. Kết thúc bằng “n”.",
+  "ing>in":"Vần -ing bị đọc thành -in. Kết thúc bằng “ng”.", "in>ing":"Vần -in bị đọc thành -ing. Kết thúc bằng “n”.",
+  "ü>u":"Âm ü bị đọc thành u. Giữ lưỡi như “i” nhưng chu tròn môi.", "u>ü":"Âm u bị đọc thành ü. Lùi lưỡi về sau, môi tròn.",
+  "uo>ou":"Vần uo bị đọc thành ou. Bắt đầu bằng u rồi mở sang o.", "ou>uo":"Vần ou bị đọc thành uo. Bắt đầu bằng o rồi khép về u.",
+  "ie>ei":"Vần ie bị đọc thành ei.", "ei>ie":"Vần ei bị đọc thành ie."
+};
+const PA_TONE = {
+  1:"Thanh 1: giữ giọng cao và đều, như hát một nốt cao.", 2:"Thanh 2: giọng đi lên, gần dấu sắc.",
+  3:"Thanh 3: hạ thấp rồi lên (khi đứng trước chữ khác thường chỉ hạ thấp), gần dấu hỏi.", 4:"Thanh 4: rơi mạnh từ cao xuống thấp, dứt khoát.", 5:"Thanh nhẹ: ngắn và nhẹ, không nhấn."
+};
+function paLesson(lang, title){ const L = PRON[lang] || []; const f = L.find(x => x.title === title); return f ? f.id : null; }
+/* căn hai dãy (Levenshtein); cost(a, b) trả 0..1 cho phép thay; trả mảng thao tác */
+function paAlign(A, B, cost){
+  const n = A.length, m = B.length, D = [];
+  for(let i = 0; i <= n; i++){ D.push(new Array(m + 1).fill(0)); D[i][0] = i; }
+  for(let j = 0; j <= m; j++) D[0][j] = j;
+  for(let i = 1; i <= n; i++) for(let j = 1; j <= m; j++) D[i][j] = Math.min(D[i-1][j] + 1, D[i][j-1] + 1, D[i-1][j-1] + cost(A[i-1], B[j-1]));
+  const ops = []; let i = n, j = m;
+  while(i > 0 || j > 0){
+    if(i > 0 && j > 0 && D[i][j] === D[i-1][j-1] + cost(A[i-1], B[j-1])){ ops.push({t:cost(A[i-1], B[j-1]) === 0 ? "m" : "s", a:A[i-1], b:B[j-1], i:i-1}); i--; j--; }
+    else if(i > 0 && D[i][j] === D[i-1][j] + 1){ ops.push({t:"d", a:A[i-1], i:i-1}); i--; }
+    else { ops.push({t:"i", b:B[j-1], i}); j--; }
+  }
+  return ops.reverse();
+}
+/* từ không có trong từ điển (máy nghe ra từ lạ): đoán phiên âm gần đúng theo cách viết */
+function paG2P(w){
+  const R = [["tch","tʃ"],["sh","ʃ"],["ch","tʃ"],["th","θ"],["ph","f"],["ng","ŋ"],["ck","k"],["qu","kw"],["ee","iː"],["ea","iː"],["oo","uː"],["ou","aʊ"],["ow","aʊ"],["ai","eɪ"],["ay","eɪ"],["oa","əʊ"],["oi","ɔɪ"],["oy","ɔɪ"],["er","ər"],
+    ["a","æ"],["e","e"],["i","ɪ"],["o","ɒ"],["u","ʌ"],["y","j"],["c","k"],["x","ks"],["j","dʒ"],["b","b"],["d","d"],["f","f"],["g","g"],["h","h"],["k","k"],["l","l"],["m","m"],["n","n"],["p","p"],["r","r"],["s","s"],["t","t"],["v","v"],["w","w"],["z","z"]];
+  const out = []; let i = 0; w = w.toLowerCase();
+  while(i < w.length){ const r = R.find(([g]) => w.startsWith(g, i)); if(!r){ i++; continue; }
+    if(r[0] === "y" && i === w.length - 1) out.push("i"); else if(r[0] === "er") out.push("ə", "r"); else if(r[1] === "ks") out.push("k", "s"); else if(r[1] === "kw") out.push("k", "w"); else out.push(r[1]);
+    i += r[0].length; }
+  if(out.length > 1 && w.endsWith("e") && !w.endsWith("ee")) out.pop();
+  return out;
+}
+const paPh = (w, guess) => { const r = ipaOf(w); return r ? r.map(x => x.replace(/[ˈˌ]/g, "")) : guess ? paG2P(w) : null; };
+function paWordSim(a, b){
+  if(a === b) return 1;
+  const pa = paPh(a, true), pb = paPh(b, true);
+  const A = pa || [...a], B = pb || [...b];
+  const ops = paAlign(A, B, (x, y) => x === y ? 0 : 1), e = ops.filter(o => o.t !== "m").length;
+  return Math.max(0, 1 - e / Math.max(A.length, B.length));
+}
+function analyzeEn(target, heard){
+  const clean = w => w.toLowerCase().replace(/[’]/g, "'").replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, "");
+  const T = target.split(/\s+/).map(w => ({raw:w.replace(/^[^A-Za-z0-9']+|[^A-Za-z0-9']+$/g, ""), w:clean(w)})).filter(x => x.w);
+  const H = (heard || "").split(/\s+/).map(clean).filter(Boolean);
+  const ops = paAlign(T.map(x => x.w), H, (a, b) => { const s = paWordSim(a, b); return s >= 1 ? 0 : s >= 0.34 ? 1 - s * 0.5 : 2; });
+  const out = [], extra = [];
+  for(const o of ops){
+    if(o.t === "m") continue;
+    if(o.t === "i"){ extra.push(o.b); continue; }
+    const tw = T[o.i], tp = paPh(tw.w);
+    if(o.t === "d"){ out.push({w:tw.raw, tgt:tp ? tp.join("") : "", got:"", msg:`Máy không nghe thấy từ này. Hãy nói rõ cả từ “${tw.raw}”.`, ph:null}); continue; }
+    const hp = paPh(o.b, true);
+    if(!tp || !hp){ out.push({w:tw.raw, tgt:tp ? tp.join("") : "", got:o.b, msg:`Máy nghe thành “${o.b}”.`, ph:null}); continue; }
+    const pops = paAlign(tp, hp, (x, y) => x === y ? 0 : 1).filter(p => p.t !== "m");
+    const notes = []; let ph = null;
+    for(const p of pops.slice(0, 2)){
+      if(p.t === "s"){ ph = ph || p.a; notes.push(`Âm /${p.a}/ nghe thành /${p.b}/. ` + (PA_EN_PAIR[p.a + ">" + p.b] || ("Cách đọc /" + p.a + "/: " + (PA_EN[p.a] || "nghe mẫu và nói chậm lại."))));}
+      else if(p.t === "d"){ ph = ph || p.a; const last = p.i === tp.length - 1;
+        notes.push(`${last ? "Thiếu âm cuối" : "Thiếu âm"} /${p.a}/. ` + (last ? "Người Việt hay nuốt âm cuối; hãy đọc dứt khoát âm này. " : "") + (PA_EN[p.a] ? "Cách đọc: " + PA_EN[p.a] : "")); }
+      else if(p.t === "i") notes.push(`Có thêm âm /${p.b}/ không cần thiết. Đọc gọn đúng các âm của từ.`);
+    }
+    out.push({w:tw.raw, tgt:tp.join(""), got:hp.join(""), heardWord:o.b, msg:notes.join(" ") || `Máy nghe thành “${o.b}”.`, ph});
+  }
+  if(extra.length) out.push({w:"", tgt:"", got:"", msg:`Máy nghe thêm: “${extra.slice(0, 5).join(" ")}”. Nói đúng câu mẫu, không thêm từ.`, ph:null});
+  return out.map(x => Object.assign(x, {lesson:x.ph ? paLesson("en", "/" + x.ph + "/") : null, lessonName:x.ph ? "/" + x.ph + "/" : ""}));
+}
+/* bính âm: tách phụ âm đầu, vần, thanh */
+function paPy(py){
+  const n = py.normalize("NFD"); let tone = 5;
+  if(/̄/.test(n)) tone = 1; else if(/́/.test(n)) tone = 2; else if(/̌/.test(n)) tone = 3; else if(/̀/.test(n)) tone = 4;
+  const base = pyBase(py).replace(/ü/g, "ü");
+  let ini = ""; for(const i of PY_INIT){ if(i && base.startsWith(i) && i.length > ini.length) ini = i; }
+  let fin = base.slice(ini.length); if((ini === "j" || ini === "q" || ini === "x" || ini === "y") && fin.startsWith("u")) fin = "ü" + fin.slice(1);
+  return {ini, fin, tone, base};
+}
+let PA_ZHMAP = null;
+function paZhMap(){
+  if(PA_ZHMAP) return PA_ZHMAP;
+  const M = {}, put = (t, p) => { const al = p && pyAlign(t, p); if(!al) return; for(const [ch, py] of al) if(py && isHan(ch)){ (M[ch] = M[ch] || new Set()).add(py.toLowerCase()); } };
+  try{ for(const les of LESSONS.zh){ for(const l of les.lines || []) put(l.t, l.p); for(const ph of les.phrases || []) put(ph.t, ph.p); } }catch(e){}
+  try{ for(const T of VT_TOPICS) for(const part of ["b","a"]) for(const it of T.zh[part]) put(it.t, it.p); }catch(e){}
+  try{ for(const id of Object.keys(VOCAB_RAW)) if(id.startsWith("zh")) for(const it of vocabOf(id)) put(it.t, it.p); }catch(e){}
+  try{ for(const les of PRON.zh) for(const s of les.speak || []) put(s.t, s.p); }catch(e){}
+  return PA_ZHMAP = M;
+}
+function analyzeZh(item, heard){
+  const al = pyAlign(item.t, item.p); if(!al) return [];
+  const T = al.filter(([ch, py]) => isHan(ch) && py), M = paZhMap();
+  const H = Array.from(heard || "").filter(isHan);
+  const same = (t, h) => t[0] === h || (M[h] && M[h].has(t[1].toLowerCase()));
+  const ops = paAlign(T, H, (t, h) => same(t, h) ? 0 : 1);
+  const out = [];
+  for(const o of ops){
+    if(o.t === "m" || o.t === "i") continue;
+    const [ch, py] = o.a;
+    if(o.t === "d"){ out.push({w:ch, tgt:py, got:"", msg:`Máy không nghe thấy chữ “${ch}”. Đọc rõ từng chữ, đừng nuốt chữ.`, lesson:null}); continue; }
+    const hpys = M[o.b] ? [...M[o.b]] : [];
+    const tp = paPy(py);
+    if(!hpys.length){ out.push({w:ch, tgt:py, got:o.b, msg:`Máy nghe thành chữ “${o.b}”. Nghe mẫu và đọc lại chữ “${ch}” (${py}).`, lesson:null}); continue; }
+    const hp = hpys.map(paPy).sort((x, y) => (y.ini === tp.ini) + (y.fin === tp.fin) - (x.ini === tp.ini) - (x.fin === tp.fin))[0];
+    const notes = []; let lesson = null, lname = "";
+    if(hp.ini !== tp.ini){ notes.push(PA_ZH_INIT[tp.ini + ">" + hp.ini] || `Phụ âm đầu “${tp.ini || "(không có)"}” nghe thành “${hp.ini || "(không có)"}”.`); lesson = paLesson("zh", tp.ini); lname = tp.ini; }
+    if(hp.fin !== tp.fin){ notes.push(PA_ZH_FIN[tp.fin + ">" + hp.fin] || `Vần “${tp.fin}” nghe thành “${hp.fin}”.`); if(!lesson){ lesson = paLesson("zh", tp.fin); lname = tp.fin; } }
+    if(hp.ini === tp.ini && hp.fin === tp.fin && hp.tone !== tp.tone){ notes.push(`Đúng âm nhưng sai thanh: thanh ${tp.tone === 5 ? "nhẹ" : tp.tone} bị nghe thành thanh ${hp.tone === 5 ? "nhẹ" : hp.tone}. ${PA_TONE[tp.tone]}`); lesson = PRON.zh[[0,0,1,2,3,4][tp.tone]] ? PRON.zh[[0,0,1,2,3,4][tp.tone]].id : null; lname = "thanh " + (tp.tone === 5 ? "nhẹ" : tp.tone); }
+    out.push({w:ch, tgt:py, got:o.b + " (" + hpys[0] + ")", msg:notes.join(" ") || `Máy nghe thành “${o.b}”.`, lesson, lessonName:lname});
+  }
+  return out;
+}
+function paHtml(res){
+  const d = res && res.detail; if(!d || !d.length) return "";
+  return `<div class="pa"><div class="pa-h">🔍 Phân tích phát âm</div>${d.slice(0, 6).map(x => `<div class="pa-i">
+      ${x.w ? `<div class="pa-w"><b>${esc(x.w)}</b>${x.tgt ? `<span class="pa-ph">chuẩn: /${esc(x.tgt)}/</span>` : ""}${x.got ? `<span class="pa-ph bad">máy nghe: ${x.heardWord ? "“" + esc(x.heardWord) + "” " : ""}${/^\p{Script=Han}/u.test(x.got) ? esc(x.got) : "/" + esc(x.got) + "/"}</span>` : ""}</div>` : ""}
+      <div class="pa-m">${esc(x.msg)}</div>
+      ${x.lesson ? `<button class="linkbtn" data-act="popen" data-id="${x.lesson}">Luyện âm ${esc(x.lessonName)} →</button>` : ""}</div>`).join("")}</div>`;
+}
+
 /* những từ (tiếng Anh) hoặc chữ (tiếng Trung) chưa khớp */
 function missWords(text, lang, matched){
   const out = []; let k = 0;
@@ -6619,7 +6838,8 @@ function speakBlock(item, lang, key){
         <span class="score">${res.score} điểm · ${gradeText(res.score)}</span>
         <span class="diff">${res.html}</span>
         <span class="heard">${res.pinyin?"Bạn gõ":"Máy nghe được"}: “${esc(res.heard)}”</span>
-        ${res.tip ? `<span class="fb ${res.tip.good ? "good" : ""}">${res.tip.good ? "🎉" : "💡"} ${esc(res.tip.text)}</span>` : ""}</div>`;
+        ${res.tip ? `<span class="fb ${res.tip.good ? "good" : ""}">${res.tip.good ? "🎉" : "💡"} ${esc(res.tip.text)}</span>` : ""}
+        ${paHtml(res)}</div>`;
   }
   const typing = ui.typing[key] || Rec.mode(lang) === "none";
   const typeBox = typing ? `<form class="typebox" data-act="typed" data-key="${key}">
