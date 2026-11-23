@@ -228,7 +228,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .mv .ln-tis{fill:#ececec;stroke:#4d4d4d;stroke-width:2.4;stroke-linejoin:round}.mv .ln-airsp{fill:#fff;stroke:#4d4d4d;stroke-width:2.2;stroke-linejoin:round}
 .mv .ln-vel{fill:#ececec;stroke:#4d4d4d;stroke-width:2.2}.mv .ln-tooth{fill:#fff;stroke:#4d4d4d;stroke-width:2}.mv .ln-tongue{stroke:#5b7180;stroke-width:2.4;stroke-linejoin:round}
 .mv .ln-ridge{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;opacity:.55}.mv .ln-epi{fill:none;stroke:#5b7180;stroke-width:2.2;stroke-linecap:round}.mv .ln-ghost{fill:none;stroke:#9aa9b2;stroke-width:1.8;stroke-dasharray:4 4}.mv .ln-arr{stroke:#1a7a40;stroke-width:2.6;stroke-dasharray:5 4;fill:none}.mv .ln-arrh{stroke:#1a7a40;stroke-width:2.6;fill:none;stroke-linecap:round}.mv .ln-ring{fill:none;stroke:#1a7a40;stroke-width:2.8}.mv .ln-lbbg{fill:#1a7a40}.mv .ln-lead{stroke:#1a7a40;stroke-width:1.4;opacity:.7}.mv .ln-lbt{fill:#fff;font-size:13px;font-weight:700;font-family:inherit}.mv .ln-air circle{fill:#2fa864}.mv .ln-vib{fill:none;stroke:#2fa864;stroke-width:3;stroke-linejoin:round}
-.mv #mv-front{border-radius:10px}.mv .sa-tongue{fill:#ececec}.mv .mv-focus{background:#1a7a40;color:#fff !important;font-weight:700;font-size:13px !important;padding:3px 12px;border-radius:99px;margin-top:6px !important}.mv .sa-surf{fill:none;stroke:#e0443a;stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round}.mv .sa-path circle{fill:#c9c9c9}.mv .sa-flow circle{fill:#7a7a7a}.mv .sa-glot{fill:#fff;stroke:#4d4d4d;stroke-width:1.8}.mv .sa-voice{fill:none;stroke:#e0443a;stroke-width:2.4;stroke-linecap:round}
+.mv #mv-front{border-radius:10px}.mv .sa-tongue{fill:#ececec}.mv .ik-ink{fill:none;stroke:#141414;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.mv .ik-thin{fill:none;stroke:#141414;stroke-width:1.4;stroke-linecap:round;opacity:.6}.mv .ik-shade{fill:#dcdcdc}.mv .ik-up{fill:#b4b4b4;stroke:#141414;stroke-width:1.8;stroke-linejoin:round}.mv .ik-lo{fill:#f2f2f2;stroke:#141414;stroke-width:1.8;stroke-linejoin:round}.mv .ik-hl{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round}.mv .ik-in{fill:#141414}.mv .ik-tooth{fill:#fff;stroke:#141414;stroke-width:1.4}.mv .ik-tongue{fill:#8a8a8a;stroke:#141414;stroke-width:1.2}.mv .ik-gap{stroke:#141414;stroke-width:.8}.mv .mv-focus{background:#1a7a40;color:#fff !important;font-weight:700;font-size:13px !important;padding:3px 12px;border-radius:99px;margin-top:6px !important}.mv .sa-surf{fill:none;stroke:#e0443a;stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round}.mv .sa-path circle{fill:#c9c9c9}.mv .sa-flow circle{fill:#7a7a7a}.mv .sa-glot{fill:#fff;stroke:#4d4d4d;stroke-width:1.8}.mv .sa-voice{fill:none;stroke:#e0443a;stroke-width:2.4;stroke-linecap:round}
 .note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--sun);border-radius:10px;padding:14px 16px}
 .note h4{margin:0 0 4px;font-size:16px}
 .note p{margin:0;color:var(--muted)}
@@ -4400,6 +4400,44 @@ function mvLipsReal(o){
     <ellipse cx="${cx-pk*.9}" cy="${yT+ut*.42}" rx="${Math.max(4, pk*.7)}" ry="1.8" fill="url(#lr-hl)"/><ellipse cx="${cx+pk*.9}" cy="${yT+ut*.42}" rx="${Math.max(4, pk*.7)}" ry="1.8" fill="url(#lr-hl)"/>
     ${!open ? `<path d="M${cx-a+1},${cy} C${cx-ai*.5},${cy+1.6} ${cx+ai*.5},${cy+1.6} ${cx+a-1},${cy}" stroke="#6e2a34" stroke-width="1.4" fill="none"/>` : ""}`;
 }
+/* Môi kiểu ký họa đen trắng (nét mực, tô xám), cùng hình học với môi thật */
+function mvLipsInk(o){
+  const cx = 100, cy = 84;
+  const a = 44 + o.spread * 12 - o.protr * 12;
+  let h = (1 - o.close) * (3 + o.jaw * 44); if(o.ld > .5) h = Math.min(h, 3);
+  const ai = Math.max(5, Math.min(a * .82, o.protr > .3 ? h * .5 + 9 + (1 - o.protr) * 10 : a * .82)), hh = h / 2;
+  const ut = 7 + o.protr * 2.5, lt = 9 + o.protr * 3, yT = cy - hh - ut, yB = cy + hh + lt;
+  const pk = 10 + o.spread * 2 - o.protr * 3;
+  const upper = `M${cx-a},${cy} C${cx-a+10},${cy-hh-ut*.45} ${cx-pk-14},${yT+1} ${cx-pk},${yT} C${cx-pk/2},${yT-.5} ${cx-3},${yT+3.4} ${cx},${yT+3.6} C${cx+3},${yT+3.4} ${cx+pk/2},${yT-.5} ${cx+pk},${yT}
+    C${cx+pk+14},${yT+1} ${cx+a-10},${cy-hh-ut*.45} ${cx+a},${cy} L${cx+ai},${cy} C${cx+ai*.6},${cy-hh-1} ${cx-ai*.6},${cy-hh-1} ${cx-ai},${cy} Z`;
+  const ldUp = o.ld * 6;
+  const lower = `M${cx-a},${cy} L${cx-ai},${cy} C${cx-ai*.6},${cy+hh+1-ldUp} ${cx+ai*.6},${cy+hh+1-ldUp} ${cx+ai},${cy} L${cx+a},${cy}
+    C${cx+a-8},${yB-lt*.25-ldUp} ${cx+18},${yB+1-ldUp} ${cx},${yB-ldUp} C${cx-18},${yB+1-ldUp} ${cx-a+8},${yB-lt*.25-ldUp} ${cx-a},${cy} Z`;
+  const inner = `M${cx-ai},${cy} C${cx-ai*.6},${cy-hh-1} ${cx+ai*.6},${cy-hh-1} ${cx+ai},${cy} C${cx+ai*.6},${cy+hh+1} ${cx-ai*.6},${cy+hh+1} ${cx-ai},${cy} Z`;
+  const open = h > 1.2, tw = Math.min(ai * 1.5, 46);
+  const tongueOut = o.tx < 50 && open ? `<ellipse cx="${cx}" cy="${cy+1.5}" rx="${Math.min(ai-2, 18)}" ry="${Math.max(2.5, hh)}" class="ik-tongue"/>` : "";
+  const teethU = open && h > 4 ? `<path d="M${cx-tw/2},${cy-hh-2} L${cx+tw/2},${cy-hh-2} L${cx+tw/2-2},${cy-hh+Math.min(9, h*.5)} Q${cx},${cy-hh+Math.min(10, h*.55)+1} ${cx-tw/2+2},${cy-hh+Math.min(9, h*.5)} Z" class="ik-tooth"/>
+    ${[-1.5,-.5,.5,1.5].map(k => `<path d="M${cx+k*tw/4.4},${cy-hh-1} l0,${Math.min(8, h*.45)}" class="ik-gap"/>`).join("")}` : "";
+  const teethL = open && h > 22 ? `<path d="M${cx-tw/2+4},${cy+hh+2} L${cx+tw/2-4},${cy+hh+2} L${cx+tw/2-6},${cy+hh-6} Q${cx},${cy+hh-8} ${cx-tw/2+6},${cy+hh-6} Z" class="ik-tooth"/>` : "";
+  const tongueIn = open && h > 10 ? `<ellipse cx="${cx}" cy="${cy+hh-1}" rx="${ai*.72}" ry="${Math.min(11, hh*.55)}" class="ik-tongue"/>` : "";
+  const ldTeeth = o.ld > .5 && o.close < .5 ? `<path d="M${cx-24},${cy-4} L${cx+24},${cy-4} L${cx+22},${cy+3} Q${cx},${cy+4.5} ${cx-22},${cy+3} Z" class="ik-tooth"/>` : "";
+  return `<defs><clipPath id="ik-cl"><path d="${inner}"/></clipPath></defs>
+    <rect x="0" y="0" width="200" height="170" fill="#fff"/>
+    <path class="ik-shade" d="M86,27 C92,31 108,31 114,27 C110,34 90,34 86,27 Z"/>
+    <path class="ik-ink" d="M84,10 C79,17 80,25 88,25 C91,25 93,23 95,22 M116,10 C121,17 120,25 112,25 C109,25 107,23 105,22"/><path class="ik-thin" d="M89,20 C90,22 92,22 93,21 M111,20 C110,22 108,22 107,21"/>
+    <path class="ik-thin" d="M94,23 C97,26 103,26 106,23"/>
+    <path class="ik-shade" d="M${cx-6},${yT-14} C${cx-5},${yT-6} ${cx-4},${yT-2} ${cx-3},${yT+1} L${cx+3},${yT+1} C${cx+4},${yT-2} ${cx+5},${yT-6} ${cx+6},${yT-14} C${cx+2},${yT-10} ${cx-2},${yT-10} ${cx-6},${yT-14} Z" opacity=".7"/>
+    <path class="ik-thin" d="M78,32 C72,42 ${cx-a-8},${cy-20} ${cx-a-6},${cy-11} M122,32 C128,42 ${cx+a+8},${cy-20} ${cx+a+6},${cy-11}"/>
+    <path class="ik-shade" d="M${cx-a*.6},${yB+4} C${cx-12},${yB+11} ${cx+12},${yB+11} ${cx+a*.6},${yB+4} C${cx+12},${yB+7} ${cx-12},${yB+7} ${cx-a*.6},${yB+4} Z"/>
+    <path class="ik-thin" d="M${cx-18},${yB+28} C${cx-8},${yB+32} ${cx+8},${yB+32} ${cx+18},${yB+28}"/>
+    ${open ? `<path d="${inner}" class="ik-in"/><g clip-path="url(#ik-cl)">${tongueIn}${teethL}${teethU}${tongueOut}</g>` : ""}
+    <path d="${lower}" class="ik-lo"/>
+    <path class="ik-hl" d="M${cx-a*.35},${(cy+hh+yB)/2-ldUp} C${cx-a*.1},${(cy+hh+yB)/2-ldUp-2} ${cx+a*.1},${(cy+hh+yB)/2-ldUp-2} ${cx+a*.35},${(cy+hh+yB)/2-ldUp}"/>
+    ${ldTeeth}
+    <path d="${upper}" class="ik-up"/>
+    ${!open ? `<path d="M${cx-a+1},${cy} C${cx-ai*.5},${cy+1.6} ${cx+ai*.5},${cy+1.6} ${cx+a-1},${cy}" class="ik-ink"/>` : ""}
+    <path class="ik-thin" d="M${cx-a-2},${cy-2} q-3,2 -1,5 M${cx+a+2},${cy-2} q3,2 1,5"/>`;
+}
 /* Đường thanh điệu cho bài thanh điệu tiếng Trung */
 const MV_TONES = {"ā":[[0,5],[1,5]], "á":[[0,3],[1,5]], "ǎ":[[0,2],[.45,1],[1,4]], "à":[[0,5],[1,1]], "a":[[0,3],[.5,2.6],[1,2.5]]};
 function mvTone(sym, q){
@@ -4417,7 +4455,7 @@ function mvRenderCard(lesson, lang){
   return `<div class="mv" id="mv" data-id="${esc(lesson.id)}">
     <div class="mv-head"><b>Video khẩu hình</b><span>${tone ? "Nghe và nhìn đường cao độ của thanh điệu" : "Bên trái là môi nhìn thẳng, bên phải là lưỡi bên trong miệng khi phát âm"}</span></div>
     <div class="mv-stage">
-      <figure><svg id="mv-front" viewBox="14 24 172 122" role="img" aria-label="Khẩu hình môi nhìn thẳng">${mvLipsReal(o)}</svg><figcaption>Môi nhìn thẳng</figcaption></figure>
+      <figure><svg id="mv-front" viewBox="14 4 172 142" role="img" aria-label="Khẩu hình môi nhìn thẳng">${mvLipsInk(o)}</svg><figcaption>Môi nhìn thẳng</figcaption></figure>
       <figure><svg id="mv-side" viewBox="0 0 ${tone ? "200 130" : "220 220"}" role="img" aria-label="${tone ? "Đường thanh điệu" : "Bên trong miệng nhìn nghiêng"}">${tone ? mvTone(lesson.title, 0) : mvSideLens(o, 0)}</svg><figcaption id="mv-sidecap" class="${tone ? "" : "mv-focus"}">${tone ? "Thanh điệu" : esc((lnFocus(o) || {t:"Bên trong miệng"}).t)}</figcaption></figure>
     </div>
     <div class="mv-bar"><button class="btn mv-play" data-act="mvplay">${ICON_PLAY} Phát video</button>
@@ -4431,7 +4469,7 @@ function mvDraw(time){
   const fr = document.getElementById("mv-front"), sd = document.getElementById("mv-side");
   if(!fr || !sd || document.getElementById("mv").dataset.id !== MV.id) return false;
   const o = mvAt(MV.tl, time), tone = c.lesson.group === "pzh-tones";
-  fr.innerHTML = mvLipsReal(o);
+  fr.innerHTML = mvLipsInk(o);
   sd.innerHTML = tone ? mvTone(c.lesson.title, Math.min(1, Math.max(0, (time - MV.tl.at) / 1.0))) : mvSideLens(o, time);
   const pg = document.getElementById("mv-prog"); if(pg) pg.style.width = Math.min(100, time / MV.tl.dur * 100) + "%";
   const cp = document.getElementById("mv-cap"); if(cp && !tone) cp.textContent = o.cap;
