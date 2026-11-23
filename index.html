@@ -261,6 +261,23 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .vt-name input{font:inherit;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:inherit}
 .vt-note{font-size:13px;color:var(--muted);margin:8px 0 0}
 /* Sổ từ vựng và bảng tra từ */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.news-card{display:flex;gap:14px;align-items:flex-start;text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;transition:transform .15s,box-shadow .15s}
+.news-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08)}.news-card.read{opacity:.8}
+.news-ic{font-size:34px;line-height:1}.news-cb{display:flex;flex-direction:column;gap:4px;min-width:0}
+.news-t{font-size:17px;line-height:1.3}.news-t.zh{font-family:var(--font-zh);font-size:19px}.news-cb small{color:var(--muted);font-size:13.5px}
+.news-meta{font-size:12.5px;color:var(--muted)}.news-lv{color:var(--accent)}.news-done{color:var(--accent);font-weight:700}
+.news-page{max-width:820px;align-self:center}
+.news-art{display:flex;flex-direction:column;gap:14px}
+.news-h{font-size:clamp(26px,3vw,34px);line-height:1.25;margin:0;letter-spacing:-.01em}.news-h.zh{font-family:var(--font-zh)}
+.news-sum{margin:0;color:var(--muted);font-style:italic}
+.news-hint{font-size:13px;color:var(--muted);padding:8px 12px;border-radius:10px;background:var(--surface);border:1px dashed var(--line);align-self:flex-start}
+.news-p{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:start}
+.news-pt{font-size:19px;line-height:1.75}.news-pt.zh{font-family:var(--font-zh);font-size:21px;line-height:1.9}
+.news-pa{display:flex;flex-direction:column;gap:6px;padding-top:4px}.news-pa .dc-say[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 18%,var(--surface));border-color:var(--accent)}
+.news-tr{grid-column:1/2;font-size:16px;line-height:1.6;color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 10px 10px 0}
+.rw{cursor:pointer;border-radius:4px;transition:background .1s}.rw:hover{background:color-mix(in srgb,var(--accent) 18%,transparent)}
+.news-in{font:inherit;font-size:16px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box;resize:vertical}
 .nb-entry{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),var(--surface));transition:transform .15s,box-shadow .15s}
 .nb-entry:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08)}.nb-entry .vt-cb{flex:1;display:flex;flex-direction:column;gap:2px}.nb-entry b{font-size:17px}.nb-entry small{color:var(--muted)}
 .nb-entry-go{font-weight:700;color:var(--accent);white-space:nowrap}
@@ -4615,6 +4632,24 @@ Object.assign(I18N_DICT, {"Lưu vào": ["Save to", "保存到"], "📒 Sổ từ
   "✓ đã có": ["✓ already in", "✓ 已在其中"], "Tên chủ đề mới…": ["New topic name…", "新主题名称…"], "Tên chủ đề mới": ["New topic name", "新主题名称"], "＋ Tạo và lưu": ["＋ Create and save", "＋ 创建并保存"],
   "＋ Lưu vào sổ ▾": ["＋ Save ▾", "＋ 保存 ▾"], "📁 Thêm vào chủ đề ▾": ["📁 Add to topic ▾", "📁 加入主题 ▾"]});
 I18N_RX.unshift([/^· (\d+) từ$/, "· $1 words", "· $1 个词"], [/^✓ Đã lưu “(.+)” vào chủ đề 📁 (.+)$/, "✓ Saved “$1” to 📁 $2", "✓ 已将“$1”存入 📁 $2"]);
+Object.assign(I18N_DICT, {
+  "Đọc báo": ["News reading", "读新闻"], "Bài báo ngắn theo cấp độ, bấm từ để tra và dịch": ["Short news-style articles by level; click words to look up and translate", "按等级分类的新闻短文，点词即可查词和翻译"],
+  "Đọc báo tiếng Anh": ["English news reading", "英语新闻阅读"], "Đọc báo tiếng Trung": ["Chinese news reading", "中文新闻阅读"],
+  "Đọc bài ngắn theo kiểu tin tức, chia theo cấp độ. Bấm vào một từ để tra nghĩa, dịch và lưu vào sổ từ vựng. Bôi đen một câu để dịch câu đó, hoặc bấm 🌐 để dịch cả đoạn.": ["Read short news-style articles by level. Click a word to look it up, translate it and save it to your notebook. Select a sentence to translate it, or press 🌐 to translate a whole paragraph.", "阅读按等级分类的新闻短文。点击单词即可查词、翻译并存入生词本。选中句子即可翻译，或点 🌐 翻译整段。"],
+  "Đọc bài báo bạn tự tìm": ["Read an article you found", "阅读你自己找的文章"], "Dán bài →": ["Paste →", "粘贴 →"], "Bài bạn đã dán": ["Your pasted articles", "你粘贴的文章"], "Bài luyện đọc": ["Practice articles", "阅读练习"],
+  "Các bài luyện đọc ở đây do SFY tự viết theo phong cách tin tức để luyện đọc, không phải tin thời sự thật.": ["These practice articles are written by SFY in a news style for reading practice; they are not real news.", "这些阅读练习是 SFY 以新闻风格编写的，用于练习阅读，并非真实新闻。"],
+  "Muốn đọc tin thật? Thử các trang báo cho người học:": ["Want real news? Try these sites for learners:", "想读真实新闻？试试这些面向学习者的网站："],
+  ". Đọc ở đó rồi chép đoạn bạn thích vào mục “Đọc bài báo bạn tự tìm”.": [". Read there, then copy the parts you like into “Read an article you found”.", "。在那里阅读后，把喜欢的段落复制到“阅读你自己找的文章”。"],
+  "✓ Đã đọc": ["✓ Read", "✓ 已读"], "← Tất cả bài báo": ["← All articles", "← 全部文章"], "Đọc bài": ["Reading", "阅读"], "🔊 Đọc cả bài": ["🔊 Read aloud", "🔊 朗读全文"], "🌐 Dịch cả bài": ["🌐 Translate all", "🌐 翻译全文"],
+  "🗑 Xoá bài này": ["🗑 Delete article", "🗑 删除这篇"], "Bài bạn đã dán": ["Your pasted article", "你粘贴的文章"], "Bài luyện đọc do SFY biên soạn": ["Practice article written by SFY", "SFY 编写的阅读练习"],
+  "Bấm vào một từ để tra · Bôi đen câu để dịch · 🌐 dịch cả đoạn": ["Click a word to look it up · Select a sentence to translate · 🌐 translate a paragraph", "点击单词查词 · 选中句子翻译 · 🌐 翻译整段"],
+  "Đọc đoạn này": ["Read this paragraph", "朗读这一段"], "Dịch đoạn này": ["Translate this paragraph", "翻译这一段"], "📋 Đọc bài báo bạn tự tìm": ["📋 Read an article you found", "📋 阅读你自己找的文章"],
+  "Tiêu đề (không bắt buộc)": ["Title (optional)", "标题（可选）"], "Tiêu đề": ["Title", "标题"], "Dán nội dung bài báo vào đây…": ["Paste the article text here…", "在这里粘贴文章内容…"], "Nội dung bài báo": ["Article text", "文章内容"],
+  "Đọc bài này →": ["Read this →", "开始阅读 →"], "Tự dán": ["Pasted", "自己粘贴"],
+  "Đời sống": ["Life", "生活"], "Khoa học": ["Science", "科学"], "Môi trường": ["Environment", "环境"], "Công việc": ["Work", "工作"], "Sức khỏe": ["Health", "健康"], "Ẩm thực": ["Food", "美食"], "Giao thông": ["Transport", "交通"], "Công nghệ": ["Technology", "科技"]
+});
+I18N_RX.unshift([/^Dán nội dung một bài báo (tiếng Anh|tiếng Trung) bất kỳ vào đây để đọc với công cụ tra từ và dịch$/, (m, l) => [`Paste any ${l === "tiếng Anh" ? "English" : "Chinese"} article here to read it with the lookup and translation tools`, `在这里粘贴任意${l === "tiếng Anh" ? "英语" : "中文"}文章，即可使用查词和翻译工具阅读`]],
+  [/^Chép nội dung một bài báo (tiếng Anh|tiếng Trung) rồi dán vào ô dưới\. Bài được lưu trên máy này để bạn đọc lại\.$/, (m, l) => [`Copy the text of a ${l === "tiếng Anh" ? "English" : "Chinese"} article and paste it below. It's saved on this device so you can read it again.`, `复制一篇${l === "tiếng Anh" ? "英语" : "中文"}文章的内容并粘贴到下方。文章会保存在本设备上，方便再次阅读。`]]);
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -5096,6 +5131,228 @@ document.addEventListener("input", e => {
   nbState().q = e.target.value; clearTimeout(nbLookup.t); nbLookup.t = setTimeout(nbLookup, 700);
 });
 
+/* Bài đọc luyện tập kiểu tin tức, SFY tự biên soạn (không phải tin thật). lv: cấp độ; sum: tóm tắt tiếng Việt. */
+const NEWS = [
+  {id:"en-bookbus", lang:"en", lv:"A2", icon:"🚌", topic:"Đời sống", title:"A Library on Wheels",
+   sum:"Một chiếc xe buýt chở sách đến các làng xa thư viện, giúp trẻ em có sách để đọc.",
+   paras:[
+    "In many small villages, there is no library. The nearest one can be more than an hour away by bus. For children who love books, this is a big problem.",
+    "Some towns have found a simple answer: a library on wheels. It is an old bus with shelves inside. The shelves are full of picture books, storybooks and comics. Every week, the bus visits a different village.",
+    "When the bus arrives, children run to the door. They can borrow three books each and bring them back the next week. Parents can borrow books too, and some of them read with their kids in the evening.",
+    "The driver also works as a librarian. She helps the children find books they will like. \"Some kids didn't like reading before,\" she says. \"Now they ask me for new books every time I come.\"",
+    "The library bus is not expensive to run, and many people give old books to help. It shows that a good idea does not have to be big to make a difference."
+   ]},
+  {id:"en-cats", lang:"en", lv:"A2", icon:"🐱", topic:"Khoa học", title:"Why Do Cats Sleep So Much?",
+   sum:"Vì sao mèo ngủ nhiều: tiết kiệm năng lượng để săn mồi, và phần lớn là ngủ nông.",
+   paras:[
+    "If you have a cat, you know that cats love to sleep. Many cats sleep for twelve to sixteen hours a day. Some older cats sleep even more.",
+    "Why do they need so much sleep? Scientists think the answer comes from the wild. Wild cats hunt other animals for food. Hunting needs a lot of energy, so cats rest for a long time between hunts.",
+    "Pet cats do not need to hunt, because we give them food. But their bodies still follow the same old habits.",
+    "Cats do not always sleep deeply. Much of the time, they are in a light sleep. Their ears can still move, and they can wake up very quickly if they hear a noise.",
+    "So the next time your cat is asleep on the sofa all afternoon, don't worry. It is just doing what cats have always done."
+   ]},
+  {id:"en-trees", lang:"en", lv:"B1", icon:"🌳", topic:"Môi trường", title:"Cities Turn to Trees to Beat the Heat",
+   sum:"Các thành phố trồng thêm cây để giảm nắng nóng: cây tạo bóng mát và làm mát không khí.",
+   paras:[
+    "Summers in many cities are getting hotter. Roads, roofs and buildings absorb heat during the day and release it at night, so city centres can stay much warmer than the countryside around them. Scientists call this the \"urban heat island\" effect.",
+    "One of the simplest ways to fight it is to plant more trees. Trees provide shade, which keeps streets and pavements cooler. They also release water through their leaves, and this cools the air around them, a bit like sweat cools our skin.",
+    "Because of this, many city governments have started tree-planting programmes. They plant trees along busy roads, in school playgrounds and in car parks. Some cities even let residents choose which streets should get new trees first.",
+    "However, planting trees is only the beginning. Young trees need regular watering, and they can take years to grow big enough to give real shade. Experts say cities must also protect the old trees they already have.",
+    "Trees cannot solve the heat problem on their own, but they make city life more comfortable. As one city planner put it, \"A tree is an air conditioner that also makes the street look beautiful.\""
+   ]},
+  {id:"en-4day", lang:"en", lv:"B1", icon:"🗓️", topic:"Công việc", title:"The Four-Day Work Week: Is It Better?",
+   sum:"Làm việc 4 ngày một tuần: nhiều nơi thử nghiệm, nhân viên vui hơn nhưng không hợp với mọi ngành nghề.",
+   paras:[
+    "For most people, the normal working week is five days long. But in recent years, some companies have been testing a different idea: working four days a week, with no cut in pay.",
+    "Supporters say a shorter week makes employees happier and less tired. With an extra day off, people have more time for family, hobbies and rest. Some managers report that their teams waste less time in long meetings because they know they have only four days to finish their work.",
+    "Not everyone is convinced. In jobs like healthcare, shops and restaurants, customers need help every day, so it is harder to close for a day. Some workers also say that squeezing five days of work into four can be stressful.",
+    "Many companies that try the idea choose a middle path. Staff take turns having their day off, so the office is never empty. Others try it for a few months first and then decide whether to continue.",
+    "Whether the four-day week becomes normal is still an open question. What is clear is that more and more people are asking how work can fit better into their lives."
+   ]},
+  {id:"en-phone-sleep", lang:"en", lv:"B2", icon:"📱", topic:"Sức khỏe", title:"How Your Phone Could Be Stealing Your Sleep",
+   sum:"Điện thoại ảnh hưởng đến giấc ngủ thế nào và vài thói quen giúp ngủ ngon hơn.",
+   paras:[
+    "It has become a familiar routine: you get into bed, pick up your phone \"just for a minute\", and suddenly an hour has disappeared. Sleep researchers say this habit may be affecting our rest more than we realise.",
+    "Part of the problem is light. Screens give off bright, bluish light, and exposure to bright light in the evening can delay the release of melatonin, a hormone that helps signal to the body that it is time to sleep. As a result, some people find it harder to fall asleep after using a screen late at night.",
+    "The content itself matters too. An exciting video, a stressful work email or an argument on social media can leave the mind racing when it should be slowing down. Even notifications that arrive during the night can interrupt sleep.",
+    "Experts generally recommend a few simple changes: stop using screens around half an hour before bed, switch on night mode or lower the brightness, and keep the phone out of reach, ideally charging outside the bedroom. Reading a paper book or listening to calm music are popular alternatives.",
+    "None of these steps is a cure for serious sleep problems, which should be discussed with a doctor. But for many people, putting the phone down a little earlier may be the easiest way to wake up feeling more rested."
+   ]},
+  {id:"en-streetfood", lang:"en", lv:"B1", icon:"🍜", topic:"Ẩm thực", title:"Street Food Goes Digital",
+   sum:"Hàng quán vỉa hè dùng mã QR, ứng dụng giao đồ ăn và mạng xã hội để bán hàng.",
+   paras:[
+    "Street food has always been about simple things: a small stall, a few plastic chairs and a dish that the cook has made thousands of times. But in many Asian cities, even the smallest food stalls are now going digital.",
+    "Many vendors now display a QR code so that customers can pay with their phones. This means they no longer need to keep a lot of cash or worry about giving change. Some stalls also sell through food delivery apps, which lets them reach customers who live far away.",
+    "Social media has become another important tool. A short video of a cook tossing noodles or pouring sauce can attract thousands of views, and sometimes a long queue of new customers the next day.",
+    "Not every change is easy. Delivery apps usually take a share of each order, and older vendors may find the technology confusing. Some customers also worry that popular stalls will raise their prices.",
+    "Still, for many families who run these stalls, technology has opened new doors. The food is the same as before; it is just easier to find."
+   ]},
+  {id:"zh-park", lang:"zh", lv:"HSK 2", icon:"🏞️", topic:"Đời sống", title:"我家附近的新公园",
+   sum:"Gần nhà mở một công viên mới: buổi sáng người già tập thể dục, buổi chiều trẻ em chơi đùa.",
+   paras:[
+    "上个月，我家附近开了一个新公园。公园不太大，但是很漂亮。里面有很多树，还有一个小湖。",
+    "每天早上，很多老人来公园跑步、打太极拳。他们说，早上的空气很好，运动以后身体很舒服。",
+    "下午，孩子们放学以后也来这里玩儿。有的孩子在湖边看鱼，有的孩子在草地上踢足球。",
+    "周末的时候，公园里人更多。很多家庭带着吃的东西，坐在树下聊天、吃饭。",
+    "我也很喜欢这个公园。现在我每天晚上都去那里走一走，有时候还会遇到我的邻居。"
+   ]},
+  {id:"zh-bike", lang:"zh", lv:"HSK 3", icon:"🚲", topic:"Giao thông", title:"越来越多的年轻人喜欢骑自行车",
+   sum:"Ngày càng nhiều người trẻ đạp xe: vừa tập thể dục, vừa tránh tắc đường và bảo vệ môi trường.",
+   paras:[
+    "这几年，在很多城市里，骑自行车的年轻人越来越多了。早上上班的时候，路边常常能看到骑车的人。",
+    "为什么大家喜欢骑自行车呢？第一，骑车可以锻炼身体。很多年轻人每天都坐在办公室里，没有时间去健身房，骑车上班正好可以运动一下。",
+    "第二，骑车不怕堵车。在上下班的时间，路上的车很多，开车常常比骑车还慢。",
+    "第三，骑自行车对环境好。它不用油，也没有声音，对城市的空气有帮助。",
+    "现在，很多城市还有共享单车。用手机扫一下码就可以骑走，非常方便。不过，大家也要注意安全，骑车的时候最好戴头盔，不要一边骑车一边看手机。"
+   ]},
+  {id:"zh-takeout", lang:"zh", lv:"HSK 3", icon:"🛵", topic:"Ẩm thực", title:"外卖改变了我们的生活",
+   sum:"Đồ ăn giao tận nơi thay đổi cuộc sống: tiện lợi nhưng cũng có mặt trái như rác thải và ăn uống thiếu cân bằng.",
+   paras:[
+    "以前，如果不想做饭，我们就要去饭馆吃饭。现在，只要打开手机，点几下，半个小时以后，饭菜就送到家门口了。",
+    "外卖给很多人带来了方便。上班族工作很忙，中午没有时间出去吃饭，就在办公室点外卖。下雨天不想出门，也可以叫外卖。",
+    "但是，外卖也带来了一些问题。每一份外卖都有塑料盒子和袋子，垃圾越来越多。另外，常常吃外卖的人，可能会吃太多油和盐。",
+    "所以，有的人开始自己带饭上班。他们说，自己做的饭比较健康，也比较便宜。",
+    "外卖已经成了生活的一部分。怎么用得更好，是我们每个人都可以想一想的问题。"
+   ]},
+  {id:"zh-roof", lang:"zh", lv:"HSK 4", icon:"🌿", topic:"Môi trường", title:"城市里的屋顶花园",
+   sum:"Vườn trên mái nhà ở thành phố: làm mát toà nhà, giảm tiếng ồn và là nơi hàng xóm gặp gỡ.",
+   paras:[
+    "在大城市里，土地非常紧张，想找一块地方种花种菜并不容易。于是，越来越多的人把目光放到了屋顶上。",
+    "屋顶花园的好处很多。夏天的时候，植物可以挡住阳光，让楼里的温度降低一些，空调也就不用开得那么大。下雨的时候，土和植物能留住一部分雨水，减轻排水的压力。",
+    "对住在楼里的人来说，屋顶花园还是一个放松的好地方。有的小区居民一起在屋顶种西红柿、黄瓜和辣椒，收获以后大家一起分享。原来互相不认识的邻居，也因此成了朋友。",
+    "当然，建屋顶花园之前，一定要请专业人员检查屋顶能不能承受土和水的重量，还要做好防水，不然可能会漏水。",
+    "专家认为，如果设计合理、管理得好，屋顶花园可以让城市变得更绿、更凉快，也让生活变得更有意思。"
+   ]},
+  {id:"zh-water", lang:"zh", lv:"HSK 4", icon:"💧", topic:"Sức khỏe", title:"为什么要多喝水？",
+   sum:"Vì sao nên uống đủ nước, uống thế nào cho đúng và những hiểu lầm thường gặp.",
+   paras:[
+    "水是生命的基础。人的身体里大部分都是水，血液、皮肤和大脑都离不开它。",
+    "我们每天通过呼吸、出汗和上厕所会失去很多水分。如果不及时补充，就可能感到口渴、头疼、没有精神，注意力也会下降。",
+    "那么，应该怎么喝水呢？专家建议，最好少量多次，不要等到非常渴了才喝。运动以后或者天气很热的时候，要比平时多喝一些。",
+    "很多人喜欢用饮料代替水，但是不少饮料里有很多糖，喝多了对身体并不好。普通的白开水仍然是最好的选择。",
+    "另外，每个人需要的水量不一样，跟年龄、体重和活动量都有关系。如果有特别的健康问题，最好听医生的建议。"
+   ]},
+  {id:"zh-ai", lang:"zh", lv:"HSK 5", icon:"🤖", topic:"Công nghệ", title:"人工智能走进课堂",
+   sum:"Trí tuệ nhân tạo vào lớp học: hỗ trợ học sinh và giáo viên, nhưng cũng đặt ra câu hỏi về cách dùng cho đúng.",
+   paras:[
+    "近年来，人工智能技术发展迅速，越来越多的学校开始尝试把它运用到教学中。",
+    "对学生来说，人工智能可以成为随时在线的学习助手。遇到不会的题目，学生可以请它一步一步地解释思路；练习外语的时候，也可以和它进行对话，提高口语水平。",
+    "对老师来说，人工智能能够帮助完成一些重复性的工作，比如整理资料、设计练习题，这样老师就有更多时间关注每个学生的情况。",
+    "不过，这项新技术也引起了不少讨论。有人担心学生会过分依赖它，自己不再认真思考；也有人提醒，人工智能给出的答案并不总是正确的，需要学会判断。",
+    "教育专家指出，关键不在于用不用人工智能，而在于怎么用。学校应该引导学生把它当作工具，而不是代替自己学习的捷径。"
+   ]}
+];
+
+/* ===================== ĐỌC BÁO =====================
+   Bài đọc kiểu tin tức (NEWS) và bài người học tự dán vào (store.news.mine).
+   Bấm một từ → bảng tra nhanh (WordPop); bôi đen câu → Dịch; nút 🌐 dịch cả đoạn; 🔊 đọc to. */
+function newsState(){ store.news = Object.assign({read:{}, mine:[]}, store.news || {}); return store.news; }
+function newsUi(){ return ui.news = ui.news || {id:null, view:null, tr:{}, showTr:false}; }
+function newsAll(){ return NEWS.concat(newsState().mine); }
+function newsTokens(text, lang){
+  if(lang === "zh"){
+    let segs;
+    try{ segs = [...new Intl.Segmenter("zh", {granularity:"word"}).segment(text)]; }catch(e){ segs = [...text].map(c => ({segment:c, isWordLike:/[㐀-鿿]/.test(c)})); }
+    return segs.map(s => s.isWordLike && /[㐀-鿿]/.test(s.segment) ? `<span class="rw zh" data-act="rword" data-l="zh">${esc(s.segment)}</span>` : esc(s.segment)).join("");
+  }
+  return text.split(/([A-Za-z][A-Za-z'’-]*[A-Za-z]|[A-Za-z])/).map((p, i) => i % 2 ? `<span class="rw" data-act="rword" data-l="en">${esc(p)}</span>` : esc(p)).join("");
+}
+function renderNews(){
+  const nu = newsUi(), ns = newsState(), L = store.prefs.lang;
+  if(nu.view === "paste") return renderNewsPaste();
+  const art = nu.id && newsAll().find(a => a.id === nu.id);
+  if(art) return renderNewsArticle(art);
+  nu.id = null;
+  const card = a => `<button class="news-card ${ns.read[a.id] ? "read" : ""}" data-act="newsopen" data-v="${a.id}">
+      <span class="news-ic" aria-hidden="true">${a.icon || "📰"}</span>
+      <span class="news-cb"><span class="news-meta"><b class="news-lv">${esc(a.lv || "")}</b>${a.topic ? ` · ${esc(a.topic)}` : ""}${ns.read[a.id] ? ` · <span class="news-done">✓ Đã đọc</span>` : ""}</span>
+        <b class="news-t ${a.lang}">${esc(a.title)}</b>${a.sum ? `<small>${esc(a.sum)}</small>` : ""}</span></button>`;
+  const mine = ns.mine.filter(a => a.lang === L);
+  const links = L === "zh"
+    ? [["BBC 中文", "https://www.bbc.com/zhongwen/simp"], ["人民网", "http://www.people.com.cn/"], ["Mandarin Bean (bài đọc theo cấp HSK)", "https://mandarinbean.com/"]]
+    : [["BBC Learning English", "https://www.bbc.co.uk/learningenglish"], ["Breaking News English", "https://breakingnewsenglish.com/"], ["News in Levels", "https://www.newsinlevels.com/"], ["VOA Learning English", "https://learningenglish.voanews.com/"]];
+  return `<section class="intro"><h2 class="intro-h">Đọc báo ${L === "zh" ? "tiếng Trung" : "tiếng Anh"}</h2>
+      <p>Đọc bài ngắn theo kiểu tin tức, chia theo cấp độ. Bấm vào một từ để tra nghĩa, dịch và lưu vào sổ từ vựng. Bôi đen một câu để dịch câu đó, hoặc bấm 🌐 để dịch cả đoạn.</p></section>
+    <div class="page wide">${voiceWarn(L)}
+      <button class="nb-entry" data-act="newspaste"><span class="vt-ic" aria-hidden="true">📋</span><span class="vt-cb"><b>Đọc bài báo bạn tự tìm</b><small>Dán nội dung một bài báo ${L === "zh" ? "tiếng Trung" : "tiếng Anh"} bất kỳ vào đây để đọc với công cụ tra từ và dịch</small></span><span class="nb-entry-go">Dán bài →</span></button>
+      ${mine.length ? `<h3 class="grp-h">Bài bạn đã dán</h3><div class="news-grid">${mine.map(card).join("")}</div>` : ""}
+      <h3 class="grp-h">Bài luyện đọc</h3>
+      <div class="news-grid">${NEWS.filter(a => a.lang === L).map(card).join("")}</div>
+      <p class="vt-note">Các bài luyện đọc ở đây do SFY tự viết theo phong cách tin tức để luyện đọc, không phải tin thời sự thật.</p>
+      <div class="tip">Muốn đọc tin thật? Thử các trang báo cho người học: ${links.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(n)}</a>`).join(" · ")}. Đọc ở đó rồi chép đoạn bạn thích vào mục “Đọc bài báo bạn tự tìm”.</div>
+    </div>`;
+}
+function renderNewsArticle(a){
+  const nu = newsUi(), L = a.lang, ns = newsState();
+  if(!ns.read[a.id]){ ns.read[a.id] = ymd(new Date()); saveStore(); }
+  const paras = a.paras.map((p, i) => { const k = a.id + ":" + i, tr = nu.tr[k], show = tr && (tr.open || nu.showTr);
+    return `<div class="news-p">
+      <div class="news-pt ${L}">${newsTokens(p, L)}</div>
+      <div class="news-pa"><button class="dc-say" data-act="newssay" data-v="${i}" title="Đọc đoạn này" aria-label="Đọc đoạn này">${ICON_PLAY}</button>
+        <button class="dc-say" data-act="newstr" data-v="${i}" title="Dịch đoạn này" aria-label="Dịch đoạn này" aria-pressed="${!!(tr && tr.open)}">🌐</button></div>
+      ${show ? `<div class="news-tr">${tr.busy ? "Đang dịch…" : tr.err ? `<span class="dc-err">${esc(tr.err)}</span>` : esc(tr.text)}</div>` : ""}</div>`; }).join("");
+  return `<div class="page news-page">
+    <button class="back pback" data-act="newshome">← Tất cả bài báo</button>
+    <div class="toolbar prail"><span class="prail-h">Đọc bài</span>
+      <button class="chip" data-act="newssayall">🔊 Đọc cả bài</button>
+      <button class="chip" data-act="newstrall" aria-pressed="${!!nu.showTr}">🌐 Dịch cả bài</button>
+      <span class="prail-h">Tùy chọn</span>
+      <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>${voicePicker(L)}
+      ${a.mine ? `<button class="chip" data-act="newsdel">🗑 Xoá bài này</button>` : ""}</div>
+    <article class="news-art">
+      <div class="news-meta"><b class="news-lv">${esc(a.lv || "")}</b>${a.topic ? ` · ${esc(a.topic)}` : ""} · ${a.mine ? "Bài bạn đã dán" : "Bài luyện đọc do SFY biên soạn"}</div>
+      <h2 class="news-h ${L}">${newsTokens(a.title, L)}</h2>
+      ${a.sum ? `<p class="news-sum">${esc(a.sum)}</p>` : ""}
+      <div class="news-hint">Bấm vào một từ để tra · Bôi đen câu để dịch · 🌐 dịch cả đoạn</div>
+      ${paras}
+    </article></div>`;
+}
+function renderNewsPaste(){
+  const L = store.prefs.lang;
+  return `<div class="page wide">
+    <button class="back pback" data-act="newshome">← Tất cả bài báo</button>
+    <section class="intro" style="text-align:left;padding-top:0"><h2 class="intro-h">📋 Đọc bài báo bạn tự tìm</h2>
+      <p style="margin:0">Chép nội dung một bài báo ${L === "zh" ? "tiếng Trung" : "tiếng Anh"} rồi dán vào ô dưới. Bài được lưu trên máy này để bạn đọc lại.</p></section>
+    <div class="nb-add">
+      <input class="news-in" data-news-title data-keep="newstitle" maxlength="120" placeholder="Tiêu đề (không bắt buộc)" aria-label="Tiêu đề">
+      <textarea class="news-in" data-news-body data-keep="newsbody" rows="12" placeholder="Dán nội dung bài báo vào đây…" aria-label="Nội dung bài báo"></textarea>
+      <div class="row"><button class="btn" data-act="newssave">Đọc bài này →</button></div>
+    </div></div>`;
+}
+function newsAct(act, el){
+  const nu = newsUi(), ns = newsState();
+  const art = () => newsAll().find(a => a.id === nu.id);
+  if(act === "newsopen"){ nu.id = el.dataset.v; nu.view = null; nu.showTr = false; render(); window.scrollTo(0, 0); return true; }
+  if(act === "newshome"){ TTS.stop(); nu.id = null; nu.view = null; render(); window.scrollTo(0, 0); return true; }
+  if(act === "newspaste"){ nu.view = "paste"; nu.id = null; render(); window.scrollTo(0, 0); return true; }
+  if(act === "newssave"){
+    const b = document.querySelector("[data-news-body]"), t = document.querySelector("[data-news-title]");
+    const body = (b ? b.value : "").trim(); if(!body){ if(b) b.focus(); return true; }
+    const paras = body.split(/\n\s*\n|\n/).map(x => x.trim()).filter(Boolean);
+    const lang = /[㐀-鿿]/.test(body) ? "zh" : "en";
+    const title = (t && t.value.trim()) || paras.shift().slice(0, 120);
+    const a = {id:"mine-" + Date.now().toString(36), lang, lv:"Tự dán", icon:"📋", title, paras:paras.length ? paras : [title], mine:true, at:ymd(new Date())};
+    ns.mine.unshift(a); ns.mine = ns.mine.slice(0, 30); saveStore();
+    if(lang !== store.prefs.lang){ store.prefs.lang = lang; saveStore(); }
+    if(b) b.value = ""; if(t) t.value = "";
+    nu.view = null; nu.id = a.id; render(); window.scrollTo(0, 0); return true;
+  }
+  if(act === "newsdel"){ ns.mine = ns.mine.filter(a => a.id !== nu.id); delete ns.read[nu.id]; saveStore(); nu.id = null; render(); return true; }
+  const a = art(); if(!a) return false;
+  if(act === "newssay"){ TTS.stop(); TTS.speak(a.paras[+el.dataset.v], a.lang); return true; }
+  if(act === "newssayall"){ TTS.stop(); const all = [a.title, ...a.paras]; let i = 0; const next = () => { if(i < all.length) TTS.speak(all[i++], a.lang, next); }; next(); return true; }
+  const tr = async i => {
+    const k = a.id + ":" + i; if(nu.tr[k] && (nu.tr[k].text || nu.tr[k].busy)) return;
+    nu.tr[k] = Object.assign(nu.tr[k] || {}, {busy:true}); render();
+    try{ const r = await Dict.translate(a.paras[i], a.lang === "zh" ? "zh-CN" : "en", Dict.tl(a.lang)); nu.tr[k] = Object.assign(nu.tr[k], {busy:false, text:r.tr, err:null}); }
+    catch(e){ nu.tr[k] = Object.assign(nu.tr[k], {busy:false, err:"Không dịch được. Kiểm tra kết nối mạng rồi thử lại."}); }
+    render();
+  };
+  if(act === "newstr"){ const i = +el.dataset.v, k = a.id + ":" + i; nu.tr[k] = nu.tr[k] || {}; nu.tr[k].open = !nu.tr[k].open; if(nu.tr[k].err) nu.tr[k].err = null; render(); if(nu.tr[k].open) tr(i); return true; }
+  if(act === "newstrall"){ nu.showTr = !nu.showTr; render(); if(nu.showTr) a.paras.forEach((_, i) => tr(i)); return true; }
+  return false;
+}
+
 /* ===================== RENDER ===================== */
 let LOGO_INTRO = true;
 /* Đặt nút quay lại: đủ chỗ bên trái thì đưa ra dưới logo, không thì dời sang trái tối đa 80px */
@@ -5129,6 +5386,7 @@ function render(){
   else if(ui.section === "pron") content = ui.view === "home" ? renderPronHome() : renderPron();
   else if(ui.section === "work") content = ui.view === "home" ? renderWorkHome() : renderLesson();
   else if(ui.section === "vocab") content = renderVT();
+  else if(ui.section === "news") content = renderNews();
   else if(ui.section === "profile") content = renderProfile();
   else if(ui.section !== "speak") content = renderComing();
   else if(ui.view === "home") content = renderHome();
@@ -5162,6 +5420,7 @@ const SECTIONS = [
   {id:"story", name:"Học qua truyện", ready:false},
   {id:"listen", name:"Luyện nghe", ready:false},
   {id:"vocab", name:"Từ vựng", ready:true},
+  {id:"news", name:"Đọc báo", ready:true},
   {id:"grammar", name:"Ngữ pháp", ready:false}
 ];
 function secName(s){ return s.name.replace("{L}", store.prefs.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"); }
@@ -6543,6 +6802,8 @@ document.addEventListener("click", (ev) => {
   if(act !== "psel" && act !== "sayw" && ui.sel){ ui.sel = null; }
   if(act.startsWith("plan")){ if(Plan.act(act, el, ev)) render(); return; }
   if(act.startsWith("nb") && nbAct(act, el)) return;
+  if(act.startsWith("news") && newsAct(act, el)) return;
+  if(act === "rword"){ const sl = window.getSelection(); if(sl && !sl.isCollapsed && sl.toString().trim()) return; WordPop.open(el.textContent, el.getBoundingClientRect(), el.dataset.l); return; }
   if((act.startsWith("vt") || act === "proftab") && vtAct(act, el)) return;
   if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
   if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
@@ -6782,7 +7043,7 @@ function renderLanding(){
     <div class="htiles">${tiles}</div>
   </section>`;
 }
-const SECTION_DESC = {profile:"Thành tựu, cúp, huy hiệu và bảng xếp hạng của bạn", pron:"Từng âm IPA và bính âm, có bản thu và chấm phát âm", speak:"Hội thoại đời sống, đóng vai và luyện nói", work:"24 ngành nghề, từ vựng chuyên ngành", plan:"Xem lịch, lên kế hoạch và danh sách việc cần làm", story:"Đọc và nghe truyện ngắn", listen:"Luyện nghe theo chủ đề", vocab:"Ôn từ vựng theo cấp độ", grammar:"Ngữ pháp trọng tâm"};
+const SECTION_DESC = {news:"Bài báo ngắn theo cấp độ, bấm từ để tra và dịch", profile:"Thành tựu, cúp, huy hiệu và bảng xếp hạng của bạn", pron:"Từng âm IPA và bính âm, có bản thu và chấm phát âm", speak:"Hội thoại đời sống, đóng vai và luyện nói", work:"24 ngành nghề, từ vựng chuyên ngành", plan:"Xem lịch, lên kế hoạch và danh sách việc cần làm", story:"Đọc và nghe truyện ngắn", listen:"Luyện nghe theo chủ đề", vocab:"Ôn từ vựng theo cấp độ", grammar:"Ngữ pháp trọng tâm"};
 const _I = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 const SECTION_ICONS = {
   pron: _I('<path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v3"/>'),
@@ -6792,6 +7053,7 @@ const SECTION_ICONS = {
   story: _I('<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>'),
   listen: _I('<path d="M6 9a6 6 0 1 1 12 0c0 3.2-2.6 4.3-3.4 6.6-.6 1.9-1.4 4.4-4.1 4.4A3.5 3.5 0 0 1 7 17"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.4-1.3 1.9-1.6 3.2"/>'),
   home: _I('<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/>'),
+  news: _I('<path d="M4 5h13v14a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v10a2 2 0 0 1-2 2"/><path d="M7 9h7M7 13h7M7 17h4"/>'),
   vocab: _I('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/>'),
   profile: _I('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
   achieve: _I('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M9 20h6"/>'),
@@ -7264,6 +7526,8 @@ const Route = {
     if(ui.view === "lesson" && ui.section === "pron" && ui.pid) return `#pron/${ui.pid}/${ui.step}`;
     if(ui.view === "lesson" && (ui.section === "speak" || ui.section === "work") && ui.lessonId) return `#${ui.section}/${ui.lessonId}/${ui.step}`;
     if(ui.section === "profile") return ui.prof === "rank" ? "#profile/rank" : "#profile";
+    if(ui.section === "news" && ui.news && ui.news.id) return `#news/${ui.news.id}`;
+    if(ui.section === "news" && ui.news && ui.news.view === "paste") return "#news/paste";
     if(ui.section === "vocab" && ui.vt && ui.vt.view === "notebook") return "#vocab/notebook";
     if(ui.section === "vocab" && ui.vt && ui.vt.topic) return `#vocab/${ui.vt.topic}`;
     return ui.section && ui.section !== "home" ? `#${ui.section}` : "";
@@ -7289,6 +7553,9 @@ const Route = {
     if((sec === "speak" || sec === "work") && m[1]){ for(const l of ["en","zh"]) if(LESSONS[l].some(x => x.id === m[1])){ store.prefs.lang = l; ui.lessonId = m[1]; ui.view = "lesson"; ui.step = Math.min(step, STEP_NAMES.length - 1); } }
     ui.vt = {topic:null, part:"b", mode:"list"};
     ui.prof = sec === "profile" && m[1] === "rank" ? "rank" : "ach";
+    ui.news = {id:null, view:null, tr:{}, showTr:false};
+    if(sec === "news" && m[1] === "paste") ui.news.view = "paste";
+    else if(sec === "news" && m[1]){ const a = newsAll().find(x => x.id === m[1]); if(a){ ui.news.id = a.id; store.prefs.lang = a.lang; } }
     if(sec === "vocab" && m[1] === "notebook") ui.vt = {view:"notebook"};
     else if(sec === "vocab" && m[1] && VT_TOPICS.some(x => x.id === m[1])) ui.vt = {topic:m[1], part:"b", mode:"list"};
     this.last = this.hash();

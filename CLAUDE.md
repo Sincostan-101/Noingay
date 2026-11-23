@@ -91,3 +91,8 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Chủ đề tự đặt trong sổ (24/11/2026): store.nbTopics [{id, name, lang}], mỗi từ có topics [id]. Tạo/đổi tên/xoá chủ đề ngay trong trang sổ (xoá chủ đề không xoá từ). Tích ô vuông để chọn từ → thanh "Đã chọn n từ": thêm vào chủ đề, bỏ khỏi chủ đề, kiểm tra/ôn các từ đã chọn.
 - Ôn và kiểm tra chỉ dùng từ trong sổ (nbStart, renderNbStudy): 🎲 kiểm tra ngẫu nhiên (5/10/20/tất cả câu, lấy theo chủ đề và bộ lọc đang xem) hoặc kiểm tra các từ đã chọn; thẻ ghi nhớ. Câu hỏi xen kẽ hỏi nghĩa của từ và hỏi từ theo nghĩa; phương án sai lấy từ các từ khác trong sổ, thiếu thì lấy thêm từ có sẵn trong web. Đúng +10 XP, thẻ "Đã nhớ" +2 XP. Mỗi từ ghi số lần đúng/sai (ok, bad). Có nút kiểm tra lại các từ sai.
 - Nút "Lưu vào sổ ▾" (ở ô tra từ trong sổ và bảng tra nhanh) mở bảng chọn nơi lưu (saveMenu, nbSaveTo): Sổ từ vựng (chưa xếp chủ đề), từng chủ đề đã tạo, hoặc gõ tên để tạo chủ đề mới và lưu luôn. Từ đã có trong sổ thì nút thành "📁 Thêm vào chủ đề ▾".
+
+## Đọc báo (24/11/2026)
+- Mục "Đọc báo" (section "news", #news, #news/<id>, #news/paste): renderNews, renderNewsArticle, renderNewsPaste, newsAct. Dữ liệu NEWS: 6 bài tiếng Anh (A2–B2) và 6 bài tiếng Trung (HSK 2–5) do SFY tự viết theo phong cách tin tức (ghi rõ không phải tin thật).
+- Người học có thể dán bài báo tự tìm (lưu store.news.mine, tối đa 30 bài). store.news.read ghi bài đã đọc.
+- Trong bài: mỗi từ là span.rw (data-act="rword"), bấm → WordPop (tra từ, dịch, lưu vào sổ); tiếng Trung tách từ bằng Intl.Segmenter. Bôi đen câu → Dịch. Nút 🔊 đọc đoạn, 🌐 dịch đoạn (Dict.translate); cột trái: Đọc cả bài, Dịch cả bài, Đọc chậm, Giọng đọc.
