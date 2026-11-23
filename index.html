@@ -4185,7 +4185,8 @@ function fitMenu(){}
 window.addEventListener("resize", () => fitMenu());
 function sidebar(){
   const open = !!ui.menuOpen;
-  const items = SECTIONS.map((s,i) => `<button style="--i:${i}" data-act="section" data-v="${s.id}" ${ui.section===s.id?'aria-current="page"':""}><span class="si" aria-hidden="true">${SECTION_ICONS[s.id] || ""}</span><span class="st">${esc(secName(s))}</span>${s.ready?"":'<span class="soon">Sắp có</span>'}</button>`).join("");
+  /* Lịch và Hồ sơ đã có nút riêng trên thanh đầu trang nên không lặp lại trong Mục lục */
+  const items = SECTIONS.filter(s => s.id !== "plan" && s.id !== "profile").map((s,i) => `<button style="--i:${i}" data-act="section" data-v="${s.id}" ${ui.section===s.id?'aria-current="page"':""}><span class="si" aria-hidden="true">${SECTION_ICONS[s.id] || ""}</span><span class="st">${esc(secName(s))}</span>${s.ready?"":'<span class="soon">Sắp có</span>'}</button>`).join("");
   return `<nav class="side" aria-label="Mục lục">
     <button class="side-toggle" data-act="menu" aria-expanded="${open}" aria-controls="side-list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Mục lục<span class="chev">${ICON_CHEV}</span></button>
     <div class="side-list ${open?"open":""}" id="side-list" ${open?"":"inert"}><div class="side-inner">${items}</div></div></nav>`;
