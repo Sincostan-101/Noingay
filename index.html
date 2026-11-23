@@ -165,6 +165,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .pa-w{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}.pa-w b{font-size:16px}
 .pa-ph{font-size:13px;color:var(--accent);font-family:inherit}.pa-ph.bad{color:#b42318}
 .pa-m{font-size:14px;line-height:1.55;margin:3px 0 2px}
+.mic-live{display:flex;flex-direction:column;gap:6px;margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px dashed var(--accent)}
+.mic-lv{display:block;height:8px;border-radius:99px;background:var(--line);overflow:hidden}.mic-lv i{display:block;height:100%;width:0;background:linear-gradient(90deg,#34d399,#16a34a);transition:width .08s}
+.mic-txt{font-size:14px;color:var(--ink)}.mic-warn{font-size:13px;color:#b45309}
 .result .fb.good{color:var(--accent);font-weight:600}
 .next .need{margin-right:auto;align-self:center}
 .btn.finish{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 6px 16px -6px var(--accent)}
@@ -3696,6 +3699,7 @@ const Viz = {
   }
 };
 /* Khi bật micro: vặn nhỏ nhạc nền để máy nghe rõ giọng người học */
+const IS_COCCOC = /coc_coc/i.test(navigator.userAgent);
 function muteForMic(on){ Sound.micDuck = on; Sound.duck(on); }
 function prog(id){ return store.progress[id] || (store.progress[id] = {listen:false, phrases:{}, role:false, roleScore:null}); }
 store.pron = store.pron || {};
@@ -3949,14 +3953,39 @@ const Rec = {
     const a = this.active; if(!a) return;
     a.userStop = true;
     if(a.kind === "claude"){ try{ this.dict.stop().catch(()=>{}); }catch(e){} }
-    else if(a.sr){ try{ a.sr.stop(); }catch(e){} }
+    else if(a.sr){ try{ a.sr.stop(); }catch(e){} clearTimeout(a.stopT); a.stopT = setTimeout(() => { if(this.active === a) this._finish({texts:(a.segs.map(x => x[0]).join(" ") + " " + (a.interim || a.lastInterim || "")).trim() ? [(a.segs.map(x => x[0]).join(" ") + " " + (a.interim || a.lastInterim || "")).trim()] : []}); }, 2500); }
   },
   _finish(result){
     const a = this.active; if(!a) return;
     clearTimeout(a.idle); clearTimeout(a.max);
     this.active = null;
+    if(result && !result.error) result.peak = a.peak || 0;
+    this._meterStop(a);
     a.cb(result);
   },
+  /* Đo âm lượng micro trong lúc ghi để người học thấy micro có thu tiếng không */
+  async _meter(a){
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true, autoGainControl:true}});
+      if(this.active !== a){ stream.getTracks().forEach(t => t.stop()); return; }
+      const ctx = new (window.AudioContext || window.webkitAudioContext)(), src = ctx.createMediaStreamSource(stream), an = ctx.createAnalyser();
+      an.fftSize = 512; src.connect(an); const buf = new Uint8Array(an.fftSize);
+      a.meter = {stream, ctx}; a.peak = 0; a.t0 = Date.now();
+      const tick = () => {
+        if(this.active !== a) return;
+        an.getByteTimeDomainData(buf); let m = 0; for(const v of buf) m = Math.max(m, Math.abs(v - 128));
+        const lv = Math.min(1, m / 64); a.peak = Math.max(a.peak, lv);
+        const el = document.querySelector(`[data-live="${a.key}"] .mic-lv i`); if(el) el.style.width = Math.round(lv * 100) + "%";
+        const w = document.querySelector(`[data-live="${a.key}"] .mic-warn`);
+        if(w) w.hidden = !(Date.now() - a.t0 > 3500 && a.peak < 0.06);
+        a.raf = requestAnimationFrame(tick);
+      };
+      tick();
+    }catch(e){}
+  },
+  _meterStop(a){ try{ cancelAnimationFrame(a.raf); if(a.meter){ a.meter.stream.getTracks().forEach(t => t.stop()); a.meter.ctx.close(); } }catch(e){} },
+  /* hiện chữ máy đang nghe được ngay trong lúc nói */
+  _live(a){ const el = document.querySelector(`[data-live="${a.key}"] .mic-txt`); if(!el) return; const t = (a.segs || []).map(x => x[0]).join(" ") + (a.interim ? " " + a.interim : ""); el.textContent = t.trim() ? "Máy đang nghe: “" + t.trim() + "”" : "Đang nghe… hãy nói vào micro"; },
   _dictStart(key, lang, cb){
     const a = {key, lang, cb, kind:"claude", buffer:"", idle:null, max:null};
     this.active = a;
@@ -3992,25 +4021,33 @@ const Rec = {
       for(let j = 0; j < Math.min(n, 3); j++){ const t = a.segs.map(x => x[j] || x[0]).join(" ").replace(/\s+/g, " ").trim(); if(t && !out.includes(t)) out.push(t); }
       /* nói lại nhiều lần trong một lượt ghi âm: chấm cả từng đoạn riêng, lấy điểm cao nhất */
       for(const x of a.segs.slice(-6)) for(const t of x.slice(0, 2)) if(t && !out.includes(t)) out.push(t);
+      /* phần đang nói dở lúc bấm dừng (chưa được trình duyệt chốt) cũng được chấm */
+      const tail = a.interim || (!out.length ? a.lastInterim : ""); if(tail){ const full = (a.segs.map(x => x[0]).join(" ") + " " + tail).trim(); if(!out.includes(full)) out.unshift(full); if(!out.includes(tail)) out.push(tail); }
       return out; };
     const boot = () => {
       let sr;
       try{ sr = new SR(); }catch(e){ this.srBlocked = true; this._finish({error:"switch"}); return false; }
       a.sr = sr;
       sr.lang = LANG_INFO[lang].rec;
-      sr.interimResults = false;
+      sr.interimResults = true;
       sr.maxAlternatives = 3;
       sr.continuous = true;
       sr.onresult = (ev) => {
+        let interim = "";
         for(let i = ev.resultIndex; i < ev.results.length; i++){
-          const res = ev.results[i]; if(!res.isFinal) continue;
+          const res = ev.results[i];
+          if(!res.isFinal){ interim += res[0].transcript; continue; }
           const alts = []; for(let j = 0; j < res.length; j++) alts.push(res[j].transcript.trim());
           a.segs.push(alts);
         }
+        a.interim = interim.trim(); if(a.interim) a.lastInterim = a.interim;
+        this._live(a);
       };
       sr.onerror = (ev) => {
         if(ev.error === "not-allowed" || ev.error === "service-not-allowed"){ this.srBlocked = true; if(this.active === a) this._finish({error:"denied"}); }
         else if(ev.error === "no-speech" || ev.error === "aborted"){ /* chưa nói gì: tiếp tục nghe */ }
+        else if(ev.error === "network"){ a.netErr = (a.netErr || 0) + 1; if(a.netErr >= 2 && this.active === a) this._finish({error:"network"}); }
+        else if(ev.error === "audio-capture"){ if(this.active === a) this._finish({error:"nomic"}); }
         else if(this.active === a && a.userStop) this._finish({texts:texts()});
       };
       sr.onend = () => {
@@ -4023,6 +4060,7 @@ const Rec = {
     };
     if(!boot()) return;
     try{ a.sr.start(); }catch(e){ this.srBlocked = true; this._finish({error:"switch"}); return; }
+    this._meter(a);
     a.max = setTimeout(() => this.stop(), 60000);
     renderMicStates();
   }
@@ -6833,7 +6871,10 @@ function speakBlock(item, lang, key){
   let resHtml = "";
   if(res){
     if(res.error) resHtml = `<div class="result bad">${esc(res.error)}</div>`;
-    else if(res.empty) resHtml = `<div class="result bad"><span class="score">Chưa nghe thấy gì</span><span>Hãy nói to, rõ và gần micro hơn rồi thử lại.</span></div>`;
+    else if(res.empty) resHtml = `<div class="result bad"><span class="score">Chưa nhận ra lời nói</span><span>${res.peak != null && res.peak < 0.06
+        ? "Micro gần như không thu được tiếng. Kiểm tra: micro đúng thiết bị đang chọn (biểu tượng loa trên thanh tác vụ → Âm thanh → Đầu vào), không bị tắt tiếng, và trình duyệt được phép dùng micro (biểu tượng ổ khóa cạnh địa chỉ trang)."
+        : res.peak != null ? `Micro có thu được tiếng nhưng máy không nhận ra chữ. Hãy nói liền cả câu rồi mới bấm dừng, đợi 1 giây sau khi nói xong.${IS_COCCOC ? " Nếu vẫn lỗi, thử mở trang bằng Google Chrome hoặc Edge (nhận giọng nói ổn định hơn Cốc Cốc)." : ""}`
+        : "Hãy nói to, rõ và gần micro hơn rồi thử lại."}</span></div>`;
     else resHtml = `<div class="result ${grade(res.score)}">
         <span class="score">${res.score} điểm · ${gradeText(res.score)}</span>
         <span class="diff">${res.html}</span>
@@ -6848,7 +6889,9 @@ function speakBlock(item, lang, key){
   const micBtn = Rec.mode(lang) !== "none"
     ? `<button class="mic ${listening?"listening":""}" data-act="mic" data-key="${key}">${ICON_MIC} ${listening?"Đang ghi âm… nói xong bấm vào đây để kết thúc":"Bấm và nói"}</button>` : "";
   const typeToggle = Rec.mode(lang) !== "none" ? `<button class="linkbtn" data-act="toggletype" data-key="${key}">${ui.typing[key]?"Ẩn ô gõ":"Gõ thay vì nói"}</button>` : "";
-  return `<div class="row">${micBtn}${typeToggle}</div>${typeBox}${resHtml}`;
+  const live = listening ? `<div class="mic-live" data-live="${key}"><span class="mic-lv" title="Âm lượng micro"><i></i></span><span class="mic-txt">Đang nghe… hãy nói vào micro</span>
+      <span class="mic-warn" hidden>Micro chưa thu được tiếng. Kiểm tra micro đang chọn trong máy hoặc nói gần hơn.</span></div>` : "";
+  return `<div class="row">${micBtn}${typeToggle}</div>${live}${typeBox}${resHtml}`;
 }
 function renderPhrases(lesson, lang){
   const p = prog(lesson.id);
@@ -7392,7 +7435,10 @@ function handleResult(key, out, typed){
   if(out.error === "denied"){ ui.typing[key] = true; ui.results[key] = {error:"Micro đang bị chặn. Bạn hãy cho phép micro trong trình duyệt, hoặc gõ câu trả lời ở ô bên dưới."}; render(); return; }
   if(out.error === "failed"){ ui.results[key] = {error:"Micro gặp lỗi. Thử lại sau vài giây, hoặc gõ câu trả lời."}; render(); return; }
   if(out.error === "none"){ ui.typing[key] = true; render(); return; }
+  if(out.error === "network"){ ui.typing[key] = true; ui.results[key] = {error:IS_COCCOC ? "Trình duyệt Cốc Cốc không kết nối được dịch vụ nhận giọng nói. Hãy mở trang bằng Google Chrome hoặc Microsoft Edge để dùng micro, hoặc gõ câu trả lời ở ô bên dưới." : "Trình duyệt không kết nối được dịch vụ nhận giọng nói (cần mạng). Kiểm tra mạng rồi thử lại, hoặc gõ câu trả lời ở ô bên dưới."}; render(); return; }
+  if(out.error === "nomic"){ ui.typing[key] = true; ui.results[key] = {error:"Không tìm thấy micro. Kiểm tra micro đã cắm và được chọn trong cài đặt âm thanh của máy, hoặc gõ câu trả lời."}; render(); return; }
   const r = evaluate(item, lang, out.texts, typed);
+  if(r.empty) r.peak = out.peak;
   ui.results[key] = r;
   if(ui.section === "pron"){
     if(key[0]==="S" && !r.empty){
