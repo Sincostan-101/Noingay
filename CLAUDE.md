@@ -77,3 +77,9 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Đầu trang Hồ sơ: ảnh đại diện chữ cái, tên hiển thị (sửa ngay tại đây, lưu ở store.vocab.name), 4 số: thành tựu, XP · cấp, chuỗi ngày, huy hiệu. Dưới là 2 thẻ: Thành tựu (renderAchieve) và Bảng xếp hạng (renderVTRank). Code: renderProfile(), profInitial(), ui.prof = "ach" | "rank", action "proftab".
 - Các nút "Bảng xếp hạng" trong mục Từ vựng đổi thành "👤 Hồ sơ" (action vtrank, mở Hồ sơ ở thẻ Bảng xếp hạng).
 - Địa chỉ: #profile, #profile/rank. Link cũ #achieve và #vocab/rank tự chuyển sang Hồ sơ.
+
+## Cài đặt và ngôn ngữ giao diện (24/11/2026)
+- Nút ⚙️ Cài đặt ở góc phải thanh đầu trang (setgHtml, SETG_ITEMS, action setgopen/setg/uilang): ngôn ngữ giao diện, hiệu ứng lá, ban đêm, đọc chậm, nghĩa tiếng Việt, IPA, bính âm. Ô hiệu ứng lá cuối trang chủ đã bỏ. Mục lục không còn Lịch và Hồ sơ (đã có nút trên thanh đầu trang).
+- Ngôn ngữ giao diện: Tiếng Việt (mặc định), English, 中文, lưu ở store.prefs.ui. Code viết giao diện bằng tiếng Việt; khi chọn ngôn ngữ khác, I18N (MutationObserver trên body) thay chữ trên màn hình theo I18N_DICT (khớp nguyên đoạn chữ) và I18N_RX (đoạn có số/tên). Thêm chữ giao diện mới thì thêm vào I18N_DICT: "tiếng Việt": ["English", "中文"].
+- Chưa dịch: nội dung bài học (tên bài, tình huống, nghĩa câu/từ, mô tả âm, giải thích).
+- Nút quay lại (.pback) và thanh tùy chọn (.prail) của bài học: placeBack() đặt nút dưới logo và xếp tùy chọn thành cột dọc bên trái khi đủ chỗ; không đủ thì chia trang 2 cột (.has-rail); điện thoại giữ hàng ngang.
