@@ -98,4 +98,4 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Trong bài: mỗi từ là span.rw (data-act="rword"), bấm → WordPop (tra từ, dịch, lưu vào sổ); tiếng Trung tách từ bằng Intl.Segmenter. Bôi đen câu → Dịch. Đã bỏ nút đọc/dịch từng đoạn (24/11), chỉ còn ghi chú ngắn; cột trái: "Song ngữ" chia đôi màn hình, bên trái bản gốc, bên phải bản dịch, xếp thẳng hàng theo từng đoạn (news-row). Đã bỏ "Đọc cả bài", Đọc chậm và Giọng đọc: Đọc báo chỉ để luyện đọc; phần nghe sẽ làm riêng kiểu podcast.
 
 ## Thanh đầu trang (24/11/2026)
-- Máy tính (rộng hơn 860px): nút Lịch đứng ngay cạnh logo; nút Mục lục nằm ngay dưới logo (.brand .side position:absolute). menuClear() đẩy nội dung xuống nếu bị Mục lục đè; nút quay lại (.pback.out) và cột tùy chọn tự xếp xuống dưới Mục lục. Điện thoại giữ bố cục cũ.
+- Chỉ ở trang chủ, trên máy tính (rộng hơn 860px): nút Lịch đứng ngay cạnh logo, nút Mục lục nằm ngay dưới logo (.is-home .brand .side position:absolute; menuClear() đẩy nội dung xuống nếu bị đè). Các trang khác và điện thoại giữ như cũ: logo, Mục lục, Lịch xếp một hàng.

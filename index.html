@@ -70,10 +70,10 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
   .top-main .section-title{order:3;flex-basis:100%;text-align:center}
 }
 .layout{position:relative;padding-top:18px}
-/* Máy tính: Mục lục nằm ngay dưới logo, nút Lịch đứng cạnh logo */
+/* Trang chủ trên máy tính: Mục lục nằm ngay dưới logo, nút Lịch đứng cạnh logo. Các trang khác giữ như cũ. */
 @media (min-width:861px){
-  .top .brand{position:relative}
-  .top .brand .side{position:absolute;left:0;top:calc(100% + 8px);z-index:60}
+  .is-home .top .brand{position:relative}
+  .is-home .top .brand .side{position:absolute;left:0;top:calc(100% + 8px);z-index:60}
 }
 /* Mục lục: nút trên thanh đầu trang, bấm vào thả danh sách xuống theo chiều dọc */
 .side{position:relative;flex:none}
