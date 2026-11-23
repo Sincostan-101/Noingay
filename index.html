@@ -3901,8 +3901,10 @@ const Rec = {
     if(m === "browser") return this._srStart(key, lang, cb);
     cb({error:"none"});
   },
+  /* Ghi âm chỉ dừng khi người học bấm lại vào micro (hoặc sau 60 giây để tránh quên tắt) */
   stop(){
     const a = this.active; if(!a) return;
+    a.userStop = true;
     if(a.kind === "claude"){ try{ this.dict.stop().catch(()=>{}); }catch(e){} }
     else if(a.sr){ try{ a.sr.stop(); }catch(e){} }
   },
@@ -3924,14 +3926,12 @@ const Rec = {
       else if(code === "stopped"){ this._finish({texts:[a.buffer.trim()].filter(Boolean)}); }
       else this._finish({error:"failed"});
     });
-    a.max = setTimeout(() => this.stop(), 12000);
+    a.max = setTimeout(() => this.stop(), 60000);
     renderMicStates();
   },
   _onFinal(text){
     const a = this.active; if(!a || a.kind !== "claude") return;
-    a.buffer += text;
-    clearTimeout(a.idle);
-    a.idle = setTimeout(() => this.stop(), 1400);
+    a.buffer += (a.buffer && text && !/\s$/.test(a.buffer) ? " " : "") + text;
   },
   _onState(e){
     const a = this.active; if(!a || a.kind !== "claude") return;
@@ -3942,28 +3942,45 @@ const Rec = {
     }
   },
   _srStart(key, lang, cb){
-    let sr;
-    try{ sr = new SR(); }catch(e){ this.srBlocked = true; cb({error:"switch"}); return; }
-    const a = {key, lang, cb, kind:"browser", sr, texts:[], idle:null, max:null};
+    const a = {key, lang, cb, kind:"browser", sr:null, segs:[], idle:null, max:null, userStop:false, restarts:0};
     this.active = a;
-    sr.lang = LANG_INFO[lang].rec;
-    sr.interimResults = false;
-    sr.maxAlternatives = 3;
-    sr.continuous = false;
-    sr.onresult = (ev) => {
-      for(let i = ev.resultIndex; i < ev.results.length; i++){
-        const res = ev.results[i];
-        for(let j = 0; j < res.length; j++) a.texts.push(res[j].transcript);
-      }
+    /* nghe liên tục; trình duyệt tự ngắt khi im lặng thì mở lại, chỉ dừng khi người học bấm micro */
+    const texts = () => { const n = Math.max(1, ...a.segs.map(x => x.length)); const out = [];
+      for(let j = 0; j < Math.min(n, 3); j++){ const t = a.segs.map(x => x[j] || x[0]).join(" ").replace(/\s+/g, " ").trim(); if(t && !out.includes(t)) out.push(t); }
+      /* nói lại nhiều lần trong một lượt ghi âm: chấm cả từng đoạn riêng, lấy điểm cao nhất */
+      for(const x of a.segs.slice(-6)) for(const t of x.slice(0, 2)) if(t && !out.includes(t)) out.push(t);
+      return out; };
+    const boot = () => {
+      let sr;
+      try{ sr = new SR(); }catch(e){ this.srBlocked = true; this._finish({error:"switch"}); return false; }
+      a.sr = sr;
+      sr.lang = LANG_INFO[lang].rec;
+      sr.interimResults = false;
+      sr.maxAlternatives = 3;
+      sr.continuous = true;
+      sr.onresult = (ev) => {
+        for(let i = ev.resultIndex; i < ev.results.length; i++){
+          const res = ev.results[i]; if(!res.isFinal) continue;
+          const alts = []; for(let j = 0; j < res.length; j++) alts.push(res[j].transcript.trim());
+          a.segs.push(alts);
+        }
+      };
+      sr.onerror = (ev) => {
+        if(ev.error === "not-allowed" || ev.error === "service-not-allowed"){ this.srBlocked = true; if(this.active === a) this._finish({error:"denied"}); }
+        else if(ev.error === "no-speech" || ev.error === "aborted"){ /* chưa nói gì: tiếp tục nghe */ }
+        else if(this.active === a && a.userStop) this._finish({texts:texts()});
+      };
+      sr.onend = () => {
+        if(this.active !== a) return;
+        if(a.userStop || a.restarts > 40){ this._finish({texts:texts()}); return; }
+        a.restarts++;
+        try{ sr.start(); }catch(e){ if(!boot()) return; try{ a.sr.start(); }catch(e2){ this._finish({texts:texts()}); } }
+      };
+      return true;
     };
-    sr.onerror = (ev) => {
-      if(ev.error === "not-allowed" || ev.error === "service-not-allowed"){ this.srBlocked = true; if(this.active===a) this._finish({error:"denied"}); }
-      else if(ev.error === "no-speech"){ if(this.active===a) this._finish({texts:[]}); }
-      else if(this.active===a) this._finish({error:"failed"});
-    };
-    sr.onend = () => { if(this.active === a) this._finish({texts:a.texts}); };
-    try{ sr.start(); }catch(e){ this.srBlocked = true; this._finish({error:"switch"}); return; }
-    a.max = setTimeout(() => this.stop(), 12000);
+    if(!boot()) return;
+    try{ a.sr.start(); }catch(e){ this.srBlocked = true; this._finish({error:"switch"}); return; }
+    a.max = setTimeout(() => this.stop(), 60000);
     renderMicStates();
   }
 };
@@ -4729,6 +4746,7 @@ I18N_RX.unshift([/^🔒 Câu (\d+): đạt từ (\d+) điểm ở câu phía tr�
   [/^Cần đạt từ (\d+) điểm để qua (câu|từ) tiếp theo\.$/, (m, n, u) => [`Score ${n}+ to move on to the next ${u === "câu" ? "line" : "word"}.`, `达到 ${n} 分才能进入下一${u === "câu" ? "句" : "个词"}。`]],
   [/^Cần đạt từ (\d+) điểm để qua câu này\. Nghe câu mẫu rồi nói lại nhé\.$/, "Score $1+ to pass this line. Listen to the example and try again.", "这句需要达到 $1 分。听一听示范再说一遍吧。"],
   [/^Cần đúng từ (\d+)% để mở bước Nói thử\. Nghe lại các từ ví dụ ở bước 1 rồi làm lại nhé\.$/, "You need $1%+ to unlock Try speaking. Listen to the step 1 examples again and redo it.", "需要答对 $1% 才能解锁“试说”。回到第 1 步再听听例词，然后重做吧。"]);
+Object.assign(I18N_DICT, {"Đang ghi âm… nói xong bấm vào đây để kết thúc": ["Recording… click here when you finish speaking", "正在录音…说完后点这里结束"], "Đang nghe… bấm để dừng": ["Listening… click to stop", "正在听…点击停止"]});
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -6389,7 +6407,7 @@ function speakBlock(item, lang, key){
       <input id="in-${key}" name="ans" autocomplete="off" placeholder="${lang==="zh"?"Gõ chữ Hán hoặc bính âm…":"Gõ câu bạn sẽ nói…"}" aria-label="Gõ câu trả lời">
       <button class="btn small" type="submit">Kiểm tra</button></form>` : "";
   const micBtn = Rec.mode(lang) !== "none"
-    ? `<button class="mic ${listening?"listening":""}" data-act="mic" data-key="${key}">${ICON_MIC} ${listening?"Đang nghe… bấm để dừng":"Bấm và nói"}</button>` : "";
+    ? `<button class="mic ${listening?"listening":""}" data-act="mic" data-key="${key}">${ICON_MIC} ${listening?"Đang ghi âm… nói xong bấm vào đây để kết thúc":"Bấm và nói"}</button>` : "";
   const typeToggle = Rec.mode(lang) !== "none" ? `<button class="linkbtn" data-act="toggletype" data-key="${key}">${ui.typing[key]?"Ẩn ô gõ":"Gõ thay vì nói"}</button>` : "";
   return `<div class="row">${micBtn}${typeToggle}</div>${typeBox}${resHtml}`;
 }
