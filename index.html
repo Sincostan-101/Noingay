@@ -363,6 +363,7 @@ h2.news-trc{font-weight:700;color:var(--accent)}
 .pback{font-size:19px;font-weight:700;padding:8px 16px 8px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);gap:8px;align-self:flex-start;margin-top:-6px;transition:border-color .15s}
 .pback:hover{border-color:var(--accent)}
 .pback.out{position:absolute;left:0;top:4px;margin:0}
+.pback.railed{box-sizing:border-box;padding:10px 16px;font-size:15px;line-height:inherit;justify-content:flex-start}
 /* Thanh tùy chọn (cách học, đọc chậm, IPA, giọng đọc): đủ chỗ thì xếp dọc bên trái, dưới nút quay lại */
 .prail-h{display:none}
 .page.has-rail{position:relative;padding-left:234px;box-sizing:border-box;min-height:420px}
@@ -5385,7 +5386,7 @@ function placeBack(){
   const menuBottom = menuClear();
   const b = document.querySelector(".pback"), lay = document.querySelector(".layout"); if(!b || !lay) return;
   const pg = b.parentElement, r = document.querySelector(".prail");
-  b.classList.remove("out", "in"); b.style.marginLeft = ""; b.style.top = ""; pg.classList.remove("has-rail");
+  b.classList.remove("out", "in", "railed"); b.style.marginLeft = ""; b.style.top = ""; b.style.width = ""; pg.classList.remove("has-rail");
   if(r){ r.classList.remove("out"); r.style.top = ""; }
   const off = pg.getBoundingClientRect().left - lay.getBoundingClientRect().left;
   const fitsOut = off >= b.offsetWidth + 24, railW = Math.min(240, off - 24);
@@ -5393,10 +5394,10 @@ function placeBack(){
     /* đủ chỗ bên trái: nút quay lại và thanh tùy chọn nằm dưới logo (dưới cả nút Mục lục) */
     b.classList.add("out");
     if(menuBottom) b.style.top = Math.max(4, Math.ceil(menuBottom + 12 - lay.getBoundingClientRect().top)) + "px";
-    if(r){ r.style.setProperty("--rail-w", railW + "px"); r.style.top = (b.offsetTop + b.offsetHeight + 16) + "px"; r.classList.add("out"); }
+    if(r){ b.classList.add("railed"); b.style.width = railW + "px"; r.style.setProperty("--rail-w", railW + "px"); r.style.top = (b.offsetTop + b.offsetHeight + 16) + "px"; r.classList.add("out"); }
   } else if(r && window.innerWidth >= 1000){
     /* không đủ chỗ ngoài lề: chia trang thành cột trái (nút quay lại + tùy chọn) và nội dung bên phải */
-    pg.classList.add("has-rail"); b.classList.add("in");
+    pg.classList.add("has-rail"); b.classList.add("in", "railed"); b.style.width = "210px";
     r.style.setProperty("--rail-w", "210px"); r.style.top = (b.offsetHeight + 16) + "px"; r.classList.add("out");
   } else if(fitsOut) b.classList.add("out");
   else b.style.marginLeft = -Math.max(0, Math.min(off, 80)) + "px";
