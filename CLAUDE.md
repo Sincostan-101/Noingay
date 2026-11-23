@@ -62,3 +62,8 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
   create policy "write" on sfy_board for insert with check (true);
   create policy "update" on sfy_board for update using (true);
 - Địa chỉ trang: #vocab, #vocab/<chủ đề>, #vocab/rank.
+
+## Thành tựu (23/11/2026)
+- Mục "Thành tựu" (section "achieve", có trong Mục lục). Mỗi phần học (Phát âm, Giao tiếp cơ bản, Giao tiếp công việc, Từ vựng) × mỗi thứ tiếng có: bài đầu tiên, 30%, 60% (thành tựu nhỏ: huy chương đồng/bạc) và 100% (thành tựu lớn: cúp vàng, tia sáng xoay, nguyệt quế, lấp lánh). Thêm 3 thành tựu huyền thoại: Bậc thầy tiếng Anh, Bậc thầy tiếng Trung, Song ngữ toàn năng.
+- Code: ACH_SECS (cách tính tiến độ từng phần), ACH_LIST, achCheck() (gọi sau mỗi lần render, có trễ 120ms), achShowNext() (thành tựu lớn hiện hộp chúc mừng có pháo giấy, thành tựu nhỏ hiện thông báo góc dưới), achBigIcon/achSmallIcon (SVG), renderAchieve(). Lưu ở store.ach; lần đầu chạy chỉ ghi nhận im lặng (store.achInit).
+- Bài phát âm tính là xong khi đủ 4 bước; bài giao tiếp tính là xong khi đủ 3 bước nghe, câu then chốt, đóng vai. Khi làm Luyện nghe / Học qua truyện thì thêm vào ACH_SECS.

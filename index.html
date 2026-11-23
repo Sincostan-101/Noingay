@@ -264,6 +264,34 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .vt-front .lv{display:inline-block;font-size:11px;padding:3px 7px;border-radius:6px;font-weight:700}.vt-front .lv.core{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}.vt-front .lv.hi{background:color-mix(in srgb,#c76a12 15%,transparent);color:#b25e0f}
 .vt-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
 @media (max-width:700px){.vt-rank2{grid-template-columns:1fr}.vt-opts{grid-template-columns:1fr}}
+.ach-h{margin:22px 0 12px;font-size:20px}
+.ach-bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.ach-bcard{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 16px;border-radius:22px;background:var(--surface);border:1px solid var(--line);position:relative;overflow:hidden}
+.ach-bcard.on{border:2px solid #e8b931;background:linear-gradient(180deg,#fff8dc,var(--surface));box-shadow:0 10px 28px -12px rgba(183,121,31,.55)}
+.ach-bcard.on.legend{border-color:#c084fc;background:linear-gradient(180deg,#fdf0ff,var(--surface));box-shadow:0 10px 30px -12px rgba(168,85,247,.55)}
+.ach-bcard h3{margin:4px 0 0;font-size:17px}.ach-bcard p{margin:0;font-size:13px;color:var(--muted)}
+.ach-date{font-size:12px;color:var(--muted)}.ach-bcard .vt-bar{width:80%}
+.ach-big.off,.ach-small.off{filter:grayscale(1);opacity:.45}
+.ach-big.on .ach-rays{transform-origin:80px 80px;animation:achSpin 14s linear infinite}
+.ach-big.on .ach-spark{animation:achTw 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.ach-big.on{filter:drop-shadow(0 6px 12px rgba(183,121,31,.35))}
+@keyframes achSpin{to{transform:rotate(360deg)}}
+@keyframes achTw{0%,100%{opacity:.2}50%{opacity:1}}
+.ach-group{margin-bottom:14px}.ach-group h4{margin:0 0 8px;font-size:15px}
+.ach-sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.ach-scard{display:flex;gap:10px;align-items:center;padding:8px 12px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.ach-scard.on{border-color:var(--accent)}.ach-scard>div{display:flex;flex-direction:column;gap:2px;flex:1}.ach-scard b{font-size:14px}.ach-scard small{font-size:12px;color:var(--muted)}
+.ach-pop{position:fixed;inset:0;z-index:120;background:rgba(20,30,24,.55);display:flex;align-items:center;justify-content:center;animation:achFade .25s ease}
+.ach-pop-in{position:relative;z-index:2;background:var(--surface);border-radius:26px;padding:24px 28px;max-width:380px;width:calc(100% - 40px);text-align:center;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);animation:achPop .55s cubic-bezier(.2,1.6,.4,1)}
+.ach-pop-in h3{margin:6px 0 4px;font-size:22px}.ach-pop-in p{margin:0 0 14px;color:var(--muted)}.ach-pop-in .row{justify-content:center;display:flex;gap:8px;flex-wrap:wrap}
+.ach-pop-t{font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:#b7791f}
+.ach-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.ach-confetti i{position:absolute;top:-12px;left:var(--x);width:8px;height:14px;background:var(--c);border-radius:2px;transform:rotate(var(--r));animation:achFall var(--d) linear forwards}
+@keyframes achFall{to{transform:translateY(105vh) rotate(calc(var(--r) + 540deg))}}
+@keyframes achPop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes achFade{from{opacity:0}}
+.ach-toast{position:fixed;right:20px;bottom:20px;z-index:110;display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--accent);border-radius:16px;padding:10px 16px 10px 10px;box-shadow:0 14px 30px -12px rgba(0,0,0,.35);animation:achPop .45s cubic-bezier(.2,1.6,.4,1);transition:opacity .4s,transform .4s}
+.ach-toast.out{opacity:0;transform:translateY(12px)}.ach-toast b{display:block;font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}.ach-toast span{font-weight:700}
 .note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--sun);border-radius:10px;padding:14px 16px}
 .note h4{margin:0 0 4px;font-size:16px}
 .note p{margin:0;color:var(--muted)}
@@ -3896,6 +3924,7 @@ const ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 let LOGO_INTRO = true;
 function render(){
   try{ Route.save(); }catch(e){}
+  try{ achCheck(); }catch(e){}
   const app = document.getElementById("app");
   if(typeof Picker !== "undefined" && Picker.pop) Picker.close();
   let content;
@@ -3904,6 +3933,7 @@ function render(){
   else if(ui.section === "pron") content = ui.view === "home" ? renderPronHome() : renderPron();
   else if(ui.section === "work") content = ui.view === "home" ? renderWorkHome() : renderLesson();
   else if(ui.section === "vocab") content = renderVT();
+  else if(ui.section === "achieve") content = renderAchieve();
   else if(ui.section !== "speak") content = renderComing();
   else if(ui.view === "home") content = renderHome();
   else content = renderLesson();
@@ -3931,6 +3961,7 @@ const SECTIONS = [
   {id:"speak", name:"{L} giao tiếp cơ bản", ready:true},
   {id:"work", name:"{L} giao tiếp trong công việc", ready:true},
   {id:"plan", name:"Lịch & việc cần làm", ready:true},
+  {id:"achieve", name:"Thành tựu", ready:true},
   {id:"story", name:"Học qua truyện", ready:false},
   {id:"listen", name:"Luyện nghe", ready:false},
   {id:"vocab", name:"Từ vựng", ready:true},
@@ -4974,7 +5005,7 @@ function vtAct(act, el){
   if(act === "vtopen"){ ui.vt = {topic:el.dataset.v, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vthome"){ ui.vt = {topic:null, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vtlessons"){ ui.vt = {view:"lessons"}; render(); window.scrollTo(0,0); return true; }
-  if(act === "vtrank"){ ui.vt = Object.assign({}, ui.vt, {view:"rank"}); Board.rows = null; Board.err = null; render(); window.scrollTo(0,0); return true; }
+  if(act === "vtrank"){ ui.section = "vocab"; ui.vt = Object.assign({}, ui.vt, {view:"rank"}); Board.rows = null; Board.err = null; render(); window.scrollTo(0,0); return true; }
   if(act === "vtreload"){ Board.rows = null; Board.err = null; render(); return true; }
   if(act === "vtname"){ const inp = document.querySelector("[data-vt-name]"); v.name = (inp ? inp.value : "").trim().slice(0, 24); saveStore(); Board.last = 0; Board.push(); Board.rows = null; setTimeout(() => { Board.rows = null; render(); }, 800); render(); return true; }
   if(act === "vtpart"){ ui.vt.part = el.dataset.v; ui.vt.card = null; ui.vt.quiz = null; render(); return true; }
@@ -4991,6 +5022,139 @@ function vtAct(act, el){
   if(act === "vtnext"){ const q = ui.vt.quiz; if(q){ q.i++; q.picked = null; render(); if(q.i < q.qs.length) sayKey(`T${ui.vt.part}${q.qs[q.i].idx}`); } return true; }
   if(act === "vtquizreset"){ ui.vt.quiz = null; render(); return true; }
   return false;
+}
+
+/* ===================== THÀNH TỰU =====================
+   Mỗi phần học (Phát âm, Giao tiếp cơ bản, Giao tiếp công việc, Từ vựng) có các mốc cho từng thứ tiếng:
+   bài đầu tiên, 30%, 60% (thành tựu nhỏ) và 100% (thành tựu lớn). Hoàn thành cả 4 phần là thành tựu huyền thoại.
+   Thành tựu lớn có biểu tượng cúp vàng, tia sáng xoay và lấp lánh; thành tựu nhỏ là huy chương đồng/bạc. */
+const ACH_SECS = [
+  {id:"pron", name:"Phát âm", icon:"🎙️", unit:"âm",
+    prog:L => { const all = PRON[L]; return {done: all.filter(les => [0,1,2,3].every(i => pStepDone(les, i))).length, total: all.length}; }},
+  {id:"speak", name:"Giao tiếp cơ bản", icon:"💬", unit:"bài",
+    prog:L => { const all = lessonsOf(L); return {done: all.filter(les => [0,1,2].every(i => stepDone(les, i))).length, total: all.length}; }},
+  {id:"work", name:"Giao tiếp công việc", icon:"💼", unit:"bài",
+    prog:L => { const all = LESSONS[L].filter(x => x.work); return {done: all.filter(les => [0,1,2].every(i => stepDone(les, i))).length, total: all.length}; }},
+  {id:"vocab", name:"Từ vựng", icon:"📚", unit:"từ",
+    prog:L => { const total = VT_TOPICS.reduce((n, T) => n + T[L].b.length + T[L].a.length, 0); return {done: vtLearned(L), total}; }}
+];
+const ACH_LANG = {en:"tiếng Anh", zh:"tiếng Trung"};
+const ACH_LIST = (() => {
+  const out = [];
+  for(const L of ["en","zh"]){
+    for(const S of ACH_SECS){
+      const first = S.id === "vocab" ? 20 : 1;
+      out.push({id:`${S.id}-${L}-first`, lang:L, sec:S.id, tier:"bronze", icon:S.icon, name:`Bước đầu ${S.name.toLowerCase()}`, desc:`Hoàn thành ${first} ${S.unit} đầu tiên phần ${S.name} ${ACH_LANG[L]}`, need:p => Math.min(1, p.done / first)});
+      out.push({id:`${S.id}-${L}-30`, lang:L, sec:S.id, tier:"bronze", icon:S.icon, name:`${S.name}: 30%`, desc:`Đi được 30% phần ${S.name} ${ACH_LANG[L]}`, need:p => Math.min(1, p.done / p.total / .3)});
+      out.push({id:`${S.id}-${L}-60`, lang:L, sec:S.id, tier:"silver", icon:S.icon, name:`${S.name}: 60%`, desc:`Đi được 60% phần ${S.name} ${ACH_LANG[L]}`, need:p => Math.min(1, p.done / p.total / .6)});
+      out.push({id:`${S.id}-${L}-100`, lang:L, sec:S.id, tier:"gold", big:true, icon:S.icon, name:`Hoàn thành ${S.name}`, desc:`Học xong toàn bộ phần ${S.name} ${ACH_LANG[L]}`, need:p => Math.min(1, p.done / p.total)});
+    }
+    out.push({id:`all-${L}`, lang:L, tier:"legend", big:true, icon:L === "zh" ? "🐉" : "🦁", name:`Bậc thầy ${ACH_LANG[L]}`, desc:`Hoàn thành cả 4 phần: Phát âm, Giao tiếp cơ bản, Giao tiếp công việc và Từ vựng ${ACH_LANG[L]}`,
+      need:() => ACH_SECS.reduce((n, S) => { const p = S.prog(L); return n + Math.min(1, p.done / p.total); }, 0) / ACH_SECS.length});
+  }
+  out.push({id:"both", lang:"both", tier:"legend", big:true, icon:"🌏", name:"Song ngữ toàn năng", desc:"Hoàn thành mọi phần học của cả tiếng Anh và tiếng Trung",
+    need:() => ["en","zh"].reduce((n, L) => n + ACH_SECS.reduce((m, S) => { const p = S.prog(L); return m + Math.min(1, p.done / p.total); }, 0) / ACH_SECS.length, 0) / 2});
+  return out;
+})();
+function achProg(a){ const S = ACH_SECS.find(s => s.id === a.sec); return a.need(S ? S.prog(a.lang) : null); }
+function achState(){ store.ach = store.ach || {}; return store.ach; }
+const ACH = {queue:[], busy:false, t:0};
+/* Kiểm tra sau mỗi lần vẽ lại giao diện; thành tựu mới đạt được sẽ hiện thông báo */
+function achCheck(){
+  clearTimeout(ACH.t);
+  ACH.t = setTimeout(() => {
+    const st = achState(), first = !store.achInit; let changed = false;
+    for(const a of ACH_LIST){
+      if(st[a.id]) continue;
+      let p = 0; try{ p = achProg(a); }catch(e){ continue; }
+      if(p >= 1){ st[a.id] = vtToday(); changed = true; if(!first) ACH.queue.push(a); }
+    }
+    if(first){ store.achInit = 1; changed = true; }
+    if(changed){ saveStore(); ACH.queue.sort((a, b) => (b.big ? 1 : 0) - (a.big ? 1 : 0)); if(ui.section === "achieve") render(); }
+    achShowNext();
+  }, 120);
+}
+function achShowNext(){
+  if(ACH.busy || !ACH.queue.length) return;
+  const a = ACH.queue.shift(); ACH.busy = true;
+  if(a.big){
+    const el = document.createElement("div"); el.className = "ach-pop";
+    el.innerHTML = `<div class="ach-pop-in" role="dialog" aria-label="Thành tựu mới">
+      <div class="ach-pop-t">Thành tựu lớn mới!</div>${achBigIcon(a, true, 190)}
+      <h3>${esc(a.name)}</h3><p>${esc(a.desc)}</p>
+      <div class="row"><button class="btn" data-ach-close>Tuyệt vời!</button><button class="btn ghost" data-ach-view>Xem thành tựu</button></div></div>
+      <div class="ach-confetti">${Array.from({length:40}, (_, i) => `<i style="--x:${Math.random() * 100}%;--d:${(Math.random() * 1.6 + 1.6).toFixed(2)}s;--r:${Math.round(Math.random() * 360)}deg;--c:${["#f5c542","#1a7a40","#e5484d","#3b82f6","#f59e0b","#8b5cf6"][i % 6]}"></i>`).join("")}</div>`;
+    document.body.appendChild(el);
+    try{ Chime && Chime.play && Chime.play(); }catch(e){}
+    const close = () => { el.remove(); ACH.busy = false; achShowNext(); };
+    el.addEventListener("click", ev => {
+      if(ev.target.closest("[data-ach-view]")){ close(); ui.section = "achieve"; ui.view = "home"; render(); window.scrollTo(0, 0); return; }
+      if(ev.target.closest("[data-ach-close]") || ev.target === el) close();
+    });
+  } else {
+    const t = document.createElement("div"); t.className = "ach-toast";
+    t.innerHTML = `${achSmallIcon(a, true, 46)}<div><b>Thành tựu mới</b><span>${esc(a.name)}</span></div>`;
+    document.body.appendChild(t);
+    setTimeout(() => t.classList.add("out"), 3200);
+    setTimeout(() => { t.remove(); ACH.busy = false; achShowNext(); }, 3700);
+  }
+}
+/* Huy chương nhỏ: đồng hoặc bạc, có dải ruy băng */
+function achSmallIcon(a, on, size = 64){
+  const c = a.tier === "silver" ? ["#f4f6f8","#b8c0c8","#7d8791"] : ["#f6d2a8","#cd7f32","#8a5222"];
+  const g = "g" + a.id.replace(/\W/g, "") + size;
+  return `<svg class="ach-small ${on ? "on" : "off"}" width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true">
+    <defs><radialGradient id="${g}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="${c[0]}"/><stop offset=".6" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></radialGradient></defs>
+    <path d="M22 40 16 62l9-4 5 6 4-20Z" fill="#2f8a55"/><path d="M42 40l6 22-9-4-5 6-4-20Z" fill="#1a7a40"/>
+    <circle cx="32" cy="28" r="22" fill="url(#${g})" stroke="${c[2]}" stroke-width="2"/>
+    <circle cx="32" cy="28" r="16.5" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <text x="32" y="35" text-anchor="middle" font-size="18">${a.icon}</text>${on ? "" : `<text x="50" y="58" font-size="12">🔒</text>`}</svg>`;
+}
+/* Thành tựu lớn: cúp vàng, vòng nguyệt quế, tia sáng xoay, ngôi sao lấp lánh */
+function achBigIcon(a, on, size = 150){
+  const legend = a.tier === "legend", g = "b" + a.id.replace(/\W/g, "") + size;
+  const rays = Array.from({length:16}, (_, i) => `<path d="M80 80 L${(80 + 78 * Math.cos((i * 22.5 - 4) * Math.PI / 180)).toFixed(1)} ${(80 + 78 * Math.sin((i * 22.5 - 4) * Math.PI / 180)).toFixed(1)} L${(80 + 78 * Math.cos((i * 22.5 + 4) * Math.PI / 180)).toFixed(1)} ${(80 + 78 * Math.sin((i * 22.5 + 4) * Math.PI / 180)).toFixed(1)} Z"/>`).join("");
+  const leaves = (side) => Array.from({length:7}, (_, i) => { const ang = (side < 0 ? 200 : -20) + side * i * 17, r = 52, x = 80 + r * Math.cos(ang * Math.PI / 180), y = 92 + r * Math.sin(ang * Math.PI / 180);
+    return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="9" ry="4" transform="rotate(${(ang + side * 70).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; }).join("");
+  const sparks = [[30,34,1],[128,30,.8],[136,108,1],[22,112,.7],[80,12,.9]].map(([x, y, s], i) => `<path class="ach-spark" style="animation-delay:${i * .37}s" transform="translate(${x} ${y}) scale(${s})" d="M0-8 2-2 8 0 2 2 0 8-2 2-8 0-2-2Z"/>`).join("");
+  return `<svg class="ach-big ${on ? "on" : "off"} ${legend ? "legend" : ""}" width="${size}" height="${size}" viewBox="0 0 160 160" aria-hidden="true">
+    <defs>
+      <linearGradient id="${g}c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".45" stop-color="${legend ? "#ffb84d" : "#f5c542"}"/><stop offset="1" stop-color="${legend ? "#c2410c" : "#b7791f"}"/></linearGradient>
+      <radialGradient id="${g}r" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${legend ? "#ffd6f0" : "#fff7cc"}" stop-opacity=".95"/><stop offset="1" stop-color="${legend ? "#a855f7" : "#f5c542"}" stop-opacity="0"/></radialGradient></defs>
+    <circle cx="80" cy="80" r="78" fill="url(#${g}r)"/>
+    <g class="ach-rays" fill="${legend ? "#f0abfc" : "#fde68a"}" opacity=".55">${rays}</g>
+    <g fill="${legend ? "#16a34a" : "#2f9e5b"}" opacity=".9">${leaves(-1)}${leaves(1)}</g>
+    <path d="M52 40h56v14c0 22-12 36-28 38-16-2-28-16-28-38Z" fill="url(#${g}c)" stroke="#8a5a12" stroke-width="2"/>
+    <path d="M52 46H40c0 14 8 22 16 22M108 46h12c0 14-8 22-16 22" fill="none" stroke="url(#${g}c)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M60 46c0 18 8 30 16 34" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/>
+    <rect x="72" y="92" width="16" height="14" fill="url(#${g}c)" stroke="#8a5a12" stroke-width="1.5"/>
+    <rect x="58" y="106" width="44" height="12" rx="3" fill="url(#${g}c)" stroke="#8a5a12" stroke-width="1.5"/>
+    <rect x="52" y="118" width="56" height="10" rx="3" fill="#6b3f0c"/>
+    <text x="80" y="72" text-anchor="middle" font-size="24">${a.icon}</text>
+    ${legend ? `<path d="M62 30l6-12 6 9 6-12 6 12 6-9 6 12Z" fill="url(#${g}c)" stroke="#8a5a12" stroke-width="1.5"/>` : `<path d="M80 22l3.5 7 7.7 1.1-5.6 5.4 1.3 7.7L80 39.6l-6.9 3.6 1.3-7.7-5.6-5.4 7.7-1.1Z" fill="url(#${g}c)" stroke="#8a5a12" stroke-width="1.2"/>`}
+    <g fill="#fff">${sparks}</g>
+    ${on ? "" : `<g transform="translate(112 112)"><circle r="16" fill="#fff" stroke="#9ca3af" stroke-width="2"/><text y="6" text-anchor="middle" font-size="16">🔒</text></g>`}</svg>`;
+}
+function renderAchieve(){
+  const L = store.prefs.lang, st = achState();
+  const list = ACH_LIST.filter(a => a.lang === L || a.lang === "both");
+  const pct = a => Math.round(Math.min(1, achProg(a)) * 100);
+  const big = list.filter(a => a.big).sort((a, b) => (b.tier === "legend") - (a.tier === "legend") || !!st[b.id] - !!st[a.id]);
+  const small = list.filter(a => !a.big);
+  const got = list.filter(a => st[a.id]).length;
+  const bigCards = big.map(a => { const on = !!st[a.id], p = pct(a);
+    return `<div class="ach-bcard ${on ? "on" : ""} ${a.tier}">${achBigIcon(a, on, 150)}<h3>${esc(a.name)}</h3><p>${esc(a.desc)}</p>
+      ${on ? `<span class="ach-date">Đạt ngày ${st[a.id].split("-").reverse().join("/")}</span>` : `<i class="vt-bar"><i style="width:${p}%"></i></i><span class="ach-date">${p}%</span>`}</div>`; }).join("");
+  const groups = ACH_SECS.map(S => `<div class="ach-group"><h4>${S.icon} ${esc(S.name)}</h4><div class="ach-sgrid">${small.filter(a => a.sec === S.id).map(a => { const on = !!st[a.id], p = pct(a);
+      return `<div class="ach-scard ${on ? "on" : ""}" title="${esc(a.desc)}">${achSmallIcon(a, on, 58)}<div><b>${esc(a.name)}</b><small>${esc(a.desc)}</small>
+        ${on ? `<small class="ach-date">Đạt ngày ${st[a.id].split("-").reverse().join("/")}</small>` : `<i class="vt-bar"><i style="width:${p}%"></i></i>`}</div></div>`; }).join("")}</div></div>`).join("");
+  return `<section class="intro"><h2 class="intro-h">🏆 Thành tựu ${ACH_LANG[L]}</h2>
+      <p>Đã đạt ${got}/${list.length} thành tựu. Hoàn thành một phần học lớn để nhận cúp vàng, đi được 30% hay 60% để nhận huy chương. Đổi ngôn ngữ ở góc trên để xem thành tựu ${L === "en" ? "tiếng Trung" : "tiếng Anh"}.</p></section>
+    <div class="page wide">
+      <h3 class="ach-h">Thành tựu lớn</h3><div class="ach-bgrid">${bigCards}</div>
+      <h3 class="ach-h">Thành tựu nhỏ</h3>${groups}
+      <div class="tip">Huy hiệu học từ vựng (chuỗi ngày, số từ…) nằm trong <button class="linkbtn" data-act="vtrank">bảng xếp hạng từ vựng</button>. Phần Luyện nghe và Học qua truyện sẽ có thành tựu riêng khi ra mắt.</div>
+    </div>`;
 }
 
 function renderVocabSection(){
@@ -5362,6 +5526,7 @@ const SECTION_ICONS = {
   listen: _I('<path d="M6 9a6 6 0 1 1 12 0c0 3.2-2.6 4.3-3.4 6.6-.6 1.9-1.4 4.4-4.1 4.4A3.5 3.5 0 0 1 7 17"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.4-1.3 1.9-1.6 3.2"/>'),
   home: _I('<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/>'),
   vocab: _I('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/>'),
+  achieve: _I('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M9 20h6"/>'),
   grammar: _I('<path d="M4 20 10 4h1l6 16"/><path d="M6.5 14h8"/>')
 };
 
