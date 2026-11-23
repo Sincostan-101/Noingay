@@ -613,6 +613,27 @@ button.hs-row{cursor:pointer}button.hs-row:hover{border-color:var(--accent)}
 .hlang em{position:absolute;top:-9px;right:10px;font-style:normal;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--accent);color:#fff}
 .hlang.soon{opacity:.55;cursor:default}.hlang.soon:hover{transform:none;box-shadow:none}.hlang.soon em{background:#9ca3af}
 .hero-tag{margin:0;max-width:640px;color:var(--muted);font-size:15.5px;line-height:1.6}
+.rt-intro{margin:-6px 0 4px;color:var(--muted)}
+.rt-goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.rt-goal{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:16px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.rt-goal:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08)}
+.rt-goal.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.rt-gi{font-size:30px;line-height:1}.rt-goal b{font-size:16px}.rt-goal small{color:var(--muted);font-size:13px;line-height:1.45;flex:1}
+.rt-gp{display:block;width:100%;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.rt-gp i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.rt-goal em{font-style:normal;font-size:12px;color:var(--muted);font-weight:600}
+.rt-path{margin-top:6px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px 20px}
+.rt-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}.rt-head > span{font-size:30px}.rt-head b{display:block;font-size:18px}.rt-head small{color:var(--muted)}
+.rt-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.rt-step{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 0;position:relative}
+.rt-step + .rt-step{border-top:1px dashed var(--line)}
+.rt-n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--bg);border:2px solid var(--line);color:var(--muted)}
+.rt-step.done .rt-n{background:var(--accent);border-color:var(--accent);color:#fff}
+.rt-step.now .rt-n{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.rt-step.later{opacity:.6}
+.rt-b{display:flex;flex-direction:column;gap:3px;min-width:0}.rt-b b{font-size:15.5px}.rt-b small{color:var(--muted);font-size:13px}
+.rt-bar{display:block;width:min(360px,100%);height:5px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:4px}.rt-bar i{display:block;height:100%;background:var(--accent)}
+.rt-c{font-size:12px;color:var(--muted)}.rt-wait{font-size:12.5px;color:var(--muted);white-space:nowrap}
+@media (max-width:700px){.rt-step{grid-template-columns:auto 1fr}.rt-step .btn,.rt-wait{grid-column:2}}
 .hsrch-btn .hplan-i svg{width:18px;height:18px}
 .hsrch{position:relative;display:inline-flex;align-items:center;margin-left:6px;width:min(460px,38vw)}
 .hsrch input{width:100%;box-sizing:border-box;border:1.5px solid var(--accent);background:var(--surface);color:var(--ink);border-radius:14px;padding:11px 40px 11px 42px;font:inherit;font-size:14.5px;font-weight:500;outline:none;box-shadow:0 0 0 4px var(--accent-soft)}
@@ -4756,6 +4777,12 @@ I18N_RX.unshift([/^🔒 Câu (\d+): đạt từ (\d+) điểm ở câu phía tr�
   [/^Cần đúng từ (\d+)% để mở bước Nói thử\. Nghe lại các từ ví dụ ở bước 1 rồi làm lại nhé\.$/, "You need $1%+ to unlock Try speaking. Listen to the step 1 examples again and redo it.", "需要答对 $1% 才能解锁“试说”。回到第 1 步再听听例词，然后重做吧。"]);
 Object.assign(I18N_DICT, {"Đang ghi âm… nói xong bấm vào đây để kết thúc": ["Recording… click here when you finish speaking", "正在录音…说完后点这里结束"], "Đang nghe… bấm để dừng": ["Listening… click to stop", "正在听…点击停止"]});
 Object.assign(I18N_DICT, {"Tìm kiếm": ["Search", "搜索"], "Tìm bài học, âm, chủ đề": ["Lessons, sounds, topics", "课程、发音、主题"], "Đóng tìm kiếm": ["Close search", "关闭搜索"], "Đóng": ["Close", "关闭"]});
+Object.assign(I18N_DICT, {"Gợi ý lộ trình": ["Suggested learning paths", "推荐学习路线"],
+  "Chọn mục tiêu của bạn. Mỗi lộ trình gồm các bước theo thứ tự, tiến độ tự cập nhật khi bạn học.": ["Choose your goal. Each path has ordered steps, and progress updates automatically as you study.", "选择你的目标。每条路线都有按顺序排列的步骤，学习进度会自动更新。"],
+  "Mất gốc, bắt đầu từ con số 0": ["Starting from zero", "零基础起步"], "Tự tin khi đi du lịch": ["Confident when travelling", "旅行更自信"], "Dùng ngoại ngữ trong công việc": ["Using the language at work", "在工作中使用外语"], "Nói trôi chảy và tự nhiên hơn": ["Speak more fluently and naturally", "说得更流利自然"],
+  "Ôn lại": ["Review", "复习"], "Học tiếp →": ["Continue →", "继续学习 →"], "Bắt đầu →": ["Start →", "开始 →"]});
+I18N_RX.unshift([/^(\d+)% · (\d+) bước$/, "$1% · $2 steps", "$1% · $2 步"], [/^(Tiếng Anh|Tiếng Trung) · (\d+) bước$/, (m, l, n) => [`${l === "Tiếng Anh" ? "English" : "Chinese"} · ${n} steps`, `${l === "Tiếng Anh" ? "英语" : "中文"} · ${n} 步`]],
+  [/^Sau bước (\d+)$/, "After step $1", "第 $1 步之后"], [/^(\d+)\/(\d+) (bài|từ|ngành)$/, (m, a, b, u) => [`${a}/${b} ${({"bài":"lessons","từ":"words","ngành":"industries"})[u]}`, `${a}/${b} ${({"bài":"课","từ":"个词","ngành":"个行业"})[u]}`]]);
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -5522,6 +5549,98 @@ function histAct(act, el){
     if(e.kind === "news"){ ui.section = "news"; ui.view = "home"; ui.news = {id:e.id, view:null, tr:{}, showTr:false}; render(); window.scrollTo(0, 0); return true; }
     const b = document.createElement("button"); b.dataset.act = e.kind === "pron" ? "popen" : "open"; b.dataset.id = e.id; b.style.display = "none";
     document.getElementById("app").appendChild(b); b.click(); return true;
+  }
+  return false;
+}
+
+/* ===================== GỢI Ý LỘ TRÌNH (trang chủ) =====================
+   Mỗi lộ trình là một mục tiêu, gồm các bước theo thứ tự. Bước tính tiến độ từ chính dữ liệu học của người học.
+   Kiểu bước: pron (n bài phát âm đầu tiên, từ from), speak (các chặng giao tiếp cơ bản), vocab (chủ đề từ vựng),
+   work (số ngành giao tiếp công việc đã học xong), news (bài đọc theo cấp độ), nb (số từ trong sổ từ vựng). */
+const ROUTES = [
+  {id:"zero", icon:"🌱", name:"Mất gốc, bắt đầu từ con số 0", desc:"Đi chậm mà chắc: phát âm đúng, từ vựng nền tảng, rồi mới nói câu đơn giản.", steps:[
+    {t:"pron", n:{en:20, zh:11}, name:"Phát âm các nguyên âm", desc:{en:"20 nguyên âm và nguyên âm đôi trong bảng IPA.", zh:"4 thanh điệu và 6 vận mẫu đơn."}},
+    {t:"vocab", topics:["family","routine","time","food"], name:"Từ vựng nền tảng", desc:"Gia đình, thói quen hằng ngày, thời gian, đồ ăn."},
+    {t:"speak", units:[1], name:"Những câu giao tiếp đầu tiên", desc:"Chặng 1: làm quen, gia đình, thói quen, sở thích, thời tiết."},
+    {t:"pron", from:{en:20, zh:11}, n:{en:44, zh:56}, name:"Phát âm các phụ âm", desc:{en:"24 phụ âm còn lại, gồm các âm khó như th, r, sh.", zh:"Thanh mẫu và các vần còn lại trong bính âm."}},
+    {t:"speak", units:[2, 3], name:"Ăn uống, mua sắm, đi lại", desc:"Chặng 2 và 3: gọi món, mua đồ, đổi trả, hỏi đường, đi taxi, mua vé."},
+    {t:"news", lv:{en:["A2"], zh:["HSK 2","HSK 3"]}, name:"Đọc những bài báo đầu tiên", desc:"Bài đọc ngắn ở cấp độ dễ, bấm từ để tra nghĩa."}
+  ]},
+  {id:"travel", icon:"✈️", name:"Tự tin khi đi du lịch", desc:"Đủ vốn để gọi món, hỏi đường, đặt phòng và trò chuyện với người bản xứ.", steps:[
+    {t:"pron", n:{en:20, zh:11}, name:"Phát âm các nguyên âm", desc:{en:"Nói rõ để người bản xứ hiểu bạn ngay.", zh:"Thanh điệu và vận mẫu đơn, nền tảng để nói đúng."}},
+    {t:"speak", units:[1, 2, 3], name:"Làm quen, ăn uống và đi lại", desc:"Chặng 1–3: làm quen, gọi món, mua sắm, hỏi đường, taxi, mua vé tàu."},
+    {t:"vocab", topics:["travel","transport","food","shopping","city"], name:"Từ vựng du lịch", desc:"Du lịch và khách sạn, giao thông, đồ ăn, mua sắm, thành phố."},
+    {t:"speak", units:[4, 5], name:"Kế hoạch, khách sạn và đổi tiền", desc:"Chặng 4–5: hẹn gặp, kể chuyện chuyến đi, nhận phòng, đổi tiền, thuê nhà."},
+    {t:"nb", words:20, name:"Sổ từ vựng du lịch của riêng bạn", desc:"Lưu 20 từ bạn gặp khi học hoặc đọc vào Sổ từ vựng để ôn trước chuyến đi."}
+  ]},
+  {id:"work", icon:"💼", name:"Dùng ngoại ngữ trong công việc", desc:"Giao tiếp nơi công sở và vốn từ chuyên ngành cho nghề của bạn.", steps:[
+    {t:"speak", units:[1], name:"Giao tiếp cơ bản", desc:"Chặng 1: làm quen, giới thiệu bản thân và công việc."},
+    {t:"vocab", topics:["work","money","tech"], name:"Từ vựng công sở", desc:"Công việc và nghề nghiệp, tiền bạc và ngân hàng, công nghệ."},
+    {t:"work", n:1, name:"Học trọn một ngành của bạn", desc:"Chọn ngành gần với công việc của bạn và học xong cả 3 bài."},
+    {t:"news", topics:["Công việc","Công nghệ"], name:"Đọc tin về công việc", desc:"Đọc bài về công việc, công nghệ và lưu từ mới vào sổ."},
+    {t:"work", n:3, name:"Mở rộng sang 3 ngành", desc:"Học thêm hai ngành liên quan (ví dụ kế toán, nhân sự, marketing)."},
+    {t:"speak", units:[2, 3, 4, 5, 6], name:"Sẵn sàng cho buổi phỏng vấn", desc:"Hoàn thành phần 1, kết thúc bằng bài Phỏng vấn xin việc."}
+  ]},
+  {id:"fluent", icon:"🗣️", name:"Nói trôi chảy và tự nhiên hơn", desc:"Cho người đã có nền: kể chuyện, nêu ý kiến, xử lý tình huống khó.", steps:[
+    {t:"pron", n:{en:44, zh:56}, name:"Rà lại toàn bộ phát âm", desc:"Đi nhanh qua các âm để sửa những lỗi quen miệng."},
+    {t:"speak", units:[1, 2, 3, 4, 5, 6], name:"Phần 1 · Sơ cấp", desc:"Hoàn thành 20 tình huống giao tiếp hằng ngày."},
+    {t:"speak", units:[7, 8], name:"Cảm xúc, kể chuyện, nêu ý kiến", desc:"Chặng 7–8: rủ rê, xin lỗi, khen, an ủi, kể chuyện, nói về phim."},
+    {t:"vocab", topics:["feelings","hobbies","nature","tech"], name:"Từ vựng để diễn đạt", desc:"Cảm xúc, sở thích và thể thao, thiên nhiên, công nghệ."},
+    {t:"speak", units:[9, 10, 11], name:"Xử lý tình huống thực tế", desc:"Chặng 9–11: phàn nàn, báo hỏng đồ, chuyến bay hoãn, hiệu thuốc, hàng xóm."},
+    {t:"news", lv:{en:["B1","B2"], zh:["HSK 4","HSK 5"]}, name:"Đọc báo cấp độ cao hơn", desc:"Đọc bài B1–B2 (HSK 4–5), dùng chế độ Song ngữ khi cần."}
+  ]}
+];
+function routeVal(x, L){ return x && typeof x === "object" && !Array.isArray(x) && (x.en !== undefined || x.zh !== undefined) ? x[L] : x; }
+function routeUnitLessons(units, L){
+  const all = lessonsOf(L), out = []; let k = 0;
+  UNITS.forEach((u, i) => { if(units.includes(i + 1)) out.push(...all.slice(k, k + u.n)); k += u.n; });
+  return out;
+}
+function routeNews(st, L){ return NEWS.filter(a => a.lang === L && (st.lv ? (routeVal(st.lv, L) || []).includes(a.lv) : true) && (st.topics ? st.topics.includes(a.topic) : true)); }
+/* tiến độ một bước: {done, total, unit, target} — target là bài/chủ đề nên mở tiếp */
+function routeStep(st, L){
+  if(st.t === "pron"){ const list = PRON[L].slice(routeVal(st.from, L) || 0, routeVal(st.n, L)); const done = list.filter(pronDone).length; return {done, total:list.length, unit:"bài", target:list.find(x => !pronDone(x))}; }
+  if(st.t === "speak"){ const list = routeUnitLessons(st.units, L); const done = list.filter(lesDone).length; return {done, total:list.length, unit:"bài", target:list.find(x => !lesDone(x))}; }
+  if(st.t === "vocab"){ const Ts = st.topics.map(id => VT_TOPICS.find(t => t.id === id)).filter(Boolean); const total = Ts.reduce((n, T) => n + T[L].b.length + T[L].a.length, 0), done = Ts.reduce((n, T) => n + vtTopicDone(L, T), 0);
+    return {done, total, unit:"từ", target:Ts.find(T => vtTopicDone(L, T) < T[L].b.length + T[L].a.length)}; }
+  if(st.t === "work"){ const inds = WORK_INDS[L].map(ind => LESSONS[L].filter(x => x.ind === ind.id)); const done = inds.filter(ls => ls.length && ls.every(lesDone)).length; return {done:Math.min(done, st.n), total:st.n, unit:"ngành", target:null}; }
+  if(st.t === "news"){ const list = routeNews(st, L), rd = newsState().read; const done = list.filter(a => rd[a.id]).length; return {done, total:list.length, unit:"bài", target:list.find(a => !rd[a.id])}; }
+  if(st.t === "nb"){ const n = NB.list().filter(x => x.lang === L).length; return {done:Math.min(n, st.words), total:st.words, unit:"từ", target:null}; }
+  return {done:0, total:1, unit:""};
+}
+function routeHtml(){
+  const L = store.prefs.lang, cur = ROUTES.find(r => r.id === store.prefs.route) || ROUTES[0];
+  const pct = r => { const s = r.steps.map(st => routeStep(st, L)); return Math.round(s.reduce((n, x) => n + (x.total ? x.done / x.total : 0), 0) / s.length * 100); };
+  const goals = ROUTES.map(r => `<button class="rt-goal ${r.id === cur.id ? "on" : ""}" data-act="routepick" data-v="${r.id}" aria-pressed="${r.id === cur.id}">
+      <span class="rt-gi" aria-hidden="true">${r.icon}</span><b>${esc(r.name)}</b><small>${esc(r.desc)}</small><span class="rt-gp"><i style="width:${pct(r)}%"></i></span><em>${pct(r)}% · ${r.steps.length} bước</em></button>`).join("");
+  let first = -1;
+  const steps = cur.steps.map((st, i) => {
+    const p = routeStep(st, L), done = p.total > 0 && p.done >= p.total;
+    if(!done && first < 0) first = i;
+    const state = done ? "done" : i === first ? "now" : "later";
+    return `<li class="rt-step ${state}">
+      <span class="rt-n">${done ? "✓" : i + 1}</span>
+      <div class="rt-b"><b>${esc(st.name)}</b><small>${esc(routeVal(st.desc, L))}</small>
+        <span class="rt-bar"><i style="width:${p.total ? Math.round(p.done / p.total * 100) : 0}%"></i></span><span class="rt-c">${p.done}/${p.total} ${p.unit}</span></div>
+      ${state === "later" ? `<span class="rt-wait">Sau bước ${i}</span>` : `<button class="btn ${done ? "ghost" : ""}" data-act="routego" data-v="${i}">${done ? "Ôn lại" : p.done ? "Học tiếp →" : "Bắt đầu →"}</button>`}</li>`;
+  }).join("");
+  return `<h2 class="hsec">Gợi ý lộ trình</h2>
+    <p class="rt-intro">Chọn mục tiêu của bạn. Mỗi lộ trình gồm các bước theo thứ tự, tiến độ tự cập nhật khi bạn học.</p>
+    <div class="rt-goals">${goals}</div>
+    <div class="rt-path"><div class="rt-head"><span aria-hidden="true">${cur.icon}</span><div><b>${esc(cur.name)}</b><small>${L === "zh" ? "Tiếng Trung" : "Tiếng Anh"} · ${cur.steps.length} bước</small></div></div>
+      <ol class="rt-steps">${steps}</ol></div>`;
+}
+function routeAct(act, el){
+  if(act === "routepick"){ store.prefs.route = el.dataset.v; saveStore(); render(); return true; }
+  if(act === "routego"){
+    const L = store.prefs.lang, cur = ROUTES.find(r => r.id === store.prefs.route) || ROUTES[0], st = cur.steps[+el.dataset.v]; if(!st) return true;
+    const p = routeStep(st, L), go = (a, id) => { const b = document.createElement("button"); b.dataset.act = a; b.dataset.id = id; b.style.display = "none"; document.getElementById("app").appendChild(b); b.click(); };
+    if(st.t === "pron"){ if(p.target) go("popen", p.target.id); else { ui.section = "pron"; ui.view = "home"; render(); window.scrollTo(0, 0); } return true; }
+    if(st.t === "speak"){ if(p.target) go("open", p.target.id); else { ui.section = "speak"; ui.view = "home"; render(); window.scrollTo(0, 0); } return true; }
+    if(st.t === "vocab"){ ui.section = "vocab"; ui.view = "home"; ui.vt = p.target ? {topic:p.target.id, part:"b", mode:"list"} : {topic:null, part:"b", mode:"list"}; render(); window.scrollTo(0, 0); return true; }
+    if(st.t === "work"){ ui.section = "work"; ui.view = "home"; render(); window.scrollTo(0, 0); return true; }
+    if(st.t === "news"){ ui.section = "news"; ui.view = "home"; ui.news = {id:p.target ? p.target.id : null, view:null, tr:{}, showTr:false}; render(); window.scrollTo(0, 0); return true; }
+    if(st.t === "nb"){ ui.section = "vocab"; ui.view = "home"; ui.vt = {view:"notebook"}; render(); window.scrollTo(0, 0); return true; }
   }
   return false;
 }
@@ -7036,6 +7155,7 @@ document.addEventListener("click", (ev) => {
   if(act.startsWith("nb") && nbAct(act, el)) return;
   if(act.startsWith("news") && newsAct(act, el)) return;
   if(act.startsWith("hist") && histAct(act, el)) return;
+  if(act.startsWith("route") && routeAct(act, el)) return;
   if(act === "rword"){ const sl = window.getSelection(); if(sl && !sl.isCollapsed && sl.toString().trim()) return; WordPop.open(el.textContent, el.getBoundingClientRect(), el.dataset.l); return; }
   if((act.startsWith("vt") || act === "proftab") && vtAct(act, el)) return;
   if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
@@ -7273,8 +7393,7 @@ function renderLanding(){
       <button class="hcard" data-act="section" data-v="plan"><span class="hcard-k">Hôm nay</span><b>${todayEv.length} lịch · ${todayTasks} việc cần làm</b><span>${nextEv ? `Tiếp theo: ${nextEv.start ? nextEv.start + " " : ""}${esc(nextEv.title)}` : "Mở lịch để sắp xếp việc học"}</span></button>
       <button class="hcard" data-act="pomo"><span class="hcard-k">Pomodoro</span><b>Đã học ${store.pomo.done} lượt hôm nay</b><span>Bấm để mở đồng hồ tập trung</span></button>
     </div>
-    <h2 class="hsec">Bắt đầu từ đâu?</h2>
-    <div class="htiles">${tiles}</div>
+    ${routeHtml()}
   </section>`;
 }
 const SECTION_DESC = {news:"Bài báo ngắn theo cấp độ, bấm từ để tra và dịch", profile:"Thành tựu, cúp, huy hiệu và bảng xếp hạng của bạn", pron:"Từng âm IPA và bính âm, có bản thu và chấm phát âm", speak:"Hội thoại đời sống, đóng vai và luyện nói", work:"24 ngành nghề, từ vựng chuyên ngành", plan:"Xem lịch, lên kế hoạch và danh sách việc cần làm", story:"Đọc và nghe truyện ngắn", listen:"Luyện nghe theo chủ đề", vocab:"Ôn từ vựng theo cấp độ", grammar:"Ngữ pháp trọng tâm"};

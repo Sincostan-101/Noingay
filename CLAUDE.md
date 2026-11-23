@@ -110,3 +110,7 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Lịch sử: histTrack() trong render ghi trang đang mở (bài học, chủ đề từ vựng, bài báo) dù vào bằng cách nào, và ghi "✓ Hoàn thành bài" khi học xong (store.histDone).
 - Ghi âm (24/11/2026): bấm micro để bắt đầu, nói xong phải bấm lại micro mới kết thúc (không tự dừng khi im lặng). Trình duyệt: SpeechRecognition continuous, tự mở lại khi trình duyệt ngắt, tối đa 60 giây; chấm cả câu ghép lẫn từng đoạn, lấy điểm cao nhất.
 - Tìm kiếm (24/11/2026): ô tìm kiếm to ở giữa trang chủ đã bỏ; thay bằng nút "Tìm kiếm" cạnh nút Lịch trên thanh đầu trang chủ (searchChip, ui.searchOpen, action hsearch). Bấm để mở ô gõ, kết quả (searchHtml) hiện ngay bên dưới; bấm ra ngoài hoặc Esc để đóng.
+
+## Gợi ý lộ trình (24/11/2026)
+- Trang chủ: phần "Bắt đầu từ đâu?" (ô các mục, có cả Hồ sơ) đã thay bằng "Gợi ý lộ trình" (ROUTES, routeStep, routeHtml, routeAct). 4 mục tiêu: Mất gốc, Đi du lịch, Dùng trong công việc, Nói trôi chảy; mỗi mục tiêu 5–6 bước theo thứ tự, tiến độ tính từ dữ liệu học thật (bài phát âm/giao tiếp đã xong, từ đã nhớ theo chủ đề, ngành đã học xong, bài báo đã đọc, số từ trong sổ). Bước hiện tại có nút Bắt đầu/Học tiếp mở đúng bài cần học; bước sau hiện "Sau bước n". Lộ trình đang chọn lưu ở store.prefs.route.
+- Các bước bám theo thứ tự bài học (vì bài học bị khóa theo trình tự), không nhảy cóc.
