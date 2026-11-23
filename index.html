@@ -4484,7 +4484,7 @@ function mvPlay(){
   MV.speed = store.prefs.slow ? .55 : 1; MV.t0 = performance.now(); let said = false;
   const say = () => {
     if(lang === "en" && store.prefs.mvSrc !== "tts") PhonAudio.play([lesson.title.replace(/\//g, "")]);
-    else if(lang === "en") TTS.speak(lesson.sounds[0].ex[0].t, "en", null, {rate: store.prefs.slow ? 0.5 : 0.72});
+    else if(lang === "en") TTS.speak(lesson.sounds[0].ex[0].t, "en", null, {rate: store.prefs.slow ? 0.25 : 0.5});
     else TTS.speak(lesson.hz ? lesson.hz.t : lesson.title, "zh");
   };
   const step = (now) => {
@@ -4793,7 +4793,7 @@ function sayKey(key, onend){
   if(ui.playingKey === key && !onend){ TTS.stop(); ui.playingKey = null; render(); return; }
   ui.playingKey = key; render();
   /* từ ví dụ trong phần Phát âm: đọc chậm hơn cho người mới (bật "Đọc chậm" thì chậm hơn nữa) */
-  const exSlow = ui.section === "pron" && /^X/.test(key) ? {rate: store.prefs.slow ? 0.5 : 0.72} : null;
+  const exSlow = ui.section === "pron" && /^X/.test(key) ? {rate: store.prefs.slow ? 0.25 : 0.5} : null;
   TTS.speak(item.t, lang, () => {
     if(ui.playingKey === key){ ui.playingKey = null; render(); }
     onend && onend();
