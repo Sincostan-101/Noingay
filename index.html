@@ -219,7 +219,16 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .mv-prog{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden}.mv-prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
 .mv-cap{margin:10px 0 0;font-weight:700;min-height:1.4em}.mv-legend{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
 .mv .mv-face{fill:#f3cdb8;stroke:#c99a80;stroke-width:1.2}.mv .mv-airsp{fill:#fff8ef}.mv .mv-ptr{stroke:#b08878;stroke-width:.8;fill:none}
-.mv #mv-front .mv-lip{fill:#e59b98;stroke:#c47975}.mv .ch-skin{fill:#f6d3bb;stroke:#d7a487;stroke-width:1.4}.mv .ch-hair{fill:#3b2a24}.mv .ch-brow{fill:none;stroke:#3b2a24;stroke-width:3.4;stroke-linecap:round}
+.mv #mv-front .mv-lip{fill:#e59b98;stroke:#c47975}.mv .an-skin{fill:#fbe0cf;stroke:#e0ad93;stroke-width:1.2}.mv .an-hairb{fill:#2c2742}.mv .an-hairf{fill:#3a3358;stroke:#231f36;stroke-width:1.2;stroke-linejoin:round}
+.mv .an-white{fill:#fff;stroke:#c9b9b0;stroke-width:.8}.mv .an-pupil{fill:#11241e}.mv .an-hi{fill:#fff}.mv .an-lash{fill:none;stroke:#231f36;stroke-width:3.4;stroke-linecap:round}.mv .an-lash2{stroke:#231f36;stroke-width:2.4;stroke-linecap:round}
+.mv .an-brow{fill:none;stroke:#3a3358;stroke-width:2.2;stroke-linecap:round}.mv .an-nose{fill:none;stroke:#d79a80;stroke-width:1.4;stroke-linecap:round}.mv .an-blush{fill:#f59ca6;opacity:.45}
+.mv .an-hood{fill:#3fa56b;stroke:#2a7d4e;stroke-width:1.4}.mv .an-hood2{fill:#2f8a55}.mv .an-string{stroke:#eafff1;stroke-width:2.4;stroke-linecap:round}.mv .an-badge{fill:#fff8ef;stroke:#2a7d4e}.mv .an-leaf{fill:#2f8a55}
+.mv .an-clip{fill:#7fe0a8;stroke:#2a7d4e;stroke-width:1.2}.mv .an-clipv{stroke:#2a7d4e;stroke-width:1}
+.mv #mv-side{background:#0b1214;border-radius:10px}.mv .us-out{fill:#0b1214}.mv .us-edge{fill:none;stroke:#3b5a60;stroke-width:1}.mv .us-faint{fill:none;stroke:#8fa7ab;stroke-width:1.1;opacity:.45}
+.mv .us-pal{fill:none;stroke:#c9d8da;stroke-width:2.4;opacity:.75;stroke-linecap:round}.mv .us-vel{fill:none;stroke:#c9d8da;stroke-width:4;opacity:.6;stroke-linecap:round}.mv .us-tooth{fill:#dfe9ea;opacity:.55}
+.mv .us-body{fill:#9fb4b8;opacity:.16}.mv .us-surf{fill:none;stroke:#f4fbfc;stroke-width:3.2;stroke-linecap:round}.mv .us-air circle{fill:#5ee6ff}.mv .us-vib{fill:none;stroke:#5ee6ff;stroke-width:2.2}
+.mv .us-sweep{stroke:#7fe0ff;stroke-width:1;opacity:.25}.mv .us-lb{font-size:9px;fill:#9fc3c8;font-family:inherit}.mv .us-tag{font-size:8px;fill:#5ee6ff;letter-spacing:.08em;font-family:inherit}
+.mv .ch-skin{fill:#f6d3bb;stroke:#d7a487;stroke-width:1.4}.mv .ch-hair{fill:#3b2a24}.mv .ch-brow{fill:none;stroke:#3b2a24;stroke-width:3.4;stroke-linecap:round}
 .mv .ch-eye{fill:#fff;stroke:#3b2a24;stroke-width:1.6}.mv .ch-pupil{fill:#2a1d18}.mv .ch-shine{fill:#fff}.mv .ch-cheek{fill:#f19aa0;opacity:.4}
 .mv .ch-nose{fill:none;stroke:#c98d72;stroke-width:2;stroke-linecap:round}.mv .ch-shirt{fill:#4cae74;stroke:#2f8a55;stroke-width:1.4}.mv .ch-collar{fill:#eaf7ee}
 .mv .ch-badge{fill:#fff8ef;stroke:#2f8a55}.mv .ch-leafw{fill:#2f8a55}.mv .ch-stem{fill:none;stroke:#2f8a55;stroke-width:2.4;stroke-linecap:round}.mv .ch-leaf{fill:#6cc88f;stroke:#2f8a55;stroke-width:1.2}.mv .mv-cav{fill:#8c3a46}.mv .mv-nose{fill:#d9a796}.mv .mv-pal{fill:none;stroke:#b0596a;stroke-width:3;stroke-linecap:round}
@@ -4286,19 +4295,18 @@ function mvAt(tl, t){
   o.release = a.s.air === "stop" && b.s !== a.s ? u : 0;
   return o;
 }
-/* Mặt cắt nghiêng: miệng quay sang trái. Mô (da, thịt) màu hồng nhạt, khoang chứa hơi màu kem. */
+/* Mặt cắt nghiêng kiểu ảnh siêu âm: nền tối hình quạt, nhiễu hạt, mặt lưỡi là vệt sáng.
+   Miệng quay sang trái; vòm miệng, răng, môi và họng vẽ mờ để dễ định hướng. */
 function mvSide(o, time){
   const J = o.jaw * 30, px = o.protr * 9;
   const upY = 95, gap = (1 - o.close) * (2 + J), loY = upY + 1 + gap - o.ld * gap * .9;
   const ulx = 38 - px, llx = 40 - px + o.ld * 10;
   const tx = o.tx, ty = o.ty, bx = o.bx, by = o.by;
-  const head = `M74,0 C64,14 58,26 50,34 C40,42 24,48 22,54 C21,60 30,64 40,64 C44,66 47,68 48,72 C46,78 ${ulx+4},82 ${ulx},88 C${ulx-1},92 ${ulx+2},${upY} ${ulx+8},${upY} L56,${upY}
-    L56,${loY} L${llx+8},${loY} C${llx+1},${loY+1} ${llx-2},${loY+6} ${llx},${loY+11} C${llx+2},${loY+16} 50,${loY+18} 50,${loY+22} C44,${loY+34} 44,${loY+48} 62,${loY+54} C84,${loY+60} 110,196 118,220 L260,220 L260,0 Z`;
-  const oral = `M56,${upY} L57,86 C64,79 70,79 74,81 C96,73 130,69 166,72 C184,74 198,80 204,92 L206,220 L176,220 C170,190 150,${168+J} 110,${160+J} C86,${154+J} 70,${130+J} 62,${116+J} L56,${loY} Z`;
-  const nasal = "M40,64 C62,57 104,52 150,55 C180,57 198,66 204,80 L204,92 C197,82 182,73 166,70 C132,66 92,67 48,72 Z";
+  const profile = `M74,0 C64,14 58,26 50,34 C40,42 24,48 22,54 C21,60 30,64 40,64 C44,66 47,68 48,72 C46,78 ${ulx+4},82 ${ulx},88 C${ulx-1},92 ${ulx+2},${upY} ${ulx+8},${upY} L56,${upY}
+    M56,${loY} L${llx+8},${loY} C${llx+1},${loY+1} ${llx-2},${loY+6} ${llx},${loY+11} C${llx+2},${loY+16} 50,${loY+18} 50,${loY+22} C44,${loY+34} 44,${loY+48} 62,${loY+54} C84,${loY+60} 110,196 118,220`;
   const vt = [200 - 16 * o.vel, 88 + 22 * o.vel];
-  const velum = `M150,70 C170,70 186,74 ${vt[0]+3},${vt[1]-6} C${vt[0]+2},${vt[1]+2} ${vt[0]-6},${vt[1]+3} ${vt[0]-9},${vt[1]-3} C${vt[0]-16},${vt[1]-12} 168,${80+o.vel*6} 150,78 Z`;
-  const tongue = `M${tx},${ty} C${tx+14},${ty-7} ${bx-30},${by} ${bx},${by} C${bx+26},${by} 184,${by+14} 186,${Math.max(by+30, 132)} C188,170 186,196 178,206 L132,202 C108,${190+J*.4} 86,${150+J} 72,${126+J} C66,${120+J} ${tx+6},${ty+10} ${tx},${ty} Z`;
+  const surf = `M${tx},${ty} C${tx+14},${ty-7} ${bx-30},${by} ${bx},${by} C${bx+26},${by} 184,${by+14} 186,${Math.max(by+30, 132)} C188,170 186,196 178,206`;
+  const body = surf + ` L132,202 C108,${190+J*.4} 86,${150+J} 72,${126+J} C66,${120+J} ${tx+6},${ty+10} ${tx},${ty} Z`;
   let air = "";
   const ph = (time * 2.2) % 1, dots = (x1, y1, x2, y2, n, r) => { let s = ""; for(let k = 0; k < n; k++){ const q = (ph + k / n) % 1; s += `<circle cx="${(x1 + (x2 - x1) * q).toFixed(1)}" cy="${(y1 + (y2 - y1) * q).toFixed(1)}" r="${r}" opacity="${(1 - q * .8).toFixed(2)}"/>`; } return s; };
   if(o.air === "nasal") air = dots(200, 104, 196, 72, 2, 2.4) + dots(190, 66, 110, 60, 3, 2.4) + dots(110, 60, 30, 62, 3, 2.4);
@@ -4309,15 +4317,35 @@ function mvSide(o, time){
   else if(o.air === "throat") air = dots(195, 190, 12, 100, 6, 2.6);
   else if(o.air === "side") air = dots(tx + 34, ty + 10, 12, 100, 4, 2.2);
   if(o.release > 0 && o.release < 1){ const q = o.release, n = o.asp ? 6 : 3; for(let k = 0; k < n; k++) air += `<circle cx="${(34 - q * (12 + k * 7)).toFixed(1)}" cy="${(97 + (k % 3 - 1) * 5 * q).toFixed(1)}" r="${o.asp ? 3.4 : 2}" opacity="${(1 - q).toFixed(2)}"/>`; }
-  const vib = o.voice ? `<path class="mv-vib" d="M186,204 l4,-5 l4,10 l4,-10 l4,10 l4,-5" transform="translate(0,${(Math.sin(time * 40) * 1.2).toFixed(2)})"/><text class="mv-lb" x="160" y="216">rung</text>` : "";
-  return `<path class="mv-face" d="${head}"/>
-    <path class="mv-airsp" d="${nasal}"/><path class="mv-airsp" d="${oral}"/>
-    <path class="mv-velum" d="${velum}"/>
-    <path class="mv-tooth" d="M53,98 L51,92 C52,86 56,82 61,82 L64,85 L58,98 Z"/>
-    <path class="mv-tooth" d="M54,${100+J} L59,${99+J} L64,${113+J} C62,${117+J} 58,${117+J} 56,${114+J} Z"/>
-    <path class="mv-tongue" d="${tongue}"/>
-    <g class="mv-air">${air}</g>${vib}
-    <text class="mv-lb" x="92" y="51">khoang mũi</text><text class="mv-lb" x="98" y="88">vòm miệng</text><text class="mv-lb" x="250" y="62" text-anchor="end">ngạc mềm</text><path class="mv-ptr" d="M232,65 L196,80"/><text class="mv-lb" x="2" y="122">môi</text><text class="mv-lb" x="130" y="150">lưỡi</text>`;
+  const vib = o.voice ? `<path class="us-vib" d="M186,204 l4,-5 l4,10 l4,-10 l4,10 l4,-5" transform="translate(0,${(Math.sin(time * 40) * 1.2).toFixed(2)})"/><text class="us-lb" x="150" y="214">dây thanh rung</text>` : "";
+  const seed = Math.floor(time * 12) % 50, sweep = (time * .6) % 1;
+  const A = [130, 236], R = 250, ang = (d) => [A[0] + R * Math.sin(d * Math.PI / 180), A[1] - R * Math.cos(d * Math.PI / 180)];
+  const L = ang(-58), Rr = ang(58), sw = ang(-58 + 116 * sweep);
+  const fan = `M${A[0]},${A[1]} L${L[0].toFixed(1)},${L[1].toFixed(1)} A${R},${R} 0 0 1 ${Rr[0].toFixed(1)},${Rr[1].toFixed(1)} Z`;
+  return `<defs>
+      <clipPath id="us-fan"><path d="${fan}"/></clipPath>
+      <filter id="us-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="us-noise"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="${seed}"/><feColorMatrix values="0 0 0 0 .85  0 0 0 0 .9  0 0 0 0 .92  0 0 0 1.4 -.55"/></filter>
+      <radialGradient id="us-bg" cx="50%" cy="100%" r="100%"><stop offset="0" stop-color="#1b2a2e"/><stop offset="1" stop-color="#050809"/></radialGradient>
+    </defs>
+    <rect x="0" y="0" width="260" height="220" class="us-out"/>
+    <g clip-path="url(#us-fan)">
+      <rect x="0" y="0" width="260" height="240" fill="url(#us-bg)"/>
+      <rect x="0" y="0" width="260" height="240" filter="url(#us-noise)" opacity=".22"/>
+      <path class="us-faint" d="${profile}"/>
+      <path class="us-faint" d="M40,64 C62,57 104,52 150,55 C180,57 198,66 204,80"/>
+      <path class="us-pal" d="M57,86 C64,79 70,79 74,81 C96,73 130,69 166,72"/>
+      <path class="us-faint" d="M204,92 L206,220"/>
+      <path class="us-vel" d="M160,72 C178,73 190,78 ${vt[0]},${vt[1]}"/>
+      <path class="us-tooth" d="M53,98 L51,92 C52,86 56,82 61,82 L64,85 L58,98 Z"/><path class="us-tooth" d="M54,${100+J} L59,${99+J} L64,${113+J} C62,${117+J} 58,${117+J} 56,${114+J} Z"/>
+      <path class="us-body" d="${body}"/>
+      <path class="us-surf" d="${surf}" filter="url(#us-glow)"/>
+      <g class="us-air">${air}</g>${vib}
+      <path class="us-sweep" d="M${A[0]},${A[1]} L${sw[0].toFixed(1)},${sw[1].toFixed(1)}"/>
+    </g>
+    <path class="us-edge" d="${fan}"/>
+    <text class="us-lb" x="96" y="50">khoang mũi</text><text class="us-lb" x="100" y="66">vòm miệng</text><text class="us-lb" x="250" y="62" text-anchor="end">ngạc mềm</text>
+    <text class="us-lb" x="${bx-6}" y="${by-8}" text-anchor="middle">mặt lưỡi</text><text class="us-lb" x="6" y="122">môi</text><text class="us-tag" x="6" y="14">SIÊU ÂM · SFY</text>`;
 }
 /* Môi nhìn thẳng */
 function mvLips(o){
@@ -4325,7 +4353,7 @@ function mvLips(o){
   const a = 40 + o.spread * 12 - o.protr * 14;
   let h = (1 - o.close) * (4 + o.jaw * 46); if(o.ld > .5) h = Math.min(h, 7);
   const ai = Math.max(6, Math.min(a * .82, o.protr > .3 ? h * .5 + 8 + (1 - o.protr) * 10 : a * .82));
-  const lipT = 7 + o.protr * 4, hh = h / 2;
+  const lipT = 6 + o.protr * 4, hh = h / 2;
   const outer = `M${cx-a-6},${cy} C${cx-a+4},${cy-hh-lipT-6} ${cx-12},${cy-hh-lipT-4} ${cx},${cy-hh-lipT+2} C${cx+12},${cy-hh-lipT-4} ${cx+a-4},${cy-hh-lipT-6} ${cx+a+6},${cy} C${cx+a-6},${cy+hh+lipT+10} ${cx-a+6},${cy+hh+lipT+10} ${cx-a-6},${cy} Z`;
   const inner = `M${cx-ai},${cy} C${cx-ai*.6},${cy-hh} ${cx+ai*.6},${cy-hh} ${cx+ai},${cy} C${cx+ai*.6},${cy+hh} ${cx-ai*.6},${cy+hh} ${cx-ai},${cy} Z`;
   const showUp = h > 5, showLo = h > 24;
@@ -4337,24 +4365,35 @@ function mvLips(o){
     <g clip-path="url(#mv-clip)">${tongueIn}${showUp ? `<rect class="mv-tooth" x="${cx-28}" y="${cy-hh-1}" width="56" height="${Math.min(9, h*.55)}" rx="2"/>` : ""}${showLo ? `<rect class="mv-tooth" x="${cx-24}" y="${cy+hh-6}" width="48" height="7" rx="2"/>` : ""}${tongueOut}</g>` : `<path class="mv-seam" d="M${cx-a+2},${cy} C${cx-12},${cy+2} ${cx+12},${cy+2} ${cx+a-2},${cy}"/>`}
     ${o.ld > .5 && o.close < .5 ? `<rect class="mv-tooth" x="${cx-24}" y="${cy-4}" width="48" height="6" rx="2"/>` : ""}`;
 }
-/* Nhân vật SFY nhìn thẳng: mặt, tóc, mắt biết chớp, chồi lá trên đầu; miệng lấy từ mvLips */
+/* Nhân vật SFY phong cách anime: sinh viên áo hoodie xanh, mắt to biết chớp, kẹp tóc hình lá; miệng lấy từ mvLips */
 function mvFront(o, time = 0){
-  const J = o.jaw * 7, blink = (time % 3.2) > 3.05 ? .12 : 1, sway = Math.sin(time * 2.4) * 6;
-  const brow = o.jaw > .5 ? 3 : o.protr > .6 ? 1 : 0, eyeH = 7.5 * blink;
-  return `<path class="ch-shirt" d="M30,200 C34,172 60,160 100,160 C140,160 166,172 170,200 Z"/>
-    <path class="ch-collar" d="M78,162 L100,182 L122,162 L114,160 L100,172 L86,160 Z"/>
-    <circle class="ch-badge" cx="138" cy="182" r="7"/><path class="ch-leafw" d="M134,184 C134,178 139,176 142,177 C142,182 139,185 134,184 Z"/>
-    <rect class="ch-skin" x="86" y="140" width="28" height="${24}" rx="8"/>
-    <g transform="translate(100,30) rotate(${sway.toFixed(1)})"><path class="ch-stem" d="M0,6 C0,0 1,-6 2,-10"/><path class="ch-leaf" d="M2,-10 C-8,-14 -14,-24 -12,-30 C-2,-30 6,-22 2,-10 Z"/><path class="ch-leaf" d="M2,-9 C10,-16 20,-16 24,-12 C18,-4 8,-4 2,-9 Z"/></g>
-    <ellipse class="ch-skin" cx="44" cy="${96}" rx="9" ry="13"/><ellipse class="ch-skin" cx="156" cy="${96}" rx="9" ry="13"/>
-    <ellipse class="ch-skin" cx="100" cy="${92+J/2}" rx="56" ry="${62+J/2}"/>
-    <path class="ch-hair" d="M44,92 C38,52 62,28 100,28 C140,28 164,52 156,92 C152,76 146,64 136,58 C124,70 104,72 86,64 C78,70 66,72 58,68 C52,74 48,82 44,92 Z"/>
-    <path class="ch-brow" d="M66,${70-brow} Q76,${64-brow} 86,${69-brow}"/><path class="ch-brow" d="M114,${69-brow} Q124,${64-brow} 134,${70-brow}"/>
-    <ellipse class="ch-eye" cx="76" cy="86" rx="8" ry="${eyeH}"/><ellipse class="ch-eye" cx="124" cy="86" rx="8" ry="${eyeH}"/>
-    ${blink > .5 ? `<circle class="ch-pupil" cx="77" cy="87" r="4.6"/><circle class="ch-pupil" cx="125" cy="87" r="4.6"/><circle class="ch-shine" cx="79" cy="84.5" r="1.6"/><circle class="ch-shine" cx="127" cy="84.5" r="1.6"/>` : ""}
-    <circle class="ch-cheek" cx="66" cy="${108+J/3}" r="8"/><circle class="ch-cheek" cx="134" cy="${108+J/3}" r="8"/>
-    <path class="ch-nose" d="M98,98 Q102,106 96,108"/>
-    <g transform="translate(100,${126+J*.6}) scale(.5) translate(-100,-74)">${mvLips(o)}</g>`;
+  const J = o.jaw * 8, blink = (time % 3.4) > 3.26, bob = Math.sin(time * 1.6) * .8;
+  const brow = o.jaw > .5 ? 2.5 : o.protr > .6 ? 1 : 0;
+  const eye = (x, flip) => blink
+    ? `<path class="an-lash" d="M${x-12},${97} Q${x},${103} ${x+12},${97}"/>`
+    : `<ellipse class="an-white" cx="${x}" cy="97" rx="11" ry="12.5"/>
+       <ellipse fill="url(#an-iris)" cx="${x+(flip?-1:1)}" cy="99" rx="8.6" ry="11"/>
+       <ellipse class="an-pupil" cx="${x+(flip?-1:1)}" cy="100" rx="4" ry="5.6"/>
+       <ellipse class="an-hi" cx="${x+3}" cy="94" rx="3.2" ry="3.8"/><circle class="an-hi" cx="${x-3.5}" cy="104" r="1.5"/>
+       <path class="an-lash" d="M${x-12},${90} Q${x},${81} ${x+12},${90}"/><path class="an-lash2" d="M${x+(flip?-12:12)},${90} l${flip?-4:4},2"/>`;
+  return `<defs><linearGradient id="an-iris" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f5f4a"/><stop offset="1" stop-color="#6fdcab"/></linearGradient></defs>
+    <g transform="translate(0,${bob.toFixed(2)})">
+    <path class="an-hairb" d="M46,92 C40,46 70,24 100,24 C134,24 162,46 154,96 C156,120 150,140 146,150 L54,150 C48,136 44,116 46,92 Z"/>
+    <path class="an-hood" d="M24,200 C28,170 52,152 76,150 L124,150 C148,152 172,170 176,200 Z"/>
+    <path class="an-hood2" d="M60,154 C74,170 126,170 140,154 C136,166 120,176 100,176 C80,176 64,166 60,154 Z"/>
+    <path class="an-string" d="M88,170 L86,194"/><path class="an-string" d="M112,170 L114,194"/>
+    <circle class="an-badge" cx="146" cy="184" r="7"/><path class="an-leaf" d="M142,186 C142,180 147,178 150,179 C150,184 147,187 142,186 Z"/>
+    <path class="an-skin" d="M88,140 L88,${162+J*.3} C94,168 106,168 112,${162+J*.3} L112,140 Z"/>
+    <path class="an-skin" d="M56,86 C55,122 76,${150+J} 100,${160+J} C124,${150+J} 145,122 144,86 C144,56 124,42 100,42 C76,42 56,56 56,86 Z"/>
+    <ellipse class="an-blush" cx="73" cy="${117+J*.3}" rx="9" ry="4.5"/><ellipse class="an-blush" cx="127" cy="${117+J*.3}" rx="9" ry="4.5"/>
+    ${eye(80, false)}${eye(120, true)}
+    
+    <path class="an-nose" d="M100,112 l-2,4 l3,0"/>
+    <g transform="translate(100,${133+J*.55}) scale(.42) translate(-100,-74)">${mvLips(o)}</g>
+    <path class="an-hairf" d="M50,96 C44,56 70,30 102,30 C134,30 158,54 150,98 C148,86 144,76 138,70 L137,78 L129,64 L121,75 L114,60 L105,74 L98,58 L89,74 L84,61 L74,77 L70,66 C62,78 54,86 50,96 Z"/>
+    <path class="an-brow" d="M69,${83-brow} Q80,${78-brow} 90,${81-brow}"/><path class="an-brow" d="M110,${81-brow} Q120,${78-brow} 131,${83-brow}"/>
+    <g transform="translate(138,62) rotate(${(-20 + Math.sin(time * 2) * 4).toFixed(1)})"><path class="an-clip" d="M0,0 C-10,-4 -14,-14 -10,-20 C0,-18 6,-10 0,0 Z"/><path class="an-clipv" d="M0,0 L-8,-15"/></g>
+    </g>`;
 }
 /* Đường thanh điệu cho bài thanh điệu tiếng Trung */
 const MV_TONES = {"ā":[[0,5],[1,5]], "á":[[0,3],[1,5]], "ǎ":[[0,2],[.45,1],[1,4]], "à":[[0,5],[1,1]], "a":[[0,3],[.5,2.6],[1,2.5]]};
@@ -4371,15 +4410,15 @@ function mvLesson(lesson, lang){ return {sym: lang === "en" ? lesson.title : les
 function mvRenderCard(lesson, lang){
   const tl = mvTimeline(mvSeq(lesson.title, lang, lesson.group)), o = mvKeyFrame(tl), tone = lesson.group === "pzh-tones";
   return `<div class="mv" id="mv" data-id="${esc(lesson.id)}">
-    <div class="mv-head"><b>Video khẩu hình</b><span>${tone ? "Nghe và nhìn đường cao độ của thanh điệu" : "Xem miệng bạn nhỏ SFY (bên trái) và lưỡi bên trong (bên phải) khi phát âm"}</span></div>
+    <div class="mv-head"><b>Video khẩu hình</b><span>${tone ? "Nghe và nhìn đường cao độ của thanh điệu" : "Bên trái: bạn SFY đang nói. Bên phải: lưỡi và họng của bạn ấy, nhìn như ảnh siêu âm"}</span></div>
     <div class="mv-stage">
-      <figure><svg id="mv-front" viewBox="0 0 200 200" role="img" aria-label="Nhân vật SFY đang phát âm">${mvFront(o)}</svg><figcaption>Bạn nhỏ SFY</figcaption></figure>
-      <figure><svg id="mv-side" viewBox="0 0 ${tone ? "200 130" : "260 220"}" role="img" aria-label="${tone ? "Đường thanh điệu" : "Mặt cắt nghiêng khoang miệng"}">${tone ? mvTone(lesson.title, 0) : mvSide(o, 0)}</svg><figcaption>${tone ? "Thanh điệu" : "Mặt cắt nghiêng"}</figcaption></figure>
+      <figure><svg id="mv-front" viewBox="0 0 200 200" role="img" aria-label="Nhân vật SFY đang phát âm">${mvFront(o)}</svg><figcaption>Bạn SFY đang nói</figcaption></figure>
+      <figure><svg id="mv-side" viewBox="0 0 ${tone ? "200 130" : "260 220"}" role="img" aria-label="${tone ? "Đường thanh điệu" : "Mặt cắt nghiêng khoang miệng"}">${tone ? mvTone(lesson.title, 0) : mvSide(o, 0)}</svg><figcaption>${tone ? "Thanh điệu" : "Lưỡi và họng (kiểu siêu âm)"}</figcaption></figure>
     </div>
     <div class="mv-bar"><button class="btn mv-play" data-act="mvplay">${ICON_PLAY} Phát video</button>
       <div class="mv-prog"><i id="mv-prog"></i></div></div>
     <p class="mv-cap" id="mv-cap">${esc(tone ? "Bấm phát để nghe và xem giọng đi lên xuống thế nào" : o.cap)}</p>
-    <p class="mv-legend">${tone ? "Đường càng cao thì giọng càng cao (thang 1–5)." : "Chấm xanh là luồng hơi đi ra. Gợn sóng ở cổ họng là dây thanh đang rung. Bật “Đọc chậm” để xem chậm hơn."}</p>
+    <p class="mv-legend">${tone ? "Đường càng cao thì giọng càng cao (thang 1–5)." : "Vệt sáng là mặt lưỡi. Chấm xanh là luồng hơi đi ra. Gợn sóng ở cổ họng là dây thanh đang rung. Bật “Đọc chậm” để xem chậm hơn."}</p>
   </div>`;
 }
 function mvDraw(time){
