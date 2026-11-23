@@ -160,6 +160,9 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .need{font-size:13px;color:#b45309;margin:4px 0}
 .next .need{margin-right:auto;align-self:center}
 .btn.finish{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 6px 16px -6px var(--accent)}
+.lprog{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:74px}
+.lprog-b{display:block;width:74px;height:7px;border-radius:99px;background:var(--line);overflow:hidden}.lprog-b i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.lprog small{font-size:12px;font-weight:700;color:var(--muted)}.lprog.full small{color:var(--accent)}
 .num.ok{background:var(--accent)!important;color:#fff!important}
 .btn:disabled,.btn[disabled]{opacity:.5;cursor:not-allowed}
 .sfy-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:120;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 28px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:calc(100vw - 32px)}
@@ -4143,6 +4146,32 @@ function lesReady(les){ return [0,1,2].every(i => stepDone(les, i)); }
 function pronReady(les){ return [0,1,2,3].every(i => pStepDone(les, i)); }
 function lesDone(les){ const p = store.progress[les.id]; return !!(p && p.done); }
 function pronDone(les){ const p = store.pron[les.id]; return !!(p && p.done); }
+/* ===== Xác nhận từng bước =====
+   Mỗi bước đủ điều kiện thì nút "Tiếp: …" đổi thành "✓ Xác nhận xong · Tiếp: …"; bấm để ghi nhận bước đó (p.conf[bước] = ngày).
+   Tiến độ của bài = số bước đã xác nhận / tổng số bước (bài đã xác nhận hoàn thành = 100%). */
+const LES_STEPS = 5, PRON_STEPS = 4;
+function stepReady(les, kind, i){
+  if(kind === "pron"){ if(i === 1){ const p = store.pron[les.id]; return !!(p && p.tips); } return pStepDone(les, i); }
+  if(i <= 2) return stepDone(les, i);
+  return !!prog(les.id).role;
+}
+function stepConf(les, kind, i){ const p = kind === "pron" ? store.pron[les.id] : store.progress[les.id]; return !!(p && (p.done || (p.conf && p.conf[i]))); }
+function lesPct(les, kind){
+  const p = kind === "pron" ? store.pron[les.id] : store.progress[les.id], n = kind === "pron" ? PRON_STEPS : LES_STEPS;
+  if(!p) return 0; if(p.done) return 100;
+  let c = 0; for(let i = 0; i < n; i++) if(p.conf && p.conf[i]) c++;
+  return Math.round(c / n * 100);
+}
+function progBar(les, kind){
+  const pc = lesPct(les, kind);
+  return `<span class="lprog ${pc === 100 ? "full" : ""}" aria-label="Tiến độ ${pc}%"><span class="lprog-b"><i style="width:${pc}%"></i></span><small>${pc}%</small></span>`;
+}
+/* Đổi nút sang bước tiếp theo thành nút xác nhận khi bước hiện tại đủ điều kiện mà chưa xác nhận */
+function confStepBtns(html, les, kind, cur){
+  if(!stepReady(les, kind, cur) || stepConf(les, kind, cur)) return html;
+  return html.replace(/<button class="btn( ghost)?" data-act="step" data-v="(\d)">([^<]*)<\/button>/g, (m, g, v, label) =>
+    +v === cur + 1 ? `<button class="btn finish" data-act="stepconf" data-kind="${kind}" data-id="${les.id}" data-s="${cur}" data-v="${v}">✓ Xác nhận xong · ${label}</button>` : m);
+}
 /* Nút cuối bài: đủ điều kiện thì thành "Xác nhận hoàn thành bài", bấm để ghi nhận rồi sang bài tiếp theo */
 function finishBtn(les, kind, nxt, fallback){
   const done = kind === "pron" ? pronDone(les) : lesDone(les), ready = kind === "pron" ? pronReady(les) : lesReady(les);
@@ -4803,6 +4832,8 @@ Object.assign(I18N_DICT, {"✓ Đã ghi nhận hoàn thành bài": ["✓ Lesson 
   "Hoàn thành bước Đóng vai để mở phần giải thích.": ["Finish the role-play to unlock the explanation.", "完成角色扮演即可解锁讲解。"],
   "Nghe hết hội thoại, nói mỗi câu then chốt từ 50 điểm và đóng vai xong để xác nhận hoàn thành bài.": ["Listen to the whole dialogue, score 50+ on each key phrase and finish the role-play to confirm the lesson.", "听完对话、每个关键句至少 50 分并完成角色扮演，即可确认完成本课。"],
   "Nghe đủ các âm, làm phần Phân biệt và nói mỗi từ từ 50 điểm để xác nhận hoàn thành bài.": ["Listen to every sound, do the tell-apart quiz and score 50+ on each word to confirm the lesson.", "听完所有音、完成辨音并且每个词至少 50 分，即可确认完成本课。"]});
+Object.assign(I18N_DICT, {"✓ Đã ghi nhận xong bước này": ["✓ Step marked as done", "✓ 已记录完成此步骤"]});
+I18N_RX.unshift([/^✓ Xác nhận xong · (.+)$/, (m, x) => ["✓ Confirm done · " + I18N.t(x), "✓ 确认完成 · " + I18N.t(x)]], [/^Tiến độ (\d+)%$/, "Progress $1%", "进度 $1%"]);
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -5964,12 +5995,12 @@ function renderComing(){
 function renderHome(){
   const L = store.prefs.lang;
   const card = (les, i) => {
-    const dots = [0,1,2].map(s => `<span class="dot ${stepDone(les,s)?"on":""}"></span>`).join("");
+    const dots = progBar(les, "les");
     const lk = !lesOpen(les);
     return `<button class="card ${lk ? "locked" : ""}" data-act="open" data-id="${les.id}" ${lk ? 'aria-disabled="true" title="Học xong bài trước để mở bài này"' : ""}>
       <span class="num ${lesDone(les) ? "ok" : ""}">${lk ? "🔒" : lesDone(les) ? "✓" : i+1}</span>
       <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.scene)}</p></span>
-      <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
+      ${dots}</button>`;
   };
   const all = lessonsOf(L); let k = 0;
   const cards = UNITS.map(u => { const part = all.slice(k, k + u.n); const start = k; k += u.n;
@@ -5990,12 +6021,12 @@ const WORK_SOON = "";
 function renderWorkHome(){
   const L = store.prefs.lang;
   const card = (les, i) => {
-    const dots = [0,1,2].map(s => `<span class="dot ${stepDone(les,s)?"on":""}"></span>`).join("");
+    const dots = progBar(les, "les");
     const lk = !lesOpen(les);
     return `<button class="card ${lk ? "locked" : ""}" data-act="open" data-id="${les.id}" ${lk ? 'aria-disabled="true" title="Học xong bài trước để mở bài này"' : ""}>
       <span class="num ${lesDone(les) ? "ok" : ""}">${lk ? "🔒" : lesDone(les) ? "✓" : i+1}</span>
       <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.scene)}</p></span>
-      <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
+      ${dots}</button>`;
   };
   const blocks = WORK_INDS[L].map(ind => { const ls = LESSONS[L].filter(x => x.ind === ind.id);
     return `<h3 class="grp-h">${esc(ind.name)}</h3><div class="list grid2">${ls.map(card).join("")}</div>`; }).join("");
@@ -6022,12 +6053,12 @@ function renderPronHome(){
   const cards = PRON_GROUPS[L].map(g => {
     const items = PRON[L].filter(les => les.group === g.id).map(les => {
       n++;
-      const dots = [0,2,3].map(s => `<span class="dot ${pStepDone(les,s)?"on":""}"></span>`).join("");
+      const dots = progBar(les, "pron");
       const lk = !pronOpen(les);
       return `<button class="card ${lk ? "locked" : ""}" data-act="popen" data-id="${les.id}" ${lk ? 'aria-disabled="true" title="Học xong bài trước để mở bài này"' : ""}>
         <span class="num ${pronDone(les) ? "ok" : ""}">${lk ? "🔒" : pronDone(les) ? "✓" : n}</span>
         <span><h3 class="ipa">${esc(les.title)}${les.hz ? `<span class="hz zh">${esc(les.hz.t)}</span>` : ""}</h3><p class="sub">${esc(les.sub)}</p></span>
-        <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
+        ${dots}</button>`;
     }).join("");
     return `<h3 class="grp-h">${esc(g.title)}</h3><div class="list grid2">${items}</div>`;
   }).join("");
@@ -6046,7 +6077,7 @@ function renderPronHome(){
 function renderPron(){
   const {lesson, lang} = curPron();
   const st = ui.step;
-  const stepBtns = PSTEP_NAMES.map((n,i) => `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${pStepDone(lesson,i)?"done":""}" >
+  const stepBtns = PSTEP_NAMES.map((n,i) => `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${stepConf(lesson,"pron",i)?"done":""}" >
       <span class="n">${i+1}</span>${n}</button>`).join("");
   const toggles = `<div class="toolbar prail"><span class="prail-h">Tùy chọn</span>
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>
@@ -6059,6 +6090,7 @@ function renderPron(){
   if(st===1) body = renderPronTips(lesson, lang);
   if(st===2) body = renderPronQuiz(lesson, lang);
   if(st===3) body = renderPronSpeak(lesson, lang);
+  body = confStepBtns(body, lesson, "pron", st);
   return `<div class="page">
     <button class="back pback" data-act="home">← Tất cả bài phát âm</button>
     <div class="lesson-head"><p class="grp-tag">${esc(lesson.groupTitle)}</p><h2 class="ipa-big">${esc(lesson.title)}${lesson.hz ? `<span class="hz zh">${esc(lesson.hz.t)}</span><span class="hz-py">${esc(lesson.hz.p)} · ${esc(lesson.hz.v)}</span>` : ""}</h2><p>${esc(lesson.sub)}</p></div>
@@ -6501,7 +6533,7 @@ function renderLesson(){
   const st = ui.step;
   const stepBtns = STEP_NAMES.map((n,i) => {
     const locked = i===3 && !prog(lesson.id).role;
-    const done = (i<3 && stepDone(lesson,i)) || (i===4 && prog(lesson.id).vocab);
+    const done = stepConf(lesson, "les", i);
     return `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${done?"done":""}" ${locked?"disabled":""}>
       <span class="n">${i+1}</span>${n}</button>`;
   }).join("");
@@ -6517,6 +6549,7 @@ function renderLesson(){
   if(st===2) body = renderRole(lesson, lang);
   if(st===3) body = renderNotes(lesson, lang);
   if(st===4) body = renderVocab(lesson, lang);
+  body = confStepBtns(body, lesson, "les", st);
   return `<div class="page">
     <button class="back pback" data-act="home">← Tất cả bài học</button>
     <div class="lesson-head"><h2>${esc(lesson.title)}</h2><p>${esc(lesson.scene)} Bạn là người bên phải.</p></div>
@@ -7216,9 +7249,14 @@ document.addEventListener("click", (ev) => {
   if(act === "section"){ if(ui.section !== el.dataset.v) ui.prevSection = ui.section; ui.menuOpen = false; TTS.stop(); Rec.stop(); ui.section = el.dataset.v; ui.view = "home"; ui.rp = null; ui.pq = null; ui.playAll = false; ui.playingKey = null; render(); window.scrollTo(0,0); return; }
   if(act === "theme"){ store.prefs.theme = store.prefs.theme === "dark" ? "light" : "dark"; saveStore(); applyTheme(); render(); return; }
   if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); return; }
+  if(act === "stepconf"){
+    const id = el.dataset.id, kind = el.dataset.kind, sIdx = +el.dataset.s, p = kind === "pron" ? pprog(id) : prog(id);
+    p.conf = p.conf || {}; p.conf[sIdx] = ymd(new Date()); saveStore(); toast("✓ Đã ghi nhận xong bước này");
+    TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll = false; ui.playingKey = null; ui.pq = null; if(ui.step !== 2) ui.rp = null; render(); window.scrollTo(0, 0); return;
+  }
   if(act === "lesfinish"){
     const id = el.dataset.id, kind = el.dataset.kind, nx = el.dataset.next;
-    if(kind === "pron"){ const p = pprog(id); p.done = ymd(new Date()); } else { const p = prog(id); p.done = ymd(new Date()); }
+    { const p = kind === "pron" ? pprog(id) : prog(id), n = kind === "pron" ? PRON_STEPS : LES_STEPS; p.done = ymd(new Date()); p.conf = p.conf || {}; for(let i = 0; i < n; i++) if(!p.conf[i]) p.conf[i] = p.done; }
     { const les = kind === "pron" ? findPron(id) : findLes(id); if(les){ (store.histDone = store.histDone || {})[id] = 1;
       Hist.add({kind:kind === "pron" ? "pron" : les.work ? "work" : "les", key:"d:" + id, id, lang:id.startsWith("zh") || id.startsWith("pzh") ? "zh" : "en", title:les.title, sub:"✓ Hoàn thành bài"}); } }
     saveStore(); toast("✓ Đã ghi nhận hoàn thành bài");
