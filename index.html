@@ -264,6 +264,21 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .nb-entry{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),var(--surface));transition:transform .15s,box-shadow .15s}
 .nb-entry:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08)}.nb-entry .vt-cb{flex:1;display:flex;flex-direction:column;gap:2px}.nb-entry b{font-size:17px}.nb-entry small{color:var(--muted)}
 .nb-entry-go{font-weight:700;color:var(--accent);white-space:nowrap}
+.nb-study{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+.nb-study h3{margin:0 0 2px;font-size:17px}.nb-study-b{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.nb-qn{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}.nb-qn select,.nb-selbar select{font:inherit;font-size:14px;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.nb-topics{display:flex;flex-direction:column;gap:8px}.nb-tchips{display:flex;gap:8px;flex-wrap:wrap}.nb-newt{border-style:dashed}
+.nb-tedit{display:flex;gap:8px;flex-wrap:wrap}.nb-tedit input{flex:1;min-width:200px;font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.nb-ttools{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--muted)}.linkbtn.danger{color:#c2410c}
+.nb-head-r{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.nb-selbar{position:sticky;top:8px;z-index:5;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--accent) 14%,var(--surface));border:1px solid var(--accent);box-shadow:0 6px 16px rgba(0,0,0,.08)}
+.nb-chk{display:flex;align-items:center;padding-top:6px}.nb-chk input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.nb-row.sel{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 30%,transparent)}
+.nb-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.nb-tag{font-size:12px;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);font-weight:600}
+.nb-stat{font-size:12px;color:var(--muted)}
+.nb-card{min-height:300px}
+.nb-wrong{text-align:left;display:flex;flex-direction:column;gap:4px;margin:8px 0;padding:10px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.vt-opt.zh{font-family:var(--font-zh);font-size:18px}
 .nb-add{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
 .nb-inp{display:flex;gap:8px}.nb-inp input{flex:1;min-width:0;font:inherit;font-size:17px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 .nb-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}.nb-head h3{margin:0;font-size:18px}
@@ -4562,6 +4577,34 @@ I18N_RX.push(
   [/^Sổ còn (\d+) từ (tiếng Anh|tiếng Trung)\. Đổi ngôn ngữ đang học ở trang chủ để xem\.$/, (m, n, l) => [`The notebook also has ${n} ${l === "tiếng Anh" ? "English" : "Chinese"} words. Switch the language you're learning on the home page to see them.`, `生词本里还有 ${n} 个${l === "tiếng Anh" ? "英语" : "中文"}词。在首页切换正在学习的语言即可查看。`]]
 );
 I18N_RX.unshift(I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop(), I18N_RX.pop());
+Object.assign(I18N_DICT, {
+  "＋ Tạo chủ đề": ["＋ New topic", "＋ 新建主题"], "Tạo": ["Create", "创建"], "Đổi tên": ["Rename", "重命名"], "✏️ Đổi tên": ["✏️ Rename", "✏️ 重命名"], "🗑 Xoá chủ đề": ["🗑 Delete topic", "🗑 删除主题"],
+  "Bấm lần nữa để xoá chủ đề (các từ vẫn còn trong sổ)": ["Click again to delete the topic (words stay in the notebook)", "再点一次删除主题（词仍保留在生词本中）"],
+  "Tên chủ đề, ví dụ: Từ trong phim, IELTS Writing…": ["Topic name, e.g. Words from films, IELTS Writing…", "主题名称，例如：电影里的词、IELTS 写作…"], "Tên chủ đề": ["Topic name", "主题名称"],
+  "Chọn từ này": ["Select this word", "选择这个词"], "📁 Thêm vào chủ đề…": ["📁 Add to topic…", "📁 加入主题…"], "Thêm vào chủ đề": ["Add to topic", "加入主题"],
+  "＋ Tạo chủ đề để xếp các từ này": ["＋ Create a topic for these words", "＋ 新建主题来整理这些词"], "🃏 Ôn bằng thẻ": ["🃏 Flashcards", "🃏 记忆卡复习"], "Bỏ chọn": ["Clear selection", "取消选择"],
+  "Ôn và kiểm tra": ["Review and quiz", "复习与测验"], "Số câu": ["Questions", "题数"], "Tất cả": ["All", "全部"], "🎲 Kiểm tra ngẫu nhiên": ["🎲 Random quiz", "🎲 随机测验"], "Chọn tất cả": ["Select all", "全选"],
+  "Chủ đề này chưa có từ nào. Tích chọn các từ ở mục Tất cả rồi chọn “Thêm vào chủ đề”.": ["This topic has no words yet. Tick words under All, then choose “Add to topic”.", "这个主题还没有词。在“全部”中勾选词语，然后选择“加入主题”。"],
+  "← Về sổ từ vựng": ["← Back to notebook", "← 返回生词本"], "Về sổ từ vựng": ["Back to notebook", "返回生词本"], "Ôn lượt nữa": ["Another round", "再复习一轮"],
+  "😊 Đã nhớ": ["😊 Got it", "😊 记住了"], "Từ nào có nghĩa này?": ["Which word has this meaning?", "哪个词是这个意思？"], "Làm lại cả bài": ["Redo the whole quiz", "整套重做"],
+  "Các từ làm sai": ["Words you missed", "答错的词"], "Rất tốt!": ["Great job!", "非常好！"], "Ôn lại các từ sai rồi làm thêm một lượt nhé.": ["Review the missed words and try another round.", "复习答错的词，再做一轮吧。"]
+});
+I18N_RX.unshift(
+  [/^Chủ đề (.+)$/, (m, x) => ["Topic " + x, "主题 " + x]],
+  [/^Đã chọn (\d+) từ$/, "$1 words selected", "已选 $1 个词"],
+  [/^Tất cả · (\d+)$/, "All · $1", "全部 · $1"],
+  [/^✅ Kiểm tra (\d+) từ này$/, "✅ Quiz these $1 words", "✅ 测验这 $1 个词"],
+  [/^Bỏ khỏi “(.+)”$/, "Remove from “$1”", "移出“$1”"],
+  [/^Từ đã lưu · (\d+)\/(\d+)$/, "Saved words · $1/$2", "已保存 · $1/$2"],
+  [/^Từ mới sẽ được lưu vào chủ đề 📁 (.+)\.$/, "New words will be saved to the topic 📁 $1.", "新词将保存到主题 📁 $1。"],
+  [/^Chỉ dùng từ trong sổ(.*) \((\d+) từ\)\. Muốn tự chọn từ thì tích vào ô vuông ở từng từ\.$/, (m, f, n) => [`Uses only words in your notebook${f.replace(", chủ đề", ", topic").replace(", các từ đã thuộc", ", known words").replace(", các từ đang học", ", words being learned")} (${n} words). To pick words yourself, tick the box next to each word.`, `只使用生词本中的词${f.replace(", chủ đề", "，主题").replace(", các từ đã thuộc", "，已掌握的词").replace(", các từ đang học", "，学习中的词")}（${n} 个）。想自己选词，请勾选每个词旁的方框。`]],
+  [/^Kiểm tra: (\d+) đúng · (\d+) sai$/, "Quiz: $1 right · $2 wrong", "测验：对 $1 · 错 $2"],
+  [/^Bạn đã ôn (\d+) từ, nhớ (\d+) từ\.$/, "You reviewed $1 words and remembered $2.", "你复习了 $1 个词，记住了 $2 个。"],
+  [/^Kết quả: (\d+)\/(\d+) câu đúng \((\d+)%\)$/, "Result: $1/$2 correct ($3%)", "结果：答对 $1/$2 题（$3%）"],
+  [/^\+(\d+) XP\. (.+)$/, (m, n, r) => [`+${n} XP. ${I18N.t(r)}`, `+${n} XP。${I18N.t(r)}`]],
+  [/^Kiểm tra lại (\d+) từ sai$/, "Retry $1 missed words", "重测 $1 个答错的词"],
+  [/^(\d+) câu$/, "$1 questions", "$1 题"]
+);
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -4797,22 +4840,56 @@ document.addEventListener("mouseup", e => {
     WordPop.open(txt, s.getRangeAt(0).getBoundingClientRect());
   }, 10);
 });
-/* Trang Sổ từ vựng */
+/* Trang Sổ từ vựng: thêm từ, chủ đề tự đặt tên, chọn từ, ôn bằng thẻ và kiểm tra (chỉ dùng từ trong sổ) */
+const NBT = {
+  list(){ return store.nbTopics = store.nbTopics || []; },
+  get(id){ return this.list().find(x => x.id === id); },
+  add(name, lang){ const t = {id:"t" + Date.now().toString(36), name:name.slice(0, 40), lang}; this.list().push(t); saveStore(); return t; },
+  rename(id, name){ const t = this.get(id); if(t){ t.name = name.slice(0, 40); saveStore(); } },
+  remove(id){ store.nbTopics = this.list().filter(x => x.id !== id); for(const w of NB.list()) if(w.topics) w.topics = w.topics.filter(x => x !== id); saveStore(); },
+  count(id){ return NB.list().filter(w => (w.topics || []).includes(id)).length; }
+};
+function nbState(){ return ui.nb = ui.nb || {q:"", info:null, busy:false, filter:"all", topic:"all", sel:{}, edit:null, delAsk:null, study:null, qn:10}; }
+function nbWords(){
+  const nb = nbState(), L = store.prefs.lang;
+  return NB.list().filter(x => x.lang === L && (nb.topic === "all" || (x.topics || []).includes(nb.topic)) && (nb.filter === "all" || (nb.filter === "known" ? x.known : !x.known)));
+}
+function nbPron(x){ return x.lang === "zh" ? esc(x.p || "") : x.ipa ? "/" + esc(x.ipa) + "/" : ""; }
 function renderNotebook(){
-  const L = store.prefs.lang, nb = ui.nb = ui.nb || {q:"", info:null, busy:false, filter:"all"};
-  const all = NB.list().filter(x => x.lang === L);
-  const rows = all.filter(x => nb.filter === "all" || (nb.filter === "known" ? x.known : !x.known));
-  const other = NB.list().length - all.length;
-  const list = rows.map(x => `<div class="nb-row ${x.known ? "known" : ""}">
+  const L = store.prefs.lang, nb = nbState();
+  if(nb.study) return renderNbStudy();
+  const all = NB.list().filter(x => x.lang === L), rows = nbWords(), other = NB.list().length - all.length;
+  const topics = NBT.list().filter(t => t.lang === L);
+  if(nb.topic !== "all" && !topics.some(t => t.id === nb.topic)) nb.topic = "all";
+  const selIds = Object.keys(nb.sel).filter(id => nb.sel[id] && all.some(x => x.id === id)), nSel = selIds.length;
+  const curT = NBT.get(nb.topic);
+  const topicChips = `<button class="chip" data-act="nbtopic" data-v="all" aria-pressed="${nb.topic === "all"}">Tất cả · ${all.length}</button>`
+    + topics.map(t => `<button class="chip" data-act="nbtopic" data-v="${t.id}" aria-pressed="${nb.topic === t.id}">📁 ${esc(t.name)} · ${NBT.count(t.id)}</button>`).join("")
+    + (nb.edit === "new" ? "" : `<button class="chip nb-newt" data-act="nbtnew">＋ Tạo chủ đề</button>`);
+  const editRow = nb.edit ? `<div class="nb-tedit"><input data-nb-tname data-keep="nbtname" value="${esc(nb.edit === "new" ? "" : (NBT.get(nb.edit) || {}).name || "")}" maxlength="40" placeholder="Tên chủ đề, ví dụ: Từ trong phim, IELTS Writing…" aria-label="Tên chủ đề">
+      <button class="btn" data-act="nbtsave">${nb.edit === "new" ? "Tạo" : "Đổi tên"}</button><button class="btn ghost" data-act="nbtcancel">Huỷ</button></div>` : "";
+  const topicTools = curT && !nb.edit ? `<div class="nb-ttools"><span>Chủ đề <b>${esc(curT.name)}</b></span>
+      <button class="linkbtn" data-act="nbtrename">✏️ Đổi tên</button>
+      <button class="linkbtn danger" data-act="nbtdel">${nb.delAsk === curT.id ? "Bấm lần nữa để xoá chủ đề (các từ vẫn còn trong sổ)" : "🗑 Xoá chủ đề"}</button></div>` : "";
+  const list = rows.map(x => `<div class="nb-row ${x.known ? "known" : ""} ${nb.sel[x.id] ? "sel" : ""}">
+      <label class="nb-chk" title="Chọn từ này"><input type="checkbox" data-nb-sel="${x.id}" ${nb.sel[x.id] ? "checked" : ""} aria-label="Chọn ${esc(x.t)}"></label>
       <button class="dc-say" data-act="nbsay" data-v="${x.id}" title="Nghe" aria-label="Nghe">${ICON_PLAY}</button>
-      <div class="nb-main"><div><b class="nb-w ${x.lang}">${esc(x.t)}</b> <span class="dc-ph">${x.lang === "zh" ? esc(x.p) : x.ipa ? "/" + esc(x.ipa) + "/" : ""}</span>${x.lv !== undefined ? lvTag(x, x.lang) : ""}</div>
+      <div class="nb-main"><div><b class="nb-w ${x.lang}">${esc(x.t)}</b> <span class="dc-ph">${nbPron(x)}</span>${x.lv !== undefined ? lvTag(x, x.lang) : ""}</div>
         <div class="nb-v">${esc(x.v || "")}</div>
         ${(x.alts || []).length ? `<div class="nb-more">${x.alts.map(a => `<i>${esc(a.pos)}</i> ${esc(a.terms.slice(0, 4).join(", "))}`).join(" · ")}</div>` : ""}
-        ${(x.defs || []).length ? `<div class="nb-more">${esc(x.defs[0].pos)}: ${esc(x.defs[0].d)}${x.defs[0].ex ? ` <em>“${esc(x.defs[0].ex)}”</em>` : ""}</div>` : ""}</div>
+        ${(x.defs || []).length ? `<div class="nb-more">${esc(x.defs[0].pos)}: ${esc(x.defs[0].d)}${x.defs[0].ex ? ` <em>“${esc(x.defs[0].ex)}”</em>` : ""}</div>` : ""}
+        <div class="nb-tags">${(x.topics || []).map(id => NBT.get(id)).filter(Boolean).map(t => `<span class="nb-tag">📁 ${esc(t.name)}</span>`).join("")}${x.ok || x.bad ? `<span class="nb-stat">Kiểm tra: ${x.ok || 0} đúng · ${x.bad || 0} sai</span>` : ""}</div></div>
       <div class="nb-act"><small>${x.at.split("-").reverse().join("/")}</small>
         <button class="chip" data-act="nbknow" data-v="${x.id}" aria-pressed="${!!x.known}">${x.known ? "✓ Đã thuộc" : "Đánh dấu thuộc"}</button>
         <button class="nb-del" data-act="nbdel" data-v="${x.id}" title="Xoá khỏi sổ" aria-label="Xoá khỏi sổ">🗑</button></div></div>`).join("");
-  const preview = nb.busy ? `<div class="wp-load">Đang tra…</div>` : nb.info ? dictCard(nb.info, {nb:true}).replace('data-wp="save"', 'data-act="nbadd"').replace(/data-wp="say"/g, 'data-act="nbsayq"') : "";
+  const selBar = nSel ? `<div class="nb-selbar"><b>Đã chọn ${nSel} từ</b>
+      ${topics.length ? `<select data-nb-move aria-label="Thêm vào chủ đề"><option value="">📁 Thêm vào chủ đề…</option>${topics.map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join("")}</select>` : `<button class="linkbtn" data-act="nbtnew">＋ Tạo chủ đề để xếp các từ này</button>`}
+      ${curT ? `<button class="btn ghost" data-act="nbunt">Bỏ khỏi “${esc(curT.name)}”</button>` : ""}
+      <button class="btn" data-act="nbstudy" data-v="quiz" data-src="sel">✅ Kiểm tra ${nSel} từ này</button>
+      <button class="btn ghost" data-act="nbstudy" data-v="cards" data-src="sel">🃏 Ôn bằng thẻ</button>
+      <button class="linkbtn" data-act="nbselnone">Bỏ chọn</button></div>` : "";
+  const preview = nb.busy ? `<div class="wp-load">Đang tra…</div>` : nb.info ? dictCard(nb.info).replace('data-wp="save"', 'data-act="nbadd"').replace(/data-wp="say"/g, 'data-act="nbsayq"') : "";
+  const canStudy = rows.length > 0;
   return `<div class="page wide">
     <button class="back pback" data-act="vthome">← Từ vựng theo chủ đề</button>
     <section class="intro" style="text-align:left;padding-top:0"><h2 class="intro-h">📒 Sổ từ vựng ${L === "zh" ? "tiếng Trung" : "tiếng Anh"}</h2>
@@ -4820,37 +4897,156 @@ function renderNotebook(){
     <div class="nb-add">
       <div class="nb-inp"><input data-nb-q data-keep="nbq" value="${esc(nb.q)}" placeholder="${L === "zh" ? "Gõ chữ Hán, ví dụ: 学习" : "Gõ từ tiếng Anh, ví dụ: improve"}" autocomplete="off" spellcheck="false" aria-label="Từ muốn thêm">
         <button class="btn" data-act="nblook">Tra từ</button></div>
+      ${curT && (nb.info || nb.busy) ? `<div class="vt-note" style="margin:0">Từ mới sẽ được lưu vào chủ đề 📁 ${esc(curT.name)}.</div>` : ""}
       ${preview}
     </div>
-    <div class="nb-head"><h3>Từ đã lưu · ${all.length}</h3>
-      <div class="seg">${[["all","Tất cả"],["new","Đang học"],["known","Đã thuộc"]].map(([k, n]) => `<button data-act="nbfilter" data-v="${k}" aria-pressed="${nb.filter === k}">${n}</button>`).join("")}</div></div>
-    ${rows.length ? `<div class="nb-list">${list}</div>` : `<p class="vt-note">${all.length ? "Không có từ nào ở mục này." : "Sổ đang trống. Gõ một từ ở ô phía trên để bắt đầu."}</p>`}
+    <div class="nb-study">
+      <div><h3>Ôn và kiểm tra</h3><span class="vt-note" style="margin:0">Chỉ dùng từ trong sổ${curT ? `, chủ đề 📁 ${esc(curT.name)}` : ""}${nb.filter !== "all" ? (nb.filter === "known" ? ", các từ đã thuộc" : ", các từ đang học") : ""} (${rows.length} từ). Muốn tự chọn từ thì tích vào ô vuông ở từng từ.</span></div>
+      <div class="nb-study-b">
+        <label class="nb-qn">Số câu <select data-nb-qn aria-label="Số câu">${[5,10,20,0].map(n => `<option value="${n}" ${nb.qn === n ? "selected" : ""}>${n ? n + " câu" : "Tất cả"}</option>`).join("")}</select></label>
+        <button class="btn" data-act="nbstudy" data-v="quiz" data-src="rand" ${canStudy ? "" : "disabled"}>🎲 Kiểm tra ngẫu nhiên</button>
+        <button class="btn ghost" data-act="nbstudy" data-v="cards" data-src="rand" ${canStudy ? "" : "disabled"}>🃏 Ôn bằng thẻ</button></div>
+    </div>
+    <div class="nb-topics"><div class="nb-tchips">${topicChips}</div>${editRow}${topicTools}</div>
+    <div class="nb-head"><h3>Từ đã lưu · ${rows.length}${rows.length !== all.length ? `/${all.length}` : ""}</h3>
+      <div class="nb-head-r">${rows.length ? `<button class="linkbtn" data-act="nbselall">Chọn tất cả</button>` : ""}
+      <div class="seg">${[["all","Tất cả"],["new","Đang học"],["known","Đã thuộc"]].map(([k, n]) => `<button data-act="nbfilter" data-v="${k}" aria-pressed="${nb.filter === k}">${n}</button>`).join("")}</div></div></div>
+    ${selBar}
+    ${rows.length ? `<div class="nb-list">${list}</div>` : `<p class="vt-note">${all.length ? (curT ? "Chủ đề này chưa có từ nào. Tích chọn các từ ở mục Tất cả rồi chọn “Thêm vào chủ đề”." : "Không có từ nào ở mục này.") : "Sổ đang trống. Gõ một từ ở ô phía trên để bắt đầu."}</p>`}
     ${other ? `<p class="vt-note">Sổ còn ${other} từ ${L === "zh" ? "tiếng Anh" : "tiếng Trung"}. Đổi ngôn ngữ đang học ở trang chủ để xem.</p>` : ""}
   </div>`;
 }
+/* Bắt đầu ôn: src "sel" = các từ đã chọn, "rand" = ngẫu nhiên trong danh sách đang xem */
+function nbStart(mode, src){
+  const nb = nbState(), L = store.prefs.lang;
+  let pool = src === "sel" ? NB.list().filter(x => x.lang === L && nb.sel[x.id]) : nbWords();
+  pool = shuffle(pool.slice());
+  if(src === "rand" && nb.qn) pool = pool.slice(0, nb.qn);
+  if(!pool.length) return;
+  if(mode === "cards"){ nb.study = {mode, ids:pool.map(x => x.id), i:0, flip:false, got:0}; return; }
+  /* câu hỏi: nửa hỏi nghĩa của từ, nửa hỏi từ theo nghĩa; phương án sai lấy từ các từ khác trong sổ, thiếu thì lấy thêm từ có sẵn trong web */
+  const extra = [];
+  for(const w of NB.list().filter(x => x.lang === L)) extra.push({t:w.t, v:w.v});
+  try{ for(const T of VT_TOPICS) for(const it of T[L].b) extra.push({t:it.t, v:it.v}); }catch(e){}
+  const qs = pool.map((w, k) => {
+    const rev = k % 2 === 1 && !!w.v, key = rev ? "t" : "v";
+    const ans = w[key] || "(chưa có nghĩa)";
+    const wrong = shuffle(extra.filter(e => e[key] && e[key] !== ans && e.t !== w.t)).reduce((a, e) => { if(a.length < 3 && !a.includes(e[key])) a.push(e[key]); return a; }, []);
+    const opts = shuffle([ans, ...wrong]);
+    return {id:w.id, rev, opts, ans:opts.indexOf(ans)};
+  });
+  nb.study = {mode, ids:pool.map(x => x.id), qs, i:0, picked:null, correct:0, wrong:[]};
+}
+function renderNbStudy(){
+  const nb = nbState(), s = nb.study, L = store.prefs.lang;
+  const words = s.ids.map(id => NB.list().find(x => x.id === id)).filter(Boolean);
+  const head = `<div class="page wide"><button class="back pback" data-act="nbstop">← Về sổ từ vựng</button>`;
+  if(s.mode === "cards"){
+    if(s.i >= words.length) return head + `<div class="summary"><b>Xong một lượt thẻ!</b><span>Bạn đã ôn ${words.length} từ, nhớ ${s.got} từ.</span>
+      <div class="row"><button class="btn" data-act="nbstudy" data-v="cards" data-src="again">Ôn lượt nữa</button><button class="btn ghost" data-act="nbstudy" data-v="quiz" data-src="again">Làm bài kiểm tra</button><button class="btn ghost" data-act="nbstop">Về sổ từ vựng</button></div></div></div>`;
+    const w = words[s.i];
+    return head + `<div class="vt-flash ${s.flip ? "flip" : ""}" style="width:100%;max-width:720px;margin:0 auto">
+      <div class="vt-fprog">Thẻ ${s.i + 1}/${words.length}</div>
+      <button class="vt-front nb-card" data-act="nbflip"><span class="vt-word ${w.lang}">${esc(w.t)}</span><span class="vt-ph">${nbPron(w)}</span>
+        ${s.flip ? `<span class="vt-mean">${esc(w.v || "")}</span>${(w.defs || [])[0] ? `<span class="vt-hint">${esc(w.defs[0].d)}</span>` : ""}` : `<span class="vt-hint">Bấm để lật thẻ xem nghĩa</span>`}</button>
+      <div class="row"><button class="btn ghost" data-act="nbsay" data-v="${w.id}">${ICON_PLAY} Nghe</button>
+        ${s.flip ? `<button class="btn ghost" data-act="nbcard" data-v="0">😕 Chưa nhớ</button><button class="btn" data-act="nbcard" data-v="1">😊 Đã nhớ</button>` : `<button class="btn" data-act="nbflip">Lật thẻ</button>`}</div></div></div>`;
+  }
+  if(s.i >= s.qs.length){
+    const pct = Math.round(s.correct / s.qs.length * 100);
+    const wrongs = s.wrong.map(id => NB.list().find(x => x.id === id)).filter(Boolean);
+    return head + `<div class="summary"><b>Kết quả: ${s.correct}/${s.qs.length} câu đúng (${pct}%)</b><span>+${s.correct * 10} XP. ${pct >= 80 ? "Rất tốt!" : "Ôn lại các từ sai rồi làm thêm một lượt nhé."}</span>
+      ${wrongs.length ? `<div class="nb-wrong"><div class="dc-h">Các từ làm sai</div>${wrongs.map(x => `<div><b class="${x.lang}">${esc(x.t)}</b> <span class="dc-ph">${nbPron(x)}</span> · ${esc(x.v || "")}</div>`).join("")}</div>` : ""}
+      <div class="row">${wrongs.length ? `<button class="btn" data-act="nbstudy" data-v="quiz" data-src="wrong">Kiểm tra lại ${wrongs.length} từ sai</button>` : ""}
+        <button class="btn ${wrongs.length ? "ghost" : ""}" data-act="nbstudy" data-v="quiz" data-src="again">Làm lại cả bài</button><button class="btn ghost" data-act="nbstop">Về sổ từ vựng</button></div></div></div>`;
+  }
+  const q = s.qs[s.i], w = NB.list().find(x => x.id === q.id);
+  if(!w){ s.i++; return renderNbStudy(); }
+  return head + `<div class="vt-quiz" style="width:100%;max-width:720px;margin:0 auto"><div class="vt-fprog">Câu ${s.i + 1}/${s.qs.length} · đúng ${s.correct}</div>
+    <div class="vt-qword">${q.rev ? `<span class="vt-mean" style="font-size:24px">${esc(w.v)}</span>` : `<span class="vt-word ${w.lang}">${esc(w.t)}</span><button class="dc-say" data-act="nbsay" data-v="${w.id}" aria-label="Nghe">${ICON_PLAY}</button>`}</div>
+    <p class="vt-qask">${q.rev ? "Từ nào có nghĩa này?" : "Nghĩa của từ này là gì?"}</p>
+    <div class="vt-opts">${q.opts.map((o, k) => { const cls = s.picked == null ? "" : k === q.ans ? "good" : k === s.picked ? "bad" : "";
+      return `<button class="vt-opt ${cls} ${q.rev ? w.lang : ""}" data-act="nbpick" data-v="${k}" ${s.picked != null ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div>
+    ${s.picked != null ? `<div class="next"><span class="dc-ph">${esc(w.t)} ${nbPron(w)} · ${esc(w.v || "")}</span><button class="btn" data-act="nbnext">${s.i + 1 < s.qs.length ? "Câu tiếp →" : "Xem kết quả"}</button></div>` : ""}</div></div>`;
+}
 async function nbLookup(){
-  const nb = ui.nb, inp = document.querySelector("[data-nb-q]"); if(inp) nb.q = inp.value;
+  const nb = nbState(), inp = document.querySelector("[data-nb-q]"); if(inp) nb.q = inp.value;
   const q = (nb.q || "").trim(); if(!q){ nb.info = null; render(); return; }
   let lang = Dict.detect(q); if(lang === "vi") lang = store.prefs.lang;
   nb.busy = true; render();
   const info = await Dict.lookup(q, lang); nb.busy = false;
-  if((ui.nb.q || "").trim() === q){ nb.info = info; render(); }
+  if((nbState().q || "").trim() === q){ nb.info = info; render(); }
 }
 function nbAct(act, el){
-  const nb = ui.nb = ui.nb || {q:"", info:null, busy:false, filter:"all"};
+  const nb = nbState(), byId = id => NB.list().find(y => y.id === id);
   if(act === "nblook"){ nbLookup(); return true; }
-  if(act === "nbadd"){ if(nb.info && NB.add(nb.info)){ nb.q = ""; nb.info = null; const i = document.querySelector("[data-nb-q]"); if(i) i.value = ""; } render(); return true; }
+  if(act === "nbadd"){ const w = nb.info && NB.add(nb.info); if(w){ if(nb.topic !== "all"){ w.topics = Array.from(new Set([...(w.topics || []), nb.topic])); saveStore(); } nb.q = ""; nb.info = null; const i = document.querySelector("[data-nb-q]"); if(i) i.value = ""; } render(); return true; }
   if(act === "nbsayq"){ TTS.speak(el.dataset.t, el.dataset.l); return true; }
-  if(act === "nbsay"){ const x = NB.list().find(y => y.id === el.dataset.v); if(x){ if(x.audio && x.lang === "en"){ try{ new Audio(x.audio).play(); return true; }catch(e){} } TTS.speak(x.t, x.lang); } return true; }
-  if(act === "nbknow"){ const x = NB.list().find(y => y.id === el.dataset.v); if(x){ x.known = !x.known; saveStore(); render(); } return true; }
-  if(act === "nbdel"){ NB.remove(el.dataset.v); render(); return true; }
+  if(act === "nbsay"){ const x = byId(el.dataset.v); if(x){ if(x.audio && x.lang === "en"){ try{ new Audio(x.audio).play(); return true; }catch(e){} } TTS.speak(x.t, x.lang); } return true; }
+  if(act === "nbknow"){ const x = byId(el.dataset.v); if(x){ x.known = !x.known; saveStore(); render(); } return true; }
+  if(act === "nbdel"){ NB.remove(el.dataset.v); delete nb.sel[el.dataset.v]; render(); return true; }
   if(act === "nbfilter"){ nb.filter = el.dataset.v; render(); return true; }
+  /* chủ đề */
+  if(act === "nbtopic"){ nb.topic = el.dataset.v; nb.edit = null; nb.delAsk = null; render(); return true; }
+  if(act === "nbtnew"){ nb.edit = "new"; render(); setTimeout(() => { const i = document.querySelector("[data-nb-tname]"); if(i) i.focus(); }, 0); return true; }
+  if(act === "nbtrename"){ nb.edit = nb.topic; render(); setTimeout(() => { const i = document.querySelector("[data-nb-tname]"); if(i){ i.focus(); i.select(); } }, 0); return true; }
+  if(act === "nbtcancel"){ nb.edit = null; render(); return true; }
+  if(act === "nbtsave"){
+    const i = document.querySelector("[data-nb-tname]"), name = (i ? i.value : "").trim(); if(!name){ if(i) i.focus(); return true; }
+    if(nb.edit === "new"){
+      const t = NBT.add(name, store.prefs.lang);
+      const ids = Object.keys(nb.sel).filter(id => nb.sel[id]);
+      for(const id of ids){ const w = byId(id); if(w && w.lang === t.lang) w.topics = Array.from(new Set([...(w.topics || []), t.id])); }
+      if(ids.length){ nb.sel = {}; saveStore(); }
+      nb.topic = t.id;
+    } else NBT.rename(nb.edit, name);
+    if(i) i.value = ""; nb.edit = null; render(); return true;
+  }
+  if(act === "nbtdel"){ if(nb.delAsk === nb.topic){ NBT.remove(nb.topic); nb.topic = "all"; nb.delAsk = null; } else nb.delAsk = nb.topic; render(); return true; }
+  /* chọn từ */
+  if(act === "nbselall"){ for(const w of nbWords()) nb.sel[w.id] = true; render(); return true; }
+  if(act === "nbselnone"){ nb.sel = {}; render(); return true; }
+  if(act === "nbunt"){ for(const id of Object.keys(nb.sel)){ const w = nb.sel[id] && byId(id); if(w && w.topics) w.topics = w.topics.filter(x => x !== nb.topic); } nb.sel = {}; saveStore(); render(); return true; }
+  /* ôn và kiểm tra */
+  if(act === "nbstudy"){
+    const src = el.dataset.src, mode = el.dataset.v, prev = nb.study;
+    if((src === "again" || src === "wrong") && prev){
+      const ids = src === "wrong" ? prev.wrong.slice() : prev.ids.slice();
+      const keep = nb.sel; nb.sel = {}; for(const id of ids) nb.sel[id] = true; nbStart(mode, "sel"); nb.sel = keep;
+    } else nbStart(mode, src);
+    render(); window.scrollTo(0, 0); return true;
+  }
+  if(act === "nbstop"){ nb.study = null; render(); window.scrollTo(0, 0); return true; }
+  if(act === "nbflip"){ nb.study.flip = !nb.study.flip; render(); return true; }
+  if(act === "nbcard"){ const s = nb.study, w = byId(s.ids[s.i]); if(el.dataset.v === "1"){ s.got++; if(w && !w.known){ w.known = true; vtAddXP(2); } } else if(w) w.known = false; saveStore(); s.i++; s.flip = false; render(); return true; }
+  if(act === "nbpick"){
+    const s = nb.study, q = s.qs[s.i], w = byId(q.id); if(s.picked != null) return true;
+    s.picked = +el.dataset.v;
+    if(s.picked === q.ans){ s.correct++; if(w) w.ok = (w.ok || 0) + 1; vtAddXP(10); }
+    else { s.wrong.push(q.id); if(w){ w.bad = (w.bad || 0) + 1; w.known = false; } }
+    saveStore(); if(w && !q.rev) TTS.speak(w.t, w.lang); render(); return true;
+  }
+  if(act === "nbnext"){ const s = nb.study; s.i++; s.picked = null; render(); return true; }
   return false;
 }
+document.addEventListener("change", e => {
+  const t = e.target; if(!t.matches) return;
+  if(t.matches("[data-nb-sel]")){ const nb = nbState(); nb.sel[t.dataset.nbSel] = t.checked; render(); return; }
+  if(t.matches("[data-nb-qn]")){ nbState().qn = +t.value; return; }
+  if(t.matches("[data-nb-move]") && t.value){
+    const nb = nbState(), tid = t.value;
+    for(const id of Object.keys(nb.sel)){ const w = nb.sel[id] && NB.list().find(y => y.id === id); if(w) w.topics = Array.from(new Set([...(w.topics || []), tid])); }
+    nb.sel = {}; saveStore(); render();
+  }
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Enter" && e.target.matches && e.target.matches("[data-nb-tname]")){ e.preventDefault(); const b = document.querySelector('[data-act="nbtsave"]'); if(b) b.click(); }
+  if(e.key === "Escape" && ui.nb && ui.nb.edit){ ui.nb.edit = null; render(); }
+});
 document.addEventListener("keydown", e => { if(e.key === "Enter" && e.target.matches && e.target.matches("[data-nb-q]")){ e.preventDefault(); nbLookup(); } });
 document.addEventListener("input", e => {
   if(!e.target.matches || !e.target.matches("[data-nb-q]")) return;
-  ui.nb.q = e.target.value; clearTimeout(nbLookup.t); nbLookup.t = setTimeout(nbLookup, 700);
+  nbState().q = e.target.value; clearTimeout(nbLookup.t); nbLookup.t = setTimeout(nbLookup, 700);
 });
 
 /* ===================== RENDER ===================== */
