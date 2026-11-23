@@ -155,6 +155,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .steps button[aria-current="step"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
 .steps button.done .n::after{content:" ✓";color:var(--good)}
 .steps button:disabled{opacity:.5;cursor:not-allowed}
+.card.locked{opacity:.55;cursor:not-allowed;filter:grayscale(.4)}.card.locked:hover{transform:none;box-shadow:none}
+.phr.locked{color:var(--muted);font-size:14px;border-style:dashed;background:transparent}
+.need{font-size:13px;color:#b45309;margin:4px 0}
+.btn:disabled,.btn[disabled]{opacity:.5;cursor:not-allowed}
+.sfy-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:120;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 28px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:calc(100vw - 32px)}
+.sfy-toast.on{opacity:1;transform:translate(-50%,0)}
 
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted)}
@@ -4074,15 +4080,40 @@ function pStepDone(les, i){
   const p = store.pron[les.id]; if(!p) return false;
   if(i===0) return les.sounds.every((_,k) => p.listen[k]);
   if(i===1) return p.tips;
-  if(i===2) return p.quiz != null;
-  if(i===3) return les.speak.every((_,k) => p.speak[k] != null);
+  if(i===2) return p.quiz != null && p.quiz >= PASS;
+  if(i===3) return les.speak.every((_,k) => (p.speak[k] || 0) >= PASS);
   return false;
 }
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+/* ===== Học theo trình tự =====
+   Mỗi câu nói phải đạt từ PASS điểm mới mở câu sau; xong bước trước mới mở bước sau; xong bài trước mới mở bài sau.
+   Bài đã học dở từ trước khi có quy định này vẫn mở được (lesStarted/pronStarted). */
+const PASS = 50;
+function lesDone(les){ return [0,1,2].every(i => stepDone(les, i)); }
+function pronDone(les){ return [0,1,2,3].every(i => pStepDone(les, i)); }
+function lesList(les){ const l = les.id.slice(0, 2); return les.work ? LESSONS[l].filter(x => x.work && x.ind === les.ind) : lessonsOf(l); }
+function pronList(les){ for(const l of ["en","zh"]) if(PRON[l].includes(les)) return PRON[l]; return [les]; }
+function lesStarted(les){ const p = store.progress[les.id]; return !!(p && (p.listen || p.role || Object.keys(p.phrases || {}).length)); }
+function pronStarted(les){ const p = store.pron[les.id]; return !!(p && (Object.keys(p.listen || {}).length || p.tips || p.quiz != null)); }
+function lesOpen(les){ const L = lesList(les), i = L.indexOf(les); return i <= 0 || lesDone(L[i-1]) || lesStarted(les); }
+function pronOpen(les){ const L = pronList(les), i = L.indexOf(les); return i <= 0 || pronDone(L[i-1]) || pronStarted(les); }
+function stepOpen(les, i){ for(let j = 0; j < Math.min(i, 3); j++) if(!stepDone(les, j)) return false; return true; }
+function pStepOpen(les, i){ for(let j = 0; j < i; j++) if(!pStepDone(les, j)) return false; return true; }
+function findLes(id){ for(const l of ["en","zh"]){ const f = LESSONS[l].find(x => x.id === id); if(f) return f; } return null; }
+function findPron(id){ for(const l of ["en","zh"]){ const f = PRON[l].find(x => x.id === id); if(f) return f; } return null; }
+function toast(msg){
+  let t = document.getElementById("sfy-toast");
+  if(!t){ t = document.createElement("div"); t.id = "sfy-toast"; t.className = "sfy-toast"; t.setAttribute("role", "status"); document.body.appendChild(t); }
+  t.textContent = msg; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("on"), 2800);
+}
+/* Khóa các nút chuyển bước (data-act="step") khi bước đó chưa mở */
+function lockStepBtns(html, open){
+  return html.replace(/data-act="step" data-v="(\d)"/g, (m, v) => open(+v) ? m : m + ' disabled title="Hoàn thành bước hiện tại để mở bước tiếp theo"');
+}
 function stepDone(lesson, i){
   const p = prog(lesson.id);
   if(i===0) return p.listen;
-  if(i===1) return lesson.phrases.every((_,k) => p.phrases[k] != null);
+  if(i===1) return lesson.phrases.every((_,k) => (p.phrases[k] || 0) >= PASS);
   if(i===2) return p.role;
   if(i===3) return p.role;
   return false;
@@ -4688,6 +4719,16 @@ Object.assign(I18N_DICT, {"Lịch sử học": ["Study history", "学习记录"]
   "Hôm qua": ["Yesterday", "昨天"], "Giao tiếp": ["Conversation", "会话"], "Giao tiếp công việc": ["Work conversation", "职场会话"], "Kiểm tra từ vựng": ["Vocabulary quiz", "词汇测验"],
   "Kiểm tra sổ từ vựng": ["Notebook quiz", "生词本测验"], "Lưu từ vào sổ": ["Saved word", "存入生词本"], "Sổ từ vựng": ["Vocabulary notebook", "生词本"]});
 I18N_RX.unshift([/^(\d+) hoạt động$/, "$1 activities", "$1 项活动"], [/^(\d+)\/(\d+) câu đúng$/, "$1/$2 correct", "答对 $1/$2"]);
+Object.assign(I18N_DICT, {"Hoàn thành bước hiện tại để mở bước tiếp theo.": ["Finish the current step to unlock the next one.", "完成当前步骤即可解锁下一步。"],
+  "Hoàn thành bước hiện tại để mở bước tiếp theo": ["Finish the current step to unlock the next one", "完成当前步骤即可解锁下一步"], "Học xong bài trước để mở bài này": ["Finish the previous lesson to unlock this one", "学完上一课即可解锁本课"],
+  "Học xong bài trước (mỗi câu đạt từ 50 điểm) để mở bài này.": ["Finish the previous lesson (50+ points on every line) to unlock this one.", "学完上一课（每句至少 50 分）即可解锁本课。"],
+  "Học xong bài trước (mỗi từ đạt từ 50 điểm) để mở bài này.": ["Finish the previous lesson (50+ points on every word) to unlock this one.", "学完上一课（每个词至少 50 分）即可解锁本课。"],
+  "Cần đạt từ 50 điểm để qua câu này.": ["You need 50+ points to move past this line.", "这句需要至少 50 分才能继续。"], "✓ Hoàn thành bài": ["✓ Lesson completed", "✓ 已完成本课"]});
+I18N_RX.unshift([/^🔒 Câu (\d+): đạt từ (\d+) điểm ở câu phía trên để mở câu này\.$/, "🔒 Line $1: score $2+ on the line above to unlock it.", "🔒 第 $1 句：上一句达到 $2 分即可解锁。"],
+  [/^🔒 Từ (\d+): đạt từ (\d+) điểm ở từ phía trên để mở\.$/, "🔒 Word $1: score $2+ on the word above to unlock it.", "🔒 第 $1 个词：上一个词达到 $2 分即可解锁。"],
+  [/^Cần đạt từ (\d+) điểm để qua (câu|từ) tiếp theo\.$/, (m, n, u) => [`Score ${n}+ to move on to the next ${u === "câu" ? "line" : "word"}.`, `达到 ${n} 分才能进入下一${u === "câu" ? "句" : "个词"}。`]],
+  [/^Cần đạt từ (\d+) điểm để qua câu này\. Nghe câu mẫu rồi nói lại nhé\.$/, "Score $1+ to pass this line. Listen to the example and try again.", "这句需要达到 $1 分。听一听示范再说一遍吧。"],
+  [/^Cần đúng từ (\d+)% để mở bước Nói thử\. Nghe lại các từ ví dụ ở bước 1 rồi làm lại nhé\.$/, "You need $1%+ to unlock Try speaking. Listen to the step 1 examples again and redo it.", "需要答对 $1% 才能解锁“试说”。回到第 1 步再听听例词，然后重做吧。"]);
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -5494,7 +5535,29 @@ function placeBack(){
   else b.style.marginLeft = -Math.max(0, Math.min(off, 80)) + "px";
 }
 window.addEventListener("resize", () => { try{ placeBack(); }catch(e){} });
+/* Chặn mở bài/bước chưa tới lượt (kể cả qua địa chỉ #… hoặc tải lại trang) */
+function gateFix(){
+  if(ui.view !== "lesson") return;
+  if(ui.section === "pron"){ const c = curPron(); if(!c) return; if(!pronOpen(c.lesson)){ ui.view = "home"; return; } while(ui.step > 0 && !pStepOpen(c.lesson, ui.step)) ui.step--; }
+  else if(ui.section === "speak" || ui.section === "work"){ const c = curLesson(); if(!c) return; if(!lesOpen(c.lesson)){ ui.view = "home"; return; } while(ui.step > 0 && !stepOpen(c.lesson, ui.step)) ui.step--; }
+}
+/* Ghi lịch sử theo trang đang mở (dù mở bằng nút, địa chỉ hay tải lại trang) và khi học xong một bài */
+function histTrack(){
+  try{
+    let e = null;
+    if(ui.view === "lesson" && ui.section === "pron"){ const c = curPron(); if(c){ e = {kind:"pron", key:"p:" + c.lesson.id, id:c.lesson.id, lang:c.lang, title:c.lesson.title, sub:c.lesson.sub};
+      if(pronDone(c.lesson) && !(store.histDone || {})[c.lesson.id]){ (store.histDone = store.histDone || {})[c.lesson.id] = 1; Hist.add(Object.assign({}, e, {key:"d:" + c.lesson.id, sub:"✓ Hoàn thành bài"})); } } }
+    else if(ui.view === "lesson" && (ui.section === "speak" || ui.section === "work")){ const c = curLesson(); if(c){ e = {kind:c.lesson.work ? "work" : "les", key:"l:" + c.lesson.id, id:c.lesson.id, lang:c.lang, title:c.lesson.title};
+      if(lesDone(c.lesson) && !(store.histDone || {})[c.lesson.id]){ (store.histDone = store.histDone || {})[c.lesson.id] = 1; Hist.add(Object.assign({}, e, {key:"d:" + c.lesson.id, sub:"✓ Hoàn thành bài"})); } } }
+    else if(ui.section === "vocab" && ui.vt && ui.vt.topic){ const T = VT_TOPICS.find(x => x.id === ui.vt.topic), L = store.prefs.lang; if(T) e = {kind:"vt", key:"v:" + T.id + L, id:T.id, lang:L, title:T.icon + " " + T.name}; }
+    else if(ui.section === "news" && ui.news && ui.news.id){ const a = newsAll().find(x => x.id === ui.news.id); if(a) e = {kind:"news", key:"n:" + a.id, id:a.id, lang:a.lang, title:a.title, sub:a.lv}; }
+    if(e && e.key !== ui._histK) Hist.add(e);
+    ui._histK = e ? e.key : null;
+  }catch(err){}
+}
 function render(){
+  try{ gateFix(); }catch(e){}
+  try{ histTrack(); }catch(e){}
   try{ Route.save(); }catch(e){}
   try{ achCheck(); }catch(e){}
   const app = document.getElementById("app");
@@ -5725,8 +5788,9 @@ function renderHome(){
   const L = store.prefs.lang;
   const card = (les, i) => {
     const dots = [0,1,2].map(s => `<span class="dot ${stepDone(les,s)?"on":""}"></span>`).join("");
-    return `<button class="card" data-act="open" data-id="${les.id}">
-      <span class="num">${i+1}</span>
+    const lk = !lesOpen(les);
+    return `<button class="card ${lk ? "locked" : ""}" data-act="open" data-id="${les.id}" ${lk ? 'aria-disabled="true" title="Học xong bài trước để mở bài này"' : ""}>
+      <span class="num">${lk ? "🔒" : i+1}</span>
       <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.scene)}</p></span>
       <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
   };
@@ -5750,8 +5814,9 @@ function renderWorkHome(){
   const L = store.prefs.lang;
   const card = (les, i) => {
     const dots = [0,1,2].map(s => `<span class="dot ${stepDone(les,s)?"on":""}"></span>`).join("");
-    return `<button class="card" data-act="open" data-id="${les.id}">
-      <span class="num">${i+1}</span>
+    const lk = !lesOpen(les);
+    return `<button class="card ${lk ? "locked" : ""}" data-act="open" data-id="${les.id}" ${lk ? 'aria-disabled="true" title="Học xong bài trước để mở bài này"' : ""}>
+      <span class="num">${lk ? "🔒" : i+1}</span>
       <span><h3>${esc(les.title)}</h3><p class="sub">${esc(les.scene)}</p></span>
       <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
   };
@@ -5781,8 +5846,9 @@ function renderPronHome(){
     const items = PRON[L].filter(les => les.group === g.id).map(les => {
       n++;
       const dots = [0,2,3].map(s => `<span class="dot ${pStepDone(les,s)?"on":""}"></span>`).join("");
-      return `<button class="card" data-act="popen" data-id="${les.id}">
-        <span class="num">${n}</span>
+      const lk = !pronOpen(les);
+      return `<button class="card ${lk ? "locked" : ""}" data-act="popen" data-id="${les.id}" ${lk ? 'aria-disabled="true" title="Học xong bài trước để mở bài này"' : ""}>
+        <span class="num">${lk ? "🔒" : n}</span>
         <span><h3 class="ipa">${esc(les.title)}${les.hz ? `<span class="hz zh">${esc(les.hz.t)}</span>` : ""}</h3><p class="sub">${esc(les.sub)}</p></span>
         <span class="dots" aria-label="Tiến độ">${dots}</span></button>`;
     }).join("");
@@ -5803,7 +5869,7 @@ function renderPronHome(){
 function renderPron(){
   const {lesson, lang} = curPron();
   const st = ui.step;
-  const stepBtns = PSTEP_NAMES.map((n,i) => `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${pStepDone(lesson,i)?"done":""}">
+  const stepBtns = PSTEP_NAMES.map((n,i) => `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${pStepDone(lesson,i)?"done":""}" ${pStepOpen(lesson,i)?"":"disabled"}>
       <span class="n">${i+1}</span>${n}</button>`).join("");
   const toggles = `<div class="toolbar prail"><span class="prail-h">Tùy chọn</span>
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>
@@ -5816,6 +5882,7 @@ function renderPron(){
   if(st===1) body = renderPronTips(lesson, lang);
   if(st===2) body = renderPronQuiz(lesson, lang);
   if(st===3) body = renderPronSpeak(lesson, lang);
+  body = lockStepBtns(body, v => pStepOpen(lesson, v));
   return `<div class="page">
     <button class="back pback" data-act="home">← Tất cả bài phát âm</button>
     <div class="lesson-head"><p class="grp-tag">${esc(lesson.groupTitle)}</p><h2 class="ipa-big">${esc(lesson.title)}${lesson.hz ? `<span class="hz zh">${esc(lesson.hz.t)}</span><span class="hz-py">${esc(lesson.hz.p)} · ${esc(lesson.hz.v)}</span>` : ""}</h2><p>${esc(lesson.sub)}</p></div>
@@ -6199,7 +6266,7 @@ function renderPronQuiz(lesson, lang){
     return `<div class="summary">
       <span>Hoàn thành phần phân biệt</span>
       <span class="big">${q.correct}/${q.items.length} câu đúng</span>
-      <span class="status">${sc>=85?"Tai bạn đã phân biệt tốt các âm này!":"Nghe lại các từ ví dụ ở bước 1 rồi làm thêm một lượt nhé."}</span>
+      <span class="status">${sc>=85?"Tai bạn đã phân biệt tốt các âm này!":sc>=PASS?"Nghe lại các từ ví dụ ở bước 1 rồi làm thêm một lượt nhé.":`Cần đúng từ ${PASS}% để mở bước Nói thử. Nghe lại các từ ví dụ ở bước 1 rồi làm lại nhé.`}</span>
       <div class="row"><button class="btn" data-act="step" data-v="3">Tiếp: Nói thử →</button>
       <button class="btn ghost" data-act="pqstart">Làm lại</button></div></div>`;
   }
@@ -6230,6 +6297,7 @@ function renderPronSpeak(lesson, lang){
   const cards = lesson.speak.map((it, i) => {
     const key = `S${i}`;
     const best = p.speak[i];
+    if(i > 0 && (p.speak[i-1] || 0) < PASS) return `<div class="phr locked">🔒 Từ ${i+1}: đạt từ ${PASS} điểm ở từ phía trên để mở.</div>`;
     return `<div class="phr">
       <div class="row" style="justify-content:space-between">
         <div class="row"><button class="play" data-act="say" data-key="${key}" aria-label="Nghe mẫu">${ui.playingKey===key?ICON_STOP:ICON_PLAY}</button>
@@ -6237,6 +6305,7 @@ function renderPronSpeak(lesson, lang){
           ${store.prefs.showVi?`<div class="vi">${esc(it.v)}</div>`:""}</div></div>
         ${best!=null?`<span class="pill ${grade(best)}">Cao nhất ${best}</span>`:""}
       </div>
+      ${best!=null && best < PASS ? `<div class="need">Cần đạt từ ${PASS} điểm để qua từ tiếp theo.</div>` : ""}
       ${speakBlock(it, lang, key)}
     </div>`;
   }).join("");
@@ -6255,7 +6324,7 @@ function renderLesson(){
   const {lesson, lang} = curLesson();
   const st = ui.step;
   const stepBtns = STEP_NAMES.map((n,i) => {
-    const locked = i===3 && !prog(lesson.id).role;
+    const locked = !stepOpen(lesson, i);
     const done = (i<3 && stepDone(lesson,i)) || (i===4 && prog(lesson.id).vocab);
     return `<button data-act="step" data-v="${i}" ${st===i?'aria-current="step"':""} class="${done?"done":""}" ${locked?"disabled":""}>
       <span class="n">${i+1}</span>${n}</button>`;
@@ -6272,6 +6341,7 @@ function renderLesson(){
   if(st===2) body = renderRole(lesson, lang);
   if(st===3) body = renderNotes(lesson, lang);
   if(st===4) body = renderVocab(lesson, lang);
+  body = lockStepBtns(body, v => stepOpen(lesson, v));
   return `<div class="page">
     <button class="back pback" data-act="home">← Tất cả bài học</button>
     <div class="lesson-head"><h2>${esc(lesson.title)}</h2><p>${esc(lesson.scene)} Bạn là người bên phải.</p></div>
@@ -6328,6 +6398,7 @@ function renderPhrases(lesson, lang){
   const cards = lesson.phrases.map((ph, i) => {
     const key = `P${i}`;
     const best = p.phrases[i];
+    if(i > 0 && (p.phrases[i-1] || 0) < PASS) return `<div class="phr locked">🔒 Câu ${i+1}: đạt từ ${PASS} điểm ở câu phía trên để mở câu này.</div>`;
     return `<div class="phr">
       <div class="row" style="justify-content:space-between">
         <div class="row"><button class="play" data-act="say" data-key="${key}" aria-label="Nghe mẫu">${ui.playingKey===key?ICON_STOP:ICON_PLAY}</button>
@@ -6335,6 +6406,7 @@ function renderPhrases(lesson, lang){
           ${store.prefs.showVi?`<div class="vi">${esc(ph.v)}</div>`:""}</div></div>
         ${best!=null?`<span class="pill ${grade(best)}">Cao nhất ${best}</span>`:""}
       </div>
+      ${best!=null && best < PASS ? `<div class="need">Cần đạt từ ${PASS} điểm để qua câu tiếp theo.</div>` : ""}
       ${speakBlock(ph, lang, key)}
     </div>`;
   }).join("");
@@ -6368,7 +6440,8 @@ function renderRole(lesson, lang){
     } else {
       const key = `R${rp.idx}`;
       const res = ui.results[key];
-      const passed = res && !res.error && !res.empty;
+      const passed = res && !res.error && !res.empty && res.score >= PASS;
+      const low = res && !res.error && !res.empty && res.score < PASS;
       turn = `<div class="turn">
         <h4>Đến lượt bạn</h4>
         <div class="prompt">${esc(ln.v)}</div>
@@ -6377,8 +6450,7 @@ function renderRole(lesson, lang){
         <div class="row">
           ${passed?`<button class="btn small" data-act="rpnext">Tiếp tục →</button>`:""}
           <button class="btn small ghost" data-act="say" data-key="${key}">${ICON_PLAY} Nghe câu mẫu</button>
-          ${!passed?`<button class="linkbtn" data-act="rpskip">Bỏ qua câu này</button>`:""}
-        </div></div>`;
+        </div>${low ? `<div class="need">Cần đạt từ ${PASS} điểm để qua câu này. Nghe câu mẫu rồi nói lại nhé.</div>` : ""}</div>`;
     }
   } else {
     const scored = rp.results.filter(r => r && !r.skipped);
@@ -6881,7 +6953,7 @@ function handleResult(key, out, typed){
   }
   if(key[0]==="R" && ui.rp && !r.empty){
     const i = parseInt(key.slice(1),10);
-    ui.rp.results[i] = {score:r.score};
+    ui.rp.results[i] = {score:Math.max(r.score, (ui.rp.results[i] && ui.rp.results[i].score) || 0)};
   }
   render();
 }
@@ -6966,7 +7038,8 @@ document.addEventListener("click", (ev) => {
   if(act === "section"){ if(ui.section !== el.dataset.v) ui.prevSection = ui.section; ui.menuOpen = false; TTS.stop(); Rec.stop(); ui.section = el.dataset.v; ui.view = "home"; ui.rp = null; ui.pq = null; ui.playAll = false; ui.playingKey = null; render(); window.scrollTo(0,0); return; }
   if(act === "theme"){ store.prefs.theme = store.prefs.theme === "dark" ? "light" : "dark"; saveStore(); applyTheme(); render(); return; }
   if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); return; }
-  if(act === "popen"){ TTS.stop(); Rec.stop(); ui.section="pron"; ui.view="lesson"; ui.pid=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.pq=null; ui.playAll=false; ui.playingKey=null;
+  if(act === "popen"){ { const les = findPron(el.dataset.id); if(les && !pronOpen(les)){ toast("Học xong bài trước (mỗi từ đạt từ 50 điểm) để mở bài này."); return; } }
+    TTS.stop(); Rec.stop(); ui.section="pron"; ui.view="lesson"; ui.pid=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.pq=null; ui.playAll=false; ui.playingKey=null;
     const c = curPron(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"pron", id:c.lesson.id, lang:c.lang}; saveStore(); Hist.add({kind:"pron", key:"p:" + c.lesson.id, id:c.lesson.id, lang:c.lang, title:c.lesson.title, sub:c.lesson.sub}); } render(); window.scrollTo(0,0); return; }
   if(act === "pqstart"){ TTS.stop(); const c = curPron(); if(!c) return; pqStart(c.lesson); render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return; }
   if(act === "pqpick"){
@@ -6986,10 +7059,14 @@ document.addEventListener("click", (ev) => {
     }
     render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return;
   }
-  if(act === "open"){ TTS.stop(); Rec.stop(); ui.view="lesson"; ui.lessonId=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.rp=null; ui.playAll=false; ui.playingKey=null;
+  if(act === "open"){ { const les = findLes(el.dataset.id); if(les && !lesOpen(les)){ toast("Học xong bài trước (mỗi câu đạt từ 50 điểm) để mở bài này."); return; } }
+    TTS.stop(); Rec.stop(); ui.view="lesson"; ui.lessonId=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.rp=null; ui.playAll=false; ui.playingKey=null;
     const c = curLesson(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"les", id:c.lesson.id, lang:c.lang}; saveStore(); Hist.add({kind:c.lesson.work ? "work" : "les", key:"l:" + c.lesson.id, id:c.lesson.id, lang:c.lang, title:c.lesson.title}); ui.section = c.lesson.work ? "work" : "speak"; } render(); window.scrollTo(0,0); return; }
   if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
-  if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
+  if(act === "step"){
+    { const v = +el.dataset.v, cp = ui.section === "pron" ? curPron() : curLesson();
+      if(cp && !(ui.section === "pron" ? pStepOpen(cp.lesson, v) : stepOpen(cp.lesson, v))){ toast("Hoàn thành bước hiện tại để mở bước tiếp theo."); return; } }
+    TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
   if(act === "mvplay"){ mvPlay(); return; }
   if(act === "mvsrc"){ store.prefs.mvSrc = el.dataset.v; saveStore(); TTS.stop(); render(); return; }
   if(act === "psel"){ const r = el.getBoundingClientRect(), ch = el.textContent; phonPick(el.dataset.key, +el.dataset.w, +el.dataset.i); WordPop.open(ch, r, "zh"); return; }
@@ -7025,8 +7102,8 @@ document.addEventListener("click", (ev) => {
   if(act === "toggletype"){ const k = el.dataset.key; ui.typing[k] = !ui.typing[k]; render(); const inp = document.getElementById("in-"+k); if(inp) inp.focus(); return; }
   if(act === "rpstart"){ TTS.stop(); Rec.stop(); ui.results = {}; ui.typing = {}; ui.rp = {idx:0, revealed:false, results:[]}; rpAdvance(); return; }
   if(act === "reveal"){ if(ui.rp){ ui.rp.revealed = true; render(); } return; }
-  if(act === "rpnext"){ if(ui.rp){ ui.rp.idx++; rpAdvance(); } return; }
-  if(act === "rpskip"){ if(ui.rp){ ui.rp.results[ui.rp.idx] = {skipped:true, score:0}; ui.rp.idx++; rpAdvance(); } return; }
+  if(act === "rpnext"){ if(ui.rp){ const r = ui.rp.results[ui.rp.idx]; if(!r || r.score < PASS){ toast("Cần đạt từ 50 điểm để qua câu này."); return; } ui.rp.idx++; rpAdvance(); } return; }
+
 });
 document.addEventListener("input", (ev) => {
   const hs = ev.target.closest("input[data-home-search]");

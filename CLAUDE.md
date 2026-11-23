@@ -103,3 +103,8 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 ## Lịch sử học (24/11/2026)
 - Cài đặt: đã bỏ "Đọc chậm" và "Chế độ ban đêm" (ban đêm vẫn có nút riêng trên thanh đầu trang; đọc chậm vẫn bật được trong cột tùy chọn của bài). Thêm mục "Lịch sử học" → trang #history (section "history", không hiện trong Mục lục và ô trang chủ).
 - Hist.add ghi: mở bài phát âm/giao tiếp, mở chủ đề từ vựng, làm xong kiểm tra từ vựng / kiểm tra sổ, mở bài báo, lưu từ vào sổ, đạt thành tựu. Lưu store.hist (tối đa 300; cùng bài mở lại trong ngày thì chỉ cập nhật giờ). Trang lịch sử: số ngày có học, số hoạt động, cột 7 ngày, lọc theo loại, bấm để học tiếp, xoá lịch sử (bấm 2 lần).
+
+## Học theo trình tự (24/11/2026)
+- PASS = 50. Câu then chốt / từ ở bước Nói thử: câu sau chỉ mở khi câu trước đạt ≥ 50 điểm (nói hoặc gõ). Đóng vai: phải đạt ≥ 50 mới có nút "Tiếp tục", đã bỏ "Bỏ qua câu này". Phân biệt âm: cần đúng ≥ 50% mới mở Nói thử.
+- Bước sau chỉ mở khi bước trước xong (stepOpen, pStepOpen; lockStepBtns khóa cả nút "Tiếp: …"). Bài sau chỉ mở khi bài trước xong (lesOpen, pronOpen): Phát âm theo thứ tự danh sách, Giao tiếp cơ bản theo thứ tự 40 bài, Giao tiếp công việc theo thứ tự trong từng ngành. Bài đã học dở từ trước vẫn mở được. gateFix() trong render chặn cả khi vào bằng địa chỉ #… hoặc tải lại trang. Thông báo nhỏ dùng toast().
+- Lịch sử: histTrack() trong render ghi trang đang mở (bài học, chủ đề từ vựng, bài báo) dù vào bằng cách nào, và ghi "✓ Hoàn thành bài" khi học xong (store.histDone).
