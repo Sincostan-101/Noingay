@@ -263,6 +263,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .vt-flash .btn svg,.vt-qword .btn svg,.mv-play svg{width:18px;height:18px;vertical-align:-3px;margin-right:4px}
 .vt-front .lv{display:inline-block;font-size:11px;padding:3px 7px;border-radius:6px;font-weight:700}.vt-front .lv.core{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}.vt-front .lv.hi{background:color-mix(in srgb,#c76a12 15%,transparent);color:#b25e0f}
 .vt-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.vt-head .vt-parts{margin-top:10px}
+.vt-count{margin-top:-30px;min-width:170px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 16px;text-align:right}
+.vt-count span{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
+.vt-count b{display:block;font-size:30px;line-height:1.15;letter-spacing:-.02em}.vt-count b small{font-size:14px;font-weight:600;color:var(--muted);margin-left:2px}
+.vt-count .vt-bar{margin-top:6px}
+@media (max-width:700px){.vt-count{margin-top:0;width:100%;text-align:left}}
 @media (max-width:700px){.vt-rank2{grid-template-columns:1fr}.vt-opts{grid-template-columns:1fr}}
 .ach-h{margin:22px 0 12px;font-size:20px}
 .ach-bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
@@ -4963,9 +4969,10 @@ function renderVTTopic(){
   }
   return `<div class="page wide">
     <div><button class="back" data-act="vthome">← Tất cả chủ đề</button></div>
-    <div class="vt-head"><div class="lesson-head"><h2>${T.icon} ${esc(T.name)}</h2><p class="sub">${L==="zh"?"Tiếng Trung":"Tiếng Anh"} · ${T[L].b.length + T[L].a.length} từ · ${vtTopicDone(L, T)} từ đã nhớ · ${vtState().xp} XP</p></div><button class="btn ghost" data-act="vtrank">👤 Hồ sơ</button></div>
+    <div class="vt-head"><div class="lesson-head"><h2>${T.icon} ${esc(T.name)}</h2><div class="toolbar vt-parts">${tabs}</div></div>
+      ${(() => { const tot = T[L].b.length + T[L].a.length, dn = vtTopicDone(L, T); return `<div class="vt-count" title="${L==="zh"?"Tiếng Trung":"Tiếng Anh"} · ${vtState().xp} XP"><span>Đã học</span><b>${dn}<small>/${tot} từ</small></b><i class="vt-bar"><i style="width:${Math.round(dn / tot * 100)}%"></i></i></div>`; })()}</div>
     ${voiceWarn(L)}
-    <div class="toolbar">${tabs}</div><div class="toolbar">${modes}
+    <div class="toolbar">${modes}
       ${L==="zh" ? `<button class="chip" data-act="pref" data-v="showPy" aria-pressed="${store.prefs.showPy}">Bính âm</button>` : `<button class="chip" data-act="pref" data-v="showIpa" aria-pressed="${store.prefs.showIpa}">Phiên âm IPA</button>`}
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>${voicePicker(L)}</div>
     ${body}</div>`;
