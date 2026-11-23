@@ -4961,7 +4961,7 @@ const Board = {
     const v = vtState();
     const nameRow = `<div class="vt-name"><label>Tên hiển thị <input data-vt-name value="${esc(v.name || "")}" maxlength="24" placeholder="Ví dụ: Minh SFY"></label><button class="btn ghost" data-act="vtname">Lưu tên</button></div>`;
     if(!this.on()) return `${nameRow}<table class="vt-table"><tr class="me"><td>#1</td><td>${esc(v.name || "Bạn")}</td><td><b>${v.xp}</b> XP</td></tr></table>
-      <p class="vt-note">Bảng chung giữa nhiều người học sẽ hiện ở đây khi SFY được nối với máy chủ lưu điểm. Hiện điểm chỉ lưu trên máy này.</p>`;
+      <p class="vt-note">Bảng xếp hạng chung giữa các người học sẽ ra mắt khi SFY có tài khoản người dùng. Hiện điểm chỉ lưu trên máy này.</p>`;
     if(!this.rows && !this.err){ this.load(); return nameRow + `<p class="vt-note">Đang tải bảng xếp hạng…</p>`; }
     if(this.err) return nameRow + `<p class="vt-note">${esc(this.err)}. <button class="linkbtn" data-act="vtreload">Thử lại</button></p>`;
     const list = this.rows.map((r, i) => `<tr class="${r.uid === v.uid ? "me" : ""}"><td>${["🥇","🥈","🥉"][i] || "#" + (i + 1)}</td><td>${esc(r.name || "Ẩn danh")}</td><td><b>${r.xp}</b> XP</td></tr>`).join("");
