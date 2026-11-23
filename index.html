@@ -4141,8 +4141,9 @@ function lesList(les){ const l = les.id.slice(0, 2); return les.work ? LESSONS[l
 function pronList(les){ for(const l of ["en","zh"]) if(PRON[l].includes(les)) return PRON[l]; return [les]; }
 function lesStarted(les){ const p = store.progress[les.id]; return !!(p && (p.listen || p.role || Object.keys(p.phrases || {}).length)); }
 function pronStarted(les){ const p = store.pron[les.id]; return !!(p && (Object.keys(p.listen || {}).length || p.tips || p.quiz != null)); }
-function lesOpen(les){ const L = lesList(les), i = L.indexOf(les); return i <= 0 || lesDone(L[i-1]) || lesStarted(les); }
-function pronOpen(les){ const L = pronList(les), i = L.indexOf(les); return i <= 0 || pronDone(L[i-1]) || pronStarted(les); }
+/* Bài nào cũng mở được (người học tự chọn bài); chỉ các bước và các câu bên trong một bài mới phải đi lần lượt */
+function lesOpen(les){ return true; }
+function pronOpen(les){ return true; }
 function stepOpen(les, i){ for(let j = 0; j < Math.min(i, 3); j++) if(!stepDone(les, j)) return false; return true; }
 function pStepOpen(les, i){ for(let j = 0; j < i; j++) if(!pStepDone(les, j)) return false; return true; }
 function findLes(id){ for(const l of ["en","zh"]){ const f = LESSONS[l].find(x => x.id === id); if(f) return f; } return null; }

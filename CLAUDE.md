@@ -106,11 +106,11 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 
 ## Học theo trình tự (24/11/2026)
 - PASS = 50. Câu then chốt / từ ở bước Nói thử: câu sau chỉ mở khi câu trước đạt ≥ 50 điểm (nói hoặc gõ). Đóng vai: phải đạt ≥ 50 mới có nút "Tiếp tục", đã bỏ "Bỏ qua câu này". Phân biệt âm: cần đúng ≥ 50% mới mở Nói thử.
-- Bước sau chỉ mở khi bước trước xong (stepOpen, pStepOpen; lockStepBtns khóa cả nút "Tiếp: …"). Bài sau chỉ mở khi bài trước xong (lesOpen, pronOpen): Phát âm theo thứ tự danh sách, Giao tiếp cơ bản theo thứ tự 40 bài, Giao tiếp công việc theo thứ tự trong từng ngành. Bài đã học dở từ trước vẫn mở được. gateFix() trong render chặn cả khi vào bằng địa chỉ #… hoặc tải lại trang. Thông báo nhỏ dùng toast().
+- Bước sau chỉ mở khi bước trước xong (stepOpen, pStepOpen; lockStepBtns khóa cả nút "Tiếp: …"). Bài nào cũng mở được (lesOpen/pronOpen luôn trả true, theo yêu cầu 24/11): người học tự chọn bài, chỉ trong một bài mới phải đi lần lượt từng bước, từng câu. gateFix() trong render chặn cả khi vào bằng địa chỉ #… hoặc tải lại trang. Thông báo nhỏ dùng toast().
 - Lịch sử: histTrack() trong render ghi trang đang mở (bài học, chủ đề từ vựng, bài báo) dù vào bằng cách nào, và ghi "✓ Hoàn thành bài" khi học xong (store.histDone).
 - Ghi âm (24/11/2026): bấm micro để bắt đầu, nói xong phải bấm lại micro mới kết thúc (không tự dừng khi im lặng). Trình duyệt: SpeechRecognition continuous, tự mở lại khi trình duyệt ngắt, tối đa 60 giây; chấm cả câu ghép lẫn từng đoạn, lấy điểm cao nhất.
 - Tìm kiếm (24/11/2026): ô tìm kiếm to ở giữa trang chủ đã bỏ; thay bằng nút "Tìm kiếm" cạnh nút Lịch trên thanh đầu trang chủ (searchChip, ui.searchOpen, action hsearch). Bấm để mở ô gõ, kết quả (searchHtml) hiện ngay bên dưới; bấm ra ngoài hoặc Esc để đóng.
 
 ## Gợi ý lộ trình (24/11/2026)
 - Trang chủ: phần "Bắt đầu từ đâu?" (ô các mục, có cả Hồ sơ) đã thay bằng "Gợi ý lộ trình" (ROUTES, routeStep, routeHtml, routeAct). 4 mục tiêu: Mất gốc, Đi du lịch, Dùng trong công việc, Nói trôi chảy; mỗi mục tiêu 5–6 bước theo thứ tự, tiến độ tính từ dữ liệu học thật (bài phát âm/giao tiếp đã xong, từ đã nhớ theo chủ đề, ngành đã học xong, bài báo đã đọc, số từ trong sổ). Bước hiện tại có nút Bắt đầu/Học tiếp mở đúng bài cần học; bước sau hiện "Sau bước n". Lộ trình đang chọn lưu ở store.prefs.route.
-- Các bước bám theo thứ tự bài học (vì bài học bị khóa theo trình tự), không nhảy cóc.
+- Lộ trình chỉ là gợi ý thứ tự; bài học không bị khóa nên người học vẫn mở được bất kỳ bài nào.
