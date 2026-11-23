@@ -5305,8 +5305,6 @@ function renderNewsArticle(a){
     <button class="back pback" data-act="newshome">← Tất cả bài báo</button>
     <div class="toolbar prail"><span class="prail-h">Đọc bài</span>
       <button class="chip" data-act="newstrall" aria-pressed="${split}">${split ? "📖 Chỉ xem bản gốc" : "🌐 Song ngữ"}</button>
-      <span class="prail-h">Tùy chọn</span>
-      <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>${voicePicker(L)}
       ${a.mine ? `<button class="chip" data-act="newsdel">🗑 Xoá bài này</button>` : ""}</div>
     <article class="news-art">
       <div class="news-meta"><b class="news-lv">${esc(a.lv || "")}</b>${a.topic ? ` · ${esc(a.topic)}` : ""} · ${a.mine ? "Bài bạn đã dán" : "Bài luyện đọc do SFY biên soạn"}</div>
