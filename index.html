@@ -4423,20 +4423,13 @@ function mvLipsInk(o){
   const ldTeeth = o.ld > .5 && o.close < .5 ? `<path d="M${cx-24},${cy-4} L${cx+24},${cy-4} L${cx+22},${cy+3} Q${cx},${cy+4.5} ${cx-22},${cy+3} Z" class="ik-tooth"/>` : "";
   return `<defs><clipPath id="ik-cl"><path d="${inner}"/></clipPath></defs>
     <rect x="0" y="0" width="200" height="170" fill="#fff"/>
-    <path class="ik-shade" d="M86,27 C92,31 108,31 114,27 C110,34 90,34 86,27 Z"/>
-    <path class="ik-ink" d="M84,10 C79,17 80,25 88,25 C91,25 93,23 95,22 M116,10 C121,17 120,25 112,25 C109,25 107,23 105,22"/><path class="ik-thin" d="M89,20 C90,22 92,22 93,21 M111,20 C110,22 108,22 107,21"/>
-    <path class="ik-thin" d="M94,23 C97,26 103,26 106,23"/>
-    <path class="ik-shade" d="M${cx-6},${yT-14} C${cx-5},${yT-6} ${cx-4},${yT-2} ${cx-3},${yT+1} L${cx+3},${yT+1} C${cx+4},${yT-2} ${cx+5},${yT-6} ${cx+6},${yT-14} C${cx+2},${yT-10} ${cx-2},${yT-10} ${cx-6},${yT-14} Z" opacity=".7"/>
-    <path class="ik-thin" d="M78,32 C72,42 ${cx-a-8},${cy-20} ${cx-a-6},${cy-11} M122,32 C128,42 ${cx+a+8},${cy-20} ${cx+a+6},${cy-11}"/>
     <path class="ik-shade" d="M${cx-a*.6},${yB+4} C${cx-12},${yB+11} ${cx+12},${yB+11} ${cx+a*.6},${yB+4} C${cx+12},${yB+7} ${cx-12},${yB+7} ${cx-a*.6},${yB+4} Z"/>
-    <path class="ik-thin" d="M${cx-18},${yB+28} C${cx-8},${yB+32} ${cx+8},${yB+32} ${cx+18},${yB+28}"/>
     ${open ? `<path d="${inner}" class="ik-in"/><g clip-path="url(#ik-cl)">${tongueIn}${teethL}${teethU}${tongueOut}</g>` : ""}
     <path d="${lower}" class="ik-lo"/>
     <path class="ik-hl" d="M${cx-a*.35},${(cy+hh+yB)/2-ldUp} C${cx-a*.1},${(cy+hh+yB)/2-ldUp-2} ${cx+a*.1},${(cy+hh+yB)/2-ldUp-2} ${cx+a*.35},${(cy+hh+yB)/2-ldUp}"/>
     ${ldTeeth}
     <path d="${upper}" class="ik-up"/>
-    ${!open ? `<path d="M${cx-a+1},${cy} C${cx-ai*.5},${cy+1.6} ${cx+ai*.5},${cy+1.6} ${cx+a-1},${cy}" class="ik-ink"/>` : ""}
-    <path class="ik-thin" d="M${cx-a-2},${cy-2} q-3,2 -1,5 M${cx+a+2},${cy-2} q3,2 1,5"/>`;
+    ${!open ? `<path d="M${cx-a+1},${cy} C${cx-ai*.5},${cy+1.6} ${cx+ai*.5},${cy+1.6} ${cx+a-1},${cy}" class="ik-ink"/>` : ""}`;
 }
 /* Đường thanh điệu cho bài thanh điệu tiếng Trung */
 const MV_TONES = {"ā":[[0,5],[1,5]], "á":[[0,3],[1,5]], "ǎ":[[0,2],[.45,1],[1,4]], "à":[[0,5],[1,1]], "a":[[0,3],[.5,2.6],[1,2.5]]};
@@ -4455,7 +4448,7 @@ function mvRenderCard(lesson, lang){
   return `<div class="mv" id="mv" data-id="${esc(lesson.id)}">
     <div class="mv-head"><b>Video khẩu hình</b><span>${tone ? "Nghe và nhìn đường cao độ của thanh điệu" : "Bên trái là môi nhìn thẳng, bên phải là lưỡi bên trong miệng khi phát âm"}</span></div>
     <div class="mv-stage">
-      <figure><svg id="mv-front" viewBox="14 4 172 142" role="img" aria-label="Khẩu hình môi nhìn thẳng">${mvLipsInk(o)}</svg><figcaption>Môi nhìn thẳng</figcaption></figure>
+      <figure><svg id="mv-front" viewBox="24 34 152 102" role="img" aria-label="Khẩu hình môi nhìn thẳng">${mvLipsInk(o)}</svg><figcaption>Môi nhìn thẳng</figcaption></figure>
       <figure><svg id="mv-side" viewBox="0 0 ${tone ? "200 130" : "220 220"}" role="img" aria-label="${tone ? "Đường thanh điệu" : "Bên trong miệng nhìn nghiêng"}">${tone ? mvTone(lesson.title, 0) : mvSideLens(o, 0)}</svg><figcaption id="mv-sidecap" class="${tone ? "" : "mv-focus"}">${tone ? "Thanh điệu" : esc((lnFocus(o) || {t:"Bên trong miệng"}).t)}</figcaption></figure>
     </div>
     <div class="mv-bar"><button class="btn mv-play" data-act="mvplay">${ICON_PLAY} Phát video</button>
