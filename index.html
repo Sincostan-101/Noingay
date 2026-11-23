@@ -272,10 +272,11 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .news-h{font-size:clamp(26px,3vw,34px);line-height:1.25;margin:0;letter-spacing:-.01em}.news-h.zh{font-family:var(--font-zh)}
 .news-sum{margin:0;color:var(--muted);font-style:italic}
 .news-hint{font-size:13px;color:var(--muted);padding:8px 12px;border-radius:10px;background:var(--surface);border:1px dashed var(--line);align-self:flex-start}
-.news-p{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:start}
+.news-p{display:flex;flex-direction:column;gap:6px}
+.news-note{margin:0;font-size:13px;color:var(--muted)}
 .news-pt{font-size:19px;line-height:1.75}.news-pt.zh{font-family:var(--font-zh);font-size:21px;line-height:1.9}
 .news-pa{display:flex;flex-direction:column;gap:6px;padding-top:4px}.news-pa .dc-say[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 18%,var(--surface));border-color:var(--accent)}
-.news-tr{grid-column:1/2;font-size:16px;line-height:1.6;color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 10px 10px 0}
+.news-tr{font-size:16px;line-height:1.6;color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 10px 10px 0}
 .rw{cursor:pointer;border-radius:4px;transition:background .1s}.rw:hover{background:color-mix(in srgb,var(--accent) 18%,transparent)}
 .news-in{font:inherit;font-size:16px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box;resize:vertical}
 .nb-entry{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--surface)),var(--surface));transition:transform .15s,box-shadow .15s}
@@ -4635,14 +4636,14 @@ I18N_RX.unshift([/^· (\d+) từ$/, "· $1 words", "· $1 个词"], [/^✓ Đã 
 Object.assign(I18N_DICT, {
   "Đọc báo": ["News reading", "读新闻"], "Bài báo ngắn theo cấp độ, bấm từ để tra và dịch": ["Short news-style articles by level; click words to look up and translate", "按等级分类的新闻短文，点词即可查词和翻译"],
   "Đọc báo tiếng Anh": ["English news reading", "英语新闻阅读"], "Đọc báo tiếng Trung": ["Chinese news reading", "中文新闻阅读"],
-  "Đọc bài ngắn theo kiểu tin tức, chia theo cấp độ. Bấm vào một từ để tra nghĩa, dịch và lưu vào sổ từ vựng. Bôi đen một câu để dịch câu đó, hoặc bấm 🌐 để dịch cả đoạn.": ["Read short news-style articles by level. Click a word to look it up, translate it and save it to your notebook. Select a sentence to translate it, or press 🌐 to translate a whole paragraph.", "阅读按等级分类的新闻短文。点击单词即可查词、翻译并存入生词本。选中句子即可翻译，或点 🌐 翻译整段。"],
+  "Đọc bài ngắn theo kiểu tin tức, chia theo cấp độ. Bấm vào một từ để tra nghĩa, dịch và lưu vào sổ từ vựng. Bôi đen một câu để dịch câu đó.": ["Read short news-style articles by level. Click a word to look it up, translate it and save it to your notebook. Select a sentence to translate it.", "阅读按等级分类的新闻短文。点击单词即可查词、翻译并存入生词本。选中句子即可翻译。"],
   "Đọc bài báo bạn tự tìm": ["Read an article you found", "阅读你自己找的文章"], "Dán bài →": ["Paste →", "粘贴 →"], "Bài bạn đã dán": ["Your pasted articles", "你粘贴的文章"], "Bài luyện đọc": ["Practice articles", "阅读练习"],
   "Các bài luyện đọc ở đây do SFY tự viết theo phong cách tin tức để luyện đọc, không phải tin thời sự thật.": ["These practice articles are written by SFY in a news style for reading practice; they are not real news.", "这些阅读练习是 SFY 以新闻风格编写的，用于练习阅读，并非真实新闻。"],
   "Muốn đọc tin thật? Thử các trang báo cho người học:": ["Want real news? Try these sites for learners:", "想读真实新闻？试试这些面向学习者的网站："],
   ". Đọc ở đó rồi chép đoạn bạn thích vào mục “Đọc bài báo bạn tự tìm”.": [". Read there, then copy the parts you like into “Read an article you found”.", "。在那里阅读后，把喜欢的段落复制到“阅读你自己找的文章”。"],
   "✓ Đã đọc": ["✓ Read", "✓ 已读"], "← Tất cả bài báo": ["← All articles", "← 全部文章"], "Đọc bài": ["Reading", "阅读"], "🔊 Đọc cả bài": ["🔊 Read aloud", "🔊 朗读全文"], "🌐 Dịch cả bài": ["🌐 Translate all", "🌐 翻译全文"],
   "🗑 Xoá bài này": ["🗑 Delete article", "🗑 删除这篇"], "Bài bạn đã dán": ["Your pasted article", "你粘贴的文章"], "Bài luyện đọc do SFY biên soạn": ["Practice article written by SFY", "SFY 编写的阅读练习"],
-  "Bấm vào một từ để tra · Bôi đen câu để dịch · 🌐 dịch cả đoạn": ["Click a word to look it up · Select a sentence to translate · 🌐 translate a paragraph", "点击单词查词 · 选中句子翻译 · 🌐 翻译整段"],
+  "Bấm vào một từ hoặc bôi đen câu để dịch.": ["Click a word or select a sentence to translate it.", "点击单词或选中句子即可翻译。"],
   "Đọc đoạn này": ["Read this paragraph", "朗读这一段"], "Dịch đoạn này": ["Translate this paragraph", "翻译这一段"], "📋 Đọc bài báo bạn tự tìm": ["📋 Read an article you found", "📋 阅读你自己找的文章"],
   "Tiêu đề (không bắt buộc)": ["Title (optional)", "标题（可选）"], "Tiêu đề": ["Title", "标题"], "Dán nội dung bài báo vào đây…": ["Paste the article text here…", "在这里粘贴文章内容…"], "Nội dung bài báo": ["Article text", "文章内容"],
   "Đọc bài này →": ["Read this →", "开始阅读 →"], "Tự dán": ["Pasted", "自己粘贴"],
@@ -5272,7 +5273,7 @@ function renderNews(){
     ? [["BBC 中文", "https://www.bbc.com/zhongwen/simp"], ["人民网", "http://www.people.com.cn/"], ["Mandarin Bean (bài đọc theo cấp HSK)", "https://mandarinbean.com/"]]
     : [["BBC Learning English", "https://www.bbc.co.uk/learningenglish"], ["Breaking News English", "https://breakingnewsenglish.com/"], ["News in Levels", "https://www.newsinlevels.com/"], ["VOA Learning English", "https://learningenglish.voanews.com/"]];
   return `<section class="intro"><h2 class="intro-h">Đọc báo ${L === "zh" ? "tiếng Trung" : "tiếng Anh"}</h2>
-      <p>Đọc bài ngắn theo kiểu tin tức, chia theo cấp độ. Bấm vào một từ để tra nghĩa, dịch và lưu vào sổ từ vựng. Bôi đen một câu để dịch câu đó, hoặc bấm 🌐 để dịch cả đoạn.</p></section>
+      <p>Đọc bài ngắn theo kiểu tin tức, chia theo cấp độ. Bấm vào một từ để tra nghĩa, dịch và lưu vào sổ từ vựng. Bôi đen một câu để dịch câu đó.</p></section>
     <div class="page wide">${voiceWarn(L)}
       <button class="nb-entry" data-act="newspaste"><span class="vt-ic" aria-hidden="true">📋</span><span class="vt-cb"><b>Đọc bài báo bạn tự tìm</b><small>Dán nội dung một bài báo ${L === "zh" ? "tiếng Trung" : "tiếng Anh"} bất kỳ vào đây để đọc với công cụ tra từ và dịch</small></span><span class="nb-entry-go">Dán bài →</span></button>
       ${mine.length ? `<h3 class="grp-h">Bài bạn đã dán</h3><div class="news-grid">${mine.map(card).join("")}</div>` : ""}
@@ -5288,8 +5289,6 @@ function renderNewsArticle(a){
   const paras = a.paras.map((p, i) => { const k = a.id + ":" + i, tr = nu.tr[k], show = tr && (tr.open || nu.showTr);
     return `<div class="news-p">
       <div class="news-pt ${L}">${newsTokens(p, L)}</div>
-      <div class="news-pa"><button class="dc-say" data-act="newssay" data-v="${i}" title="Đọc đoạn này" aria-label="Đọc đoạn này">${ICON_PLAY}</button>
-        <button class="dc-say" data-act="newstr" data-v="${i}" title="Dịch đoạn này" aria-label="Dịch đoạn này" aria-pressed="${!!(tr && tr.open)}">🌐</button></div>
       ${show ? `<div class="news-tr">${tr.busy ? "Đang dịch…" : tr.err ? `<span class="dc-err">${esc(tr.err)}</span>` : esc(tr.text)}</div>` : ""}</div>`; }).join("");
   return `<div class="page news-page">
     <button class="back pback" data-act="newshome">← Tất cả bài báo</button>
@@ -5303,7 +5302,7 @@ function renderNewsArticle(a){
       <div class="news-meta"><b class="news-lv">${esc(a.lv || "")}</b>${a.topic ? ` · ${esc(a.topic)}` : ""} · ${a.mine ? "Bài bạn đã dán" : "Bài luyện đọc do SFY biên soạn"}</div>
       <h2 class="news-h ${L}">${newsTokens(a.title, L)}</h2>
       ${a.sum ? `<p class="news-sum">${esc(a.sum)}</p>` : ""}
-      <div class="news-hint">Bấm vào một từ để tra · Bôi đen câu để dịch · 🌐 dịch cả đoạn</div>
+      <p class="news-note">Bấm vào một từ hoặc bôi đen câu để dịch.</p>
       ${paras}
     </article></div>`;
 }

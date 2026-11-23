@@ -95,4 +95,4 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 ## Đọc báo (24/11/2026)
 - Mục "Đọc báo" (section "news", #news, #news/<id>, #news/paste): renderNews, renderNewsArticle, renderNewsPaste, newsAct. Dữ liệu NEWS: 6 bài tiếng Anh (A2–B2) và 6 bài tiếng Trung (HSK 2–5) do SFY tự viết theo phong cách tin tức (ghi rõ không phải tin thật).
 - Người học có thể dán bài báo tự tìm (lưu store.news.mine, tối đa 30 bài). store.news.read ghi bài đã đọc.
-- Trong bài: mỗi từ là span.rw (data-act="rword"), bấm → WordPop (tra từ, dịch, lưu vào sổ); tiếng Trung tách từ bằng Intl.Segmenter. Bôi đen câu → Dịch. Nút 🔊 đọc đoạn, 🌐 dịch đoạn (Dict.translate); cột trái: Đọc cả bài, Dịch cả bài, Đọc chậm, Giọng đọc.
+- Trong bài: mỗi từ là span.rw (data-act="rword"), bấm → WordPop (tra từ, dịch, lưu vào sổ); tiếng Trung tách từ bằng Intl.Segmenter. Bôi đen câu → Dịch. Đã bỏ nút đọc/dịch từng đoạn (24/11), chỉ còn ghi chú ngắn; cột trái: Đọc cả bài, Dịch cả bài, Đọc chậm, Giọng đọc.
