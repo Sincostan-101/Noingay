@@ -357,6 +357,16 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .vhead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 /* Nhạc nền */
 .music{position:relative}
+.setg-panel{width:310px;display:flex;flex-direction:column;gap:6px}
+.setg-h{display:flex;align-items:center;gap:8px;font-size:16px;margin-bottom:4px}.setg-h svg{width:20px;height:20px}
+.setg-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:0;background:transparent;padding:8px 6px;border-radius:10px;font-size:14px;text-align:left;color:var(--ink)}
+.setg-row:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.setg-sw{flex:none;width:38px;height:22px;border-radius:99px;background:var(--line);position:relative;transition:background .15s}
+.setg-sw::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
+.setg-sw.on{background:var(--accent)}.setg-sw.on::after{left:19px}
+.setg .pomo-btn svg{width:17px;height:17px}
+.achbtn,.setg .pomo-btn{white-space:nowrap}
+@media (max-width:1400px){.setg-t{display:none}}
 .music-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:40;width:330px;max-width:calc(100vw - 32px);max-height:calc(100vh - 90px);overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 32px rgba(0,0,0,.14);padding:14px;display:flex;flex-direction:column;gap:10px}
 .mlist{display:flex;flex-direction:column;gap:6px}
 .mitem{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:9px 11px;text-align:left;display:flex;flex-direction:column;gap:1px}
@@ -3934,7 +3944,7 @@ const ui = {
   section:"home", menuOpen:false, q:"",
   view:"home", lessonId:null, step:0,
   pid:null,        // bài phát âm đang mở
-  pomoOpen:false, pomoMsg:null, musicOpen:false,
+  pomoOpen:false, pomoMsg:null, musicOpen:false, setgOpen:false,
   pq:null,         // bài kiểm tra phân biệt âm: {items, i, picked, correct}
   results:{},      // key -> kết quả chấm gần nhất
   typing:{},       // key -> đang hiện ô gõ
@@ -4058,6 +4068,7 @@ function header(){
     <button class="themebtn" data-act="theme" aria-label="${dark?"Chuyển sang chế độ ban ngày":"Chuyển sang chế độ ban đêm"}">${dark?ICON_SUN+" Ban ngày":ICON_MOON+" Ban đêm"}</button>
     ${musicHtml()}
     ${pomoHtml()}
+    ${setgHtml()}
     </div></div></header>`;
 }
 /* Danh sách ngôn ngữ: thêm ngôn ngữ mới ở đây (ready:false = hiện "Sắp có") */
@@ -4079,6 +4090,26 @@ function vizHtml(){
   return `<button class="viz" data-act="music" title="Đang phát: ${esc(name)}. Bấm để chọn nhạc" aria-label="Đang phát ${esc(name)}, bấm để chọn nhạc"><canvas id="viz" width="144" height="52"></canvas></button>`;
 }
 const REPEAT_NAMES = {all:"Lặp lại cả danh sách", one:"Lặp lại 1 bài", off:"Phát hết danh sách rồi dừng"};
+/* Cài đặt: nút bánh răng ở góc phải trên cùng, mở bảng các tùy chọn chung */
+const ICON_GEAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
+const SETG_ITEMS = [
+  {g:"Giao diện", k:"leaves", name:"Hiệu ứng lá khi di chuột và bấm", on:() => store.prefs.leaves !== false},
+  {g:"Giao diện", k:"theme", name:"Chế độ ban đêm", on:() => store.prefs.theme === "dark"},
+  {g:"Khi học", k:"slow", name:"Đọc chậm", on:() => !!store.prefs.slow},
+  {g:"Khi học", k:"showVi", name:"Hiện nghĩa tiếng Việt", on:() => !!store.prefs.showVi},
+  {g:"Khi học", k:"showIpa", name:"Hiện phiên âm IPA (tiếng Anh)", on:() => !!store.prefs.showIpa},
+  {g:"Khi học", k:"showPy", name:"Hiện bính âm (tiếng Trung)", on:() => !!store.prefs.showPy}
+];
+function setgHtml(){
+  let panel = "";
+  if(ui.setgOpen){
+    const groups = [...new Set(SETG_ITEMS.map(x => x.g))].map(g => `<div class="pomo-sub">${g}</div>` + SETG_ITEMS.filter(x => x.g === g).map(x => { const on = x.on();
+      return `<button class="setg-row" data-act="setg" data-v="${x.k}" role="switch" aria-checked="${on}"><span>${esc(x.name)}</span><i class="setg-sw ${on ? "on" : ""}" aria-hidden="true"></i></button>`; }).join("")).join("");
+    panel = `<div class="music-panel setg-panel" role="dialog" aria-label="Cài đặt"><div class="setg-h">${ICON_GEAR}<b>Cài đặt</b></div>${groups}
+      <div class="pomo-msg" style="text-align:left">Cài đặt được lưu trên máy này. Đổi ngôn ngữ đang học ở trang chủ.</div></div>`;
+  }
+  return `<div class="music setg"><button class="pomo-btn" data-act="setgopen" aria-expanded="${!!ui.setgOpen}" aria-label="Cài đặt" title="Cài đặt">${ICON_GEAR}<span class="setg-t">Cài đặt</span></button>${panel}</div>`;
+}
 function musicHtml(){
   const playing = Sound.cur || Player.playing;
   const tab = store.music.tab;
@@ -5387,7 +5418,8 @@ document.addEventListener("click", (ev) => {
   if(el && el.dataset.act.startsWith("pk")){ Picker.act(el.dataset.act, el, ev); return; }
   if(ev.target.closest(".pk-pop")) return;
   if(ui.pomoOpen && !ev.target.closest(".pomo")){ ui.pomoOpen = false; ui.pomoMsg = null; if(!el) render(); }
-  if(ui.musicOpen && !ev.target.closest(".music")){ ui.musicOpen = false; if(!el) render(); }
+  if(ui.setgOpen && !ev.target.closest(".setg")){ ui.setgOpen = false; if(!el) render(); }
+  if(ui.musicOpen && !ev.target.closest(".music:not(.setg)")){ ui.musicOpen = false; if(!el) render(); }
   if(!el || el.tagName === "FORM") return;
   const act = el.dataset.act;
   if(act !== "psel" && act !== "sayw" && ui.sel){ ui.sel = null; }
@@ -5397,6 +5429,12 @@ document.addEventListener("click", (ev) => {
   if(act === "pomotoggle"){ if(store.pomo.running) Pomo.pause(); else Pomo.start(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "pomoreset"){ Pomo.reset(); ui.pomoMsg = null; render(); Pomo.tick(); return; }
   if(act === "music"){ ui.musicOpen = !ui.musicOpen; render(); return; }
+  if(act === "setgopen"){ ui.setgOpen = !ui.setgOpen; ui.musicOpen = false; ui.pomoOpen = false; render(); return; }
+  if(act === "setg"){ const k = el.dataset.v;
+    if(k === "leaves") store.prefs.leaves = store.prefs.leaves === false;
+    else if(k === "theme"){ store.prefs.theme = store.prefs.theme === "dark" ? "light" : "dark"; applyTheme(); }
+    else store.prefs[k] = !store.prefs[k];
+    saveStore(); render(); return; }
   if(act === "musictab"){ store.music.tab = el.dataset.v; saveStore(); render(); return; }
   if(act === "mtrack"){ const i = +el.dataset.v; if(Player.cur === i) Player.toggle(); else { if(store.music.shuffle) Player.order = Player.shuffled(i); Player.play(i); } render(); return; }
   if(act === "mtoggle"){ Player.toggle(); render(); return; }
@@ -5622,7 +5660,6 @@ function renderLanding(){
     </div>
     <h2 class="hsec">Bắt đầu từ đâu?</h2>
     <div class="htiles">${tiles}</div>
-    <div class="hfoot"><label class="hleaf"><input type="checkbox" data-pref-leaves ${store.prefs.leaves !== false ? "checked" : ""}> Hiệu ứng lá khi di chuột và bấm</label></div>
   </section>`;
 }
 const SECTION_DESC = {profile:"Thành tựu, cúp, huy hiệu và bảng xếp hạng của bạn", pron:"Từng âm IPA và bính âm, có bản thu và chấm phát âm", speak:"Hội thoại đời sống, đóng vai và luyện nói", work:"24 ngành nghề, từ vựng chuyên ngành", plan:"Xem lịch, lên kế hoạch và danh sách việc cần làm", story:"Đọc và nghe truyện ngắn", listen:"Luyện nghe theo chủ đề", vocab:"Ôn từ vựng theo cấp độ", grammar:"Ngữ pháp trọng tâm"};
