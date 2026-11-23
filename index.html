@@ -264,7 +264,18 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .vt-front .lv{display:inline-block;font-size:11px;padding:3px 7px;border-radius:6px;font-weight:700}.vt-front .lv.core{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}.vt-front .lv.hi{background:color-mix(in srgb,#c76a12 15%,transparent);color:#b25e0f}
 .vt-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
 .vt-head .vt-parts{margin-top:10px}
-.vt-count{margin-top:-30px;min-width:170px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 16px;text-align:right}
+/* Trang chủ đề từ vựng: nút quay lại nằm dưới logo, phần đầu dồn lên, thẻ ghi nhớ to hơn */
+.vt-topic{gap:12px}
+.vt-back{position:absolute;left:0;top:4px;font-size:19px;font-weight:700;padding:8px 16px 8px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);gap:8px}
+.vt-back:hover{border-color:var(--accent)}
+.vt-topic .vt-flash{width:100%;max-width:720px;margin:4px auto 0}
+.vt-topic .vt-front{min-height:340px;border-radius:24px;padding:28px;gap:12px}
+.vt-topic .vt-word{font-size:clamp(40px,5vw,60px)}.vt-topic .vt-word.zh{font-size:clamp(52px,6vw,76px)}
+.vt-topic .vt-ph{font-size:20px}.vt-topic .vt-mean{font-size:26px}.vt-topic .vt-hint{font-size:15px}
+.vt-topic .vt-flash .row .btn{font-size:17px;padding:12px 22px}
+@media (max-width:1640px){.vt-back{position:static;align-self:flex-start;margin-top:-6px}}
+@media (max-width:700px){.vt-topic .vt-front{min-height:260px}}
+.vt-count{margin-top:0;min-width:170px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 16px;text-align:right}
 .vt-count span{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
 .vt-count b{display:block;font-size:30px;line-height:1.15;letter-spacing:-.02em}.vt-count b small{font-size:14px;font-weight:600;color:var(--muted);margin-left:2px}
 .vt-count .vt-bar{margin-top:6px}
@@ -4967,8 +4978,8 @@ function renderVTTopic(){
         ${q.picked != null ? `<div class="next"><button class="btn" data-act="vtnext">${q.i + 1 < q.qs.length ? "Câu tiếp →" : "Xem kết quả"}</button></div>` : ""}</div>`;
     }
   }
-  return `<div class="page wide">
-    <div><button class="back" data-act="vthome">← Tất cả chủ đề</button></div>
+  return `<div class="page wide vt-topic">
+    <button class="back vt-back" data-act="vthome">← Tất cả chủ đề</button>
     <div class="vt-head"><div class="lesson-head"><h2>${T.icon} ${esc(T.name)}</h2><div class="toolbar vt-parts">${tabs}</div></div>
       ${(() => { const tot = T[L].b.length + T[L].a.length, dn = vtTopicDone(L, T); return `<div class="vt-count" title="${L==="zh"?"Tiếng Trung":"Tiếng Anh"} · ${vtState().xp} XP"><span>Đã học</span><b>${dn}<small>/${tot} từ</small></b><i class="vt-bar"><i style="width:${Math.round(dn / tot * 100)}%"></i></i></div>`; })()}</div>
     ${voiceWarn(L)}
