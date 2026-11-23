@@ -99,3 +99,7 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 
 ## Thanh đầu trang (24/11/2026)
 - Chỉ ở trang chủ, trên máy tính (rộng hơn 860px): nút Lịch đứng ngay cạnh logo, nút Mục lục nằm ngay dưới logo (.is-home .brand .side position:absolute; menuClear() đẩy nội dung xuống nếu bị đè). Các trang khác và điện thoại giữ như cũ: logo, Mục lục, Lịch xếp một hàng.
+
+## Lịch sử học (24/11/2026)
+- Cài đặt: đã bỏ "Đọc chậm" và "Chế độ ban đêm" (ban đêm vẫn có nút riêng trên thanh đầu trang; đọc chậm vẫn bật được trong cột tùy chọn của bài). Thêm mục "Lịch sử học" → trang #history (section "history", không hiện trong Mục lục và ô trang chủ).
+- Hist.add ghi: mở bài phát âm/giao tiếp, mở chủ đề từ vựng, làm xong kiểm tra từ vựng / kiểm tra sổ, mở bài báo, lưu từ vào sổ, đạt thành tựu. Lưu store.hist (tối đa 300; cùng bài mở lại trong ngày thì chỉ cập nhật giờ). Trang lịch sử: số ngày có học, số hoạt động, cột 7 ngày, lọc theo loại, bấm để học tiếp, xoá lịch sử (bấm 2 lần).

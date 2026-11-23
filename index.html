@@ -455,6 +455,18 @@ h2.news-trc{font-weight:700;color:var(--accent)}
 .setg-h{display:flex;align-items:center;gap:8px;font-size:16px;margin-bottom:4px}.setg-h svg{width:20px;height:20px}
 .setg-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:0;background:transparent;padding:8px 6px;border-radius:10px;font-size:14px;text-align:left;color:var(--ink)}
 .setg-row:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.setg-link small{color:var(--muted);font-size:12px;margin-left:4px}.setg-link > span:last-child{font-size:20px;color:var(--muted)}
+.hs-sum{display:flex;gap:12px;flex-wrap:wrap}
+.hs-sum > div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;justify-content:center}
+.hs-sum b{font-size:26px}.hs-sum span{font-size:13px;color:var(--muted)}
+.hs-week{flex:1;min-width:260px}.hs-bars{display:flex;gap:8px;align-items:flex-end;height:64px;margin-top:6px}
+.hs-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.hs-day i{display:block;width:100%;max-width:28px;border-radius:6px 6px 2px 2px;background:var(--line)}.hs-day.on i{background:var(--accent)}.hs-day small{font-size:11px;color:var(--muted)}
+.hs-list{display:flex;flex-direction:column;gap:6px}
+.hs-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+button.hs-row{cursor:pointer}button.hs-row:hover{border-color:var(--accent)}
+.hs-ic{font-size:20px;width:28px;text-align:center}.hs-b{flex:1;min-width:0;display:flex;flex-direction:column}.hs-b b.zh{font-family:var(--font-zh)}.hs-b small{color:var(--muted);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hs-t{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}.hs-go{font-size:20px;color:var(--muted)}
 .setg-sw{flex:none;width:38px;height:22px;border-radius:99px;background:var(--line);position:relative;transition:background .15s}
 .setg-sw::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
 .setg-sw.on{background:var(--accent)}.setg-sw.on::after{left:19px}
@@ -4667,6 +4679,15 @@ Object.assign(I18N_DICT, {
 });
 I18N_RX.unshift([/^Dán nội dung một bài báo (tiếng Anh|tiếng Trung) bất kỳ vào đây để đọc với công cụ tra từ và dịch$/, (m, l) => [`Paste any ${l === "tiếng Anh" ? "English" : "Chinese"} article here to read it with the lookup and translation tools`, `在这里粘贴任意${l === "tiếng Anh" ? "英语" : "中文"}文章，即可使用查词和翻译工具阅读`]],
   [/^Chép nội dung một bài báo (tiếng Anh|tiếng Trung) rồi dán vào ô dưới\. Bài được lưu trên máy này để bạn đọc lại\.$/, (m, l) => [`Copy the text of a ${l === "tiếng Anh" ? "English" : "Chinese"} article and paste it below. It's saved on this device so you can read it again.`, `复制一篇${l === "tiếng Anh" ? "英语" : "中文"}文章的内容并粘贴到下方。文章会保存在本设备上，方便再次阅读。`]]);
+Object.assign(I18N_DICT, {"Lịch sử học": ["Study history", "学习记录"], "🕘 Lịch sử học": ["🕘 Study history", "🕘 学习记录"], "🕘 Xem lịch sử học": ["🕘 View study history", "🕘 查看学习记录"],
+  "Những bài bạn đã mở, bài kiểm tra đã làm, từ đã lưu và thành tựu đã đạt. Bấm vào một bài để học tiếp.": ["Lessons you opened, quizzes you took, words you saved and achievements you earned. Click a lesson to continue.", "你打开过的课程、做过的测验、保存的词和获得的成就。点击课程即可继续学习。"],
+  "ngày có học": ["study days", "学习天数"], "hoạt động": ["activities", "项活动"], "7 ngày gần đây": ["Last 7 days", "最近 7 天"], "Bài học": ["Lessons", "课程"],
+  "🗑 Xoá lịch sử": ["🗑 Clear history", "🗑 清除记录"], "Bấm lần nữa để xoá toàn bộ lịch sử": ["Click again to clear all history", "再点一次清除全部记录"],
+  "Chưa có hoạt động nào ở mục này.": ["No activity here yet.", "这里还没有活动。"],
+  "Chưa có lịch sử. Mở một bài học, chủ đề từ vựng hoặc bài báo là lịch sử sẽ bắt đầu được ghi lại.": ["No history yet. Open a lesson, vocabulary topic or article and it will start being recorded.", "还没有记录。打开一节课、一个词汇主题或一篇文章后就会开始记录。"],
+  "Hôm qua": ["Yesterday", "昨天"], "Giao tiếp": ["Conversation", "会话"], "Giao tiếp công việc": ["Work conversation", "职场会话"], "Kiểm tra từ vựng": ["Vocabulary quiz", "词汇测验"],
+  "Kiểm tra sổ từ vựng": ["Notebook quiz", "生词本测验"], "Lưu từ vào sổ": ["Saved word", "存入生词本"], "Sổ từ vựng": ["Vocabulary notebook", "生词本"]});
+I18N_RX.unshift([/^(\d+) hoạt động$/, "$1 activities", "$1 项活动"], [/^(\d+)\/(\d+) câu đúng$/, "$1/$2 correct", "答对 $1/$2"]);
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -4795,7 +4816,7 @@ const NB = {
     const ex = this.find(info.lang, info.t); if(ex) return ex;
     const it = {id:Date.now().toString(36) + Math.random().toString(36).slice(2, 6), lang:info.lang, t:info.t, p:info.p || "", ipa:info.ipa || "", v:info.v || "",
       alts:(info.alts || []).slice(0, 3), defs:(info.defs || []).slice(0, 3), lv:info.lv, audio:info.audio || "", at:ymd(new Date()), known:false};
-    this.list().unshift(it); saveStore(); return it;
+    this.list().unshift(it); saveStore(); Hist.add({kind:"word", key:"w:" + it.id, lang:it.lang, title:it.t, sub:it.v}); return it;
   },
   remove(id){ store.notebook = this.list().filter(x => x.id !== id); saveStore(); }
 };
@@ -5124,7 +5145,7 @@ function nbAct(act, el){
     else { s.wrong.push(q.id); if(w){ w.bad = (w.bad || 0) + 1; w.known = false; } }
     saveStore(); if(w && !q.rev) TTS.speak(w.t, w.lang); render(); return true;
   }
-  if(act === "nbnext"){ const s = nb.study; s.i++; s.picked = null; render(); return true; }
+  if(act === "nbnext"){ const s = nb.study; s.i++; s.picked = null; if(s.i >= s.qs.length) Hist.add({kind:"nbquiz", key:"nq", lang:store.prefs.lang, title:"Sổ từ vựng", sub:`${s.correct}/${s.qs.length} câu đúng`}); render(); return true; }
   return false;
 }
 document.addEventListener("change", e => {
@@ -5336,7 +5357,7 @@ function renderNewsPaste(){
 function newsAct(act, el){
   const nu = newsUi(), ns = newsState();
   const art = () => newsAll().find(a => a.id === nu.id);
-  if(act === "newsopen"){ nu.id = el.dataset.v; nu.view = null; nu.showTr = false; render(); window.scrollTo(0, 0); return true; }
+  if(act === "newsopen"){ { const a = newsAll().find(x => x.id === el.dataset.v); if(a) Hist.add({kind:"news", key:"n:" + a.id, id:a.id, lang:a.lang, title:a.title, sub:a.lv}); } nu.id = el.dataset.v; nu.view = null; nu.showTr = false; render(); window.scrollTo(0, 0); return true; }
   if(act === "newshome"){ TTS.stop(); nu.id = null; nu.view = null; render(); window.scrollTo(0, 0); return true; }
   if(act === "newspaste"){ nu.view = "paste"; nu.id = null; render(); window.scrollTo(0, 0); return true; }
   if(act === "newssave"){
@@ -5364,6 +5385,76 @@ function newsAct(act, el){
   };
   if(act === "newstr"){ const i = +el.dataset.v, k = a.id + ":" + i; nu.tr[k] = nu.tr[k] || {}; nu.tr[k].open = !nu.tr[k].open; if(nu.tr[k].err) nu.tr[k].err = null; render(); if(nu.tr[k].open) tr(i); return true; }
   if(act === "newstrall"){ nu.showTr = !nu.showTr; render(); if(nu.showTr){ tr("t"); a.paras.forEach((_, i) => tr(i)); } return true; }
+  return false;
+}
+
+/* ===================== LỊCH SỬ HỌC =====================
+   Hist.add() ghi lại mỗi lần mở bài học, chủ đề từ vựng, bài báo, làm bài kiểm tra, lưu từ, đạt thành tựu.
+   Lưu ở store.hist (mới nhất ở đầu, tối đa 300 mục). Cùng một bài mở lại trong ngày thì chỉ cập nhật giờ. */
+const HIST_KINDS = {
+  pron:{icon:"🎙️", g:"les", name:"Phát âm"}, les:{icon:"💬", g:"les", name:"Giao tiếp"}, work:{icon:"💼", g:"les", name:"Giao tiếp công việc"},
+  vt:{icon:"📚", g:"vocab", name:"Từ vựng"}, vtquiz:{icon:"✅", g:"vocab", name:"Kiểm tra từ vựng"}, nbquiz:{icon:"📒", g:"vocab", name:"Kiểm tra sổ từ vựng"},
+  word:{icon:"＋", g:"vocab", name:"Lưu từ vào sổ"}, news:{icon:"📰", g:"news", name:"Đọc báo"}, ach:{icon:"🏆", g:"ach", name:"Thành tựu"}
+};
+const Hist = {
+  list(){ return store.hist = store.hist || []; },
+  add(e){
+    try{
+      const L = this.list(), day = ymd(new Date()); e.at = Date.now();
+      const i = L.findIndex(x => x.key === e.key && ymd(new Date(x.at)) === day);
+      if(i >= 0 && !/quiz$/.test(e.kind)) L.splice(i, 1);
+      L.unshift(e); if(L.length > 300) L.length = 300; saveStore();
+    }catch(err){}
+  }
+};
+function histLabelDay(d){
+  const t = ymd(new Date()), y = new Date(); y.setDate(y.getDate() - 1);
+  return d === t ? "Hôm nay" : d === ymd(y) ? "Hôm qua" : d.split("-").reverse().join("/");
+}
+function renderHistory(){
+  const hu = ui.hist = ui.hist || {f:"all", ask:false}, all = Hist.list();
+  const rows = all.filter(e => hu.f === "all" || (HIST_KINDS[e.kind] || {}).g === hu.f);
+  const days = [...new Set(all.map(e => ymd(new Date(e.at))))];
+  const last7 = []; const d = new Date(); d.setDate(d.getDate() - 6);
+  for(let i = 0; i < 7; i++){ const k = ymd(d), n = all.filter(e => ymd(new Date(e.at)) === k).length; last7.push(`<div class="hs-day ${n ? "on" : ""}" title="${k.split("-").reverse().join("/")}: ${n} hoạt động"><i style="height:${Math.min(100, n * 12) || 4}%"></i><small>${WD_S[(d.getDay() + 6) % 7]}</small></div>`); d.setDate(d.getDate() + 1); }
+  let lastDay = "", list = "";
+  rows.forEach(e => {
+    const k = HIST_KINDS[e.kind] || {icon:"•", name:""}, day = ymd(new Date(e.at));
+    if(day !== lastDay){ list += `<h3 class="grp-h">${histLabelDay(day)}</h3>`; lastDay = day; }
+    const can = ["pron","les","work","vt","news"].includes(e.kind);
+    list += `<${can ? `button data-act="histgo" data-v="${all.indexOf(e)}"` : "div"} class="hs-row"><span class="hs-ic" aria-hidden="true">${k.icon}</span>
+      <span class="hs-b"><b class="${e.lang === "zh" ? "zh" : ""}">${esc(e.title || "")}</b><small>${esc(k.name)}${e.sub ? " · " + esc(e.sub) : ""}${e.lang ? ` · ${e.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"}` : ""}</small></span>
+      <span class="hs-t">${hhmm(new Date(e.at))}</span>${can ? `<span class="hs-go" aria-hidden="true">›</span>` : ""}</${can ? "button" : "div"}>`;
+  });
+  const prev = SECTIONS.find(x => x.id === ui.prevSection && x.id !== "history") || SECTIONS[0];
+  return `<div class="page wide">
+    <button class="back pback" data-act="histback">← ${esc(secName(prev))}</button>
+    <section class="intro" style="text-align:left;padding-top:0"><h2 class="intro-h">🕘 Lịch sử học</h2>
+      <p style="margin:0">Những bài bạn đã mở, bài kiểm tra đã làm, từ đã lưu và thành tựu đã đạt. Bấm vào một bài để học tiếp.</p></section>
+    <div class="hs-sum">
+      <div><b>${days.length}</b><span>ngày có học</span></div>
+      <div><b>${all.length}</b><span>hoạt động</span></div>
+      <div class="hs-week"><span>7 ngày gần đây</span><div class="hs-bars">${last7.join("")}</div></div>
+    </div>
+    <div class="nb-head"><div class="seg">${[["all","Tất cả"],["les","Bài học"],["vocab","Từ vựng"],["news","Đọc báo"],["ach","Thành tựu"]].map(([k, n]) => `<button data-act="histf" data-v="${k}" aria-pressed="${hu.f === k}">${n}</button>`).join("")}</div>
+      ${all.length ? `<button class="linkbtn danger" data-act="histclear">${hu.ask ? "Bấm lần nữa để xoá toàn bộ lịch sử" : "🗑 Xoá lịch sử"}</button>` : ""}</div>
+    ${rows.length ? `<div class="hs-list">${list}</div>` : `<p class="vt-note">${all.length ? "Chưa có hoạt động nào ở mục này." : "Chưa có lịch sử. Mở một bài học, chủ đề từ vựng hoặc bài báo là lịch sử sẽ bắt đầu được ghi lại."}</p>`}
+  </div>`;
+}
+function histAct(act, el){
+  const hu = ui.hist = ui.hist || {f:"all", ask:false};
+  if(act === "histpage"){ ui.setgOpen = false; if(ui.section !== "history") ui.prevSection = ui.section; ui.section = "history"; ui.view = "home"; hu.ask = false; render(); window.scrollTo(0, 0); return true; }
+  if(act === "histback"){ const p = SECTIONS.find(x => x.id === ui.prevSection && x.id !== "history"); ui.section = p ? p.id : "home"; ui.view = "home"; render(); window.scrollTo(0, 0); return true; }
+  if(act === "histf"){ hu.f = el.dataset.v; hu.ask = false; render(); return true; }
+  if(act === "histclear"){ if(hu.ask){ store.hist = []; saveStore(); hu.ask = false; } else hu.ask = true; render(); return true; }
+  if(act === "histgo"){
+    const e = Hist.list()[+el.dataset.v]; if(!e) return true;
+    if(e.lang && e.lang !== store.prefs.lang){ store.prefs.lang = e.lang; saveStore(); }
+    if(e.kind === "vt"){ ui.section = "vocab"; ui.view = "home"; ui.vt = {topic:e.id, part:"b", mode:"list"}; render(); window.scrollTo(0, 0); return true; }
+    if(e.kind === "news"){ ui.section = "news"; ui.view = "home"; ui.news = {id:e.id, view:null, tr:{}, showTr:false}; render(); window.scrollTo(0, 0); return true; }
+    const b = document.createElement("button"); b.dataset.act = e.kind === "pron" ? "popen" : "open"; b.dataset.id = e.id; b.style.display = "none";
+    document.getElementById("app").appendChild(b); b.click(); return true;
+  }
   return false;
 }
 
@@ -5415,6 +5506,7 @@ function render(){
   else if(ui.section === "work") content = ui.view === "home" ? renderWorkHome() : renderLesson();
   else if(ui.section === "vocab") content = renderVT();
   else if(ui.section === "news") content = renderNews();
+  else if(ui.section === "history") content = renderHistory();
   else if(ui.section === "profile") content = renderProfile();
   else if(ui.section !== "speak") content = renderComing();
   else if(ui.view === "home") content = renderHome();
@@ -5449,6 +5541,7 @@ const SECTIONS = [
   {id:"listen", name:"Luyện nghe", ready:false},
   {id:"vocab", name:"Từ vựng", ready:true},
   {id:"news", name:"Đọc báo", ready:true},
+  {id:"history", name:"Lịch sử học", ready:true},
   {id:"grammar", name:"Ngữ pháp", ready:false}
 ];
 function secName(s){ return s.name.replace("{L}", store.prefs.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"); }
@@ -5491,8 +5584,7 @@ const REPEAT_NAMES = {all:"Lặp lại cả danh sách", one:"Lặp lại 1 bài
 const ICON_GEAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
 const SETG_ITEMS = [
   {g:"Giao diện", k:"leaves", name:"Hiệu ứng lá khi di chuột và bấm", on:() => store.prefs.leaves !== false},
-  {g:"Giao diện", k:"theme", name:"Chế độ ban đêm", on:() => store.prefs.theme === "dark"},
-  {g:"Khi học", k:"slow", name:"Đọc chậm", on:() => !!store.prefs.slow},
+
   {g:"Khi học", k:"showVi", name:"Hiện nghĩa tiếng Việt", on:() => !!store.prefs.showVi},
   {g:"Khi học", k:"showIpa", name:"Hiện phiên âm IPA (tiếng Anh)", on:() => !!store.prefs.showIpa},
   {g:"Khi học", k:"showPy", name:"Hiện bính âm (tiếng Trung)", on:() => !!store.prefs.showPy}
@@ -5505,7 +5597,8 @@ function setgHtml(){
     const ul = I18N.lang();
     const langRow = `<div class="pomo-sub">Ngôn ngữ giao diện</div><div class="setg-langs" role="group" aria-label="Ngôn ngữ giao diện">${UI_LANGS.map(g => `<button data-act="uilang" data-v="${g.id}" aria-pressed="${ul === g.id}"><i>${g.mark}</i>${g.name}</button>`).join("")}</div>
       ${ul !== "vi" ? `<div class="pomo-msg" style="text-align:left">Nội dung bài học (hội thoại, nghĩa của từ, giải thích) hiện vẫn bằng tiếng Việt.</div>` : ""}`;
-    panel = `<div class="music-panel setg-panel" role="dialog" aria-label="Cài đặt"><div class="setg-h">${ICON_GEAR}<b>Cài đặt</b></div>${langRow}${groups}
+    const histRow = `<div class="pomo-sub">Lịch sử học</div><button class="setg-row setg-link" data-act="histpage"><span>🕘 Xem lịch sử học <small>${Hist.list().length} hoạt động</small></span><span aria-hidden="true">›</span></button>`;
+    panel = `<div class="music-panel setg-panel" role="dialog" aria-label="Cài đặt"><div class="setg-h">${ICON_GEAR}<b>Cài đặt</b></div>${langRow}${groups}${histRow}
       <div class="pomo-msg" style="text-align:left">Cài đặt được lưu trên máy này. Đổi ngôn ngữ đang học ở trang chủ.</div></div>`;
   }
   return `<div class="music setg"><button class="pomo-btn" data-act="setgopen" aria-expanded="${!!ui.setgOpen}" aria-label="Cài đặt" title="Cài đặt">${ICON_GEAR}<span class="setg-t">Cài đặt</span></button>${panel}</div>`;
@@ -5617,7 +5710,7 @@ window.addEventListener("resize", () => fitMenu());
 function sidebar(){
   const open = !!ui.menuOpen;
   /* Lịch và Hồ sơ đã có nút riêng trên thanh đầu trang nên không lặp lại trong Mục lục */
-  const items = SECTIONS.filter(s => s.id !== "plan" && s.id !== "profile").map((s,i) => `<button style="--i:${i}" data-act="section" data-v="${s.id}" ${ui.section===s.id?'aria-current="page"':""}><span class="si" aria-hidden="true">${SECTION_ICONS[s.id] || ""}</span><span class="st">${esc(secName(s))}</span>${s.ready?"":'<span class="soon">Sắp có</span>'}</button>`).join("");
+  const items = SECTIONS.filter(s => s.id !== "plan" && s.id !== "profile" && s.id !== "history").map((s,i) => `<button style="--i:${i}" data-act="section" data-v="${s.id}" ${ui.section===s.id?'aria-current="page"':""}><span class="si" aria-hidden="true">${SECTION_ICONS[s.id] || ""}</span><span class="st">${esc(secName(s))}</span>${s.ready?"":'<span class="soon">Sắp có</span>'}</button>`).join("");
   return `<nav class="side" aria-label="Mục lục">
     <button class="side-toggle" data-act="menu" aria-expanded="${open}" aria-controls="side-list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Mục lục<span class="chev">${ICON_CHEV}</span></button>
     <div class="side-list ${open?"open":""}" id="side-list" ${open?"":"inert"}><div class="side-inner">${items}</div></div></nav>`;
@@ -6519,7 +6612,7 @@ const Board = {
 function vtAct(act, el){
   ui.vt = ui.vt || {topic:null, part:"b", mode:"list"};
   const v = vtState(), L = store.prefs.lang;
-  if(act === "vtopen"){ ui.vt = {topic:el.dataset.v, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
+  if(act === "vtopen"){ ui.vt = {topic:el.dataset.v, part:"b", mode:"list"}; { const T = VT_TOPICS.find(x => x.id === el.dataset.v); if(T) Hist.add({kind:"vt", key:"v:" + T.id + L, id:T.id, lang:L, title:T.icon + " " + T.name}); } render(); window.scrollTo(0,0); return true; }
   if(act === "vthome"){ ui.vt = {topic:null, part:"b", mode:"list"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vtnotebook"){ ui.vt = {view:"notebook"}; render(); window.scrollTo(0,0); return true; }
   if(act === "vtlessons"){ ui.vt = {view:"lessons"}; render(); window.scrollTo(0,0); return true; }
@@ -6538,7 +6631,7 @@ function vtAct(act, el){
   if(act === "vtcardsreset"){ ui.vt.card = null; render(); return true; }
   if(act === "vtpick"){ const q = ui.vt.quiz; if(!q || q.picked != null) return true; q.picked = +el.dataset.v; const qq = q.qs[q.i];
     if(q.picked === qq.ans){ q.correct++; const k = vtKey(L, items[qq.idx]); v.known[k] = 1; vtAddXP(10); } render(); return true; }
-  if(act === "vtnext"){ const q = ui.vt.quiz; if(q){ q.i++; q.picked = null; render(); if(q.i < q.qs.length) sayKey(`T${ui.vt.part}${q.qs[q.i].idx}`); } return true; }
+  if(act === "vtnext"){ const q = ui.vt.quiz; if(q){ q.i++; q.picked = null; if(q.i >= q.qs.length){ const T = VT_TOPICS.find(x => x.id === ui.vt.topic); Hist.add({kind:"vtquiz", key:"vq:" + ui.vt.topic, id:ui.vt.topic, lang:L, title:T ? T.name : "", sub:`${q.correct}/${q.qs.length} câu đúng`}); } render(); if(q.i < q.qs.length) sayKey(`T${ui.vt.part}${q.qs[q.i].idx}`); } return true; }
   if(act === "vtquizreset"){ ui.vt.quiz = null; render(); return true; }
   return false;
 }
@@ -6586,7 +6679,7 @@ function achCheck(){
     for(const a of ACH_LIST){
       if(st[a.id]) continue;
       let p = 0; try{ p = achProg(a); }catch(e){ continue; }
-      if(p >= 1){ st[a.id] = vtToday(); changed = true; if(!first) ACH.queue.push(a); }
+      if(p >= 1){ st[a.id] = vtToday(); changed = true; if(!first){ ACH.queue.push(a); Hist.add({kind:"ach", key:"a:" + a.id, lang:a.lang === "both" ? "" : a.lang, title:a.name}); } }
     }
     if(first){ store.achInit = 1; changed = true; }
     if(changed){ saveStore(); ACH.queue.sort((a, b) => (b.big ? 1 : 0) - (a.big ? 1 : 0)); if(ui.section === "profile") render(); }
@@ -6831,6 +6924,7 @@ document.addEventListener("click", (ev) => {
   if(act.startsWith("plan")){ if(Plan.act(act, el, ev)) render(); return; }
   if(act.startsWith("nb") && nbAct(act, el)) return;
   if(act.startsWith("news") && newsAct(act, el)) return;
+  if(act.startsWith("hist") && histAct(act, el)) return;
   if(act === "rword"){ const sl = window.getSelection(); if(sl && !sl.isCollapsed && sl.toString().trim()) return; WordPop.open(el.textContent, el.getBoundingClientRect(), el.dataset.l); return; }
   if((act.startsWith("vt") || act === "proftab") && vtAct(act, el)) return;
   if(act === "pomo"){ ui.pomoOpen = !ui.pomoOpen; if(!ui.pomoOpen) ui.pomoMsg = null; render(); return; }
@@ -6873,7 +6967,7 @@ document.addEventListener("click", (ev) => {
   if(act === "theme"){ store.prefs.theme = store.prefs.theme === "dark" ? "light" : "dark"; saveStore(); applyTheme(); render(); return; }
   if(act === "lang"){ store.prefs.lang = el.dataset.v; saveStore(); TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); return; }
   if(act === "popen"){ TTS.stop(); Rec.stop(); ui.section="pron"; ui.view="lesson"; ui.pid=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.pq=null; ui.playAll=false; ui.playingKey=null;
-    const c = curPron(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"pron", id:c.lesson.id, lang:c.lang}; saveStore(); } render(); window.scrollTo(0,0); return; }
+    const c = curPron(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"pron", id:c.lesson.id, lang:c.lang}; saveStore(); Hist.add({kind:"pron", key:"p:" + c.lesson.id, id:c.lesson.id, lang:c.lang, title:c.lesson.title, sub:c.lesson.sub}); } render(); window.scrollTo(0,0); return; }
   if(act === "pqstart"){ TTS.stop(); const c = curPron(); if(!c) return; pqStart(c.lesson); render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return; }
   if(act === "pqpick"){
     const q = ui.pq; if(!q || q.picked != null) return;
@@ -6893,7 +6987,7 @@ document.addEventListener("click", (ev) => {
     render(); setTimeout(() => { if(ui.section==="pron" && ui.pq) sayKey("Q", () => {}); }, 250); return;
   }
   if(act === "open"){ TTS.stop(); Rec.stop(); ui.view="lesson"; ui.lessonId=el.dataset.id; ui.step=0; ui.results={}; ui.typing={}; ui.rp=null; ui.playAll=false; ui.playingKey=null;
-    const c = curLesson(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"les", id:c.lesson.id, lang:c.lang}; saveStore(); ui.section = c.lesson.work ? "work" : "speak"; } render(); window.scrollTo(0,0); return; }
+    const c = curLesson(); if(c){ store.prefs.lang = c.lang; store.prefs.last = {kind:"les", id:c.lesson.id, lang:c.lang}; saveStore(); Hist.add({kind:c.lesson.work ? "work" : "les", key:"l:" + c.lesson.id, id:c.lesson.id, lang:c.lang, title:c.lesson.title}); ui.section = c.lesson.work ? "work" : "speak"; } render(); window.scrollTo(0,0); return; }
   if(act === "home"){ TTS.stop(); Rec.stop(); ui.view="home"; ui.rp=null; ui.pq=null; ui.playAll=false; ui.playingKey=null; render(); window.scrollTo(0,0); return; }
   if(act === "step"){ TTS.stop(); Rec.stop(); ui.step = +el.dataset.v; ui.playAll=false; ui.playingKey=null; ui.pq=null; if(ui.step!==2) ui.rp=null; render(); window.scrollTo(0,0); return; }
   if(act === "mvplay"){ mvPlay(); return; }
@@ -7042,7 +7136,7 @@ function renderLanding(){
     if(lst) lastHtml = `<button class="hcard" data-act="${last.kind === "pron" ? "popen" : "open"}" data-id="${lst.id}"><span class="hcard-k">Học tiếp</span><b>${esc(last.kind === "pron" ? lst.title + " · " + lst.sub : lst.title)}</b><span>${last.lang === "zh" ? "Tiếng Trung" : "Tiếng Anh"} · bấm để mở lại bài đang học</span></button>`;
   }
   const quote = HOME_QUOTES[Math.floor(Date.now() / 864e5) % HOME_QUOTES.length];
-  const tiles = SECTIONS.filter(s => s.id !== "home" && s.id !== "plan").map(s => `<button class="htile ${s.ready ? "" : "soon"}" data-act="section" data-v="${s.id}">
+  const tiles = SECTIONS.filter(s => s.id !== "home" && s.id !== "plan" && s.id !== "history").map(s => `<button class="htile ${s.ready ? "" : "soon"}" data-act="section" data-v="${s.id}">
       <span class="htile-i" aria-hidden="true">${SECTION_ICONS[s.id] || ""}</span><b>${esc(secName(s))}</b><span>${esc(SECTION_DESC[s.id] || "")}</span>${s.ready ? "" : '<em>Sắp có</em>'}</button>`).join("");
   return `<section class="landing">
     <div class="hero">
