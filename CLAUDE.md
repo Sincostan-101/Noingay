@@ -24,6 +24,12 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
   - **Mục lục** (› MỤC LỤC) nằm dưới logo, bấm vào thì mở **theo hàng ngang** với hiệu ứng sóng. Mục lục không đẩy và không đè lên nội dung. Gồm: Luyện nói, Học qua truyện, Luyện nghe, Từ vựng, Ngữ pháp (các mục sau đang "Sắp có").
   - Nội dung (tiêu đề, giới thiệu, lưới bài học 2 cột) căn giữa màn hình.
 
+## Đợt 2 (23/11/2026)
+- Thêm 20 bài giao tiếp trình độ A2–B1 mỗi thứ tiếng (tiếng Trung khoảng HSK 3–4), xếp thành chặng 7–11 (phần 2 · Tiền trung cấp). Tổng cộng 40 bài giao tiếp cơ bản mỗi thứ tiếng.
+- Chủ đề: rủ rê/từ chối, xin lỗi vì muộn, khen/chúc mừng, an ủi; kể chuyến du lịch, ngày xui xẻo, nói về phim, so sánh khi mua; đặt bàn, phàn nàn món ăn, báo hỏng đồ, gửi bưu kiện; làm thủ tục sân bay, chuyến bay hoãn, đặt tour, thuê xe; hiệu thuốc, cắt tóc, đến nhà bạn ăn cơm, nhờ hàng xóm.
+- Mỗi bài 16 từ vựng có nhãn cấp độ (Oxford 3000/5000 CEFR, HSK 3.0). IPA mới lấy từ CMUdict, đổi sang kiểu IPA Anh của web.
+- Sửa lỗi tách bính âm: âm tiết giữa từ không được bắt đầu bằng nguyên âm (trước đây "niúròu" bị tách thành "niúr òu", "kěnéng" thành "kěn éng"…). Sửa được 105 chỗ hiển thị sai trong bài cũ.
+
 ## Việc tiếp theo (chọn khi làm tiếp)
 1. **Giao diện điện thoại riêng**: người dùng muốn kiểu khác với bản máy tính, sẽ mô tả sau.
 2. Thêm bài Luyện nói (mục tiêu khoảng 10 bài mỗi ngôn ngữ: phỏng vấn, gọi điện, khám bệnh, taxi…).

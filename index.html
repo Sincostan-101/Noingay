@@ -285,6 +285,8 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .mtrack{padding:7px 10px}
 .merr{font-size:12px;background:var(--warn-soft);color:var(--ink);border-radius:10px;padding:7px 10px}
 /* Phát âm */
+.lvl-h{margin:30px 0 2px;padding-top:14px;border-top:2px dashed var(--line, rgba(0,0,0,.12));font-size:19px;font-weight:800;color:var(--ink, inherit)}
+.lvl-h:first-of-type{margin-top:6px;padding-top:0;border-top:0}
 .grp-h{margin:14px 0 -4px;font-size:15px;font-weight:800;color:var(--accent);letter-spacing:.01em}
 .card h3.ipa{font-size:21px;letter-spacing:.01em}
 .lesson-head .grp-tag{margin:0 0 2px;font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
@@ -1432,19 +1434,871 @@ zh: [
     {h:"……丢了 là “bị mất”",b:"手机丢了 (mất điện thoại), 护照丢了 (mất hộ chiếu). 了 cho biết việc đã xảy ra."},
     {h:"什么样的？ hỏi hình dạng",b:"Trả lời bằng màu sắc, kích cỡ, đặc điểm: 黑色的，不太大，上面有……"}]}
 ]};
-/* Lộ trình giao tiếp cơ bản: 6 chặng, chủ đề và thứ tự tham khảo theo các giáo trình
+/* Đợt 2: 20 bài trình độ A2–B1 (tiếng Trung khoảng HSK 3–4) mỗi thứ tiếng, chặng 7–11 */
+LESSONS.en.push(
+ { id:"en-invite", title:"Rủ bạn đi chơi và từ chối khéo", scene:"Lily rủ bạn đi xem hòa nhạc tối thứ Sáu, nhưng hôm đó bạn bận.", partner:"Lily",
+   lines:[
+    {r:"A",t:"Hey Minh, are you free on Friday night?",v:"Này Minh, tối thứ Sáu bạn rảnh không?"},
+    {r:"B",t:"Hmm, why? What's going on?",v:"Ừm, sao vậy? Có chuyện gì thế?"},
+    {r:"A",t:"I've got two tickets for a concert. Would you like to come with me?",v:"Mình có hai vé xem hòa nhạc. Bạn có muốn đi cùng mình không?"},
+    {r:"B",t:"That sounds great, but I'm afraid I can't. I have to work late on Friday.",v:"Nghe hay quá, nhưng mình e là không đi được. Thứ Sáu mình phải làm muộn."},
+    {r:"A",t:"Oh, that's a shame.",v:"Ôi, tiếc thật."},
+    {r:"B",t:"Thanks for asking, though. How about going for coffee on Sunday instead?",v:"Dù sao cũng cảm ơn bạn đã rủ. Hay Chủ nhật mình đi cà phê nhé?"},
+    {r:"A",t:"Sure! What time is good for you?",v:"Được chứ! Mấy giờ thì tiện cho bạn?"},
+    {r:"B",t:"Let's meet at ten. I'll send you the address.",v:"Gặp nhau lúc mười giờ nhé. Mình sẽ gửi địa chỉ cho bạn."},
+    {r:"A",t:"Perfect. See you then!",v:"Tuyệt. Hẹn gặp bạn hôm đó!"}],
+   phrases:[
+    {t:"That sounds great, but I'm afraid I can't.",v:"Nghe hay quá, nhưng mình e là không được."},
+    {t:"I have to work late on Friday.",v:"Thứ Sáu mình phải làm muộn."},
+    {t:"Thanks for asking, though.",v:"Dù sao cũng cảm ơn bạn đã rủ."},
+    {t:"How about going for coffee on Sunday instead?",v:"Hay Chủ nhật mình đi cà phê nhé?",alt:["How about coffee on Sunday instead?"]},
+    {t:"What time is good for you?",v:"Mấy giờ thì tiện cho bạn?"}],
+   notes:[
+    {h:"Từ chối khéo theo 3 bước",b:"Khen lời mời (“That sounds great”), từ chối nhẹ nhàng (“but I'm afraid I can't”), rồi nêu lý do hoặc hẹn dịp khác. Chỉ nói “No, I can't” thì nghe khá phũ."},
+    {h:"“I'm afraid…” không phải là “tôi sợ”",b:"Ở đây nó làm câu từ chối hoặc tin không vui nghe mềm hơn, giống “e là”, “rất tiếc là”."},
+    {h:"“How about + V-ing?” để gợi ý",b:"How about going for coffee? How about meeting on Sunday? Sau “about” động từ thêm -ing. Đặt “instead” ở cuối để nói “thay vào đó”."}]},
+ { id:"en-late", title:"Xin lỗi vì đến muộn", scene:"Bạn đến muộn 20 phút trong buổi hẹn với Tom và cần giải thích.", partner:"Tom",
+   lines:[
+    {r:"B",t:"I'm so sorry I'm late. Have you been waiting long?",v:"Mình xin lỗi vì đến muộn. Bạn đợi lâu chưa?"},
+    {r:"A",t:"About twenty minutes. What happened?",v:"Khoảng hai mươi phút. Có chuyện gì vậy?"},
+    {r:"B",t:"There was a terrible traffic jam, and then my phone died.",v:"Đường tắc kinh khủng, rồi điện thoại mình lại hết pin."},
+    {r:"A",t:"Ah, so that's why you didn't answer my calls.",v:"À, thảo nào bạn không nghe máy."},
+    {r:"B",t:"Yes, I couldn't even text you. It won't happen again.",v:"Ừ, mình còn không nhắn tin được cho bạn. Lần sau sẽ không như vậy nữa."},
+    {r:"A",t:"Don't worry about it. These things happen.",v:"Đừng bận tâm. Chuyện này ai cũng gặp mà."},
+    {r:"B",t:"Let me buy you a drink to make up for it.",v:"Để mình mời bạn đồ uống coi như chuộc lỗi nhé."},
+    {r:"A",t:"Deal! I'll have an orange juice.",v:"Chốt! Mình lấy một ly nước cam."}],
+   phrases:[
+    {t:"I'm so sorry I'm late.",v:"Mình xin lỗi vì đến muộn."},
+    {t:"Have you been waiting long?",v:"Bạn đợi lâu chưa?"},
+    {t:"There was a terrible traffic jam.",v:"Đường tắc kinh khủng."},
+    {t:"It won't happen again.",v:"Lần sau sẽ không như vậy nữa."},
+    {t:"Let me buy you a drink to make up for it.",v:"Để mình mời bạn đồ uống coi như chuộc lỗi."}],
+   notes:[
+    {h:"Xin lỗi kèm lý do và lời hứa",b:"Một lời xin lỗi đầy đủ gồm: xin lỗi (I'm so sorry), lý do ngắn gọn (There was…), và lời hứa (It won't happen again). Không cần giải thích quá dài."},
+    {h:"“My phone died” là điện thoại hết pin",b:"Người bản xứ hay nói phone “died” thay vì “my phone's battery ran out”. Hết pin sắp tới thì nói “My phone is dying.”"},
+    {h:"“Make up for it” là bù lại",b:"Dùng khi muốn làm gì đó để chuộc lỗi: “Let me make it up to you.” Người kia hay đáp vui là “Deal!” (Chốt nhé!)."}]},
+ { id:"en-compliment", title:"Khen và chúc mừng", scene:"Đồng nghiệp Sarah vừa được thăng chức và mặc một chiếc áo mới.", partner:"Sarah",
+   lines:[
+    {r:"B",t:"Congratulations on your promotion, Sarah! You really deserve it.",v:"Chúc mừng chị được thăng chức, Sarah! Chị thật sự xứng đáng."},
+    {r:"A",t:"Thank you so much! I'm still a bit nervous about the new role.",v:"Cảm ơn em nhiều! Chị vẫn hơi lo về vị trí mới."},
+    {r:"B",t:"Don't be. You've worked so hard this year.",v:"Chị đừng lo. Năm nay chị đã làm việc rất chăm chỉ."},
+    {r:"A",t:"That's really kind of you to say.",v:"Em nói vậy thật là tốt quá."},
+    {r:"B",t:"By the way, I love your dress. The color really suits you.",v:"À mà em rất thích chiếc váy của chị. Màu này rất hợp với chị."},
+    {r:"A",t:"Oh, thanks! I got it at a small shop near my house.",v:"Ôi, cảm ơn em! Chị mua ở một cửa hàng nhỏ gần nhà."},
+    {r:"B",t:"We should celebrate. Are you free for lunch tomorrow?",v:"Mình nên ăn mừng. Trưa mai chị rảnh không?"},
+    {r:"A",t:"I'd love that. My treat!",v:"Chị rất thích. Để chị mời!"}],
+   phrases:[
+    {t:"Congratulations on your promotion!",v:"Chúc mừng bạn được thăng chức!"},
+    {t:"You really deserve it.",v:"Bạn thật sự xứng đáng."},
+    {t:"The color really suits you.",v:"Màu này rất hợp với bạn."},
+    {t:"That's really kind of you to say.",v:"Bạn nói vậy thật là tốt quá."},
+    {t:"We should celebrate.",v:"Mình nên ăn mừng."}],
+   notes:[
+    {h:"“Congratulations on + danh từ hoặc V-ing”",b:"Congratulations on your promotion, on your new job, on passing the exam. Chữ “Congratulations” luôn có “s” ở cuối."},
+    {h:"Nhận lời khen: chỉ cần cảm ơn",b:"Người Việt hay chối khi được khen (“Đâu có…”). Trong tiếng Anh, chối như vậy nghe hơi lạ. Cứ nói “Thank you!” hoặc “That's kind of you to say.”"},
+    {h:"“My treat!” là “để tôi mời”",b:"Dùng khi bạn muốn trả tiền bữa ăn hoặc đồ uống. Cũng có thể nói “It's on me.”"}]},
+ { id:"en-comfort", title:"Hỏi thăm khi bạn buồn", scene:"Bạn thấy Jake có vẻ buồn sau buổi phỏng vấn xin việc.", partner:"Jake",
+   lines:[
+    {r:"B",t:"Hey Jake, you look a bit down. Is everything okay?",v:"Này Jake, trông bạn hơi buồn. Mọi chuyện ổn chứ?"},
+    {r:"A",t:"Not really. I didn't get the job I wanted.",v:"Không ổn lắm. Mình trượt công việc mình muốn rồi."},
+    {r:"B",t:"Oh no, I'm sorry to hear that. You must be really disappointed.",v:"Ôi, mình rất tiếc. Chắc bạn thất vọng lắm."},
+    {r:"A",t:"Yeah. I prepared for weeks.",v:"Ừ. Mình đã chuẩn bị mấy tuần liền."},
+    {r:"B",t:"I know. But it was good practice, and there will be other chances.",v:"Mình biết. Nhưng đó là một lần luyện tập tốt, và sẽ còn cơ hội khác."},
+    {r:"A",t:"I guess you're right.",v:"Chắc bạn nói đúng."},
+    {r:"B",t:"If you want to talk, I'm here for you.",v:"Nếu bạn muốn tâm sự thì có mình đây."},
+    {r:"A",t:"Thanks. That really means a lot.",v:"Cảm ơn. Điều đó có ý nghĩa với mình lắm."},
+    {r:"B",t:"Come on, let's get something to eat. It'll cheer you up.",v:"Thôi nào, mình đi ăn gì đi. Bạn sẽ thấy khá hơn."}],
+   phrases:[
+    {t:"You look a bit down. Is everything okay?",v:"Trông bạn hơi buồn. Mọi chuyện ổn chứ?"},
+    {t:"I'm sorry to hear that.",v:"Mình rất tiếc khi nghe vậy."},
+    {t:"There will be other chances.",v:"Sẽ còn cơ hội khác."},
+    {t:"If you want to talk, I'm here for you.",v:"Nếu bạn muốn tâm sự thì có mình đây."},
+    {t:"It'll cheer you up.",v:"Bạn sẽ thấy vui hơn."}],
+   notes:[
+    {h:"“I'm sorry to hear that” không phải lời xin lỗi",b:"Đây là cách bày tỏ sự cảm thông khi nghe tin không vui. Bạn không làm gì sai cả."},
+    {h:"“You look + tính từ” để nhận xét vẻ ngoài",b:"You look down (trông buồn), you look tired (trông mệt), you look happy (trông vui). “Down” ở đây nghĩa là buồn, xuống tinh thần."},
+    {h:"“Must be” để đoán cảm xúc",b:"“You must be disappointed” là “chắc bạn thất vọng lắm”. Đây là cách cho người kia thấy bạn hiểu họ."}]},
+ { id:"en-trip", title:"Kể về chuyến du lịch", scene:"Bạn vừa đi Đà Lạt về và kể cho đồng nghiệp Emma nghe.", partner:"Emma",
+   lines:[
+    {r:"A",t:"Welcome back! How was your trip to Da Lat?",v:"Chào mừng trở lại! Chuyến đi Đà Lạt của bạn thế nào?"},
+    {r:"B",t:"It was amazing! The weather was cool and the views were beautiful.",v:"Tuyệt lắm! Thời tiết mát mẻ và cảnh thì đẹp."},
+    {r:"A",t:"How long did you stay there?",v:"Bạn ở đó bao lâu?"},
+    {r:"B",t:"Four days. We stayed in a small homestay near the lake.",v:"Bốn ngày. Bọn mình ở một homestay nhỏ gần hồ."},
+    {r:"A",t:"What did you do there?",v:"Bạn đã làm gì ở đó?"},
+    {r:"B",t:"We visited a flower farm and went to the night market.",v:"Bọn mình đi thăm một vườn hoa và đi chợ đêm."},
+    {r:"A",t:"Sounds lovely. Did you try any local food?",v:"Nghe thích thật. Bạn có ăn thử món địa phương nào không?"},
+    {r:"B",t:"Yes, the grilled rice paper was the best thing I've ever eaten!",v:"Có, bánh tráng nướng là món ngon nhất mình từng ăn!"},
+    {r:"A",t:"I've never been there. I should go next year.",v:"Mình chưa đến đó bao giờ. Năm sau mình phải đi mới được."},
+    {r:"B",t:"You definitely should. I can send you some tips.",v:"Bạn nhất định nên đi. Mình gửi bạn vài kinh nghiệm nhé."}],
+   phrases:[
+    {t:"It was amazing!",v:"Tuyệt lắm!"},
+    {t:"We stayed in a small homestay near the lake.",v:"Bọn mình ở một homestay nhỏ gần hồ."},
+    {t:"We visited a flower farm and went to the night market.",v:"Bọn mình đi thăm vườn hoa và đi chợ đêm."},
+    {t:"It was the best thing I've ever eaten!",v:"Đó là món ngon nhất mình từng ăn!"},
+    {t:"You definitely should.",v:"Bạn nhất định nên (làm vậy)."}],
+   notes:[
+    {h:"Kể chuyện đã qua thì dùng thì quá khứ",b:"Động từ đổi dạng: stay → stayed, visit → visited, go → went, eat → ate. Hỏi lại cũng dùng quá khứ: “How was…?”, “What did you do?”"},
+    {h:"“The best… I've ever…” là “… nhất từng…”",b:"The best food I've ever eaten, the most beautiful place I've ever seen. Cấu trúc rất hay dùng khi kể chuyện du lịch."},
+    {h:"“I've never been there”",b:"Nói về trải nghiệm chưa từng có thì dùng “I've never + V3”. “Been” là dạng V3 của “go/be” khi nói đã từng đến đâu."}]},
+ { id:"en-badday", title:"Kể về một ngày xui xẻo", scene:"Buổi tối bạn kể với bạn cùng phòng Chris về một ngày toàn chuyện không may.", partner:"Chris",
+   lines:[
+    {r:"A",t:"You look exhausted. Long day?",v:"Trông bạn mệt rã rời. Hôm nay dài lắm à?"},
+    {r:"B",t:"The worst! First, I overslept and missed the bus.",v:"Tệ nhất luôn! Đầu tiên là mình ngủ quên và lỡ xe buýt."},
+    {r:"A",t:"Oh no. Were you late for work?",v:"Ôi không. Bạn có đi làm muộn không?"},
+    {r:"B",t:"Yes, I was. Then it started to rain while I was walking to the office.",v:"Có. Rồi trời đổ mưa đúng lúc mình đang đi bộ đến văn phòng."},
+    {r:"A",t:"Didn't you have an umbrella?",v:"Bạn không mang ô à?"},
+    {r:"B",t:"No, I left it at home. I got completely wet.",v:"Không, mình để quên ở nhà. Mình bị ướt hết."},
+    {r:"A",t:"What a day! Did anything good happen?",v:"Đúng là một ngày tệ! Có chuyện gì vui không?"},
+    {r:"B",t:"Actually, yes. My boss liked my report, so it wasn't all bad.",v:"Thật ra là có. Sếp thích bản báo cáo của mình, nên cũng không tệ hết."},
+    {r:"A",t:"Good for you! Sit down, I'll make you some tea.",v:"Tốt quá! Ngồi đi, để mình pha trà cho bạn."}],
+   phrases:[
+    {t:"I overslept and missed the bus.",v:"Mình ngủ quên và lỡ xe buýt."},
+    {t:"It started to rain while I was walking to the office.",v:"Trời đổ mưa đúng lúc mình đang đi bộ đến văn phòng."},
+    {t:"I left it at home.",v:"Mình để quên nó ở nhà."},
+    {t:"I got completely wet.",v:"Mình bị ướt hết."},
+    {t:"It wasn't all bad.",v:"Cũng không tệ hết."}],
+   notes:[
+    {h:"Nối các việc bằng First, Then, Actually",b:"First (đầu tiên), then (sau đó), finally (cuối cùng) giúp người nghe theo kịp câu chuyện. “Actually” dùng khi chuyển sang ý ngược lại, kiểu “thật ra thì…”."},
+    {h:"“While I was walking” là việc đang diễn ra",b:"Một việc đang xảy ra (was walking) thì có việc khác chen vào (started to rain). Cấu trúc: was/were + V-ing ... khi một việc khác xảy ra."},
+    {h:"“Left it at home” là để quên ở nhà",b:"Quên mang đồ thì dùng “leave” (left), không dùng “forget” kèm nơi chốn. Nói “I forgot my umbrella” cũng được, nhưng không nói “I forgot it at home”."}]},
+ { id:"en-movie", title:"Nói về bộ phim vừa xem", scene:"Bạn và Daniel bàn về một bộ phim mới ra rạp.", partner:"Daniel",
+   lines:[
+    {r:"A",t:"Have you seen the new Marvel movie yet?",v:"Bạn đã xem phim Marvel mới chưa?"},
+    {r:"B",t:"Yes, I saw it last weekend.",v:"Rồi, mình xem cuối tuần trước."},
+    {r:"A",t:"What did you think of it?",v:"Bạn thấy phim thế nào?"},
+    {r:"B",t:"To be honest, I was a bit disappointed. The story was too long.",v:"Nói thật là mình hơi thất vọng. Cốt truyện dài quá."},
+    {r:"A",t:"Really? I thought it was exciting.",v:"Thật à? Mình lại thấy phim hấp dẫn."},
+    {r:"B",t:"The action scenes were great, I agree. But the ending was boring.",v:"Mình đồng ý là cảnh hành động rất hay. Nhưng đoạn kết thì nhàm."},
+    {r:"A",t:"Fair enough. Would you recommend it?",v:"Cũng có lý. Bạn có khuyên mọi người đi xem không?"},
+    {r:"B",t:"Maybe, if you're a big fan. Otherwise, wait until it's online.",v:"Có thể, nếu bạn là fan cứng. Còn không thì đợi lên mạng hãy xem."},
+    {r:"A",t:"Ha, good point. I'll wait then.",v:"Haha, nói đúng đấy. Vậy mình đợi."}],
+   phrases:[
+    {t:"What did you think of it?",v:"Bạn thấy nó thế nào?"},
+    {t:"To be honest, I was a bit disappointed.",v:"Nói thật là mình hơi thất vọng."},
+    {t:"The action scenes were great, I agree.",v:"Mình đồng ý là cảnh hành động rất hay."},
+    {t:"Would you recommend it?",v:"Bạn có khuyên người khác xem không?"},
+    {t:"Wait until it's online.",v:"Đợi lên mạng hãy xem."}],
+   notes:[
+    {h:"“What did you think of…?” để hỏi ý kiến",b:"Không dùng “How do you think…?”. Hỏi ý kiến về phim, sách, món ăn: What did you think of the movie? What do you think of this dress?"},
+    {h:"“To be honest” làm lời chê bớt gắt",b:"Đặt trước một nhận xét không mấy tích cực: “To be honest, it was boring.” Nghe chân thành mà không bất lịch sự."},
+    {h:"Đồng ý một phần, rồi phản bác",b:"“…, I agree. But…” giúp cuộc tranh luận nhẹ nhàng. Người kia đáp “Fair enough” (cũng có lý) hoặc “Good point” (ý hay đấy)."}]},
+ { id:"en-compare", title:"So sánh và chọn mua điện thoại", scene:"Bạn phân vân giữa hai chiếc điện thoại và hỏi nhân viên cửa hàng.", partner:"Nhân viên",
+   lines:[
+    {r:"A",t:"Hi! Are you looking for anything in particular?",v:"Chào bạn! Bạn đang tìm món gì cụ thể không?"},
+    {r:"B",t:"Yes, I can't decide between these two phones. What's the difference?",v:"Có, mình đang phân vân giữa hai chiếc điện thoại này. Chúng khác nhau thế nào?"},
+    {r:"A",t:"This one has a better camera, but the other one has a bigger battery.",v:"Chiếc này có camera tốt hơn, còn chiếc kia có pin lớn hơn."},
+    {r:"B",t:"Which one is more popular?",v:"Chiếc nào được ưa chuộng hơn?"},
+    {r:"A",t:"The first one, mostly because it's lighter and faster.",v:"Chiếc thứ nhất, chủ yếu vì nó nhẹ hơn và nhanh hơn."},
+    {r:"B",t:"It's also more expensive, though. Is it worth the money?",v:"Nhưng nó cũng đắt hơn. Có đáng tiền không?"},
+    {r:"A",t:"If you take a lot of photos, I'd say yes.",v:"Nếu bạn chụp ảnh nhiều thì tôi nghĩ là có."},
+    {r:"B",t:"I mostly use my phone for work, so battery life is more important to me.",v:"Mình chủ yếu dùng điện thoại cho công việc, nên thời lượng pin quan trọng hơn."},
+    {r:"A",t:"Then the second one is the better choice.",v:"Vậy chiếc thứ hai là lựa chọn tốt hơn."},
+    {r:"B",t:"Great. I'll take it.",v:"Tuyệt. Mình lấy chiếc này."}],
+   phrases:[
+    {t:"I can't decide between these two phones.",v:"Mình đang phân vân giữa hai chiếc điện thoại này."},
+    {t:"What's the difference?",v:"Chúng khác nhau thế nào?"},
+    {t:"Which one is more popular?",v:"Chiếc nào được ưa chuộng hơn?"},
+    {t:"Is it worth the money?",v:"Có đáng tiền không?"},
+    {t:"Battery life is more important to me.",v:"Thời lượng pin quan trọng với mình hơn."}],
+   notes:[
+    {h:"So sánh hơn: -er hoặc more",b:"Từ ngắn thêm -er: big → bigger, light → lighter, fast → faster. Từ dài dùng more: more expensive, more popular. Riêng good → better."},
+    {h:"“Worth the money” là đáng tiền",b:"Is it worth it? (Có đáng không?) It's worth trying (Đáng để thử). Đây là câu hỏi rất hay dùng khi mua sắm."},
+    {h:"“I'd say…” để nêu ý kiến mềm mỏng",b:"“I'd say yes” nghe nhẹ hơn “Yes”. Người bán hàng hay dùng để gợi ý mà không ép khách."}]},
+ { id:"en-booktable", title:"Đặt bàn nhà hàng qua điện thoại", scene:"Bạn gọi điện đặt bàn cho sinh nhật mẹ vào tối thứ Bảy.", partner:"Lễ tân nhà hàng",
+   lines:[
+    {r:"A",t:"Good afternoon, Sunset Restaurant. How can I help you?",v:"Chào buổi chiều, nhà hàng Sunset xin nghe. Tôi giúp gì được cho quý khách?"},
+    {r:"B",t:"Hi, I'd like to book a table for Saturday evening, please.",v:"Chào chị, tôi muốn đặt bàn cho tối thứ Bảy."},
+    {r:"A",t:"Certainly. For how many people?",v:"Vâng ạ. Cho bao nhiêu người ạ?"},
+    {r:"B",t:"Six people, at around seven o'clock.",v:"Sáu người, khoảng bảy giờ."},
+    {r:"A",t:"Let me check... Yes, we have a table available at seven.",v:"Để tôi kiểm tra... Vâng, lúc bảy giờ chúng tôi còn bàn."},
+    {r:"B",t:"Great. Could we have a table by the window? It's my mom's birthday.",v:"Tuyệt. Cho chúng tôi bàn gần cửa sổ được không? Hôm đó là sinh nhật mẹ tôi."},
+    {r:"A",t:"Of course. Can I have your name and phone number?",v:"Tất nhiên ạ. Cho tôi xin tên và số điện thoại của quý khách."},
+    {r:"B",t:"It's Minh, and my number is 0912 345 678.",v:"Tôi tên Minh, số điện thoại là 0912 345 678."},
+    {r:"A",t:"Thank you. Your table is booked for six at seven p.m. on Saturday.",v:"Cảm ơn quý khách. Bàn sáu người lúc bảy giờ tối thứ Bảy đã được đặt."},
+    {r:"B",t:"Thank you. See you on Saturday!",v:"Cảm ơn chị. Hẹn gặp vào thứ Bảy!"}],
+   phrases:[
+    {t:"I'd like to book a table for Saturday evening, please.",v:"Tôi muốn đặt bàn cho tối thứ Bảy."},
+    {t:"Six people, at around seven o'clock.",v:"Sáu người, khoảng bảy giờ."},
+    {t:"Could we have a table by the window?",v:"Cho chúng tôi bàn gần cửa sổ được không?"},
+    {t:"It's my mom's birthday.",v:"Hôm đó là sinh nhật mẹ tôi."}],
+   notes:[
+    {h:"“Book a table for + giờ/ngày/số người”",b:"Book a table for two, for tonight, for 8 p.m. Có thể dùng “reserve” thay “book”, nghe trang trọng hơn một chút."},
+    {h:"Đọc số điện thoại từng chữ số",b:"0912 345 678 đọc là “oh nine one two, three four five, six seven eight”. Số 0 thường đọc là “oh”, ngắt nhịp theo từng nhóm."},
+    {h:"“By the window” là cạnh cửa sổ",b:"Các yêu cầu khác: a quiet table (bàn yên tĩnh), outside (ngoài trời), a high chair for a baby (ghế cao cho em bé)."}]},
+ { id:"en-complain", title:"Phàn nàn khi món ăn có vấn đề", scene:"Món ăn mang ra không đúng thứ bạn gọi và đã nguội.", partner:"Phục vụ",
+   lines:[
+    {r:"B",t:"Excuse me, I'm sorry, but this isn't what I ordered.",v:"Xin lỗi anh, nhưng đây không phải món tôi gọi."},
+    {r:"A",t:"Oh, I apologize. What did you order?",v:"Ôi, tôi xin lỗi. Quý khách đã gọi món gì ạ?"},
+    {r:"B",t:"I ordered the chicken salad, not the beef noodles.",v:"Tôi gọi salad gà, không phải mì bò."},
+    {r:"A",t:"I'm very sorry about that. I'll change it right away.",v:"Tôi rất xin lỗi. Tôi sẽ đổi ngay ạ."},
+    {r:"B",t:"Thank you. Also, my soup is a little cold.",v:"Cảm ơn anh. Ngoài ra, bát súp của tôi hơi nguội."},
+    {r:"A",t:"Let me heat it up for you.",v:"Để tôi hâm nóng lại cho quý khách."},
+    {r:"B",t:"How long will it take? I have a meeting at one.",v:"Mất bao lâu vậy? Một giờ tôi có cuộc họp."},
+    {r:"A",t:"About five minutes. And the drinks are on the house today.",v:"Khoảng năm phút. Và hôm nay đồ uống nhà hàng mời ạ."},
+    {r:"B",t:"That's very kind. Thank you.",v:"Anh thật chu đáo. Cảm ơn anh."}],
+   phrases:[
+    {t:"I'm sorry, but this isn't what I ordered.",v:"Xin lỗi, nhưng đây không phải món tôi gọi."},
+    {t:"I ordered the chicken salad.",v:"Tôi gọi salad gà."},
+    {t:"My soup is a little cold.",v:"Bát súp của tôi hơi nguội."},
+    {t:"How long will it take?",v:"Mất bao lâu vậy?"}],
+   notes:[
+    {h:"Phàn nàn lịch sự: bắt đầu bằng “I'm sorry, but…”",b:"Nghe lạ vì mình không có lỗi, nhưng đây là cách nói rất tự nhiên để mở lời phàn nàn mà không gây căng thẳng."},
+    {h:"“A little” làm lời phàn nàn nhẹ đi",b:"My soup is a little cold, the room is a bit noisy. Thêm “a little” hoặc “a bit” trước tính từ để nghe bớt nặng nề."},
+    {h:"“On the house” là nhà hàng mời",b:"Khi nghe “It's on the house”, bạn không phải trả tiền món đó. Đáp lại: “That's very kind, thank you.”"}]},
+ { id:"en-repair", title:"Báo hỏng đồ cho chủ nhà", scene:"Điều hòa trong phòng trọ bị hỏng giữa mùa hè, bạn gọi cho chủ nhà.", partner:"Chủ nhà",
+   lines:[
+    {r:"A",t:"Hello, Mr. Brown speaking.",v:"Alô, Brown nghe đây."},
+    {r:"B",t:"Hi Mr. Brown, it's Minh from apartment 302. The air conditioner isn't working.",v:"Chào ông Brown, cháu là Minh ở căn 302. Điều hòa không chạy ạ."},
+    {r:"A",t:"Oh dear. What's wrong with it?",v:"Ôi trời. Nó bị làm sao?"},
+    {r:"B",t:"It turns on, but it only blows hot air. And it's making a strange noise.",v:"Nó vẫn bật được nhưng chỉ thổi ra hơi nóng. Lại còn kêu tiếng lạ."},
+    {r:"A",t:"When did it start?",v:"Bị từ khi nào?"},
+    {r:"B",t:"Since yesterday evening. It's really hot in here.",v:"Từ tối qua ạ. Trong phòng nóng lắm."},
+    {r:"A",t:"I'll call a repairman. Will you be home tomorrow morning?",v:"Tôi sẽ gọi thợ sửa. Sáng mai cháu có nhà không?"},
+    {r:"B",t:"I'll be at work until five. Could he come after that?",v:"Cháu đi làm đến năm giờ. Thợ đến sau giờ đó được không ạ?"},
+    {r:"A",t:"Sure, I'll ask him to come at six.",v:"Được, tôi sẽ bảo anh ấy đến lúc sáu giờ."},
+    {r:"B",t:"Thank you so much. I really appreciate it.",v:"Cảm ơn ông nhiều. Cháu thật sự rất cảm kích."}],
+   phrases:[
+    {t:"The air conditioner isn't working.",v:"Điều hòa không chạy."},
+    {t:"It's making a strange noise.",v:"Nó kêu tiếng lạ."},
+    {t:"Since yesterday evening.",v:"Từ tối qua."},
+    {t:"Could he come after that?",v:"Anh ấy đến sau giờ đó được không?"},
+    {t:"I really appreciate it.",v:"Tôi thật sự rất cảm kích."}],
+   notes:[
+    {h:"“…isn't working” là bị hỏng, không chạy",b:"Dùng cho mọi thiết bị: the light isn't working, the Wi-Fi isn't working. Nghe tự nhiên hơn “is broken” khi máy vẫn bật được."},
+    {h:"Mô tả lỗi càng cụ thể càng tốt",b:"Nói rõ máy bị gì (blows hot air, makes a noise, leaks water) và từ khi nào (since yesterday) để chủ nhà gọi đúng thợ."},
+    {h:"“I really appreciate it”",b:"Lời cảm ơn sâu hơn “thank you”, dùng khi ai đó bỏ công giúp mình. Rất hợp khi nói với chủ nhà, đồng nghiệp hoặc sếp."}]},
+ { id:"en-post", title:"Gửi bưu kiện ra nước ngoài", scene:"Bạn gửi một hộp quà sang Úc cho người bạn ở bưu điện.", partner:"Nhân viên bưu điện",
+   lines:[
+    {r:"A",t:"Next, please. How can I help you?",v:"Mời người tiếp theo. Tôi giúp gì được cho bạn?"},
+    {r:"B",t:"I'd like to send this package to Australia.",v:"Tôi muốn gửi bưu kiện này sang Úc."},
+    {r:"A",t:"Sure. What's inside?",v:"Vâng. Bên trong có gì vậy?"},
+    {r:"B",t:"Some clothes and a book. It's a gift for a friend.",v:"Một ít quần áo và một cuốn sách. Đây là quà cho một người bạn."},
+    {r:"A",t:"Would you like to send it by air or by sea?",v:"Bạn muốn gửi đường hàng không hay đường biển?"},
+    {r:"B",t:"How long does each one take?",v:"Mỗi cách mất bao lâu?"},
+    {r:"A",t:"By air, about a week. By sea, around six weeks, but it's much cheaper.",v:"Đường hàng không khoảng một tuần. Đường biển khoảng sáu tuần nhưng rẻ hơn nhiều."},
+    {r:"B",t:"I'll send it by air. Her birthday is next month.",v:"Tôi gửi đường hàng không. Tháng sau là sinh nhật bạn ấy."},
+    {r:"A",t:"Okay. Please fill in this form with her address.",v:"Được. Bạn điền địa chỉ người nhận vào tờ khai này nhé."},
+    {r:"B",t:"Sure. Can I track the package online?",v:"Vâng. Tôi có theo dõi bưu kiện trên mạng được không?"},
+    {r:"A",t:"Yes, the tracking number is on your receipt.",v:"Được, mã vận đơn có trên biên lai của bạn."}],
+   phrases:[
+    {t:"I'd like to send this package to Australia.",v:"Tôi muốn gửi bưu kiện này sang Úc."},
+    {t:"It's a gift for a friend.",v:"Đây là quà cho một người bạn."},
+    {t:"How long does each one take?",v:"Mỗi cách mất bao lâu?"},
+    {t:"I'll send it by air.",v:"Tôi gửi đường hàng không."},
+    {t:"Can I track the package online?",v:"Tôi có theo dõi bưu kiện trên mạng được không?"}],
+   notes:[
+    {h:"“By air” và “by sea”",b:"By air là đường hàng không, by sea là đường biển. Gửi nhanh có thể nói “express”. Hỏi giá: “How much does it cost to send this?”"},
+    {h:"“Fill in a form” là điền tờ khai",b:"Người Mỹ hay nói “fill out a form”, người Anh nói “fill in”. Cả hai đều đúng."},
+    {h:"“Track” là theo dõi hành trình",b:"Tracking number là mã vận đơn. Câu này dùng được cả khi mua hàng online: “Can I track my order?”"}]},
+ { id:"en-checkin", title:"Làm thủ tục ở sân bay", scene:"Bạn làm thủ tục cho chuyến bay đi Singapore.", partner:"Nhân viên quầy",
+   lines:[
+    {r:"A",t:"Good morning. Where are you flying to today?",v:"Chào buổi sáng. Hôm nay quý khách bay đi đâu ạ?"},
+    {r:"B",t:"Singapore. Here's my passport and booking confirmation.",v:"Singapore. Đây là hộ chiếu và xác nhận đặt vé của tôi."},
+    {r:"A",t:"Thank you. Do you have any bags to check in?",v:"Cảm ơn quý khách. Quý khách có hành lý ký gửi không ạ?"},
+    {r:"B",t:"Just this suitcase. I'll keep the backpack as hand luggage.",v:"Chỉ vali này thôi. Ba lô thì tôi xách tay."},
+    {r:"A",t:"Please put it on the scale... It's twenty-five kilos. The limit is twenty-three.",v:"Mời quý khách đặt lên cân... Vali nặng hai mươi lăm ký. Giới hạn là hai mươi ba."},
+    {r:"B",t:"Oh, I see. Can I take a few things out?",v:"Ồ, vậy à. Tôi lấy bớt vài món ra được không?"},
+    {r:"A",t:"Of course, or you can pay for the extra weight.",v:"Tất nhiên, hoặc quý khách có thể trả phí cân thừa."},
+    {r:"B",t:"I'll take some things out. Could I also have an aisle seat, please?",v:"Tôi lấy bớt đồ ra. Cho tôi xin ghế cạnh lối đi được không?"},
+    {r:"A",t:"No problem. Here's your boarding pass. Boarding starts at 9:40 at gate 12.",v:"Được ạ. Đây là thẻ lên máy bay. Giờ lên máy bay là 9 giờ 40 ở cửa số 12."},
+    {r:"B",t:"Thank you very much.",v:"Cảm ơn chị nhiều."}],
+   phrases:[
+    {t:"Here's my passport and booking confirmation.",v:"Đây là hộ chiếu và xác nhận đặt vé của tôi."},
+    {t:"Just this suitcase.",v:"Chỉ vali này thôi."},
+    {t:"Can I take a few things out?",v:"Tôi lấy bớt vài món ra được không?"},
+    {t:"Could I have an aisle seat, please?",v:"Cho tôi ghế cạnh lối đi được không?",alt:["Could I have a window seat, please?"]}],
+   notes:[
+    {h:"“Check in” có hai nghĩa ở sân bay",b:"Check in là làm thủ tục bay, còn “check in a bag” là ký gửi hành lý. Hành lý xách tay gọi là “hand luggage” hoặc “carry-on”."},
+    {h:"Aisle seat và window seat",b:"Aisle seat là ghế cạnh lối đi, window seat là ghế cạnh cửa sổ. Chữ “aisle” đọc là /aɪl/, chữ “s” câm."},
+    {h:"Nghe kỹ số cửa và giờ lên máy bay",b:"Gate 12 là cửa số 12, boarding time là giờ bắt đầu lên máy bay (thường sớm hơn giờ cất cánh 30 – 40 phút)."}]},
+ { id:"en-delay", title:"Chuyến bay bị hoãn", scene:"Chuyến bay của bạn bị hoãn 4 tiếng, bạn hỏi nhân viên để đổi chuyến.", partner:"Nhân viên hãng bay",
+   lines:[
+    {r:"B",t:"Excuse me, my flight to Tokyo has been delayed. Do you know why?",v:"Xin lỗi, chuyến bay đi Tokyo của tôi bị hoãn. Chị có biết vì sao không?"},
+    {r:"A",t:"I'm sorry, sir. It's because of bad weather in Tokyo.",v:"Xin lỗi anh. Do thời tiết xấu ở Tokyo ạ."},
+    {r:"B",t:"How long is the delay?",v:"Hoãn bao lâu vậy?"},
+    {r:"A",t:"About four hours. The new departure time is 3 p.m.",v:"Khoảng bốn tiếng. Giờ khởi hành mới là 3 giờ chiều."},
+    {r:"B",t:"That's a problem. I have a connecting flight in Tokyo.",v:"Vậy thì phiền rồi. Tôi có chuyến bay nối chuyến ở Tokyo."},
+    {r:"A",t:"Let me see what I can do... I can put you on another flight at 11:30.",v:"Để tôi xem có cách nào... Tôi có thể chuyển anh sang chuyến khác lúc 11 giờ 30."},
+    {r:"B",t:"That would be great. Is there an extra charge?",v:"Vậy thì tốt quá. Có mất thêm phí không?"},
+    {r:"A",t:"No, it's free. And here's a meal voucher while you wait.",v:"Không, miễn phí ạ. Và đây là phiếu ăn để anh dùng trong lúc chờ."},
+    {r:"B",t:"Thank you. You've been very helpful.",v:"Cảm ơn chị. Chị đã giúp tôi rất nhiều."}],
+   phrases:[
+    {t:"My flight has been delayed.",v:"Chuyến bay của tôi bị hoãn."},
+    {t:"How long is the delay?",v:"Hoãn bao lâu vậy?"},
+    {t:"I have a connecting flight in Tokyo.",v:"Tôi có chuyến bay nối chuyến ở Tokyo."},
+    {t:"Is there an extra charge?",v:"Có mất thêm phí không?"},
+    {t:"You've been very helpful.",v:"Bạn đã giúp tôi rất nhiều."}],
+   notes:[
+    {h:"Delayed và cancelled",b:"Delayed là bị hoãn (vẫn bay nhưng muộn), cancelled là bị hủy hẳn. Khi bị hủy, hỏi: “Can I get a refund?” hoặc “Can you rebook me?”"},
+    {h:"“Has been delayed” nhấn vào kết quả hiện tại",b:"Chuyến bay đã bị hoãn và bây giờ vẫn đang hoãn. Bạn sẽ nghe câu này rất nhiều trên loa thông báo ở sân bay."},
+    {h:"Giữ bình tĩnh và hỏi giải pháp",b:"Thay vì cáu, hãy nêu rõ vấn đề của mình (I have a connecting flight) để nhân viên tìm cách giúp. “Let me see what I can do” là dấu hiệu tốt."}]},
+ { id:"en-tour", title:"Đặt tour ở quầy du lịch", scene:"Bạn đang ở Singapore và hỏi quầy thông tin du lịch về tour đi đảo.", partner:"Nhân viên tư vấn",
+   lines:[
+    {r:"B",t:"Hi, I'm interested in a day trip to the island. Could you tell me more about it?",v:"Chào chị, tôi quan tâm đến tour đi đảo trong ngày. Chị nói thêm cho tôi được không?"},
+    {r:"A",t:"Sure. The tour leaves at 8 a.m. and comes back at 5 p.m.",v:"Vâng. Tour khởi hành lúc 8 giờ sáng và về lúc 5 giờ chiều."},
+    {r:"B",t:"What's included in the price?",v:"Giá tour đã bao gồm những gì?"},
+    {r:"A",t:"The boat ticket, lunch, and an English-speaking guide.",v:"Vé tàu, bữa trưa và hướng dẫn viên nói tiếng Anh."},
+    {r:"B",t:"How much does it cost per person?",v:"Mỗi người bao nhiêu tiền?"},
+    {r:"A",t:"Sixty dollars, or fifty for students.",v:"Sáu mươi đô, sinh viên thì năm mươi đô."},
+    {r:"B",t:"I'm a student. Here's my student card.",v:"Tôi là sinh viên. Đây là thẻ sinh viên của tôi."},
+    {r:"A",t:"Great. Would you like to book for tomorrow?",v:"Tuyệt. Bạn có muốn đặt cho ngày mai không?"},
+    {r:"B",t:"Yes, please. Do I need to bring anything?",v:"Có ạ. Tôi có cần mang theo gì không?"},
+    {r:"A",t:"Just sunscreen, a hat, and a swimsuit if you want to swim.",v:"Chỉ cần kem chống nắng, mũ và đồ bơi nếu bạn muốn bơi."}],
+   phrases:[
+    {t:"I'm interested in a day trip to the island.",v:"Tôi quan tâm đến tour đi đảo trong ngày."},
+    {t:"Could you tell me more about it?",v:"Bạn nói thêm cho tôi được không?"},
+    {t:"What's included in the price?",v:"Giá đã bao gồm những gì?"},
+    {t:"How much does it cost per person?",v:"Mỗi người bao nhiêu tiền?"},
+    {t:"Do I need to bring anything?",v:"Tôi có cần mang theo gì không?"}],
+   notes:[
+    {h:"“I'm interested in + danh từ hoặc V-ing”",b:"I'm interested in this tour, I'm interested in learning English. Không nói “I'm interesting in” (nghĩa sai thành “tôi thú vị”)."},
+    {h:"“What's included?” để tránh phát sinh phí",b:"Luôn hỏi câu này khi đặt tour, phòng khách sạn hay dịch vụ. Những gì không có trong danh sách thường phải trả thêm."},
+    {h:"“Per person” là mỗi người",b:"Giá tour, giá vé thường tính theo đầu người. Tương tự: per night (mỗi đêm), per hour (mỗi giờ)."}]},
+ { id:"en-rentbike", title:"Thuê xe máy khi đi du lịch", scene:"Bạn thuê một chiếc xe máy trong 3 ngày ở Phú Quốc từ một cửa hàng cho khách nước ngoài.", partner:"Chủ cửa hàng",
+   lines:[
+    {r:"B",t:"Hi, I'd like to rent a motorbike for three days.",v:"Chào anh, tôi muốn thuê một chiếc xe máy trong ba ngày."},
+    {r:"A",t:"Sure. Do you want an automatic or a manual one?",v:"Được. Bạn muốn xe tay ga hay xe số?"},
+    {r:"B",t:"An automatic, please. How much is it per day?",v:"Xe tay ga ạ. Mỗi ngày bao nhiêu tiền?"},
+    {r:"A",t:"It's 150,000 dong a day. For three days, I can give you a discount.",v:"150.000 đồng một ngày. Thuê ba ngày thì tôi giảm giá cho bạn."},
+    {r:"B",t:"That's great. Do I need to leave a deposit?",v:"Tốt quá. Tôi có cần đặt cọc không?"},
+    {r:"A",t:"Yes, please leave your passport or a deposit of two million dong.",v:"Có, bạn để lại hộ chiếu hoặc tiền cọc hai triệu đồng."},
+    {r:"B",t:"I'd rather pay the deposit. I need my passport for the hotel.",v:"Tôi muốn đặt tiền cọc hơn. Tôi cần hộ chiếu để ở khách sạn."},
+    {r:"A",t:"No problem. Here are the keys and two helmets.",v:"Không vấn đề gì. Đây là chìa khóa và hai mũ bảo hiểm."},
+    {r:"B",t:"Is the tank full?",v:"Bình xăng đầy chưa anh?"},
+    {r:"A",t:"Yes, it is. Please bring it back with a full tank too.",v:"Đầy rồi. Lúc trả xe bạn cũng đổ đầy bình nhé."}],
+   phrases:[
+    {t:"I'd like to rent a motorbike for three days.",v:"Tôi muốn thuê một chiếc xe máy trong ba ngày."},
+    {t:"How much is it per day?",v:"Mỗi ngày bao nhiêu tiền?"},
+    {t:"Do I need to leave a deposit?",v:"Tôi có cần đặt cọc không?"},
+    {t:"I'd rather pay the deposit.",v:"Tôi muốn đặt tiền cọc hơn."},
+    {t:"Is the tank full?",v:"Bình xăng đầy chưa?"}],
+   notes:[
+    {h:"Rent và borrow",b:"Rent là thuê (có trả tiền), borrow là mượn (không trả tiền). Cho thuê thì dùng “rent out”: “We rent out bikes.”"},
+    {h:"“I'd rather…” là “tôi thích… hơn”",b:"Dùng khi chọn giữa hai phương án: I'd rather pay the deposit, I'd rather walk. Sau “I'd rather” là động từ nguyên mẫu."},
+    {h:"Automatic và manual",b:"Automatic là xe tay ga (không cần sang số), manual là xe số. Ô tô cũng dùng hai từ này cho số tự động và số sàn."}]},
+ { id:"en-pharmacy", title:"Mua thuốc ở hiệu thuốc", scene:"Bạn bị cảm và đến hiệu thuốc nhờ dược sĩ tư vấn.", partner:"Dược sĩ",
+   lines:[
+    {r:"A",t:"Hello. What can I do for you?",v:"Chào bạn. Tôi giúp gì được cho bạn?"},
+    {r:"B",t:"I've had a sore throat and a runny nose since Monday.",v:"Tôi bị đau họng và sổ mũi từ thứ Hai."},
+    {r:"A",t:"Do you have a fever?",v:"Bạn có bị sốt không?"},
+    {r:"B",t:"A little, but only at night.",v:"Hơi sốt, nhưng chỉ vào ban đêm."},
+    {r:"A",t:"Are you allergic to any medicine?",v:"Bạn có dị ứng với loại thuốc nào không?"},
+    {r:"B",t:"Not that I know of.",v:"Theo tôi biết thì không."},
+    {r:"A",t:"Then I'd recommend these tablets. Take two, three times a day after meals.",v:"Vậy tôi khuyên bạn dùng loại viên này. Uống hai viên, ngày ba lần sau ăn."},
+    {r:"B",t:"Will they make me sleepy? I have to drive.",v:"Thuốc này có gây buồn ngủ không? Tôi phải lái xe."},
+    {r:"A",t:"No, these won't. But drink plenty of water and get some rest.",v:"Không, loại này thì không. Nhưng bạn nên uống nhiều nước và nghỉ ngơi."},
+    {r:"B",t:"Thanks. What should I do if I don't get better?",v:"Cảm ơn. Nếu tôi không đỡ thì nên làm gì?"},
+    {r:"A",t:"If it lasts more than three days, you should see a doctor.",v:"Nếu kéo dài quá ba ngày thì bạn nên đi khám bác sĩ."}],
+   phrases:[
+    {t:"I've had a sore throat since Monday.",v:"Tôi bị đau họng từ thứ Hai."},
+    {t:"Not that I know of.",v:"Theo tôi biết thì không."},
+    {t:"Will they make me sleepy?",v:"Thuốc này có gây buồn ngủ không?"},
+    {t:"What should I do if I don't get better?",v:"Nếu tôi không đỡ thì nên làm gì?"}],
+   notes:[
+    {h:"“I've had… since…” cho bệnh kéo dài",b:"Bệnh bắt đầu từ trước và đến giờ vẫn còn thì dùng “I've had + bệnh + since/for”: I've had a cough for two days."},
+    {h:"Đọc hiểu liều dùng",b:"“Two, three times a day” là mỗi lần hai viên, ngày ba lần. “After meals” là sau ăn, “before bed” là trước khi ngủ."},
+    {h:"“If…, you should…” để khuyên",b:"Câu điều kiện đơn giản: If it lasts more than three days, you should see a doctor. Dùng khi đưa lời khuyên cho một tình huống có thể xảy ra."}]},
+ { id:"en-haircut", title:"Đi cắt tóc", scene:"Bạn đến tiệm tóc và mô tả kiểu tóc mình muốn.", partner:"Thợ cắt tóc",
+   lines:[
+    {r:"A",t:"Hi, have a seat. What would you like today?",v:"Chào bạn, mời ngồi. Hôm nay bạn muốn làm gì?"},
+    {r:"B",t:"Just a trim, please. Not too short.",v:"Chỉ tỉa gọn thôi ạ. Đừng cắt ngắn quá."},
+    {r:"A",t:"How much would you like me to take off?",v:"Bạn muốn tôi cắt bớt bao nhiêu?"},
+    {r:"B",t:"About two centimeters. And could you make it a bit shorter on the sides?",v:"Khoảng hai phân. Và anh cắt hai bên ngắn hơn một chút được không?"},
+    {r:"A",t:"Sure. Do you want me to wash your hair first?",v:"Được. Bạn có muốn gội đầu trước không?"},
+    {r:"B",t:"Yes, please.",v:"Có ạ."},
+    {r:"A",t:"Okay, how does it look? Here's the mirror.",v:"Xong rồi, trông thế nào? Gương đây."},
+    {r:"B",t:"Hmm, could you take a little more off the top?",v:"Ừm, anh cắt phần đỉnh đầu thêm một chút được không?"},
+    {r:"A",t:"No problem... How about now?",v:"Không vấn đề... Giờ thì sao?"},
+    {r:"B",t:"Perfect, I love it! Thank you.",v:"Hoàn hảo, tôi rất thích! Cảm ơn anh."}],
+   phrases:[
+    {t:"Just a trim, please. Not too short.",v:"Chỉ tỉa gọn thôi. Đừng cắt ngắn quá."},
+    {t:"About two centimeters.",v:"Khoảng hai phân."},
+    {t:"Could you make it a bit shorter on the sides?",v:"Cắt hai bên ngắn hơn một chút được không?"},
+    {t:"Could you take a little more off the top?",v:"Cắt phần đỉnh thêm một chút được không?"}],
+   notes:[
+    {h:"“A trim” là tỉa gọn",b:"Chỉ cắt bớt một chút cho gọn, giữ nguyên kiểu. Muốn đổi kiểu hẳn thì nói “I'd like a new style” và đưa ảnh mẫu cho thợ xem."},
+    {h:"“Take off” là cắt bớt",b:"Take two centimeters off (cắt bớt hai phân), take a little more off the top (cắt phần trên thêm chút nữa)."},
+    {h:"Đừng ngại nói khi chưa ưng",b:"Lúc thợ đưa gương và hỏi “How does it look?”, đây là lúc góp ý. Dùng “Could you…?” cho lịch sự."}]},
+ { id:"en-dinner", title:"Đến nhà bạn ăn tối", scene:"Gia đình Emma mời bạn đến nhà ăn tối lần đầu.", partner:"Emma",
+   lines:[
+    {r:"A",t:"Hi Minh! Come in. Did you find the place easily?",v:"Chào Minh! Vào đi. Bạn tìm nhà có dễ không?"},
+    {r:"B",t:"Yes, no problem. These flowers are for you.",v:"Dễ lắm. Hoa này tặng bạn."},
+    {r:"A",t:"Oh, they're lovely! You didn't have to.",v:"Ôi, đẹp quá! Bạn không cần phải mang gì đâu."},
+    {r:"B",t:"It's nothing. Something smells delicious!",v:"Có gì đâu. Có mùi gì thơm quá!"},
+    {r:"A",t:"My mom made lasagna. Please make yourself at home.",v:"Mẹ mình làm món lasagna. Cứ tự nhiên như ở nhà nhé."},
+    {r:"B",t:"Thank you. Is there anything I can help with?",v:"Cảm ơn bạn. Có việc gì mình giúp được không?"},
+    {r:"A",t:"No, everything's ready. Let's eat!",v:"Không, mọi thứ sẵn sàng rồi. Ăn thôi!"},
+    {r:"B",t:"This is really good. Could I have a little more?",v:"Món này ngon thật. Cho mình thêm một chút được không?"},
+    {r:"A",t:"Of course, help yourself!",v:"Tất nhiên, cứ tự nhiên lấy nhé!"},
+    {r:"B",t:"Thank you for having me. I had a wonderful time.",v:"Cảm ơn đã mời mình. Mình đã có một buổi tối tuyệt vời."}],
+   phrases:[
+    {t:"These flowers are for you.",v:"Hoa này tặng bạn."},
+    {t:"Is there anything I can help with?",v:"Có việc gì mình giúp được không?"},
+    {t:"Could I have a little more?",v:"Cho mình thêm một chút được không?"},
+    {t:"Thank you for having me.",v:"Cảm ơn đã mời mình đến chơi."},
+    {t:"I had a wonderful time.",v:"Mình đã có một khoảng thời gian tuyệt vời."}],
+   notes:[
+    {h:"“Make yourself at home” và “help yourself”",b:"Hai câu chủ nhà hay nói: “cứ tự nhiên như ở nhà” và “cứ tự lấy đồ ăn, đồ uống”. Bạn chỉ cần đáp “Thank you”."},
+    {h:"“Thank you for having me” khi ra về",b:"Câu cảm ơn chủ nhà đã mời, dùng cả khi đến nhà chơi lẫn khi được mời dự sự kiện, phỏng vấn trên chương trình."},
+    {h:"Khen món ăn là phép lịch sự",b:"Ở nhiều nước phương Tây, khen món ăn (“This is really good”) và xin thêm là cách cho chủ nhà biết bạn thích bữa ăn."}]},
+ { id:"en-neighbor", title:"Làm quen và nhờ hàng xóm", scene:"Bạn mới chuyển nhà và sắp đi công tác, bạn nhờ hàng xóm nhận hộ bưu kiện.", partner:"Bà Wilson",
+   lines:[
+    {r:"B",t:"Hi, I'm Minh. I've just moved into number 12.",v:"Chào bà, cháu là Minh. Cháu vừa chuyển đến nhà số 12."},
+    {r:"A",t:"Oh, welcome to the neighborhood! I'm Mrs. Wilson.",v:"Ồ, chào mừng cháu đến khu phố! Bà là bà Wilson."},
+    {r:"B",t:"Nice to meet you. Sorry to bother you, but could I ask you a favor?",v:"Rất vui được gặp bà. Xin lỗi đã làm phiền, nhưng cháu nhờ bà một việc được không ạ?"},
+    {r:"A",t:"Of course, dear. What is it?",v:"Tất nhiên rồi cháu. Việc gì vậy?"},
+    {r:"B",t:"I'm going away on business next week. Would you mind taking in a package for me?",v:"Tuần sau cháu đi công tác. Bà có phiền nhận giúp cháu một bưu kiện không ạ?"},
+    {r:"A",t:"Not at all. When will it arrive?",v:"Không phiền gì đâu. Khi nào nó đến?"},
+    {r:"B",t:"Probably on Wednesday. I'll pick it up when I get back on Friday.",v:"Chắc là thứ Tư ạ. Thứ Sáu về cháu sẽ qua lấy."},
+    {r:"A",t:"That's fine. Just knock on my door.",v:"Được thôi. Cứ gõ cửa nhà bà nhé."},
+    {r:"B",t:"Thank you so much. Let me know if you ever need anything.",v:"Cảm ơn bà nhiều. Khi nào bà cần gì cứ bảo cháu nhé."}],
+   phrases:[
+    {t:"I've just moved into number 12.",v:"Cháu vừa chuyển đến nhà số 12."},
+    {t:"Sorry to bother you, but could I ask you a favor?",v:"Xin lỗi đã làm phiền, nhưng tôi nhờ bạn một việc được không?"},
+    {t:"Would you mind taking in a package for me?",v:"Bạn có phiền nhận giúp tôi một bưu kiện không?"},
+    {t:"I'll pick it up when I get back.",v:"Khi về tôi sẽ qua lấy."},
+    {t:"Let me know if you ever need anything.",v:"Khi nào cần gì cứ bảo tôi nhé."}],
+   notes:[
+    {h:"“Could I ask you a favor?” trước khi nhờ",b:"Hỏi trước như vậy để người kia chuẩn bị tinh thần, nghe lịch sự hơn là nhờ luôn. Thêm “Sorry to bother you” nếu người đó đang bận."},
+    {h:"“Would you mind + V-ing?” và cách trả lời",b:"Nghĩa là “bạn có phiền… không?”. Muốn đồng ý thì nói “No” hoặc “Not at all” (không phiền gì), không nói “Yes”, vì “Yes” nghĩa là có phiền."},
+    {h:"“I've just…” cho việc vừa mới xảy ra",b:"I've just moved in (vừa chuyển đến), I've just arrived (vừa tới), I've just finished (vừa xong)."}]});
+LESSONS.zh.push(
+ { id:"zh-invite", title:"Rủ bạn đi chơi và từ chối khéo", scene:"Tiểu Lý rủ bạn đi xem phim tối thứ Sáu, nhưng hôm đó bạn phải tăng ca.", partner:"小李",
+   lines:[
+    {r:"A",t:"阿明，星期五晚上你有空吗？",p:"Ā Míng, xīngqīwǔ wǎnshang nǐ yǒu kòng ma?",v:"A Minh, tối thứ Sáu bạn rảnh không?"},
+    {r:"B",t:"怎么了？有什么事吗？",p:"Zěnme le? Yǒu shénme shì ma?",v:"Sao thế? Có chuyện gì à?"},
+    {r:"A",t:"我有两张电影票，想请你一起去看。",p:"Wǒ yǒu liǎng zhāng diànyǐng piào, xiǎng qǐng nǐ yìqǐ qù kàn.",v:"Mình có hai vé xem phim, muốn mời bạn đi xem cùng."},
+    {r:"B",t:"谢谢你，可是星期五我要加班，恐怕去不了。",p:"Xièxie nǐ, kěshì xīngqīwǔ wǒ yào jiābān, kǒngpà qù bu liǎo.",v:"Cảm ơn bạn, nhưng thứ Sáu mình phải tăng ca, e là không đi được."},
+    {r:"A",t:"太可惜了。",p:"Tài kěxī le.",v:"Tiếc quá."},
+    {r:"B",t:"真不好意思。星期天我们一起去喝咖啡，怎么样？",p:"Zhēn bù hǎoyìsi. Xīngqītiān wǒmen yìqǐ qù hē kāfēi, zěnmeyàng?",v:"Thật ngại quá. Chủ nhật bọn mình đi cà phê cùng nhau, được không?"},
+    {r:"A",t:"好啊！几点见面？",p:"Hǎo a! Jǐ diǎn jiànmiàn?",v:"Được đó! Mấy giờ gặp nhau?"},
+    {r:"B",t:"上午十点吧。我把地址发给你。",p:"Shàngwǔ shí diǎn ba. Wǒ bǎ dìzhǐ fā gěi nǐ.",v:"Mười giờ sáng nhé. Mình gửi địa chỉ cho bạn."},
+    {r:"A",t:"好的，星期天见！",p:"Hǎo de, xīngqītiān jiàn!",v:"Được, hẹn Chủ nhật gặp!"}],
+   phrases:[
+    {t:"星期五晚上你有空吗？",p:"Xīngqīwǔ wǎnshang nǐ yǒu kòng ma?",v:"Tối thứ Sáu bạn rảnh không?"},
+    {t:"我要加班，恐怕去不了。",p:"Wǒ yào jiābān, kǒngpà qù bu liǎo.",v:"Mình phải tăng ca, e là không đi được."},
+    {t:"真不好意思。",p:"Zhēn bù hǎoyìsi.",v:"Thật ngại quá."},
+    {t:"我们一起去喝咖啡，怎么样？",p:"Wǒmen yìqǐ qù hē kāfēi, zěnmeyàng?",v:"Bọn mình đi cà phê cùng nhau, được không?"},
+    {t:"我把地址发给你。",p:"Wǒ bǎ dìzhǐ fā gěi nǐ.",v:"Mình gửi địa chỉ cho bạn."}],
+   notes:[
+    {h:"恐怕 làm lời từ chối nhẹ đi",b:"恐怕 (kǒngpà) nghĩa là “e là, sợ là”. 恐怕去不了 nghe mềm hơn nhiều so với 我不去 (tôi không đi)."},
+    {h:"……不了 là “không thể… được”",b:"去不了 (không đi được), 吃不了 (ăn không hết), 来不了 (không đến được). Dùng khi có lý do khách quan, không phải vì không muốn."},
+    {h:"……，怎么样？ để rủ hoặc gợi ý",b:"Nói ý kiến trước rồi thêm 怎么样 ở cuối: 明天去，怎么样？(Mai đi, được không?). Người Trung Quốc từ chối thường kèm một gợi ý khác để giữ hòa khí."}]},
+ { id:"zh-late", title:"Xin lỗi vì đến muộn", scene:"Bạn đến muộn 20 phút khi hẹn với Tiểu Trương.", partner:"小张",
+   lines:[
+    {r:"B",t:"对不起，我来晚了！你等了很久吧？",p:"Duìbuqǐ, wǒ lái wǎn le! Nǐ děng le hěn jiǔ ba?",v:"Xin lỗi, mình đến muộn! Bạn đợi lâu rồi nhỉ?"},
+    {r:"A",t:"等了二十分钟。怎么了？",p:"Děng le èrshí fēnzhōng. Zěnme le?",v:"Đợi hai mươi phút rồi. Sao vậy?"},
+    {r:"B",t:"路上堵车堵得很厉害，手机又没电了。",p:"Lùshang dǔchē dǔ de hěn lìhai, shǒujī yòu méi diàn le.",v:"Đường tắc kinh khủng, điện thoại lại hết pin."},
+    {r:"A",t:"难怪你不接电话。",p:"Nánguài nǐ bù jiē diànhuà.",v:"Thảo nào bạn không nghe máy."},
+    {r:"B",t:"是啊，连短信都发不了。下次不会了。",p:"Shì a, lián duǎnxìn dōu fā bu liǎo. Xià cì bú huì le.",v:"Ừ, đến tin nhắn cũng không gửi được. Lần sau không thế nữa."},
+    {r:"A",t:"没关系，谁都会遇到这种事。",p:"Méi guānxi, shéi dōu huì yùdào zhè zhǒng shì.",v:"Không sao, ai cũng có lúc gặp chuyện này."},
+    {r:"B",t:"今天我请你喝奶茶，算是道歉吧。",p:"Jīntiān wǒ qǐng nǐ hē nǎichá, suàn shì dàoqiàn ba.",v:"Hôm nay mình mời bạn trà sữa, coi như xin lỗi nhé."},
+    {r:"A",t:"好啊，那我就不客气了！",p:"Hǎo a, nà wǒ jiù bú kèqi le!",v:"Được đó, vậy mình không khách sáo nhé!"}],
+   phrases:[
+    {t:"对不起，我来晚了！",p:"Duìbuqǐ, wǒ lái wǎn le!",v:"Xin lỗi, mình đến muộn!"},
+    {t:"你等了很久吧？",p:"Nǐ děng le hěn jiǔ ba?",v:"Bạn đợi lâu rồi nhỉ?"},
+    {t:"路上堵车堵得很厉害。",p:"Lùshang dǔchē dǔ de hěn lìhai.",v:"Đường tắc kinh khủng."},
+    {t:"下次不会了。",p:"Xià cì bú huì le.",v:"Lần sau không thế nữa."},
+    {t:"我请你喝奶茶，算是道歉吧。",p:"Wǒ qǐng nǐ hē nǎichá, suàn shì dàoqiàn ba.",v:"Mình mời bạn trà sữa, coi như xin lỗi nhé."}],
+   notes:[
+    {h:"我来晚了 là câu xin lỗi chuẩn khi đến muộn",b:"Nói ngay khi vừa đến, trước cả lý do. 来晚 là “đến muộn”, 了 cho biết việc đã xảy ra."},
+    {h:"Động từ + 得 + mức độ",b:"堵得很厉害 (tắc rất ghê), 说得很好 (nói rất hay). Khi động từ có tân ngữ thì lặp lại động từ: 堵车堵得很厉害."},
+    {h:"连……都…… là “ngay cả… cũng…”",b:"连短信都发不了 (đến tin nhắn cũng không gửi được). Dùng để nhấn mạnh tình huống tệ đến mức nào."}]},
+ { id:"zh-compliment", title:"Khen và chúc mừng", scene:"Chị Trương ở công ty vừa được thăng chức.", partner:"张姐",
+   lines:[
+    {r:"B",t:"张姐，恭喜你升职了！",p:"Zhāng jiě, gōngxǐ nǐ shēngzhí le!",v:"Chị Trương, chúc mừng chị được thăng chức!"},
+    {r:"A",t:"谢谢！我还有点儿紧张呢。",p:"Xièxie! Wǒ hái yǒudiǎnr jǐnzhāng ne.",v:"Cảm ơn em! Chị vẫn hơi hồi hộp."},
+    {r:"B",t:"别紧张，这一年你那么努力，是你应该得到的。",p:"Bié jǐnzhāng, zhè yì nián nǐ nàme nǔlì, shì nǐ yīnggāi dédào de.",v:"Chị đừng lo, cả năm nay chị cố gắng như vậy, đây là điều chị xứng đáng nhận được."},
+    {r:"A",t:"你太会说话了！",p:"Nǐ tài huì shuōhuà le!",v:"Em khéo nói quá!"},
+    {r:"B",t:"对了，你今天的衣服真漂亮，颜色很适合你。",p:"Duì le, nǐ jīntiān de yīfu zhēn piàoliang, yánsè hěn shìhé nǐ.",v:"À phải rồi, hôm nay chị mặc đẹp quá, màu này rất hợp với chị."},
+    {r:"A",t:"是吗？谢谢！我在家附近的小店买的。",p:"Shì ma? Xièxie! Wǒ zài jiā fùjìn de xiǎo diàn mǎi de.",v:"Vậy à? Cảm ơn em! Chị mua ở một cửa hàng nhỏ gần nhà."},
+    {r:"B",t:"我们应该庆祝一下。明天中午一起吃饭吧？",p:"Wǒmen yīnggāi qìngzhù yíxià. Míngtiān zhōngwǔ yìqǐ chīfàn ba?",v:"Mình nên ăn mừng một chút. Trưa mai đi ăn cùng nhau nhé?"},
+    {r:"A",t:"好啊，我请客！",p:"Hǎo a, wǒ qǐngkè!",v:"Được đó, chị mời!"}],
+   phrases:[
+    {t:"恭喜你升职了！",p:"Gōngxǐ nǐ shēngzhí le!",v:"Chúc mừng bạn được thăng chức!"},
+    {t:"这是你应该得到的。",p:"Zhè shì nǐ yīnggāi dédào de.",v:"Đây là điều bạn xứng đáng nhận được."},
+    {t:"颜色很适合你。",p:"Yánsè hěn shìhé nǐ.",v:"Màu này rất hợp với bạn."},
+    {t:"我们应该庆祝一下。",p:"Wǒmen yīnggāi qìngzhù yíxià.",v:"Mình nên ăn mừng một chút."}],
+   notes:[
+    {h:"恭喜 + việc vui",b:"恭喜你升职了, 恭喜你考上大学, 恭喜你结婚. Thêm 了 ở cuối vì việc vui đã xảy ra."},
+    {h:"Đáp lời khen kiểu người Trung Quốc",b:"Người Trung Quốc hay khiêm tốn: 哪里哪里 (đâu có đâu có) hoặc đùa lại như 你太会说话了 (bạn khéo nói quá). Người trẻ thì nói 谢谢 là đủ."},
+    {h:"我请客 là “tôi mời”",b:"Dùng khi muốn trả tiền bữa ăn. Người được mời thường đáp 那怎么好意思 (vậy sao được) rồi mới nhận."}]},
+ { id:"zh-comfort", title:"Hỏi thăm khi bạn buồn", scene:"Tiểu Vương trông buồn sau khi trượt phỏng vấn xin việc.", partner:"小王",
+   lines:[
+    {r:"B",t:"小王，你看起来不太高兴，怎么了？",p:"Xiǎo Wáng, nǐ kàn qǐlai bú tài gāoxìng, zěnme le?",v:"Tiểu Vương, trông bạn không vui lắm, sao vậy?"},
+    {r:"A",t:"我面试没通过。",p:"Wǒ miànshì méi tōngguò.",v:"Mình trượt phỏng vấn rồi."},
+    {r:"B",t:"啊，真遗憾。你一定很失望吧。",p:"À, zhēn yíhàn. Nǐ yídìng hěn shīwàng ba.",v:"Ôi, tiếc thật. Chắc bạn thất vọng lắm."},
+    {r:"A",t:"是啊，我准备了好几个星期。",p:"Shì a, wǒ zhǔnbèi le hǎo jǐ ge xīngqī.",v:"Ừ, mình đã chuẩn bị mấy tuần liền."},
+    {r:"B",t:"别难过，就当是一次练习。以后还有机会。",p:"Bié nánguò, jiù dàng shì yí cì liànxí. Yǐhòu hái yǒu jīhuì.",v:"Đừng buồn, cứ coi như một lần luyện tập. Sau này vẫn còn cơ hội."},
+    {r:"A",t:"你说得对。",p:"Nǐ shuō de duì.",v:"Bạn nói đúng."},
+    {r:"B",t:"如果你想聊聊，随时找我。",p:"Rúguǒ nǐ xiǎng liáoliao, suíshí zhǎo wǒ.",v:"Nếu bạn muốn tâm sự thì cứ tìm mình bất cứ lúc nào."},
+    {r:"A",t:"谢谢你，有你这个朋友真好。",p:"Xièxie nǐ, yǒu nǐ zhège péngyou zhēn hǎo.",v:"Cảm ơn bạn, có người bạn như bạn thật tốt."},
+    {r:"B",t:"走，我们去吃点儿好吃的，心情会好一点儿。",p:"Zǒu, wǒmen qù chī diǎnr hǎochī de, xīnqíng huì hǎo yìdiǎnr.",v:"Đi nào, mình đi ăn gì ngon, tâm trạng sẽ khá hơn đấy."}],
+   phrases:[
+    {t:"你看起来不太高兴，怎么了？",p:"Nǐ kàn qǐlai bú tài gāoxìng, zěnme le?",v:"Trông bạn không vui lắm, sao vậy?"},
+    {t:"你一定很失望吧。",p:"Nǐ yídìng hěn shīwàng ba.",v:"Chắc bạn thất vọng lắm."},
+    {t:"别难过，以后还有机会。",p:"Bié nánguò, yǐhòu hái yǒu jīhuì.",v:"Đừng buồn, sau này vẫn còn cơ hội."},
+    {t:"如果你想聊聊，随时找我。",p:"Rúguǒ nǐ xiǎng liáoliao, suíshí zhǎo wǒ.",v:"Nếu muốn tâm sự thì cứ tìm mình bất cứ lúc nào."}],
+   notes:[
+    {h:"看起来 là “trông có vẻ”",b:"你看起来很累 (trông bạn mệt lắm), 这个菜看起来很好吃 (món này trông ngon). Dùng để nhận xét dựa trên những gì mình thấy."},
+    {h:"别 + cảm xúc để an ủi",b:"别难过 (đừng buồn), 别担心 (đừng lo), 别着急 (đừng sốt ruột). Ngắn gọn và rất hay dùng."},
+    {h:"Lặp động từ cho nhẹ nhàng",b:"聊聊 (tâm sự chút), 看看 (xem thử), 想想 (nghĩ thử). Lặp lại động từ làm câu nghe thoải mái, không áp lực."}]},
+ { id:"zh-trip", title:"Kể về chuyến du lịch", scene:"Bạn vừa đi Hàng Châu về và kể cho đồng nghiệp Tiểu Lâm nghe.", partner:"小林",
+   lines:[
+    {r:"A",t:"你回来了！杭州玩得怎么样？",p:"Nǐ huílai le! Hángzhōu wán de zěnmeyàng?",v:"Bạn về rồi! Đi chơi Hàng Châu thế nào?"},
+    {r:"B",t:"玩得非常开心！天气很好，风景特别美。",p:"Wán de fēicháng kāixīn! Tiānqì hěn hǎo, fēngjǐng tèbié měi.",v:"Vui lắm! Thời tiết đẹp, phong cảnh đặc biệt đẹp."},
+    {r:"A",t:"你在那儿待了几天？",p:"Nǐ zài nàr dāi le jǐ tiān?",v:"Bạn ở đó mấy ngày?"},
+    {r:"B",t:"四天。我们住在西湖旁边的一家小酒店。",p:"Sì tiān. Wǒmen zhù zài Xīhú pángbiān de yì jiā xiǎo jiǔdiàn.",v:"Bốn ngày. Bọn mình ở một khách sạn nhỏ cạnh Tây Hồ."},
+    {r:"A",t:"都去了哪些地方？",p:"Dōu qù le nǎxiē dìfang?",v:"Đã đi những nơi nào?"},
+    {r:"B",t:"我们坐船游了西湖，还去了茶园。",p:"Wǒmen zuò chuán yóu le Xīhú, hái qù le cháyuán.",v:"Bọn mình đi thuyền dạo Tây Hồ, còn đến đồi chè nữa."},
+    {r:"A",t:"听起来真不错！吃了什么好吃的？",p:"Tīng qǐlai zhēn búcuò! Chī le shénme hǎochī de?",v:"Nghe hay quá! Đã ăn món gì ngon?"},
+    {r:"B",t:"西湖醋鱼，那是我吃过的最好吃的鱼！",p:"Xīhú cùyú, nà shì wǒ chī guo de zuì hǎochī de yú!",v:"Cá chua ngọt Tây Hồ, đó là món cá ngon nhất mình từng ăn!"},
+    {r:"A",t:"我还没去过杭州呢，明年一定要去。",p:"Wǒ hái méi qù guo Hángzhōu ne, míngnián yídìng yào qù.",v:"Mình chưa đến Hàng Châu bao giờ, năm sau nhất định phải đi."},
+    {r:"B",t:"你一定会喜欢的。我可以给你推荐几个地方。",p:"Nǐ yídìng huì xǐhuan de. Wǒ kěyǐ gěi nǐ tuījiàn jǐ ge dìfang.",v:"Bạn chắc chắn sẽ thích. Mình có thể giới thiệu cho bạn vài chỗ."}],
+   phrases:[
+    {t:"玩得非常开心！",p:"Wán de fēicháng kāixīn!",v:"Đi chơi vui lắm!"},
+    {t:"我们住在西湖旁边的一家小酒店。",p:"Wǒmen zhù zài Xīhú pángbiān de yì jiā xiǎo jiǔdiàn.",v:"Bọn mình ở một khách sạn nhỏ cạnh Tây Hồ."},
+    {t:"那是我吃过的最好吃的鱼！",p:"Nà shì wǒ chī guo de zuì hǎochī de yú!",v:"Đó là món cá ngon nhất mình từng ăn!"},
+    {t:"我可以给你推荐几个地方。",p:"Wǒ kěyǐ gěi nǐ tuījiàn jǐ ge dìfang.",v:"Mình có thể giới thiệu cho bạn vài chỗ."}],
+   notes:[
+    {h:"过 nói về trải nghiệm đã từng",b:"吃过 (đã từng ăn), 去过 (đã từng đến). Chưa từng thì dùng 没 + động từ + 过: 我没去过杭州."},
+    {h:"……得怎么样？ hỏi kết quả, cảm nhận",b:"玩得怎么样？(chơi thế nào?), 考得怎么样？(thi thế nào?). Trả lời theo cùng khung: 玩得很开心."},
+    {h:"我……过的最……的…… là “… nhất từng…”",b:"Cấu trúc khen rất hay dùng khi kể chuyện du lịch: 我去过的最美的地方 (nơi đẹp nhất mình từng đến)."}]},
+ { id:"zh-badday", title:"Kể về một ngày xui xẻo", scene:"Buổi tối bạn kể với bạn cùng phòng Tiểu Trần về một ngày toàn chuyện không may.", partner:"小陈",
+   lines:[
+    {r:"A",t:"你看起来好累，今天怎么了？",p:"Nǐ kàn qǐlai hǎo lèi, jīntiān zěnme le?",v:"Trông bạn mệt quá, hôm nay sao thế?"},
+    {r:"B",t:"今天倒霉透了！早上我睡过头了，没赶上公交车。",p:"Jīntiān dǎoméi tòu le! Zǎoshang wǒ shuì guò tóu le, méi gǎnshàng gōngjiāochē.",v:"Hôm nay xui hết chỗ nói! Sáng mình ngủ quên, không kịp xe buýt."},
+    {r:"A",t:"那你上班迟到了吗？",p:"Nà nǐ shàngbān chídào le ma?",v:"Vậy bạn có đi làm muộn không?"},
+    {r:"B",t:"迟到了。走到半路又突然下起雨来了。",p:"Chídào le. Zǒu dào bànlù yòu tūrán xià qǐ yǔ lái le.",v:"Muộn rồi. Đi được nửa đường thì trời lại đột nhiên đổ mưa."},
+    {r:"A",t:"你没带伞吗？",p:"Nǐ méi dài sǎn ma?",v:"Bạn không mang ô à?"},
+    {r:"B",t:"伞忘在家里了，全身都湿了。",p:"Sǎn wàng zài jiā li le, quánshēn dōu shī le.",v:"Ô để quên ở nhà rồi, người ướt hết cả."},
+    {r:"A",t:"真倒霉！有没有什么好事？",p:"Zhēn dǎoméi! Yǒu méiyǒu shénme hǎo shì?",v:"Xui thật! Có chuyện gì vui không?"},
+    {r:"B",t:"有。经理说我的报告写得很好，所以也不算太糟糕。",p:"Yǒu. Jīnglǐ shuō wǒ de bàogào xiě de hěn hǎo, suǒyǐ yě bú suàn tài zāogāo.",v:"Có. Quản lý khen báo cáo của mình viết tốt, nên cũng không tệ lắm."},
+    {r:"A",t:"那就好！快坐下，我给你泡杯茶。",p:"Nà jiù hǎo! Kuài zuò xià, wǒ gěi nǐ pào bēi chá.",v:"Vậy thì tốt! Ngồi xuống đi, để mình pha cho bạn cốc trà."}],
+   phrases:[
+    {t:"今天倒霉透了！",p:"Jīntiān dǎoméi tòu le!",v:"Hôm nay xui hết chỗ nói!"},
+    {t:"我睡过头了，没赶上公交车。",p:"Wǒ shuì guò tóu le, méi gǎnshàng gōngjiāochē.",v:"Mình ngủ quên, không kịp xe buýt."},
+    {t:"伞忘在家里了。",p:"Sǎn wàng zài jiā li le.",v:"Ô để quên ở nhà rồi."},
+    {t:"也不算太糟糕。",p:"Yě bú suàn tài zāogāo.",v:"Cũng không tệ lắm."}],
+   notes:[
+    {h:"倒霉 là xui xẻo",b:"倒霉透了 là xui tột độ, 透了 đặt sau tính từ để nói “hết mức”. Ngược lại là 运气好 (may mắn)."},
+    {h:"没赶上 là không kịp",b:"赶上 là đuổi kịp, bắt kịp. 没赶上公交车 (lỡ xe buýt), 没赶上飞机 (lỡ máy bay)."},
+    {h:"忘在 + nơi chốn",b:"Để quên đồ ở đâu thì dùng 忘在: 手机忘在出租车上了 (để quên điện thoại trên taxi)."}]},
+ { id:"zh-movie", title:"Nói về bộ phim vừa xem", scene:"Bạn và Tiểu Hoàng bàn về một bộ phim mới ra rạp.", partner:"小黄",
+   lines:[
+    {r:"A",t:"那部新电影你看了吗？",p:"Nà bù xīn diànyǐng nǐ kàn le ma?",v:"Bộ phim mới đó bạn xem chưa?"},
+    {r:"B",t:"看了，上个周末看的。",p:"Kàn le, shàng ge zhōumò kàn de.",v:"Xem rồi, xem cuối tuần trước."},
+    {r:"A",t:"你觉得怎么样？",p:"Nǐ juéde zěnmeyàng?",v:"Bạn thấy thế nào?"},
+    {r:"B",t:"说实话，我有点儿失望。故事太长了。",p:"Shuō shíhuà, wǒ yǒudiǎnr shīwàng. Gùshi tài cháng le.",v:"Nói thật là mình hơi thất vọng. Câu chuyện dài quá."},
+    {r:"A",t:"是吗？我觉得挺精彩的。",p:"Shì ma? Wǒ juéde tǐng jīngcǎi de.",v:"Vậy à? Mình thấy khá hay mà."},
+    {r:"B",t:"我同意，打斗的部分很好看，但是结尾有点儿无聊。",p:"Wǒ tóngyì, dǎdòu de bùfen hěn hǎokàn, dànshì jiéwěi yǒudiǎnr wúliáo.",v:"Mình đồng ý là đoạn đánh nhau rất hay, nhưng đoạn kết hơi nhàm."},
+    {r:"A",t:"也是。那你会推荐别人去看吗？",p:"Yě shì. Nà nǐ huì tuījiàn biérén qù kàn ma?",v:"Cũng đúng. Vậy bạn có khuyên người khác đi xem không?"},
+    {r:"B",t:"如果是影迷，可以去看。不然就等网上有了再看吧。",p:"Rúguǒ shì yǐngmí, kěyǐ qù kàn. Bùrán jiù děng wǎngshang yǒu le zài kàn ba.",v:"Nếu là người mê phim thì có thể đi xem. Không thì đợi có trên mạng rồi hãy xem."},
+    {r:"A",t:"哈哈，有道理。那我等等吧。",p:"Hāha, yǒu dàolǐ. Nà wǒ děngdeng ba.",v:"Haha, có lý. Vậy mình đợi vậy."}],
+   phrases:[
+    {t:"你觉得怎么样？",p:"Nǐ juéde zěnmeyàng?",v:"Bạn thấy thế nào?"},
+    {t:"说实话，我有点儿失望。",p:"Shuō shíhuà, wǒ yǒudiǎnr shīwàng.",v:"Nói thật là mình hơi thất vọng."},
+    {t:"但是结尾有点儿无聊。",p:"Dànshì jiéwěi yǒudiǎnr wúliáo.",v:"Nhưng đoạn kết hơi nhàm."},
+    {t:"等网上有了再看吧。",p:"Děng wǎngshang yǒu le zài kàn ba.",v:"Đợi có trên mạng rồi hãy xem."}],
+   notes:[
+    {h:"你觉得怎么样？ để hỏi ý kiến",b:"Câu hỏi đa năng: hỏi về phim, món ăn, ý tưởng đều được. Trả lời bằng 我觉得 + nhận xét."},
+    {h:"说实话 làm lời chê nhẹ đi",b:"说实话 (nói thật là) đặt ở đầu câu trước một nhận xét không mấy tích cực, nghe chân thành mà không gay gắt."},
+    {h:"有点儿 + điều không tốt",b:"有点儿 thường đi với điều tiêu cực: 有点儿无聊, 有点儿贵, 有点儿累. Muốn khen “khá tốt” thì dùng 挺……的: 挺精彩的."}]},
+ { id:"zh-compare", title:"So sánh và chọn mua điện thoại", scene:"Bạn phân vân giữa hai chiếc điện thoại và hỏi nhân viên bán hàng.", partner:"售货员",
+   lines:[
+    {r:"A",t:"您好，您想看看什么？",p:"Nín hǎo, nín xiǎng kànkan shénme?",v:"Chào anh, anh muốn xem gì ạ?"},
+    {r:"B",t:"这两款手机我不知道选哪个。它们有什么区别？",p:"Zhè liǎng kuǎn shǒujī wǒ bù zhīdào xuǎn nǎge. Tāmen yǒu shénme qūbié?",v:"Hai mẫu điện thoại này tôi không biết chọn cái nào. Chúng khác nhau thế nào?"},
+    {r:"A",t:"这款拍照比那款好，那款的电池比这款大。",p:"Zhè kuǎn pāizhào bǐ nà kuǎn hǎo, nà kuǎn de diànchí bǐ zhè kuǎn dà.",v:"Mẫu này chụp ảnh tốt hơn mẫu kia, còn mẫu kia pin lớn hơn mẫu này."},
+    {r:"B",t:"哪款卖得更好？",p:"Nǎ kuǎn mài de gèng hǎo?",v:"Mẫu nào bán chạy hơn?"},
+    {r:"A",t:"这款，因为它更轻，速度也更快。",p:"Zhè kuǎn, yīnwèi tā gèng qīng, sùdù yě gèng kuài.",v:"Mẫu này, vì nó nhẹ hơn, tốc độ cũng nhanh hơn."},
+    {r:"B",t:"可是它也贵一些。值得吗？",p:"Kěshì tā yě guì yìxiē. Zhíde ma?",v:"Nhưng nó cũng đắt hơn một chút. Có đáng không?"},
+    {r:"A",t:"如果您经常拍照，我觉得很值得。",p:"Rúguǒ nín jīngcháng pāizhào, wǒ juéde hěn zhíde.",v:"Nếu anh hay chụp ảnh thì tôi thấy rất đáng."},
+    {r:"B",t:"我主要用手机工作，所以电池对我来说更重要。",p:"Wǒ zhǔyào yòng shǒujī gōngzuò, suǒyǐ diànchí duì wǒ lái shuō gèng zhòngyào.",v:"Tôi chủ yếu dùng điện thoại để làm việc, nên với tôi pin quan trọng hơn."},
+    {r:"A",t:"那您选那款比较合适。",p:"Nà nín xuǎn nà kuǎn bǐjiào héshì.",v:"Vậy anh chọn mẫu kia sẽ phù hợp hơn."},
+    {r:"B",t:"好，就要那款吧。",p:"Hǎo, jiù yào nà kuǎn ba.",v:"Được, lấy mẫu đó vậy."}],
+   phrases:[
+    {t:"我不知道选哪个。",p:"Wǒ bù zhīdào xuǎn nǎge.",v:"Tôi không biết chọn cái nào."},
+    {t:"它们有什么区别？",p:"Tāmen yǒu shénme qūbié?",v:"Chúng khác nhau thế nào?"},
+    {t:"哪款卖得更好？",p:"Nǎ kuǎn mài de gèng hǎo?",v:"Mẫu nào bán chạy hơn?"},
+    {t:"值得吗？",p:"Zhíde ma?",v:"Có đáng không?"},
+    {t:"电池对我来说更重要。",p:"Diànchí duì wǒ lái shuō gèng zhòngyào.",v:"Với tôi pin quan trọng hơn."}],
+   notes:[
+    {h:"A 比 B + tính từ",b:"这款比那款好 (mẫu này tốt hơn mẫu kia). Không thêm 很 sau 比: nói 比那款贵, không nói 比那款很贵."},
+    {h:"更 là “hơn nữa”",b:"Khi không nêu rõ so với cái gì thì dùng 更: 更轻, 更快, 更重要. 贵一些 là “đắt hơn một chút”."},
+    {h:"对我来说 là “đối với tôi”",b:"Dùng khi nói quan điểm cá nhân: 对我来说，价格不重要 (với tôi giá cả không quan trọng)."}]},
+ { id:"zh-booktable", title:"Đặt bàn nhà hàng qua điện thoại", scene:"Bạn gọi điện đặt bàn cho sinh nhật mẹ vào tối thứ Bảy.", partner:"餐厅服务员",
+   lines:[
+    {r:"A",t:"您好，阳光餐厅。请问有什么可以帮您？",p:"Nín hǎo, Yángguāng Cāntīng. Qǐngwèn yǒu shénme kěyǐ bāng nín?",v:"Xin chào, nhà hàng Dương Quang xin nghe. Tôi có thể giúp gì cho quý khách?"},
+    {r:"B",t:"你好，我想订星期六晚上的位子。",p:"Nǐ hǎo, wǒ xiǎng dìng xīngqīliù wǎnshang de wèizi.",v:"Chào bạn, tôi muốn đặt chỗ tối thứ Bảy."},
+    {r:"A",t:"好的。请问几位？",p:"Hǎo de. Qǐngwèn jǐ wèi?",v:"Vâng ạ. Xin hỏi mấy người ạ?"},
+    {r:"B",t:"六位，七点左右。",p:"Liù wèi, qī diǎn zuǒyòu.",v:"Sáu người, khoảng bảy giờ."},
+    {r:"A",t:"我查一下……七点还有位子。",p:"Wǒ chá yíxià…… qī diǎn hái yǒu wèizi.",v:"Để tôi kiểm tra... Bảy giờ vẫn còn chỗ ạ."},
+    {r:"B",t:"太好了。能安排一个靠窗的桌子吗？那天是我妈妈的生日。",p:"Tài hǎo le. Néng ānpái yí ge kào chuāng de zhuōzi ma? Nà tiān shì wǒ māma de shēngrì.",v:"Tốt quá. Có thể xếp cho tôi bàn gần cửa sổ không? Hôm đó là sinh nhật mẹ tôi."},
+    {r:"A",t:"没问题。请留一下您的名字和电话。",p:"Méi wèntí. Qǐng liú yíxià nín de míngzi hé diànhuà.",v:"Không vấn đề gì. Xin quý khách để lại tên và số điện thoại."},
+    {r:"B",t:"我叫阿明，电话是一三九一二三四五六七八。",p:"Wǒ jiào Ā Míng, diànhuà shì yāo sān jiǔ yāo èr sān sì wǔ liù qī bā.",v:"Tôi tên A Minh, số điện thoại là 139 1234 5678."},
+    {r:"A",t:"好的，星期六晚上七点，六位，已经帮您订好了。",p:"Hǎo de, xīngqīliù wǎnshang qī diǎn, liù wèi, yǐjīng bāng nín dìng hǎo le.",v:"Vâng, bảy giờ tối thứ Bảy, sáu người, đã đặt xong cho quý khách."},
+    {r:"B",t:"谢谢，星期六见！",p:"Xièxie, xīngqīliù jiàn!",v:"Cảm ơn, hẹn gặp thứ Bảy!"}],
+   phrases:[
+    {t:"我想订星期六晚上的位子。",p:"Wǒ xiǎng dìng xīngqīliù wǎnshang de wèizi.",v:"Tôi muốn đặt chỗ tối thứ Bảy."},
+    {t:"六位，七点左右。",p:"Liù wèi, qī diǎn zuǒyòu.",v:"Sáu người, khoảng bảy giờ."},
+    {t:"能安排一个靠窗的桌子吗？",p:"Néng ānpái yí ge kào chuāng de zhuōzi ma?",v:"Có thể xếp cho tôi bàn gần cửa sổ không?"},
+    {t:"那天是我妈妈的生日。",p:"Nà tiān shì wǒ māma de shēngrì.",v:"Hôm đó là sinh nhật mẹ tôi."}],
+   notes:[
+    {h:"订位子 là đặt chỗ",b:"订 (dìng) là đặt trước: 订位子, 订房间 (đặt phòng), 订机票 (đặt vé máy bay). 位 cũng là lượng từ lịch sự khi đếm người: 六位."},
+    {h:"Số 1 trong số điện thoại đọc là yāo",b:"Khi đọc số điện thoại, số phòng, số xe buýt, người Trung Quốc đọc số 1 là yāo để không nhầm với số 7 (qī)."},
+    {h:"左右 là “khoảng”",b:"Đặt sau con số: 七点左右 (khoảng bảy giờ), 一百块左右 (khoảng một trăm tệ)."}]},
+ { id:"zh-complain", title:"Phàn nàn khi món ăn có vấn đề", scene:"Món ăn mang ra không đúng thứ bạn gọi và đã nguội.", partner:"服务员",
+   lines:[
+    {r:"B",t:"服务员，不好意思，这不是我点的菜。",p:"Fúwùyuán, bù hǎoyìsi, zhè bú shì wǒ diǎn de cài.",v:"Phục vụ ơi, xin lỗi, đây không phải món tôi gọi."},
+    {r:"A",t:"啊，对不起！您点的是什么？",p:"À, duìbuqǐ! Nín diǎn de shì shénme?",v:"Ôi, xin lỗi! Món quý khách gọi là gì ạ?"},
+    {r:"B",t:"我点的是宫保鸡丁，不是牛肉面。",p:"Wǒ diǎn de shì gōngbǎo jīdīng, bú shì niúròu miàn.",v:"Tôi gọi gà xào hạt điều, không phải mì bò."},
+    {r:"A",t:"真抱歉，我马上给您换。",p:"Zhēn bàoqiàn, wǒ mǎshàng gěi nín huàn.",v:"Thật xin lỗi, tôi đổi ngay cho quý khách."},
+    {r:"B",t:"还有，这碗汤有点儿凉了。",p:"Hái yǒu, zhè wǎn tāng yǒudiǎnr liáng le.",v:"Còn nữa, bát canh này hơi nguội rồi."},
+    {r:"A",t:"我拿去帮您热一下。",p:"Wǒ ná qù bāng nín rè yíxià.",v:"Tôi mang đi hâm nóng lại cho quý khách."},
+    {r:"B",t:"要等多长时间？我一点还有个会。",p:"Yào děng duō cháng shíjiān? Wǒ yì diǎn hái yǒu ge huì.",v:"Phải đợi bao lâu? Một giờ tôi còn có cuộc họp."},
+    {r:"A",t:"五分钟左右。今天的饮料我们送您，不收钱。",p:"Wǔ fēnzhōng zuǒyòu. Jīntiān de yǐnliào wǒmen sòng nín, bù shōu qián.",v:"Khoảng năm phút. Đồ uống hôm nay nhà hàng tặng quý khách, không tính tiền."},
+    {r:"B",t:"那太谢谢了。",p:"Nà tài xièxie le.",v:"Vậy thì cảm ơn nhiều."}],
+   phrases:[
+    {t:"不好意思，这不是我点的菜。",p:"Bù hǎoyìsi, zhè bú shì wǒ diǎn de cài.",v:"Xin lỗi, đây không phải món tôi gọi."},
+    {t:"我点的是宫保鸡丁。",p:"Wǒ diǎn de shì gōngbǎo jīdīng.",v:"Tôi gọi gà xào hạt điều."},
+    {t:"这碗汤有点儿凉了。",p:"Zhè wǎn tāng yǒudiǎnr liáng le.",v:"Bát canh này hơi nguội rồi."},
+    {t:"要等多长时间？",p:"Yào děng duō cháng shíjiān?",v:"Phải đợi bao lâu?"}],
+   notes:[
+    {h:"Mở lời bằng 不好意思",b:"Phàn nàn mà bắt đầu bằng 不好意思 nghe lịch sự, không gây căng thẳng. Gọi nhân viên thì nói 服务员 hoặc 你好."},
+    {h:"我点的是…… để nói rõ món đã gọi",b:"Cấu trúc 我 + động từ + 的是…… nhấn vào thông tin chính: 我要的是大杯 (cái tôi cần là cốc lớn)."},
+    {h:"送 là tặng, không tính tiền",b:"Nhà hàng thường nói 送您 hoặc 免费 (miễn phí) khi muốn xin lỗi khách. Bạn chỉ cần cảm ơn: 那太谢谢了."}]},
+ { id:"zh-repair", title:"Báo hỏng đồ cho chủ nhà", scene:"Điều hòa trong phòng thuê bị hỏng giữa mùa hè, bạn gọi cho chủ nhà.", partner:"房东",
+   lines:[
+    {r:"A",t:"喂，你好。",p:"Wéi, nǐ hǎo.",v:"Alô, chào cháu."},
+    {r:"B",t:"刘阿姨，您好，我是三零二的阿明。房间的空调坏了。",p:"Liú āyí, nín hǎo, wǒ shì sān líng èr de Ā Míng. Fángjiān de kōngtiáo huài le.",v:"Cô Lưu ạ, cháu là A Minh phòng 302. Điều hòa trong phòng bị hỏng rồi ạ."},
+    {r:"A",t:"哎呀，怎么坏了？",p:"Āiyā, zěnme huài le?",v:"Ôi trời, hỏng thế nào?"},
+    {r:"B",t:"能打开，但是只吹热风，还有奇怪的声音。",p:"Néng dǎkāi, dànshì zhǐ chuī rè fēng, hái yǒu qíguài de shēngyīn.",v:"Vẫn bật được, nhưng chỉ thổi gió nóng, lại còn có tiếng kêu lạ."},
+    {r:"A",t:"什么时候开始的？",p:"Shénme shíhou kāishǐ de?",v:"Bắt đầu từ khi nào?"},
+    {r:"B",t:"从昨天晚上开始的。房间里热得睡不着。",p:"Cóng zuótiān wǎnshang kāishǐ de. Fángjiān li rè de shuì bu zháo.",v:"Từ tối hôm qua ạ. Trong phòng nóng đến mức không ngủ được."},
+    {r:"A",t:"我叫师傅去修。你明天上午在家吗？",p:"Wǒ jiào shīfu qù xiū. Nǐ míngtiān shàngwǔ zài jiā ma?",v:"Cô sẽ gọi thợ đến sửa. Sáng mai cháu có nhà không?"},
+    {r:"B",t:"我要上班，五点以后才回来。师傅能晚上来吗？",p:"Wǒ yào shàngbān, wǔ diǎn yǐhòu cái huílai. Shīfu néng wǎnshang lái ma?",v:"Cháu phải đi làm, sau năm giờ mới về. Thợ đến buổi tối được không ạ?"},
+    {r:"A",t:"可以，我让他六点过去。",p:"Kěyǐ, wǒ ràng tā liù diǎn guòqu.",v:"Được, cô bảo cậu ấy sáu giờ qua."},
+    {r:"B",t:"太感谢您了，麻烦您了。",p:"Tài gǎnxiè nín le, máfan nín le.",v:"Cảm ơn cô nhiều lắm, phiền cô quá ạ."}],
+   phrases:[
+    {t:"房间的空调坏了。",p:"Fángjiān de kōngtiáo huài le.",v:"Điều hòa trong phòng bị hỏng rồi."},
+    {t:"只吹热风，还有奇怪的声音。",p:"Zhǐ chuī rè fēng, hái yǒu qíguài de shēngyīn.",v:"Chỉ thổi gió nóng, lại còn có tiếng kêu lạ."},
+    {t:"从昨天晚上开始的。",p:"Cóng zuótiān wǎnshang kāishǐ de.",v:"Từ tối hôm qua."},
+    {t:"师傅能晚上来吗？",p:"Shīfu néng wǎnshang lái ma?",v:"Thợ đến buổi tối được không?"},
+    {t:"麻烦您了。",p:"Máfan nín le.",v:"Phiền anh/chị quá."}],
+   notes:[
+    {h:"……坏了 là bị hỏng",b:"空调坏了, 电脑坏了, 灯坏了. Dùng cho mọi đồ vật không còn hoạt động bình thường."},
+    {h:"师傅 để gọi thợ",b:"师傅 (shīfu) là cách gọi lịch sự với thợ sửa chữa, tài xế, đầu bếp… Gọi tài xế taxi cũng là 师傅."},
+    {h:"麻烦您了 khi nhờ người khác",b:"Nghĩa là “làm phiền anh/chị rồi”. Nói khi ai đó bỏ công giúp mình, lịch sự hơn chỉ nói 谢谢."}]},
+ { id:"zh-express", title:"Gửi chuyển phát nhanh", scene:"Bạn gửi một hộp quà từ Thượng Hải về cho bạn ở Bắc Kinh tại điểm chuyển phát nhanh.", partner:"快递员",
+   lines:[
+    {r:"A",t:"您好，寄快递吗？",p:"Nín hǎo, jì kuàidì ma?",v:"Chào anh, gửi chuyển phát nhanh à?"},
+    {r:"B",t:"对，我想把这个包裹寄到北京。",p:"Duì, wǒ xiǎng bǎ zhège bāoguǒ jì dào Běijīng.",v:"Đúng rồi, tôi muốn gửi gói hàng này đến Bắc Kinh."},
+    {r:"A",t:"里面是什么东西？",p:"Lǐmiàn shì shénme dōngxi?",v:"Bên trong là đồ gì vậy?"},
+    {r:"B",t:"几件衣服和一本书，是送给朋友的礼物。",p:"Jǐ jiàn yīfu hé yì běn shū, shì sòng gěi péngyou de lǐwù.",v:"Mấy bộ quần áo và một quyển sách, là quà tặng bạn."},
+    {r:"A",t:"您要寄普通的还是加急的？",p:"Nín yào jì pǔtōng de háishi jiājí de?",v:"Anh muốn gửi thường hay gửi hỏa tốc?"},
+    {r:"B",t:"有什么区别？",p:"Yǒu shénme qūbié?",v:"Có gì khác nhau?"},
+    {r:"A",t:"普通的三天到，加急的明天就能到，不过贵一点儿。",p:"Pǔtōng de sān tiān dào, jiājí de míngtiān jiù néng dào, búguò guì yìdiǎnr.",v:"Gửi thường ba ngày đến, gửi hỏa tốc mai là đến, nhưng đắt hơn một chút."},
+    {r:"B",t:"那我寄加急的吧，后天是她的生日。",p:"Nà wǒ jì jiājí de ba, hòutiān shì tā de shēngrì.",v:"Vậy tôi gửi hỏa tốc, ngày kia là sinh nhật bạn ấy."},
+    {r:"A",t:"好的，请在这儿写一下收件人的地址和电话。",p:"Hǎo de, qǐng zài zhèr xiě yíxià shōujiànrén de dìzhǐ hé diànhuà.",v:"Được, anh ghi địa chỉ và số điện thoại người nhận vào đây nhé."},
+    {r:"B",t:"写好了。可以在网上查物流吗？",p:"Xiě hǎo le. Kěyǐ zài wǎngshang chá wùliú ma?",v:"Ghi xong rồi. Có thể tra hành trình trên mạng không?"},
+    {r:"A",t:"可以，用这个单号就能查。",p:"Kěyǐ, yòng zhège dānhào jiù néng chá.",v:"Được, dùng mã vận đơn này là tra được."}],
+   phrases:[
+    {t:"我想把这个包裹寄到北京。",p:"Wǒ xiǎng bǎ zhège bāoguǒ jì dào Běijīng.",v:"Tôi muốn gửi gói hàng này đến Bắc Kinh."},
+    {t:"是送给朋友的礼物。",p:"Shì sòng gěi péngyou de lǐwù.",v:"Là quà tặng bạn."},
+    {t:"有什么区别？",p:"Yǒu shénme qūbié?",v:"Có gì khác nhau?"},
+    {t:"可以在网上查物流吗？",p:"Kěyǐ zài wǎngshang chá wùliú ma?",v:"Có thể tra hành trình trên mạng không?"}],
+   notes:[
+    {h:"把 + đồ vật + 寄到 + nơi",b:"Câu chữ 把 đưa đồ vật lên trước động từ: 把包裹寄到北京 (gửi gói hàng đến Bắc Kinh), 把书放在桌子上 (đặt sách lên bàn)."},
+    {h:"……还是……？ để hỏi chọn một",b:"Dùng trong câu hỏi: 普通的还是加急的？(thường hay hỏa tốc?). Trong câu kể thì dùng 或者 thay cho 还是."},
+    {h:"快递 và 物流",b:"快递 là chuyển phát nhanh (cả dịch vụ lẫn gói hàng), 快递员 là shipper. 查物流 là tra hành trình đơn hàng, câu dùng hằng ngày khi mua sắm online."}]},
+ { id:"zh-checkin", title:"Làm thủ tục ở sân bay", scene:"Bạn làm thủ tục cho chuyến bay từ Quảng Châu đi Hà Nội.", partner:"值机员",
+   lines:[
+    {r:"A",t:"您好，请出示您的护照。您飞哪里？",p:"Nín hǎo, qǐng chūshì nín de hùzhào. Nín fēi nǎli?",v:"Xin chào, xin quý khách xuất trình hộ chiếu. Quý khách bay đi đâu ạ?"},
+    {r:"B",t:"河内。这是我的护照。",p:"Hénèi. Zhè shì wǒ de hùzhào.",v:"Hà Nội. Đây là hộ chiếu của tôi."},
+    {r:"A",t:"有行李要托运吗？",p:"Yǒu xíngli yào tuōyùn ma?",v:"Quý khách có hành lý ký gửi không ạ?"},
+    {r:"B",t:"只有这个箱子，背包我自己带上飞机。",p:"Zhǐ yǒu zhège xiāngzi, bēibāo wǒ zìjǐ dài shàng fēijī.",v:"Chỉ có vali này thôi, ba lô thì tôi tự mang lên máy bay."},
+    {r:"A",t:"请放上来……二十五公斤，超重了两公斤。",p:"Qǐng fàng shànglai…… èrshíwǔ gōngjīn, chāozhòng le liǎng gōngjīn.",v:"Mời đặt lên... Hai mươi lăm ký, quá cân hai ký rồi ạ."},
+    {r:"B",t:"哦，我可以拿出来一些东西吗？",p:"Ò, wǒ kěyǐ ná chūlai yìxiē dōngxi ma?",v:"Ồ, tôi lấy bớt ra một ít đồ được không?"},
+    {r:"A",t:"可以，或者您也可以付超重费。",p:"Kěyǐ, huòzhě nín yě kěyǐ fù chāozhòng fèi.",v:"Được ạ, hoặc quý khách cũng có thể trả phí quá cân."},
+    {r:"B",t:"我拿出来吧。另外，能给我一个靠过道的座位吗？",p:"Wǒ ná chūlai ba. Lìngwài, néng gěi wǒ yí ge kào guòdào de zuòwèi ma?",v:"Tôi lấy bớt ra vậy. Ngoài ra, cho tôi ghế cạnh lối đi được không?"},
+    {r:"A",t:"没问题。这是您的登机牌，九点四十在十二号登机口登机。",p:"Méi wèntí. Zhè shì nín de dēngjīpái, jiǔ diǎn sìshí zài shí'èr hào dēngjīkǒu dēngjī.",v:"Không vấn đề gì. Đây là thẻ lên máy bay, chín giờ bốn mươi lên máy bay ở cửa số mười hai."},
+    {r:"B",t:"好的，谢谢。",p:"Hǎo de, xièxie.",v:"Vâng, cảm ơn."}],
+   phrases:[
+    {t:"这是我的护照。",p:"Zhè shì wǒ de hùzhào.",v:"Đây là hộ chiếu của tôi."},
+    {t:"只有这个箱子。",p:"Zhǐ yǒu zhège xiāngzi.",v:"Chỉ có vali này thôi."},
+    {t:"我可以拿出来一些东西吗？",p:"Wǒ kěyǐ ná chūlai yìxiē dōngxi ma?",v:"Tôi lấy bớt ra một ít đồ được không?"},
+    {t:"能给我一个靠过道的座位吗？",p:"Néng gěi wǒ yí ge kào guòdào de zuòwèi ma?",v:"Cho tôi ghế cạnh lối đi được không?",alt:["能给我一个靠窗的座位吗？"]}],
+   notes:[
+    {h:"托运 và 随身带",b:"托运 (tuōyùn) là ký gửi hành lý, mang theo người thì nói 随身带 hoặc 带上飞机. 超重 là quá cân."},
+    {h:"靠过道 và 靠窗",b:"靠 là “sát, cạnh”: 靠过道的座位 (ghế cạnh lối đi), 靠窗的座位 (ghế cạnh cửa sổ)."},
+    {h:"Nghe kỹ 登机口 và giờ lên máy bay",b:"登机牌 là thẻ lên máy bay, 登机口 là cửa lên máy bay. 十二号登机口 là cửa số 12."}]},
+ { id:"zh-delay", title:"Chuyến bay bị hoãn", scene:"Chuyến bay đi Thượng Hải của bạn bị hoãn 4 tiếng, bạn hỏi nhân viên để đổi chuyến.", partner:"地勤人员",
+   lines:[
+    {r:"B",t:"你好，我去上海的航班延误了，是什么原因？",p:"Nǐ hǎo, wǒ qù Shànghǎi de hángbān yánwù le, shì shénme yuányīn?",v:"Chào chị, chuyến bay đi Thượng Hải của tôi bị hoãn, vì lý do gì vậy?"},
+    {r:"A",t:"非常抱歉，因为上海那边天气不好。",p:"Fēicháng bàoqiàn, yīnwèi Shànghǎi nàbiān tiānqì bù hǎo.",v:"Thành thật xin lỗi, vì thời tiết bên Thượng Hải xấu ạ."},
+    {r:"B",t:"要延误多长时间？",p:"Yào yánwù duō cháng shíjiān?",v:"Hoãn bao lâu vậy?"},
+    {r:"A",t:"大概四个小时，新的起飞时间是下午三点。",p:"Dàgài sì ge xiǎoshí, xīn de qǐfēi shíjiān shì xiàwǔ sān diǎn.",v:"Khoảng bốn tiếng, giờ cất cánh mới là ba giờ chiều."},
+    {r:"B",t:"这可麻烦了，我在上海还要转机。",p:"Zhè kě máfan le, wǒ zài Shànghǎi hái yào zhuǎnjī.",v:"Vậy thì phiền rồi, tôi còn phải nối chuyến ở Thượng Hải."},
+    {r:"A",t:"我帮您看看……可以给您改到十一点半的航班。",p:"Wǒ bāng nín kànkan…… kěyǐ gěi nín gǎi dào shíyī diǎn bàn de hángbān.",v:"Để tôi xem giúp anh... Có thể đổi cho anh sang chuyến mười một giờ rưỡi."},
+    {r:"B",t:"那太好了。改签要加钱吗？",p:"Nà tài hǎo le. Gǎiqiān yào jiā qián ma?",v:"Vậy thì tốt quá. Đổi vé có mất thêm tiền không?"},
+    {r:"A",t:"不用，免费的。这是餐券，您可以先去吃点儿东西。",p:"Búyòng, miǎnfèi de. Zhè shì cānquàn, nín kěyǐ xiān qù chī diǎnr dōngxi.",v:"Không cần, miễn phí ạ. Đây là phiếu ăn, anh có thể đi ăn chút gì trước."},
+    {r:"B",t:"谢谢，你帮了我大忙。",p:"Xièxie, nǐ bāng le wǒ dà máng.",v:"Cảm ơn chị, chị giúp tôi nhiều lắm."}],
+   phrases:[
+    {t:"我的航班延误了。",p:"Wǒ de hángbān yánwù le.",v:"Chuyến bay của tôi bị hoãn."},
+    {t:"要延误多长时间？",p:"Yào yánwù duō cháng shíjiān?",v:"Hoãn bao lâu vậy?"},
+    {t:"我在上海还要转机。",p:"Wǒ zài Shànghǎi hái yào zhuǎnjī.",v:"Tôi còn phải nối chuyến ở Thượng Hải."},
+    {t:"改签要加钱吗？",p:"Gǎiqiān yào jiā qián ma?",v:"Đổi vé có mất thêm tiền không?"},
+    {t:"你帮了我大忙。",p:"Nǐ bāng le wǒ dà máng.",v:"Bạn giúp tôi nhiều lắm."}],
+   notes:[
+    {h:"延误 và 取消",b:"延误 (yánwù) là bị hoãn, 取消 (qǔxiāo) là bị hủy. Bị hủy thì hỏi: 可以退票吗？(hoàn vé được không?)"},
+    {h:"改签 là đổi vé",b:"Đổi sang chuyến khác hoặc ngày khác. 转机 là nối chuyến, 航班 là chuyến bay."},
+    {h:"帮了我大忙 là “giúp tôi một việc lớn”",b:"Lời cảm ơn chân thành khi ai đó gỡ rối cho mình. Ngắn hơn có thể nói 太感谢了."}]},
+ { id:"zh-tour", title:"Đặt tour ở quầy du lịch", scene:"Bạn đang ở Quế Lâm và hỏi quầy du lịch về tour đi thuyền trên sông Li.", partner:"导游",
+   lines:[
+    {r:"B",t:"你好，我对漓江一日游很感兴趣，能介绍一下吗？",p:"Nǐ hǎo, wǒ duì Líjiāng yírìyóu hěn gǎn xìngqù, néng jièshào yíxià ma?",v:"Chào chị, tôi rất quan tâm đến tour một ngày trên sông Li, chị giới thiệu chút được không?"},
+    {r:"A",t:"好的。早上八点出发，下午五点回来。",p:"Hǎo de. Zǎoshang bā diǎn chūfā, xiàwǔ wǔ diǎn huílai.",v:"Vâng. Tám giờ sáng xuất phát, năm giờ chiều về."},
+    {r:"B",t:"价格里包括什么？",p:"Jiàgé li bāokuò shénme?",v:"Giá đã bao gồm những gì?"},
+    {r:"A",t:"包括船票、午饭和导游。",p:"Bāokuò chuánpiào, wǔfàn hé dǎoyóu.",v:"Bao gồm vé thuyền, bữa trưa và hướng dẫn viên."},
+    {r:"B",t:"一个人多少钱？",p:"Yí ge rén duōshao qián?",v:"Một người bao nhiêu tiền?"},
+    {r:"A",t:"三百八，学生打八折。",p:"Sānbǎi bā, xuésheng dǎ bā zhé.",v:"Ba trăm tám mươi tệ, sinh viên được giảm hai mươi phần trăm."},
+    {r:"B",t:"我是学生，这是我的学生证。",p:"Wǒ shì xuésheng, zhè shì wǒ de xuéshengzhèng.",v:"Tôi là sinh viên, đây là thẻ sinh viên của tôi."},
+    {r:"A",t:"好的。您要订明天的吗？",p:"Hǎo de. Nín yào dìng míngtiān de ma?",v:"Vâng. Anh muốn đặt cho ngày mai không?"},
+    {r:"B",t:"对。需要带什么东西吗？",p:"Duì. Xūyào dài shénme dōngxi ma?",v:"Vâng. Có cần mang theo gì không?"},
+    {r:"A",t:"带上防晒霜和帽子就行了。",p:"Dài shang fángshàishuāng hé màozi jiù xíng le.",v:"Mang kem chống nắng và mũ là được."}],
+   phrases:[
+    {t:"我对漓江一日游很感兴趣。",p:"Wǒ duì Líjiāng yírìyóu hěn gǎn xìngqù.",v:"Tôi rất quan tâm đến tour một ngày trên sông Li."},
+    {t:"能介绍一下吗？",p:"Néng jièshào yíxià ma?",v:"Giới thiệu chút được không?"},
+    {t:"价格里包括什么？",p:"Jiàgé li bāokuò shénme?",v:"Giá đã bao gồm những gì?"},
+    {t:"一个人多少钱？",p:"Yí ge rén duōshao qián?",v:"Một người bao nhiêu tiền?"},
+    {t:"需要带什么东西吗？",p:"Xūyào dài shénme dōngxi ma?",v:"Có cần mang theo gì không?"}],
+   notes:[
+    {h:"对……感兴趣 là quan tâm, hứng thú với",b:"我对中国文化很感兴趣 (tôi rất hứng thú với văn hóa Trung Quốc). Chú ý dùng 对 ở trước, không nói 我感兴趣漓江."},
+    {h:"打八折 là giảm 20%",b:"Người Trung Quốc nói giá còn lại: 打八折 là trả 80% (giảm 20%), 打九折 là giảm 10%, 打五折 là giảm một nửa."},
+    {h:"……就行了 là “… là được”",b:"Dùng khi nói chỉ cần một điều đơn giản: 带护照就行了, 给我一杯水就行了."}]},
+ { id:"zh-rentbike", title:"Thuê xe đạp điện khi đi du lịch", scene:"Bạn thuê xe đạp điện 3 ngày ở Dương Sóc.", partner:"老板",
+   lines:[
+    {r:"B",t:"老板，我想租一辆电动车，租三天。",p:"Lǎobǎn, wǒ xiǎng zū yí liàng diàndòngchē, zū sān tiān.",v:"Ông chủ ơi, tôi muốn thuê một chiếc xe đạp điện, thuê ba ngày."},
+    {r:"A",t:"好的。一天五十块，租三天可以便宜一点儿。",p:"Hǎo de. Yì tiān wǔshí kuài, zū sān tiān kěyǐ piányi yìdiǎnr.",v:"Được. Một ngày năm mươi tệ, thuê ba ngày thì rẻ hơn một chút."},
+    {r:"B",t:"三天一百二，行吗？",p:"Sān tiān yìbǎi èr, xíng ma?",v:"Ba ngày một trăm hai mươi tệ, được không?"},
+    {r:"A",t:"行，就一百二吧。",p:"Xíng, jiù yìbǎi èr ba.",v:"Được, một trăm hai thì một trăm hai."},
+    {r:"B",t:"要交押金吗？",p:"Yào jiāo yājīn ma?",v:"Có phải đặt cọc không?"},
+    {r:"A",t:"要，押护照或者五百块押金都可以。",p:"Yào, yā hùzhào huòzhě wǔbǎi kuài yājīn dōu kěyǐ.",v:"Có, để lại hộ chiếu hoặc năm trăm tệ tiền cọc đều được."},
+    {r:"B",t:"我还是交押金吧，酒店入住要用护照。",p:"Wǒ háishi jiāo yājīn ba, jiǔdiàn rùzhù yào yòng hùzhào.",v:"Tôi đặt tiền cọc thì hơn, nhận phòng khách sạn cần hộ chiếu."},
+    {r:"A",t:"没问题。这是钥匙和头盔。",p:"Méi wèntí. Zhè shì yàoshi hé tóukuī.",v:"Không vấn đề gì. Đây là chìa khóa và mũ bảo hiểm."},
+    {r:"B",t:"电是满的吗？能骑多远？",p:"Diàn shì mǎn de ma? Néng qí duō yuǎn?",v:"Pin có đầy không? Đi được bao xa?"},
+    {r:"A",t:"满的，能骑六十公里。晚上记得充电。",p:"Mǎn de, néng qí liùshí gōnglǐ. Wǎnshang jìde chōngdiàn.",v:"Đầy rồi, đi được sáu mươi cây số. Buổi tối nhớ sạc pin nhé."}],
+   phrases:[
+    {t:"我想租一辆电动车，租三天。",p:"Wǒ xiǎng zū yí liàng diàndòngchē, zū sān tiān.",v:"Tôi muốn thuê một chiếc xe đạp điện, thuê ba ngày."},
+    {t:"三天一百二，行吗？",p:"Sān tiān yìbǎi èr, xíng ma?",v:"Ba ngày một trăm hai, được không?"},
+    {t:"要交押金吗？",p:"Yào jiāo yājīn ma?",v:"Có phải đặt cọc không?"},
+    {t:"我还是交押金吧。",p:"Wǒ háishi jiāo yājīn ba.",v:"Tôi đặt tiền cọc thì hơn."},
+    {t:"能骑多远？",p:"Néng qí duō yuǎn?",v:"Đi được bao xa?"}],
+   notes:[
+    {h:"租 là thuê, 借 là mượn",b:"租 (zū) có trả tiền: 租车, 租房子. 借 (jiè) là mượn không mất tiền: 借一支笔."},
+    {h:"还是……吧 khi chọn sau khi cân nhắc",b:"我还是交押金吧 (thôi tôi đặt cọc vậy). Dùng khi đã nghĩ kỹ giữa hai phương án."},
+    {h:"Nói giá rút gọn",b:"一百二 là 120, 三百八 là 380. Người Trung Quốc thường bỏ chữ 十 và 块 ở cuối khi nói giá."}]},
+ { id:"zh-pharmacy", title:"Mua thuốc ở hiệu thuốc", scene:"Bạn bị cảm và đến hiệu thuốc nhờ dược sĩ tư vấn.", partner:"药剂师",
+   lines:[
+    {r:"A",t:"您好，哪里不舒服？",p:"Nín hǎo, nǎli bù shūfu?",v:"Chào anh, anh thấy khó chịu ở đâu?"},
+    {r:"B",t:"我从星期一开始嗓子疼，还流鼻涕。",p:"Wǒ cóng xīngqīyī kāishǐ sǎngzi téng, hái liú bítì.",v:"Từ thứ Hai tôi bắt đầu đau họng, còn sổ mũi nữa."},
+    {r:"A",t:"发烧吗？",p:"Fāshāo ma?",v:"Có sốt không?"},
+    {r:"B",t:"有一点儿，晚上才发烧。",p:"Yǒu yìdiǎnr, wǎnshang cái fāshāo.",v:"Hơi sốt, chỉ buổi tối mới sốt."},
+    {r:"A",t:"您对什么药过敏吗？",p:"Nín duì shénme yào guòmǐn ma?",v:"Anh có dị ứng với loại thuốc nào không?"},
+    {r:"B",t:"好像没有。",p:"Hǎoxiàng méiyǒu.",v:"Hình như không có."},
+    {r:"A",t:"那您吃这种药吧，一天三次，一次两片，饭后吃。",p:"Nà nín chī zhè zhǒng yào ba, yì tiān sān cì, yí cì liǎng piàn, fàn hòu chī.",v:"Vậy anh dùng loại thuốc này, ngày ba lần, mỗi lần hai viên, uống sau ăn."},
+    {r:"B",t:"吃了会犯困吗？我要开车。",p:"Chī le huì fàn kùn ma? Wǒ yào kāichē.",v:"Uống vào có buồn ngủ không? Tôi phải lái xe."},
+    {r:"A",t:"不会。不过要多喝水，多休息。",p:"Bú huì. Búguò yào duō hē shuǐ, duō xiūxi.",v:"Không đâu. Nhưng phải uống nhiều nước, nghỉ ngơi nhiều."},
+    {r:"B",t:"如果还不好，怎么办？",p:"Rúguǒ hái bù hǎo, zěnme bàn?",v:"Nếu vẫn không khỏi thì làm sao?"},
+    {r:"A",t:"如果三天以后还不好，最好去医院看看。",p:"Rúguǒ sān tiān yǐhòu hái bù hǎo, zuìhǎo qù yīyuàn kànkan.",v:"Nếu sau ba ngày vẫn không đỡ thì tốt nhất nên đi bệnh viện khám."}],
+   phrases:[
+    {t:"我从星期一开始嗓子疼。",p:"Wǒ cóng xīngqīyī kāishǐ sǎngzi téng.",v:"Từ thứ Hai tôi bắt đầu đau họng."},
+    {t:"好像没有。",p:"Hǎoxiàng méiyǒu.",v:"Hình như không có."},
+    {t:"吃了会犯困吗？",p:"Chī le huì fàn kùn ma?",v:"Uống vào có buồn ngủ không?"},
+    {t:"如果还不好，怎么办？",p:"Rúguǒ hái bù hǎo, zěnme bàn?",v:"Nếu vẫn không khỏi thì làm sao?"}],
+   notes:[
+    {h:"哪里不舒服？ là câu hỏi quen thuộc",b:"Bác sĩ và dược sĩ đều hỏi câu này. Trả lời: bộ phận + 疼: 嗓子疼 (đau họng), 头疼 (đau đầu), 肚子疼 (đau bụng)."},
+    {h:"Đọc hiểu liều dùng",b:"一天三次，一次两片 là ngày ba lần, mỗi lần hai viên. 饭后 là sau ăn, 饭前 là trước ăn, 睡前 là trước khi ngủ."},
+    {h:"最好 để khuyên",b:"最好 + việc nên làm: 最好去医院看看 (tốt nhất nên đi khám). Nghe nhẹ nhàng hơn 你应该."}]},
+ { id:"zh-haircut", title:"Đi cắt tóc", scene:"Bạn đến tiệm tóc và mô tả kiểu tóc mình muốn.", partner:"理发师",
+   lines:[
+    {r:"A",t:"您好，请坐。今天想怎么剪？",p:"Nín hǎo, qǐng zuò. Jīntiān xiǎng zěnme jiǎn?",v:"Chào anh, mời ngồi. Hôm nay muốn cắt thế nào?"},
+    {r:"B",t:"稍微修一下就行，别剪太短。",p:"Shāowēi xiū yíxià jiù xíng, bié jiǎn tài duǎn.",v:"Chỉ tỉa gọn một chút thôi, đừng cắt ngắn quá."},
+    {r:"A",t:"大概剪掉多少？",p:"Dàgài jiǎn diào duōshao?",v:"Khoảng cắt bớt bao nhiêu?"},
+    {r:"B",t:"两厘米左右。两边可以再短一点儿。",p:"Liǎng límǐ zuǒyòu. Liǎngbiān kěyǐ zài duǎn yìdiǎnr.",v:"Khoảng hai phân. Hai bên có thể ngắn hơn chút nữa."},
+    {r:"A",t:"好的。要先洗头吗？",p:"Hǎo de. Yào xiān xǐ tóu ma?",v:"Được. Có muốn gội đầu trước không?"},
+    {r:"B",t:"要，谢谢。",p:"Yào, xièxie.",v:"Có, cảm ơn."},
+    {r:"A",t:"剪好了，您看看怎么样？",p:"Jiǎn hǎo le, nín kànkan zěnmeyàng?",v:"Cắt xong rồi, anh xem thế nào?"},
+    {r:"B",t:"上面能再剪短一点儿吗？",p:"Shàngmiàn néng zài jiǎn duǎn yìdiǎnr ma?",v:"Phần trên có thể cắt ngắn thêm chút nữa không?"},
+    {r:"A",t:"没问题……这样呢？",p:"Méi wèntí…… zhèyàng ne?",v:"Không vấn đề gì... Thế này thì sao?"},
+    {r:"B",t:"很好，我很满意！谢谢。",p:"Hěn hǎo, wǒ hěn mǎnyì! Xièxie.",v:"Rất đẹp, tôi rất hài lòng! Cảm ơn."}],
+   phrases:[
+    {t:"稍微修一下就行，别剪太短。",p:"Shāowēi xiū yíxià jiù xíng, bié jiǎn tài duǎn.",v:"Chỉ tỉa gọn một chút thôi, đừng cắt ngắn quá."},
+    {t:"两边可以再短一点儿。",p:"Liǎngbiān kěyǐ zài duǎn yìdiǎnr.",v:"Hai bên có thể ngắn hơn chút nữa."},
+    {t:"上面能再剪短一点儿吗？",p:"Shàngmiàn néng zài jiǎn duǎn yìdiǎnr ma?",v:"Phần trên có thể cắt ngắn thêm chút nữa không?"},
+    {t:"我很满意！",p:"Wǒ hěn mǎnyì!",v:"Tôi rất hài lòng!"}],
+   notes:[
+    {h:"修一下 là tỉa gọn",b:"修 (xiū) ở đây là tỉa, chỉnh cho gọn, không đổi kiểu. Muốn đổi kiểu hẳn thì nói 我想换个发型 và đưa ảnh cho thợ xem."},
+    {h:"再 + tính từ + 一点儿",b:"再短一点儿 (ngắn thêm chút nữa), 再便宜一点儿 (rẻ thêm chút nữa). Rất hay dùng khi muốn điều chỉnh."},
+    {h:"满意 là hài lòng",b:"我很满意 nghe tự nhiên khi đánh giá dịch vụ. Chưa ưng thì nói 还不太满意，能不能……"}]},
+ { id:"zh-dinner", title:"Đến nhà bạn ăn cơm", scene:"Gia đình Tiểu Lâm mời bạn đến nhà ăn tối lần đầu.", partner:"小林",
+   lines:[
+    {r:"A",t:"阿明，快请进！我家好找吗？",p:"Ā Míng, kuài qǐng jìn! Wǒ jiā hǎo zhǎo ma?",v:"A Minh, mời vào đi! Nhà mình có dễ tìm không?"},
+    {r:"B",t:"很好找。这是一点儿水果，给叔叔阿姨的。",p:"Hěn hǎo zhǎo. Zhè shì yìdiǎnr shuǐguǒ, gěi shūshu āyí de.",v:"Dễ tìm lắm. Đây là chút hoa quả biếu chú dì."},
+    {r:"A",t:"你太客气了，来就来吧，还带东西。",p:"Nǐ tài kèqi le, lái jiù lái ba, hái dài dōngxi.",v:"Bạn khách sáo quá, đến chơi là được rồi, còn mang quà."},
+    {r:"B",t:"应该的。好香啊！做了什么好吃的？",p:"Yīnggāi de. Hǎo xiāng a! Zuò le shénme hǎochī de?",v:"Nên mà. Thơm quá! Làm món gì ngon vậy?"},
+    {r:"A",t:"我妈妈包了饺子。别客气，就当是自己家。",p:"Wǒ māma bāo le jiǎozi. Bié kèqi, jiù dàng shì zìjǐ jiā.",v:"Mẹ mình gói sủi cảo. Đừng khách sáo, cứ coi như nhà mình."},
+    {r:"B",t:"有什么需要我帮忙的吗？",p:"Yǒu shénme xūyào wǒ bāngmáng de ma?",v:"Có việc gì cần mình giúp không?"},
+    {r:"A",t:"不用，都准备好了。来，吃饭吧！",p:"Búyòng, dōu zhǔnbèi hǎo le. Lái, chīfàn ba!",v:"Không cần, chuẩn bị xong hết rồi. Nào, ăn cơm thôi!"},
+    {r:"B",t:"阿姨做的饺子真好吃，我能再吃几个吗？",p:"Āyí zuò de jiǎozi zhēn hǎochī, wǒ néng zài chī jǐ ge ma?",v:"Sủi cảo dì làm ngon thật, cháu ăn thêm mấy cái được không ạ?"},
+    {r:"A",t:"当然，多吃点儿！",p:"Dāngrán, duō chī diǎnr!",v:"Tất nhiên, ăn nhiều vào!"},
+    {r:"B",t:"谢谢你们的招待，今天特别开心。",p:"Xièxie nǐmen de zhāodài, jīntiān tèbié kāixīn.",v:"Cảm ơn cả nhà đã tiếp đãi, hôm nay vui lắm."}],
+   phrases:[
+    {t:"这是一点儿水果，给叔叔阿姨的。",p:"Zhè shì yìdiǎnr shuǐguǒ, gěi shūshu āyí de.",v:"Đây là chút hoa quả biếu chú dì."},
+    {t:"有什么需要我帮忙的吗？",p:"Yǒu shénme xūyào wǒ bāngmáng de ma?",v:"Có việc gì cần mình giúp không?"},
+    {t:"我能再吃几个吗？",p:"Wǒ néng zài chī jǐ ge ma?",v:"Mình ăn thêm mấy cái được không?"},
+    {t:"谢谢你们的招待。",p:"Xièxie nǐmen de zhāodài.",v:"Cảm ơn mọi người đã tiếp đãi."}],
+   notes:[
+    {h:"Mang quà khi đến nhà người khác",b:"Người Trung Quốc thường mang hoa quả, bánh hoặc trà. Chủ nhà sẽ nói 你太客气了 (khách sáo quá), bạn đáp 应该的 (nên mà)."},
+    {h:"叔叔、阿姨 để gọi bố mẹ bạn",b:"Gọi bố mẹ bạn bè là 叔叔 (chú) và 阿姨 (dì), giống cách người Việt gọi “chú, cô”."},
+    {h:"就当是自己家 và 多吃点儿",b:"Hai câu chủ nhà hay nói: “cứ coi như nhà mình” và “ăn nhiều vào”. Khen món ăn và ăn nhiệt tình là cách cảm ơn tốt nhất."}]},
+ { id:"zh-neighbor", title:"Làm quen và nhờ hàng xóm", scene:"Bạn mới chuyển nhà và sắp đi công tác, bạn nhờ hàng xóm nhận hộ chuyển phát nhanh.", partner:"王阿姨",
+   lines:[
+    {r:"B",t:"阿姨您好，我叫阿明，刚搬到隔壁。",p:"Āyí nín hǎo, wǒ jiào Ā Míng, gāng bān dào gébì.",v:"Cháu chào dì, cháu tên A Minh, vừa chuyển đến nhà bên cạnh."},
+    {r:"A",t:"欢迎欢迎！我姓王，你叫我王阿姨就行。",p:"Huānyíng huānyíng! Wǒ xìng Wáng, nǐ jiào wǒ Wáng āyí jiù xíng.",v:"Chào mừng cháu! Dì họ Vương, cháu gọi dì Vương là được."},
+    {r:"B",t:"王阿姨，不好意思，能麻烦您一件事吗？",p:"Wáng āyí, bù hǎoyìsi, néng máfan nín yí jiàn shì ma?",v:"Dì Vương, ngại quá, cháu nhờ dì một việc được không ạ?"},
+    {r:"A",t:"当然可以，什么事？",p:"Dāngrán kěyǐ, shénme shì?",v:"Tất nhiên rồi, việc gì thế?"},
+    {r:"B",t:"下个星期我要出差，能请您帮我收一个快递吗？",p:"Xià ge xīngqī wǒ yào chūchāi, néng qǐng nín bāng wǒ shōu yí ge kuàidì ma?",v:"Tuần sau cháu đi công tác, dì nhận giúp cháu một gói chuyển phát nhanh được không ạ?"},
+    {r:"A",t:"没问题。什么时候到？",p:"Méi wèntí. Shénme shíhou dào?",v:"Không vấn đề gì. Khi nào đến?"},
+    {r:"B",t:"大概星期三。我星期五回来就去您家拿。",p:"Dàgài xīngqīsān. Wǒ xīngqīwǔ huílai jiù qù nín jiā ná.",v:"Chắc là thứ Tư ạ. Thứ Sáu cháu về sẽ qua nhà dì lấy."},
+    {r:"A",t:"好，你敲门就行。",p:"Hǎo, nǐ qiāo mén jiù xíng.",v:"Được, cháu cứ gõ cửa là được."},
+    {r:"B",t:"太谢谢您了！以后有什么需要帮忙的，您也尽管说。",p:"Tài xièxie nín le! Yǐhòu yǒu shénme xūyào bāngmáng de, nín yě jǐnguǎn shuō.",v:"Cảm ơn dì nhiều ạ! Sau này dì cần giúp gì cứ nói với cháu."}],
+   phrases:[
+    {t:"我刚搬到隔壁。",p:"Wǒ gāng bān dào gébì.",v:"Tôi vừa chuyển đến nhà bên cạnh."},
+    {t:"不好意思，能麻烦您一件事吗？",p:"Bù hǎoyìsi, néng máfan nín yí jiàn shì ma?",v:"Ngại quá, nhờ anh/chị một việc được không?"},
+    {t:"能请您帮我收一个快递吗？",p:"Néng qǐng nín bāng wǒ shōu yí ge kuàidì ma?",v:"Anh/chị nhận giúp tôi một gói hàng được không?"},
+    {t:"有什么需要帮忙的，您也尽管说。",p:"Yǒu shénme xūyào bāngmáng de, nín yě jǐnguǎn shuō.",v:"Cần giúp gì anh/chị cứ nói."}],
+   notes:[
+    {h:"能麻烦您一件事吗？ trước khi nhờ",b:"Hỏi trước để người kia chuẩn bị, nghe lịch sự hơn nhờ thẳng. 麻烦 ở đây là “làm phiền”."},
+    {h:"刚 + động từ là “vừa mới”",b:"刚搬来 (vừa chuyển đến), 刚到 (vừa tới), 刚下班 (vừa tan làm)."},
+    {h:"尽管说 là “cứ nói đừng ngại”",b:"Câu đáp lễ thể hiện thiện chí: sau này có gì cần thì cứ nói. Rất hợp khi làm quen hàng xóm, đồng nghiệp."}]});
+/* Lộ trình giao tiếp cơ bản: 11 chặng (1–6 sơ cấp A1, 7–11 tiền trung cấp A2–B1), chủ đề và thứ tự tham khảo theo các giáo trình
    Interchange, Side by Side, 301 câu đàm thoại tiếng Hoa. Hội thoại do SFY tự viết. */
 const UNITS = [
-  {name:"Chặng 1 · Làm quen và đời sống hằng ngày", n:5},
+  {name:"Chặng 1 · Làm quen và đời sống hằng ngày", n:5, lvl:{en:"Phần 1 · Sơ cấp (A1)", zh:"Phần 1 · Sơ cấp (HSK 1–2)"}},
   {name:"Chặng 2 · Ăn uống và mua sắm", n:3},
   {name:"Chặng 3 · Đi lại", n:3},
   {name:"Chặng 4 · Hẹn gặp, kể chuyện và kế hoạch", n:3},
   {name:"Chặng 5 · Ở và sinh hoạt nơi mới", n:3},
-  {name:"Chặng 6 · Tình huống quan trọng", n:3}
+  {name:"Chặng 6 · Tình huống quan trọng", n:3},
+  {name:"Chặng 7 · Rủ rê, xin lỗi và cảm xúc", n:4, lvl:{en:"Phần 2 · Tiền trung cấp (A2–B1)", zh:"Phần 2 · Tiền trung cấp (HSK 3–4)"}},
+  {name:"Chặng 8 · Kể chuyện và nêu ý kiến", n:4},
+  {name:"Chặng 9 · Dịch vụ và xử lý sự cố", n:4},
+  {name:"Chặng 10 · Đi du lịch xa", n:4},
+  {name:"Chặng 11 · Sức khỏe và hàng xóm", n:4}
 ];
 const LESSON_ORDER = {
-  en:["en-meet","en-family","en-routine","en-hobby","en-weather","en-cafe","en-shopping","en-return","en-directions","en-taxi","en-train","en-phone","en-weekend","en-plans","en-hotel","en-bank","en-rent","en-doctor","en-lost","en-interview"],
-  zh:["zh-meet","zh-family","zh-routine","zh-hobby","zh-weather","zh-restaurant","zh-bargain","zh-return","zh-directions","zh-taxi","zh-train","zh-phone","zh-weekend","zh-plans","zh-hotel","zh-bank","zh-rent","zh-doctor","zh-lost","zh-interview"]
+  en:["en-meet","en-family","en-routine","en-hobby","en-weather","en-cafe","en-shopping","en-return","en-directions","en-taxi","en-train","en-phone","en-weekend","en-plans","en-hotel","en-bank","en-rent","en-doctor","en-lost","en-interview","en-invite","en-late","en-compliment","en-comfort","en-trip","en-badday","en-movie","en-compare","en-booktable","en-complain","en-repair","en-post","en-checkin","en-delay","en-tour","en-rentbike","en-pharmacy","en-haircut","en-dinner","en-neighbor"],
+  zh:["zh-meet","zh-family","zh-routine","zh-hobby","zh-weather","zh-restaurant","zh-bargain","zh-return","zh-directions","zh-taxi","zh-train","zh-phone","zh-weekend","zh-plans","zh-hotel","zh-bank","zh-rent","zh-doctor","zh-lost","zh-interview","zh-invite","zh-late","zh-compliment","zh-comfort","zh-trip","zh-badday","zh-movie","zh-compare","zh-booktable","zh-complain","zh-repair","zh-express","zh-checkin","zh-delay","zh-tour","zh-rentbike","zh-pharmacy","zh-haircut","zh-dinner","zh-neighbor"]
 };
 for(const l of ["en","zh"]) LESSONS[l].sort((a,b) => LESSON_ORDER[l].indexOf(a.id) - LESSON_ORDER[l].indexOf(b.id));
 
@@ -2119,6 +2973,51 @@ const WORK_VOCAB = {
  "zh-w-energy-save":"能源 néngyuán=năng lượng|审计 shěnjì=kiểm toán|空调 kōngtiáo=điều hòa|温度 wēndù=nhiệt độ|度 dù=độ|设定 shèdìng=cài đặt|灯 dēng=đèn|开关 kāiguān=công tắc|节能 jiénéng=tiết kiệm năng lượng|消耗 xiāohào=tiêu hao|区别 qūbié=khác biệt|效率 xiàolǜ=hiệu suất"
 };
 LESSONS.en.push(...WORK_EN); LESSONS.zh.push(...WORK_ZH); Object.assign(VOCAB_RAW, WORK_VOCAB);
+
+/* Từ vựng và cấp độ của đợt 2 (A2–B1 / HSK 3–4) */
+Object.assign(VOCAB_RAW, {
+ "en-invite": "invite=mời, rủ|free=rảnh|concert=buổi hòa nhạc|ticket=vé|come with=đi cùng|I'm afraid=e là, rất tiếc|work late=làm muộn|shame=điều đáng tiếc|instead=thay vào đó|suggest=gợi ý|accept=nhận lời|refuse=từ chối|busy=bận|plan=kế hoạch|address=địa chỉ|see you then=hẹn gặp lúc đó",
+ "en-late": "late=muộn|sorry=xin lỗi|wait=đợi|happen=xảy ra|terrible=kinh khủng|traffic jam=tắc đường|battery=pin|die=hết pin, chết|answer=trả lời, nghe máy|text=nhắn tin|again=lần nữa|worry=lo lắng|make up for=bù lại|drink=đồ uống|deal=chốt, đồng ý|on time=đúng giờ",
+ "en-compliment": "congratulations=chúc mừng|promotion=sự thăng chức|deserve=xứng đáng|nervous=lo lắng, hồi hộp|role=vị trí, vai trò|hard=chăm chỉ, vất vả|kind=tốt bụng|dress=váy liền|suit=hợp với|color=màu sắc|celebrate=ăn mừng|lunch=bữa trưa|treat=sự chiêu đãi|proud=tự hào|compliment=lời khen|beautiful=đẹp",
+ "en-comfort": "down=buồn, xuống tinh thần|okay=ổn|disappointed=thất vọng|prepare=chuẩn bị|week=tuần|practice=sự luyện tập|chance=cơ hội|guess=đoán, cho là|right=đúng|talk=nói chuyện|mean a lot=có ý nghĩa lớn|cheer up=làm vui lên|sad=buồn|upset=buồn bực|support=ủng hộ, hỗ trợ|feel better=thấy khá hơn",
+ "en-trip": "trip=chuyến đi|amazing=tuyệt vời|weather=thời tiết|view=quang cảnh|stay=ở lại|homestay=nhà nghỉ ở cùng chủ nhà|lake=hồ|visit=thăm|flower=hoa|farm=nông trại, vườn|night market=chợ đêm|local=địa phương|grilled=nướng|ever=từng|definitely=nhất định|tip=mẹo, kinh nghiệm",
+ "en-badday": "exhausted=mệt rã rời|worst=tệ nhất|oversleep=ngủ quên|miss=lỡ|bus=xe buýt|late for work=đi làm muộn|start=bắt đầu|rain=mưa|umbrella=cái ô|leave=để quên, rời đi|completely=hoàn toàn|wet=ướt|actually=thật ra|boss=sếp|report=bản báo cáo|lucky=may mắn",
+ "en-movie": "movie=bộ phim|yet=chưa|think of=nghĩ về|honest=thành thật|disappointed=thất vọng|story=cốt truyện, câu chuyện|exciting=hấp dẫn|action=hành động|scene=cảnh|agree=đồng ý|ending=đoạn kết|boring=nhàm chán|recommend=giới thiệu, khuyên|fan=người hâm mộ|otherwise=nếu không thì|point=ý, luận điểm",
+ "en-compare": "particular=cụ thể|decide=quyết định|difference=sự khác nhau|camera=máy ảnh|battery=pin|popular=được ưa chuộng|mostly=chủ yếu|light=nhẹ|fast=nhanh|expensive=đắt|worth=đáng giá|photo=bức ảnh|important=quan trọng|choice=lựa chọn|compare=so sánh|cheap=rẻ",
+ "en-booktable": "book=đặt (chỗ)|table=bàn|evening=buổi tối|certainly=chắc chắn rồi|people=người|around=khoảng|check=kiểm tra|available=còn trống|window=cửa sổ|birthday=sinh nhật|phone number=số điện thoại|reserve=đặt trước|quiet=yên tĩnh|outside=bên ngoài|guest=khách|confirm=xác nhận",
+ "en-complain": "order=gọi món|apologize=xin lỗi|chicken=thịt gà|salad=món salad|beef=thịt bò|noodles=mì|change=đổi|right away=ngay lập tức|soup=món súp|cold=nguội, lạnh|heat up=hâm nóng|take=mất (thời gian)|meeting=cuộc họp|on the house=quán mời|complain=phàn nàn|waiter=người phục vụ",
+ "en-repair": "apartment=căn hộ|air conditioner=máy điều hòa|work=hoạt động|wrong=có vấn đề|turn on=bật|blow=thổi|hot=nóng|strange=lạ|noise=tiếng ồn|since=từ khi|repairman=thợ sửa chữa|tomorrow=ngày mai|until=cho đến khi|appreciate=cảm kích|landlord=chủ nhà|broken=bị hỏng",
+ "en-post": "send=gửi|package=bưu kiện|inside=bên trong|clothes=quần áo|gift=món quà|by air=đường hàng không|by sea=đường biển|cheap=rẻ|birthday=sinh nhật|fill in=điền|form=tờ khai, mẫu đơn|track=theo dõi|online=trên mạng|receipt=biên lai|post office=bưu điện|stamp=tem",
+ "en-checkin": "fly=bay|passport=hộ chiếu|booking=sự đặt chỗ|confirmation=sự xác nhận|check in=làm thủ tục, ký gửi|suitcase=va li|backpack=ba lô|hand luggage=hành lý xách tay|scale=cái cân|limit=giới hạn|extra=thêm|weight=cân nặng|aisle seat=ghế cạnh lối đi|boarding pass=thẻ lên máy bay|gate=cửa ra máy bay|flight=chuyến bay",
+ "en-delay": "flight=chuyến bay|delay=sự hoãn, hoãn|because of=vì, do|bad=xấu|weather=thời tiết|departure=sự khởi hành|problem=vấn đề|connecting flight=chuyến bay nối chuyến|another=khác|extra charge=phụ phí|free=miễn phí|meal=bữa ăn|voucher=phiếu|helpful=hay giúp đỡ|cancel=hủy|refund=hoàn tiền",
+ "en-tour": "interested=quan tâm|day trip=chuyến đi trong ngày|island=hòn đảo|tour=chuyến tham quan|leave=khởi hành|include=bao gồm|price=giá|boat=tàu, thuyền|guide=hướng dẫn viên|cost=có giá|per person=mỗi người|student card=thẻ sinh viên|bring=mang theo|sunscreen=kem chống nắng|hat=mũ|swimsuit=đồ bơi",
+ "en-rentbike": "rent=thuê|motorbike=xe máy|automatic=xe tay ga, tự động|manual=xe số, số sàn|per day=mỗi ngày|discount=giảm giá|deposit=tiền đặt cọc|leave=để lại|passport=hộ chiếu|rather=thà, thích hơn|hotel=khách sạn|key=chìa khóa|helmet=mũ bảo hiểm|tank=bình xăng|full=đầy|bring back=mang trả lại",
+ "en-pharmacy": "pharmacy=hiệu thuốc|sore throat=đau họng|runny nose=sổ mũi|fever=sốt|allergic=bị dị ứng|medicine=thuốc|recommend=khuyên dùng|tablet=viên thuốc|meal=bữa ăn|sleepy=buồn ngủ|drive=lái xe|plenty of=nhiều|water=nước|rest=sự nghỉ ngơi|last=kéo dài|see a doctor=đi khám bác sĩ",
+ "en-haircut": "haircut=sự cắt tóc|seat=chỗ ngồi|trim=tỉa gọn|short=ngắn|take off=cắt bớt|centimeter=xăng-ti-mét|side=bên, cạnh|wash=gội, rửa|hair=tóc|first=trước tiên|look=trông|mirror=cái gương|top=phần trên|perfect=hoàn hảo|style=kiểu|hairdresser=thợ làm tóc",
+ "en-dinner": "come in=vào nhà|find=tìm thấy|easily=dễ dàng|flower=hoa|lovely=đẹp, dễ thương|smell=có mùi|delicious=ngon|make yourself at home=cứ tự nhiên như ở nhà|help=giúp|ready=sẵn sàng|eat=ăn|more=thêm|help yourself=cứ tự nhiên lấy|have someone over=mời ai đến nhà|wonderful=tuyệt vời|guest=khách",
+ "en-neighbor": "neighbor=hàng xóm|move into=chuyển đến|neighborhood=khu phố|bother=làm phiền|ask a favor=nhờ một việc|go away=đi xa|on business=đi công tác|mind=phiền|take in=nhận hộ|package=bưu kiện|arrive=đến nơi|probably=có lẽ|pick up=lấy, đón|get back=trở về|knock=gõ (cửa)|door=cửa",
+ "zh-invite": "有空 yǒu kòng=rảnh|电影票 diànyǐng piào=vé xem phim|请 qǐng=mời|一起 yìqǐ=cùng nhau|加班 jiābān=tăng ca|恐怕 kǒngpà=e là|可惜 kěxī=đáng tiếc|不好意思 bù hǎoyìsi=ngại quá, xin lỗi|咖啡 kāfēi=cà phê|怎么样 zěnmeyàng=thế nào|见面 jiànmiàn=gặp mặt|上午 shàngwǔ=buổi sáng|地址 dìzhǐ=địa chỉ|发 fā=gửi|拒绝 jùjué=từ chối|邀请 yāoqǐng=lời mời, mời",
+ "zh-late": "对不起 duìbuqǐ=xin lỗi|晚 wǎn=muộn|等 děng=đợi|久 jiǔ=lâu|堵车 dǔchē=tắc đường|厉害 lìhai=ghê gớm|没电 méi diàn=hết pin|难怪 nánguài=thảo nào|接电话 jiē diànhuà=nghe điện thoại|短信 duǎnxìn=tin nhắn|下次 xià cì=lần sau|没关系 méi guānxi=không sao|遇到 yùdào=gặp phải|奶茶 nǎichá=trà sữa|道歉 dàoqiàn=xin lỗi|迟到 chídào=đến muộn",
+ "zh-compliment": "恭喜 gōngxǐ=chúc mừng|升职 shēngzhí=thăng chức|紧张 jǐnzhāng=hồi hộp, căng thẳng|努力 nǔlì=cố gắng|应该 yīnggāi=nên, đáng|得到 dédào=nhận được|衣服 yīfu=quần áo|漂亮 piàoliang=đẹp|颜色 yánsè=màu sắc|适合 shìhé=phù hợp|附近 fùjìn=gần đây|庆祝 qìngzhù=ăn mừng|中午 zhōngwǔ=buổi trưa|请客 qǐngkè=mời (trả tiền)|羡慕 xiànmù=ngưỡng mộ|厉害 lìhai=giỏi",
+ "zh-comfort": "看起来 kàn qǐlai=trông có vẻ|高兴 gāoxìng=vui|面试 miànshì=phỏng vấn|通过 tōngguò=thông qua, đỗ|遗憾 yíhàn=đáng tiếc|失望 shīwàng=thất vọng|准备 zhǔnbèi=chuẩn bị|难过 nánguò=buồn|练习 liànxí=luyện tập|机会 jīhuì=cơ hội|聊天 liáotiān=trò chuyện|随时 suíshí=bất cứ lúc nào|心情 xīnqíng=tâm trạng|担心 dānxīn=lo lắng|安慰 ānwèi=an ủi|朋友 péngyou=bạn bè",
+ "zh-trip": "回来 huílai=trở về|玩 wán=chơi|开心 kāixīn=vui vẻ|风景 fēngjǐng=phong cảnh|特别 tèbié=đặc biệt|待 dāi=ở lại|住 zhù=ở|旁边 pángbiān=bên cạnh|酒店 jiǔdiàn=khách sạn|地方 dìfang=nơi, chỗ|船 chuán=thuyền|茶园 cháyuán=đồi chè|听起来 tīng qǐlai=nghe có vẻ|最 zuì=nhất|推荐 tuījiàn=giới thiệu, đề xuất|旅游 lǚyóu=du lịch",
+ "zh-badday": "累 lèi=mệt|倒霉 dǎoméi=xui xẻo|睡过头 shuì guò tóu=ngủ quên|赶上 gǎnshàng=kịp|公交车 gōngjiāochē=xe buýt|上班 shàngbān=đi làm|迟到 chídào=đến muộn|半路 bànlù=giữa đường|突然 tūrán=đột nhiên|下雨 xià yǔ=mưa|伞 sǎn=cái ô|忘 wàng=quên|湿 shī=ướt|经理 jīnglǐ=quản lý|报告 bàogào=báo cáo|糟糕 zāogāo=tồi tệ",
+ "zh-movie": "电影 diànyǐng=bộ phim|周末 zhōumò=cuối tuần|觉得 juéde=cảm thấy|说实话 shuō shíhuà=nói thật|失望 shīwàng=thất vọng|故事 gùshi=câu chuyện|精彩 jīngcǎi=đặc sắc, hay|同意 tóngyì=đồng ý|部分 bùfen=phần|好看 hǎokàn=hay, đẹp|结尾 jiéwěi=đoạn kết|无聊 wúliáo=nhàm chán|推荐 tuījiàn=giới thiệu|影迷 yǐngmí=người mê phim|网上 wǎngshang=trên mạng|道理 dàolǐ=lý lẽ",
+ "zh-compare": "款 kuǎn=mẫu, kiểu|选 xuǎn=chọn|区别 qūbié=sự khác biệt|拍照 pāizhào=chụp ảnh|比 bǐ=so với|电池 diànchí=pin|卖 mài=bán|更 gèng=hơn|轻 qīng=nhẹ|速度 sùdù=tốc độ|贵 guì=đắt|值得 zhíde=đáng|经常 jīngcháng=thường xuyên|主要 zhǔyào=chủ yếu|重要 zhòngyào=quan trọng|合适 héshì=phù hợp",
+ "zh-booktable": "餐厅 cāntīng=nhà hàng|订 dìng=đặt trước|位子 wèizi=chỗ ngồi|位 wèi=vị (đếm người lịch sự)|左右 zuǒyòu=khoảng|查 chá=kiểm tra, tra|安排 ānpái=sắp xếp|靠 kào=sát, cạnh|窗 chuāng=cửa sổ|桌子 zhuōzi=cái bàn|生日 shēngrì=sinh nhật|留 liú=để lại|名字 míngzi=tên|电话 diànhuà=điện thoại|已经 yǐjīng=đã|预订 yùdìng=đặt trước",
+ "zh-complain": "服务员 fúwùyuán=nhân viên phục vụ|点菜 diǎn cài=gọi món|宫保鸡丁 gōngbǎo jīdīng=gà xào hạt điều|牛肉面 niúròu miàn=mì bò|抱歉 bàoqiàn=xin lỗi|马上 mǎshàng=ngay lập tức|换 huàn=đổi|汤 tāng=canh, súp|凉 liáng=nguội, mát|热 rè=hâm nóng, nóng|时间 shíjiān=thời gian|会 huì=cuộc họp|饮料 yǐnliào=đồ uống|送 sòng=tặng|收钱 shōu qián=thu tiền|投诉 tóusù=khiếu nại",
+ "zh-repair": "阿姨 āyí=cô, dì|房间 fángjiān=căn phòng|空调 kōngtiáo=máy điều hòa|坏 huài=hỏng|打开 dǎkāi=bật, mở|吹 chuī=thổi|风 fēng=gió|奇怪 qíguài=kỳ lạ|声音 shēngyīn=âm thanh|开始 kāishǐ=bắt đầu|睡不着 shuì bu zháo=không ngủ được|师傅 shīfu=thợ, bác tài|修 xiū=sửa|以后 yǐhòu=sau khi|麻烦 máfan=làm phiền|房东 fángdōng=chủ nhà",
+ "zh-express": "寄 jì=gửi|快递 kuàidì=chuyển phát nhanh|包裹 bāoguǒ=bưu kiện|里面 lǐmiàn=bên trong|东西 dōngxi=đồ vật|礼物 lǐwù=quà|普通 pǔtōng=thông thường|加急 jiājí=hỏa tốc|区别 qūbié=khác biệt|不过 búguò=nhưng mà|后天 hòutiān=ngày kia|收件人 shōujiànrén=người nhận|地址 dìzhǐ=địa chỉ|物流 wùliú=vận chuyển, hành trình đơn|单号 dānhào=mã vận đơn|快递员 kuàidìyuán=nhân viên giao hàng",
+ "zh-checkin": "出示 chūshì=xuất trình|护照 hùzhào=hộ chiếu|飞 fēi=bay|行李 xíngli=hành lý|托运 tuōyùn=ký gửi|箱子 xiāngzi=va li, thùng|背包 bēibāo=ba lô|飞机 fēijī=máy bay|公斤 gōngjīn=ki-lô-gam|超重 chāozhòng=quá cân|付 fù=trả tiền|另外 lìngwài=ngoài ra|过道 guòdào=lối đi|座位 zuòwèi=chỗ ngồi|登机牌 dēngjīpái=thẻ lên máy bay|登机口 dēngjīkǒu=cửa lên máy bay",
+ "zh-delay": "航班 hángbān=chuyến bay|延误 yánwù=hoãn, trễ|原因 yuányīn=nguyên nhân|天气 tiānqì=thời tiết|大概 dàgài=khoảng|小时 xiǎoshí=giờ, tiếng|起飞 qǐfēi=cất cánh|麻烦 máfan=phiền phức|转机 zhuǎnjī=nối chuyến|改 gǎi=đổi|改签 gǎiqiān=đổi vé|加钱 jiā qián=thêm tiền|免费 miǎnfèi=miễn phí|餐券 cānquàn=phiếu ăn|取消 qǔxiāo=hủy|帮忙 bāngmáng=giúp đỡ",
+ "zh-tour": "感兴趣 gǎn xìngqù=hứng thú|一日游 yírìyóu=tour một ngày|介绍 jièshào=giới thiệu|出发 chūfā=xuất phát|价格 jiàgé=giá cả|包括 bāokuò=bao gồm|船票 chuánpiào=vé thuyền|午饭 wǔfàn=bữa trưa|导游 dǎoyóu=hướng dẫn viên|打折 dǎzhé=giảm giá|学生证 xuéshengzhèng=thẻ sinh viên|需要 xūyào=cần|带 dài=mang theo|防晒霜 fángshàishuāng=kem chống nắng|帽子 màozi=cái mũ|旅行社 lǚxíngshè=công ty du lịch",
+ "zh-rentbike": "老板 lǎobǎn=ông chủ|租 zū=thuê|辆 liàng=chiếc (xe)|电动车 diàndòngchē=xe đạp điện|便宜 piányi=rẻ|行 xíng=được|交 jiāo=nộp|押金 yājīn=tiền đặt cọc|或者 huòzhě=hoặc|还是 háishi=vẫn là, thì hơn|入住 rùzhù=nhận phòng|钥匙 yàoshi=chìa khóa|头盔 tóukuī=mũ bảo hiểm|满 mǎn=đầy|骑 qí=đi (xe), cưỡi|充电 chōngdiàn=sạc điện",
+ "zh-pharmacy": "舒服 shūfu=dễ chịu|嗓子 sǎngzi=cổ họng|疼 téng=đau|流鼻涕 liú bítì=sổ mũi|发烧 fāshāo=sốt|过敏 guòmǐn=dị ứng|药 yào=thuốc|好像 hǎoxiàng=hình như|次 cì=lần|片 piàn=viên|饭后 fàn hòu=sau ăn|犯困 fàn kùn=buồn ngủ|开车 kāichē=lái xe|休息 xiūxi=nghỉ ngơi|最好 zuìhǎo=tốt nhất là|药店 yàodiàn=hiệu thuốc",
+ "zh-haircut": "剪 jiǎn=cắt|稍微 shāowēi=hơi, một chút|修 xiū=tỉa|短 duǎn=ngắn|剪掉 jiǎn diào=cắt bớt|厘米 límǐ=xăng-ti-mét|两边 liǎngbiān=hai bên|洗头 xǐ tóu=gội đầu|上面 shàngmiàn=phía trên|这样 zhèyàng=như thế này|满意 mǎnyì=hài lòng|头发 tóufa=tóc|发型 fàxíng=kiểu tóc|理发 lǐfà=cắt tóc|镜子 jìngzi=cái gương|理发店 lǐfàdiàn=tiệm cắt tóc",
+ "zh-dinner": "请进 qǐng jìn=mời vào|好找 hǎo zhǎo=dễ tìm|水果 shuǐguǒ=hoa quả|叔叔 shūshu=chú|阿姨 āyí=cô, dì|客气 kèqi=khách sáo|香 xiāng=thơm|包饺子 bāo jiǎozi=gói sủi cảo|自己 zìjǐ=mình, bản thân|帮忙 bāngmáng=giúp đỡ|准备 zhǔnbèi=chuẩn bị|好吃 hǎochī=ngon|当然 dāngrán=tất nhiên|招待 zhāodài=tiếp đãi|做客 zuòkè=làm khách|礼物 lǐwù=quà",
+ "zh-neighbor": "邻居 línjū=hàng xóm|刚 gāng=vừa mới|搬 bān=chuyển (nhà)|隔壁 gébì=nhà bên cạnh|欢迎 huānyíng=chào mừng|姓 xìng=họ|麻烦 máfan=làm phiền|出差 chūchāi=đi công tác|收 shōu=nhận|快递 kuàidì=chuyển phát nhanh|大概 dàgài=có lẽ, khoảng|拿 ná=lấy, cầm|敲门 qiāo mén=gõ cửa|需要 xūyào=cần|帮忙 bāngmáng=giúp đỡ|尽管 jǐnguǎn=cứ việc"
+ });
+Object.assign(VOCAB_LV, {"en-invite":"2111111422221111","en-late":"1111123111121121","en-compliment":"2442211121213341","en-comfort":"1131112111141321","en-trip":"1112102111112122","en-badday":"3201111111222212","en-movie":"1213311121212241","en-compare":"2111312111311211","en-booktable":"1112111211141123","en-complain":"1311221111211121","en-repair":"1111121222011352","en-post":"1321211111121312","en-checkin":"1145100143122221","en-delay":"1411131213110240","en-tour":"1112111121211010","en-rentbike":"3044234112114411","en-pharmacy":"0314022210131211","en-haircut":"0201122111122110","en-dinner":"1121221111111112","en-neighbor":"2133111213112121","zh-invite":"3111435232114255","zh-late":"1113451722114364","zh-compliment":"7032211223431275","zh-comfort":"3142641222622451","zh-trip":"1124251121261172","zh-badday":"1776214731414235","zh-movie":"1216423321747612","zh-compare":"0234152223132212","zh-booktable":"5372323221121124","zh-complain":"3103612321115124","zh-repair":"4131121323153233","zh-express":"4443122232124744","zh-checkin":"7213645126337277","zh-delay":"4721312372524631","zh-tour":"4312342144332743","zh-rentbike":"3224212521670224","zh-pharmacy":"2727452212161112","zh-haircut":"5532544232227343","zh-dinner":"1114453221113732","zh-neighbor":"5235223524315315"});
 Object.assign(VOCAB_LV, {"en-w-fin-loan":"422203310424","en-w-fin-report":"413331243441","en-w-fin-invest":"343144454401","en-w-acc-invoice":"433033320344","en-w-acc-close":"101140035521","en-w-acc-audit":"502342024425","en-w-sales-call":"311041422112","en-w-sales-nego":"312044434244","en-w-sales-complaint":"311540232452","en-w-mkt-idea":"432334303321","en-w-mkt-result":"235222222521","en-w-mkt-partner":"151044444324","en-w-hr-interview":"323232213420","en-w-hr-meeting":"241212132244","en-w-hr-leave":"141242432204","en-w-it-standup":"142403513200","en-w-it-support":"542003342531","en-w-it-require":"222413330314","en-w-hosp-checkin":"311222111120","en-w-hosp-order":"112130111110","en-w-hosp-tour":"221041100111","en-w-med-nurse":"213230002325","en-w-med-doctor":"304202553532","en-w-med-pharmacy":"001400020543","zh-w-fin-loan":"577741242763","zh-w-fin-report":"255634347335","zh-w-fin-invest":"453466535443","zh-w-acc-invoice":"753463747767","zh-w-acc-close":"577600645641","zh-w-acc-audit":"703443435342","zh-w-sales-call":"455354473223","zh-w-sales-nego":"432054752436","zh-w-sales-complaint":"447640426350","zh-w-mkt-idea":"625357226343","zh-w-mkt-result":"777447757442","zh-w-mkt-partner":"304574364343","zh-w-hr-interview":"474333326574","zh-w-hr-meeting":"334332122371","zh-w-hr-leave":"122463447234","zh-w-it-standup":"142777743734","zh-w-it-support":"344360777435","zh-w-it-require":"363537647536","zh-w-hosp-checkin":"604275507352","zh-w-hosp-order":"327347221145","zh-w-hosp-tour":"423673451442","zh-w-med-nurse":"147267577402","zh-w-med-doctor":"760420272547","zh-w-med-pharmacy":"203474327672","en-w-ins-sell":"435241224205","en-w-ins-claim":"331202243502","en-w-ins-car":"321232444115","en-w-log-ship":"030351332533","en-w-log-customs":"303002443053","en-w-log-warehouse":"504223304404","en-w-ecom-listing":"150101231432","en-w-ecom-chat":"112440102400","en-w-ecom-sale":"243540315150","en-w-mfg-tour":"231342254414","en-w-mfg-problem":"101025220301","en-w-mfg-order":"143413524053","en-w-cons-site":"441252434405","en-w-cons-design":"211211145254","en-w-cons-supply":"044342324201","en-w-re-view":"101011022332","en-w-re-contract":"440440034343","en-w-re-rent":"130553234410","en-w-air-checkin":"212202054134","en-w-air-cabin":"011204110443","en-w-air-delay":"444320053350","en-w-pharma-rep":"224322513552","en-w-pharma-lab":"011353233210","en-w-pharma-counter":"500021321200","en-w-edu-parent":"111131020051","en-w-edu-class":"111111012110","en-w-edu-enroll":"142443240501","en-w-law-consult":"234352303523","en-w-law-company":"154150244432","en-w-law-labor":"221233503001","en-w-media-interview":"221133231322","en-w-media-pr":"342033252333","en-w-media-news":"123442101331","en-w-design-brief":"243440011444","en-w-design-feedback":"442411043520","en-w-design-pitch":"132124214532","en-w-cs-call":"123040303321","en-w-cs-complaint":"331230423224","en-w-cs-follow":"142422421442","en-w-beauty-book":"130403512132","en-w-beauty-skin":"202030000321","en-w-beauty-hair":"003300243300","en-w-agri-buy":"514333404202","en-w-agri-tech":"132000213500","en-w-agri-farm":"101401240214","en-w-energy-solar":"440210400002","en-w-energy-plant":"202430252055","en-w-energy-save":"252220344222","zh-w-ins-sell":"334424331777","zh-w-ins-claim":"644234570566","zh-w-ins-car":"532644330734","zh-w-log-ship":"776275442457","zh-w-log-customs":"336764746764","zh-w-log-warehouse":"654475445744","zh-w-ecom-listing":"413354445656","zh-w-ecom-chat":"474374740672","zh-w-ecom-sale":"357000277303","zh-w-mfg-tour":"331173474362","zh-w-mfg-problem":"312377453420","zh-w-mfg-order":"737744747365","zh-w-cons-site":"702772077607","zh-w-cons-design":"377752477447","zh-w-cons-supply":"677354747404","zh-w-re-view":"126543323440","zh-w-re-contract":"754740446533","zh-w-re-rent":"260543637537","zh-w-air-checkin":"505727362642","zh-w-air-cabin":"324235306364","zh-w-air-delay":"733756536404","zh-w-pharma-rep":"247774777676","zh-w-pharma-lab":"442373513373","zh-w-pharma-counter":"777242064105","zh-w-edu-parent":"212321434252","zh-w-edu-class":"122422212221","zh-w-edu-enroll":"342324653222","zh-w-law-consult":"447734676503","zh-w-law-company":"274365435564","zh-w-law-labor":"377235544553","zh-w-media-interview":"343373333533","zh-w-media-pr":"652337076633","zh-w-media-news":"233507463725","zh-w-design-brief":"646427432333","zh-w-design-feedback":"234543424053","zh-w-design-pitch":"625332356375","zh-w-cs-call":"047063466623","zh-w-cs-complaint":"463274404222","zh-w-cs-follow":"022215373334","zh-w-beauty-book":"650027037446","zh-w-beauty-skin":"533602747560","zh-w-beauty-hair":"705555230773","zh-w-agri-buy":"055235777453","zh-w-agri-tech":"745030076367","zh-w-agri-farm":"775303277327","zh-w-energy-solar":"376473106062","zh-w-energy-plant":"706065405371","zh-w-energy-save":"773227266634"});
 const VOCAB = {};
 function vocabOf(id){
@@ -2532,7 +3431,7 @@ const TTS = {
 /* Phiên âm IPA từng từ (giọng Mỹ, ký hiệu như bài phát âm). Tạo từ CMU Pronouncing Dictionary,
    Copyright (C) 1993-2015 Carnegie Mellon University, giấy phép BSD; có chỉnh tay một số từ.
    Viết gọn: từ:âm.âm.âm|…; dấu ˈ đặt trước nguyên âm được nhấn. */
-const IPA_SRC = "a:ə|about:ə.b.ˈaʊ.t|abroad:ə.b.r.ˈɔː.d|acceptable:æ.k.s.ˈe.p.t.ə.b.ə.l|access:ˈæ.k.s.e.s|accident:ˈæ.k.s.ə.d.ə.n.t|accidents:ˈæ.k.s.ə.d.ə.n.t.s|account:ə.k.ˈaʊ.n.t|accounting:ə.k.ˈaʊ.n.t.ɪ.ŋ|accounts:ə.k.ˈaʊ.n.t.s|activity:æ.k.t.ˈɪ.v.ə.t.i|ad:æ.d|add:æ.d|address:ˈæ.d.r.e.s|admin:ˈæ.d.m.ɪ.n|ads:æ.d.z|advertisement:ə.d.v.ˈɜː.t.ɪ.s.m.ə.n.t|advice:æ.d.v.ˈaɪ.s|after:ˈæ.f.t.ə|afternoon:æ.f.t.ə.n.ˈuː.n|again:ə.g.ˈe.n|age:eɪ.dʒ|agenda:ə.dʒ.ˈe.n.d.ə|agent:ˈeɪ.dʒ.ə.n.t|ago:ə.g.ˈəʊ|agree:ə.g.r.ˈiː|agreed:ə.g.r.ˈiː.d|agreement:ə.g.r.ˈiː.m.ə.n.t|ah:ɑː|air:eə|aircraft:ˈeə.k.r.æ.f.t|airport:ˈeə.p.ɔː.t|aisle:aɪ.l|alcohol:ˈæ.l.k.ə.h.ɒ.l|all:ɔː.l|allergic:ə.l.ˈɜː.dʒ.ɪ.k|allergies:ˈæ.l.ə.dʒ.iː.z|allergy:ˈæ.l.ə.dʒ.iː|allowance:ə.l.ˈaʊ.ə.n.s|almost:ˈɔː.l.m.əʊ.s.t|aloud:ə.l.ˈaʊ.d|already:ɔː.l.r.ˈe.d.iː|alright:ɔː.l.r.ˈaɪ.t|also:ˈɔː.l.s.əʊ|always:ˈɔː.l.w.eɪ.z|an:ə.n|and:ə.n.d|anna:ˈæ.n.ə|announcement:ə.n.ˈaʊ.n.s.m.ə.n.t|annual:ˈæ.n.j.uː.ə.l|another:ə.n.ˈʌ.ð.ə|answer:ˈæ.n.s.ə|antibiotic:æ.n.t.iː.b.aɪ.ˈɒ.t.ɪ.k|antibiotics:æ.n.t.iː.b.aɪ.ˈɒ.t.ɪ.k.s|any:ˈe.n.iː|anyone:ˈe.n.i.w.ʌ.n|anything:ˈe.n.iː.θ.ɪ.ŋ|anytime:ˈe.n.iː.t.aɪ.m|apartment:ə.p.ˈɑː.t.m.ə.n.t|apologize:ə.p.ˈɒ.l.ə.dʒ.aɪ.z|app:æ.p|application:æ.p.l.ə.k.ˈeɪ.ʃ.ə.n|apply:ə.p.l.ˈaɪ|appointment:ə.p.ˈɔɪ.n.t.m.ə.n.t|appointments:ə.p.ˈɔɪ.n.t.m.ə.n.t.s|approve:ə.p.r.ˈuː.v|arbitration:ɑː.b.ɪ.t.r.ˈeɪ.ʃ.ə.n|architect:ˈɑː.k.ə.t.e.k.t|are:ɑː|area:ˈeə.r.i.ə|arm:ɑː.m|around:ə.r.ˈaʊ.n.d|arrange:ə.r.ˈeɪ.n.dʒ|arrive:ə.r.ˈaɪ.v|arrives:ə.r.ˈaɪ.v.z|article:ˈɑː.t.ə.k.ə.l|ask:æ.s.k|asset:ˈæ.s.e.t|assign:ə.s.ˈaɪ.n|at:æ.t|ate:eɪ.t|atm:ˈeɪ.t.iː.ˈe.m|attendance:ə.t.ˈe.n.d.ə.n.s|attendant:ə.t.ˈe.n.d.ə.n.t|audience:ˈɔː.d.iː.ə.n.s|audit:ˈɔː.d.ɪ.t|auditor:ˈɔː.d.ɪ.t.ə|australia:ɔː.s.t.r.ˈeɪ.l.j.ə|autumn:ˈɔː.t.ə.m|available:ə.v.ˈeɪ.l.ə.b.ə.l|average:ˈæ.v.ə.r.ɪ.dʒ|avoid:ə.v.ˈɔɪ.d|away:ə.w.ˈeɪ|baby:b.ˈeɪ.b.iː|back:b.æ.k|background:b.ˈæ.k.g.r.aʊ.n.d|backup:b.ˈæ.k.ʌ.p|bad:b.æ.d|badminton:b.ˈæ.d.m.ɪ.n.t.ə.n|bag:b.æ.g|baggage:b.ˈæ.g.ə.dʒ|bags:b.æ.g.z|balance:b.ˈæ.l.ə.n.s|balcony:b.ˈæ.l.k.ə.n.i|ball:b.ɔː.l|ban:b.æ.n|banana:b.ə.n.ˈæ.n.ə|bang:b.æ.ŋ|bank:b.æ.ŋ.k|banks:b.æ.ŋ.k.s|banner:b.ˈæ.n.ə|bar:b.ɑː|bars:b.ɑː.z|bat:b.æ.t|batch:b.æ.tʃ|bath:b.æ.θ|bathroom:b.ˈæ.θ.r.uː.m|bathrooms:b.ˈæ.θ.r.uː.m.z|be:b.iː|beach:b.iː.tʃ|bear:b.eə|beat:b.iː.t|because:b.ɪ.k.ˈɒ.z|bed:b.e.d|bedroom:b.ˈe.d.r.uː.m|bedrooms:b.ˈe.d.r.uː.m.z|bee:b.iː|beef:b.iː.f|been:b.ɪ.n|beer:b.ɪə|before:b.ɪ.f.ˈɔː|beginner:b.ɪ.g.ˈɪ.n.ə|behavior:b.ɪ.h.ˈeɪ.v.j.ə|behind:b.ɪ.h.ˈaɪ.n.d|being:b.ˈiː.ɪ.ŋ|belt:b.e.l.t|benefit:b.ˈe.n.ə.f.ɪ.t|best:b.e.s.t|better:b.ˈe.t.ə|between:b.ɪ.t.w.ˈiː.n|big:b.ɪ.g|bigger:b.ˈɪ.g.ə|biggest:b.ˈɪ.g.ə.s.t|bike:b.aɪ.k|bill:b.ɪ.l|billion:b.ˈɪ.l.j.ə.n|bills:b.ɪ.l.z|bin:b.ɪ.n|bird:b.ɜː.d|birth:b.ɜː.θ|bit:b.ɪ.t|black:b.l.æ.k|blocked:b.l.ɒ.k.t|blockers:b.l.ˈɒ.k.ə.z|blood:b.l.ʌ.d|blue:b.l.uː|boarding:b.ˈɔː.d.ɪ.ŋ|boat:b.əʊ.t|body:b.ˈɒ.d.iː|boiling:b.ˈɔɪ.l.ɪ.ŋ|bold:b.əʊ.l.d|bolder:b.ˈəʊ.l.d.ə|bond:b.ɒ.n.d|bonds:b.ɒ.n.d.z|book:b.ʊ.k|booked:b.ʊ.k.t|booking:b.ˈʊ.k.ɪ.ŋ|books:b.ʊ.k.s|boots:b.uː.t.s|born:b.ɔː.n|borrow:b.ˈɒ.r.əʊ|borrowed:b.ˈɒ.r.əʊ.d|boston:b.ˈɒ.s.t.ə.n|both:b.əʊ.θ|box:b.ɒ.k.s|boy:b.ɔɪ|brand:b.r.æ.n.d|breach:b.r.iː.tʃ|breached:b.r.iː.tʃ.t|break:b.r.eɪ.k|breakdown:b.r.ˈeɪ.k.d.aʊ.n|breakfast:b.r.ˈe.k.f.ə.s.t|breaking:b.r.ˈeɪ.k.ɪ.ŋ|brick:b.r.ɪ.k|bridge:b.r.ɪ.dʒ|brief:b.r.iː.f|bring:b.r.ɪ.ŋ|brings:b.r.ɪ.ŋ.z|broke:b.r.əʊ.k|broken:b.r.ˈəʊ.k.ə.n|brother:b.r.ˈʌ.ð.ə|brothers:b.r.ˈʌ.ð.ə.z|brown:b.r.aʊ.n|budget:b.ˈʌ.dʒ.ɪ.t|bug:b.ʌ.g|burn:b.ɜː.n|bus:b.ʌ.s|business:b.ˈɪ.z.n.ə.s|busy:b.ˈɪ.z.iː|but:b.ʌ.t|buy:b.aɪ|buyer:b.ˈaɪ.ə|buzz:b.ʌ.z|by:b.aɪ|cab:k.æ.b|cabin:k.ˈæ.b.ə.n|cable:k.ˈeɪ.b.ə.l|caf:k.æ.f.ˈeɪ|café:k.æ.f.ˈeɪ|cake:k.eɪ.k|calculate:k.ˈæ.l.k.j.ə.l.eɪ.t|call:k.ɔː.l|called:k.ɔː.l.d|calling:k.ˈɔː.l.ɪ.ŋ|campaign:k.æ.m.p.ˈeɪ.n|can:k.æ.n|can't:k.ɑː.n.t|cancel:k.ˈæ.n.s.ə.l|candidate:k.ˈæ.n.d.ə.d.eɪ.t|cap:k.æ.p|capacity:k.ə.p.ˈæ.s.ə.t.i|capital:k.ˈæ.p.ə.t.ə.l|capsule:k.ˈæ.p.s.ə.l|captain:k.ˈæ.p.t.ə.n|car:k.ɑː|card:k.ɑː.d|care:k.eə|careful:k.ˈeə.f.ə.l|carry:k.ˈæ.r.i|cart:k.ɑː.t|case:k.eɪ.s|cash:k.æ.ʃ|cat:k.æ.t|catch:k.æ.tʃ|category:k.ˈæ.t.ə.g.ə.r.i|cement:s.ə.m.ˈe.n.t|central:s.ˈe.n.t.r.ə.l|certificate:s.ə.t.ˈɪ.f.ɪ.k.ə.t|chair:tʃ.eə|challenge:tʃ.ˈæ.l.ə.n.dʒ|chance:tʃ.æ.n.s|change:tʃ.eɪ.n.dʒ|charge:tʃ.ɑː.dʒ|cheap:tʃ.iː.p|check:tʃ.e.k|checked:tʃ.e.k.t|checking:tʃ.ˈe.k.ɪ.ŋ|checkout:tʃ.ˈe.k.aʊ.t|chemical:k.ˈe.m.ə.k.ə.l|chemicals:k.ˈe.m.ɪ.k.ə.l.z|chin:tʃ.ɪ.n|chip:tʃ.ɪ.p|choke:tʃ.əʊ.k|choose:tʃ.uː.z|chose:tʃ.əʊ.z|chosen:tʃ.ˈəʊ.z.ə.n|city:s.ˈɪ.t.iː|claim:k.l.eɪ.m|claims:k.l.eɪ.m.z|class:k.l.ɑː.s|clause:k.l.ɔː.z|cleaning:k.l.ˈiː.n.ɪ.ŋ|cleanser:k.l.ˈe.n.z.ə|cleansing:k.l.ˈe.n.z.ɪ.ŋ|clear:k.l.ɪə|clearance:k.l.ˈɪə.r.ə.n.s|click:k.l.ɪ.k|client:k.l.ˈaɪ.ə.n.t|clients:k.l.ˈaɪ.ə.n.t.s|clinical:k.l.ˈɪ.n.ə.k.ə.l|clock:k.l.ɒ.k|close:k.l.əʊ.z|cloudy:k.l.ˈaʊ.d.iː|code:k.əʊ.d|coffee:k.ˈɒ.f.iː|coin:k.ɔɪ.n|cold:k.əʊ.l.d|collaborate:k.ə.l.ˈæ.b.ə.r.eɪ.t|collateral:k.ə.l.ˈæ.t.ə.r.ə.l|colleague:k.ˈɒ.l.iː.g|collect:k.ə.l.ˈe.k.t|color:k.ˈʌ.l.ə|colors:k.ˈʌ.l.ə.z|come:k.ʌ.m|comes:k.ʌ.m.z|comfortable:k.ˈʌ.m.f.ə.t.ə.b.ə.l|common:k.ˈɒ.m.ə.n|company:k.ˈʌ.m.p.ə.n.iː|company's:k.ˈʌ.m.p.ə.n.iː.z|compared:k.ə.m.p.ˈeə.d|compensation:k.ɒ.m.p.ə.n.s.ˈeɪ.ʃ.ə.n|competitor:k.ə.m.p.ˈe.t.ə.t.ə|competitors:k.ə.m.p.ˈe.t.ə.t.ə.z|complaint:k.ə.m.p.l.ˈeɪ.n.t|completely:k.ə.m.p.l.ˈiː.t.l.i|compliance:k.ə.m.p.l.ˈaɪ.ə.n.s|computer:k.ə.m.p.j.ˈuː.t.ə|concept:k.ˈɒ.n.s.e.p.t|concepts:k.ˈɒ.n.s.e.p.t.s|concrete:k.ə.n.k.r.ˈiː.t|conditioning:k.ə.n.d.ˈɪ.ʃ.ə.n.ɪ.ŋ|cone:k.əʊ.n|confirm:k.ə.n.f.ˈɜː.m|congratulations:k.ə.n.g.r.æ.tʃ.ə.l.ˈeɪ.ʃ.ə.n.z|connect:k.ə.n.ˈe.k.t|connecting:k.ə.n.ˈe.k.t.ɪ.ŋ|connection:k.ə.n.ˈe.k.ʃ.ə.n|construction:k.ə.n.s.t.r.ˈʌ.k.ʃ.ə.n|consumption:k.ə.n.s.ˈʌ.m.p.ʃ.ə.n|contact:k.ˈɒ.n.t.æ.k.t|container:k.ə.n.t.ˈeɪ.n.ə|containers:k.ə.n.t.ˈeɪ.n.ə.z|content:k.ˈɒ.n.t.e.n.t|contest:k.ˈɒ.n.t.e.s.t|contract:k.ˈɒ.n.t.r.æ.k.t|contractor:k.ˈɒ.n.t.r.æ.k.t.ə|control:k.ə.n.t.r.ˈəʊ.l|conversion:k.ə.n.v.ˈɜː.ʒ.ə.n|cook:k.ʊ.k|cooking:k.ˈʊ.k.ɪ.ŋ|cool:k.uː.l|corner:k.ˈɔː.n.ə|corporate:k.ˈɔː.p.ə.r.ə.t|corrected:k.ə.r.ˈe.k.t.ə.d|cost:k.ɒ.s.t|costs:k.ɒ.s.t.s|cough:k.ɒ.f|could:k.ʊ.d|count:k.aʊ.n.t|counter:k.ˈaʊ.n.t.ə|country:k.ˈʌ.n.t.r.iː|course:k.ɔː.s|court:k.ɔː.t|cover:k.ˈʌ.v.ə|coverage:k.ˈʌ.v.ə.r.ə.dʒ|covered:k.ˈʌ.v.ə.d|covers:k.ˈʌ.v.ə.z|crane:k.r.eɪ.n|cream:k.r.iː.m|creative:k.r.iː.ˈeɪ.t.ɪ.v|credit:k.r.ˈe.d.ɪ.t|crew:k.r.uː|crop:k.r.ɒ.p|cross:k.r.ɒ.s|cup:k.ʌ.p|cure:k.j.ʊə|curl:k.ɜː.l|currency:k.ˈʌ.r.ə.n.s.iː|current:k.ˈʌ.r.ə.n.t|customer:k.ˈʌ.s.t.ə.m.ə|customers:k.ˈʌ.s.t.ə.m.ə.z|customs:k.ˈʌ.s.t.ə.m.z|cut:k.ʌ.t|daily:d.ˈeɪ.l.i|damage:d.ˈæ.m.ə.dʒ|damaged:d.ˈæ.m.ə.dʒ.d|dark:d.ɑː.k|data:d.ˈeɪ.t.ə|database:d.ˈeɪ.t.ə.b.eɪ.s|date:d.eɪ.t|david:d.ˈeɪ.v.ɪ.d|day:d.eɪ|days:d.eɪ.z|deadline:d.ˈe.d.l.aɪ.n|deal:d.iː.l|decision:d.ɪ.s.ˈɪ.ʒ.ə.n|declare:d.ɪ.k.l.ˈeə|decrease:d.ɪ.k.r.ˈiː.s|deductible:d.ɪ.d.ˈʌ.k.t.ə.b.ə.l|deep:d.iː.p|defect:d.ˈiː.f.e.k.t|degree:d.ɪ.g.r.ˈiː|degrees:d.ɪ.g.r.ˈiː.z|delay:d.ɪ.l.ˈeɪ|delayed:d.ɪ.l.ˈeɪ.d|deliver:d.ɪ.l.ˈɪ.v.ə|delivers:d.ɪ.l.ˈɪ.v.ə.z|delivery:d.ɪ.l.ˈɪ.v.ə.r.iː|demo:d.ˈe.m.əʊ|den:d.e.n|departure:d.ɪ.p.ˈɑː.tʃ.ə|depending:d.ɪ.p.ˈe.n.d.ɪ.ŋ|depends:d.ɪ.p.ˈe.n.d.z|deploy:d.ɪ.p.l.ˈɔɪ|deposit:d.ɪ.p.ˈɒ.z.ɪ.t|depreciation:d.ɪ.p.r.iː.ʃ.iː.ˈeɪ.ʃ.ə.n|describe:d.ɪ.s.k.r.ˈaɪ.b|description:d.ɪ.s.k.r.ˈɪ.p.ʃ.ə.n|design:d.ɪ.z.ˈaɪ.n|designer:d.ɪ.z.ˈaɪ.n.ə|desk:d.e.s.k|detailed:d.ɪ.t.ˈeɪ.l.d|details:d.ɪ.t.ˈeɪ.l.z|developer:d.ɪ.v.ˈe.l.ə.p.ə|device:d.ɪ.v.ˈaɪ.s|devices:d.ɪ.v.ˈaɪ.s.ɪ.z|diagnosis:d.aɪ.ə.g.n.ˈəʊ.s.ɪ.s|dictionary:d.ˈɪ.k.ʃ.ə.n.r.i|did:d.ɪ.d|didn't:d.ˈɪ.d.ə.n.t|die:d.aɪ|difference:d.ˈɪ.f.ə.r.ə.n.s|different:d.ˈɪ.f.ə.r.ə.n.t|dining:d.ˈaɪ.n.ɪ.ŋ|dinner:d.ˈɪ.n.ə|direction:d.ə.r.ˈe.k.ʃ.ə.n|directly:d.ə.r.ˈe.k.t.l.i|director:d.ə.r.ˈe.k.t.ə|dirty:d.ˈɜː.t.iː|discount:d.ˈɪ.s.k.aʊ.n.t|discounts:d.ɪ.s.k.ˈaʊ.n.t.s|discuss:d.ɪ.s.k.ˈʌ.s|disease:d.ɪ.z.ˈiː.z|dish:d.ɪ.ʃ|dispute:d.ɪ.s.p.j.ˈuː.t|dissolve:d.ɪ.z.ˈɒ.l.v|dissolved:d.ɪ.z.ˈɒ.l.v.d|district:d.ˈɪ.s.t.r.ɪ.k.t|diversify:d.aɪ.v.ˈɜː.s.ɪ.f.aɪ|do:d.uː|doctor:d.ˈɒ.k.t.ə|document:d.ˈɒ.k.j.ə.m.e.n.t|documents:d.ˈɒ.k.j.ə.m.ə.n.t.s|does:d.ʌ.z|doesn't:d.ˈʌ.z.ə.n.t|dog:d.ɒ.g|doing:d.ˈuː.ɪ.ŋ|dollar:d.ˈɒ.l.ə|dollars:d.ˈɒ.l.ə.z|don't:d.əʊ.n.t|dong:d.ɒ.ŋ|door:d.ɔː|dorm:d.ɔː.m|dosage:d.ˈəʊ.s.ə.dʒ|dose:d.əʊ.s|double:d.ˈʌ.b.ə.l|dough:d.əʊ|down:d.aʊ.n|downtime:d.ˈaʊ.n.t.aɪ.m|dr:d.ˈɒ.k.t.ə|draft:d.r.æ.f.t|drawing:d.r.ˈɔː.ɪ.ŋ|drawings:d.r.ˈɔː.ɪ.ŋ.z|drink:d.r.ɪ.ŋ.k|drinks:d.r.ɪ.ŋ.k.s|drip:d.r.ɪ.p|drive:d.r.aɪ.v|driver:d.r.ˈaɪ.v.ə|driver's:d.r.ˈaɪ.v.ə.z|drug:d.r.ʌ.g|dry:d.r.aɪ|durian:d.ˈʊə.r.i.ə.n|durians:d.ˈʊə.r.i.ə.n.z|during:d.ˈʊə.r.ɪ.ŋ|duty:d.ˈuː.t.i|dye:d.aɪ|dyeing:d.ˈaɪ.ɪ.ŋ|each:iː.tʃ|ear:ɪə|early:ˈɜː.l.iː|east:iː.s.t|easy:ˈiː.z.iː|eat:iː.t|economy:ɪ.k.ˈɒ.n.ə.m.i|edition:ə.d.ˈɪ.ʃ.ə.n|editor:ˈe.d.ə.t.ə|effect:ɪ.f.ˈe.k.t|effects:ɪ.f.ˈe.k.t.s|efficient:ɪ.f.ˈɪ.ʃ.ə.n.t|egg:e.g|eight:eɪ.t|eighteen:eɪ.t.ˈiː.n|eighty:ˈeɪ.t.iː|electricity:ɪ.l.e.k.t.r.ˈɪ.s.ə.t.iː|eleven:ɪ.l.ˈe.v.ə.n|else:e.l.s|email:ˈiː.m.eɪ.l|emails:ˈiː.m.eɪ.l.z|emergency:ɪ.m.ˈɜː.dʒ.ə.n.s.i|employee:e.m.p.l.ˈɔɪ.i|employer:e.m.p.l.ˈɔɪ.ə|empty:ˈe.m.p.t.i|end:e.n.d|energy:ˈe.n.ə.dʒ.i|engagement:ɪ.n.g.ˈeɪ.dʒ.m.ə.n.t|engineer:e.n.dʒ.ɪ.n.ˈɪə|english:ˈɪ.ŋ.g.l.ɪ.ʃ|enjoy:ɪ.n.dʒ.ˈɔɪ|enjoying:ɪ.n.dʒ.ˈɔɪ.ɪ.ŋ|enough:ɪ.n.ˈʌ.f|enter:ˈe.n.t.ə|entitled:e.n.t.ˈaɪ.t.ə.l.d|equipment:ɪ.k.w.ˈɪ.p.m.ə.n.t|error:ˈe.r.ə|estimate:ˈe.s.t.ə.m.ə.t|even:ˈiː.v.ɪ.n|evening:ˈiː.v.n.ɪ.ŋ|evenings:ˈiː.v.n.ɪ.ŋ.z|event:ɪ.v.ˈe.n.t|every:ˈe.v.r.iː|everyone:ˈe.v.r.iː.w.ʌ.n|everything:ˈe.v.r.iː.θ.ɪ.ŋ|evidence:ˈe.v.ɪ.d.ə.n.s|exam:ɪ.g.z.ˈæ.m|examine:ɪ.g.z.ˈæ.m.ɪ.n|example:ɪ.g.z.ˈɑː.m.p.ə.l|excel:ˈe.k.s.e.l|exchange:ɪ.k.s.tʃ.ˈeɪ.n.dʒ|excuse:ɪ.k.s.k.j.ˈuː.z|exit:ˈe.g.z.ɪ.t|expand:ɪ.k.s.p.ˈæ.n.d|expect:ɪ.k.s.p.ˈe.k.t|expecting:ɪ.k.s.p.ˈe.k.t.ɪ.ŋ|expense:ɪ.k.s.p.ˈe.n.s|expenses:ɪ.k.s.p.ˈe.n.s.ɪ.z|expensive:ɪ.k.s.p.ˈe.n.s.ɪ.v|experience:ɪ.k.s.p.ˈɪə.r.iː.ə.n.s|expiry:e.k.s.p.ˈaɪ.r.i|explain:ɪ.k.s.p.l.ˈeɪ.n|export:ˈe.k.s.p.ɔː.t|express:ɪ.k.s.p.r.ˈe.s|extra:ˈe.k.s.t.r.ə|fabric:f.ˈæ.b.r.ɪ.k|face:f.eɪ.s|facebook:f.ˈeɪ.s.b.ʊ.k|faces:f.ˈeɪ.s.ə.z|facial:f.ˈeɪ.ʃ.ə.l|facing:f.ˈeɪ.s.ɪ.ŋ|fact:f.æ.k.t|factory:f.ˈæ.k.t.ə.r.i|facts:f.æ.k.t.s|fair:f.eə|families:f.ˈæ.m.ə.l.i.z|family:f.ˈæ.m.ə.l.iː|fan:f.æ.n|far:f.ɑː|farm:f.ɑː.m|farmer:f.ˈɑː.m.ə|fasten:f.ˈæ.s.ə.n|faster:f.ˈɑː.s.t.ə|father:f.ˈɑː.ð.ə|fault:f.ɔː.l.t|favorite:f.ˈeɪ.v.ə.r.ɪ.t|feature:f.ˈiː.tʃ.ə|fee:f.iː|feedback:f.ˈiː.d.b.æ.k|feel:f.iː.l|feeling:f.ˈiː.l.ɪ.ŋ|fees:f.iː.z|female:f.ˈiː.m.eɪ.l|fertilizer:f.ˈɜː.t.ə.l.aɪ.z.ə|fever:f.ˈiː.v.ə|few:f.j.uː|fi:f.aɪ|field:f.iː.l.d|fifteen:f.ɪ.f.t.ˈiː.n|fifteenth:f.ɪ.f.t.ˈiː.n.θ|fifty:f.ˈɪ.f.t.iː|file:f.aɪ.l|files:f.aɪ.l.z|film:f.ɪ.l.m|fin:f.ɪ.n|final:f.ˈaɪ.n.ə.l|finance:f.ˈaɪ.n.æ.n.s|financial:f.aɪ.n.ˈæ.n.ʃ.ə.l|find:f.aɪ.n.d|finding:f.ˈaɪ.n.d.ɪ.ŋ|fine:f.aɪ.n|finish:f.ˈɪ.n.ɪ.ʃ|finished:f.ˈɪ.n.ɪ.ʃ.t|fire:f.ˈaɪ.ə|fired:f.ˈaɪ.ə.d|first:f.ɜː.s.t|fish:f.ɪ.ʃ|fit:f.ɪ.t|fits:f.ɪ.t.s|fitting:f.ˈɪ.t.ɪ.ŋ|five:f.aɪ.v|fixed:f.ɪ.k.s.t|flash:f.l.æ.ʃ|flexible:f.l.ˈe.k.s.ə.b.ə.l|flight:f.l.aɪ.t|flood:f.l.ʌ.d|floor:f.l.ɔː|floors:f.l.ɔː.z|flow:f.l.əʊ|fly:f.l.aɪ|flying:f.l.ˈaɪ.ɪ.ŋ|focus:f.ˈəʊ.k.ə.s|folder:f.ˈəʊ.l.d.ə|follow:f.ˈɒ.l.əʊ|follower:f.ˈɒ.l.əʊ.ə|font:f.ɒ.n.t|food:f.uː.d|fool:f.uː.l|foot:f.ʊ.t|football:f.ˈʊ.t.b.ɔː.l|for:f.ɔː|forecast:f.ˈɔː.k.ɑː.s.t|forgets:f.ə.g.ˈe.t.s|forklift:f.ˈɔː.k.l.ɪ.f.t|form:f.ɔː.m|formal:f.ˈɔː.m.ə.l|forty:f.ˈɔː.t.i|found:f.aʊ.n.d|foundation:f.aʊ.n.d.ˈeɪ.ʃ.ə.n|four:f.ɔː|free:f.r.iː|freight:f.r.eɪ.t|friday:f.r.ˈaɪ.d.eɪ|friend:f.r.e.n.d|friendly:f.r.ˈe.n.d.l.i|friends:f.r.e.n.d.z|from:f.r.ɒ.m|front:f.r.ʌ.n.t|frustration:f.r.ə.s.t.r.ˈeɪ.ʃ.ə.n|full:f.ʊ.l|fun:f.ʌ.n|fund:f.ʌ.n.d|furniture:f.ˈɜː.n.ɪ.tʃ.ə|game:g.eɪ.m|garage:g.ˈæ.r.ɑː.ʒ|garages:g.ˈæ.r.ɑː.ʒ.ɪ.z|gate:g.eɪ.t|gentle:dʒ.ˈe.n.t.ə.l|get:g.e.t|gets:g.e.t.s|getting:g.ˈe.t.ɪ.ŋ|gift:g.ɪ.f.t|gin:dʒ.ɪ.n|girl:g.ɜː.l|give:g.ɪ.v|giving:g.ˈɪ.v.ɪ.ŋ|glass:g.l.ɑː.s|global:g.l.ˈəʊ.b.ə.l|go:g.əʊ|going:g.ˈəʊ.ɪ.ŋ|gold:g.əʊ.l.d|good:g.ʊ.d|goods:g.ʊ.d.z|got:g.ɒ.t|grab:g.r.æ.b|grade:g.r.eɪ.d|graduate:g.r.ˈæ.dʒ.u.eɪ.t|graduated:g.r.ˈæ.dʒ.u.eɪ.t.ɪ.d|grandparents:g.r.ˈæ.n.p.eə.r.ə.n.t.s|grass:g.r.ɑː.s|great:g.r.eɪ.t|greatest:g.r.ˈeɪ.t.ɪ.s.t|green:g.r.iː.n|greenhouse:g.r.ˈiː.n.h.aʊ.s|grid:g.r.ɪ.d|grilled:g.r.ɪ.l.d|ground:g.r.aʊ.n.d|group:g.r.uː.p|groups:g.r.uː.p.s|grow:g.r.əʊ|growing:g.r.ˈəʊ.ɪ.ŋ|grown:g.r.əʊ.n|guarantee:g.æ.r.ə.n.t.ˈiː|guaranteed:g.æ.r.ə.n.t.ˈiː.d|guest:g.e.s.t|guests:g.e.s.t.s|guide:g.aɪ.d|gym:dʒ.ɪ.m|had:h.æ.d|hair:h.eə|haircut:h.ˈeə.k.ʌ.t|hairdresser:h.ˈeə.d.r.e.s.ə|half:h.æ.f|hand:h.æ.n.d|handle:h.ˈæ.n.d.ə.l|hanoi:h.æ.n.ˈɔɪ|happening:h.ˈæ.p.ə.n.ɪ.ŋ|happy:h.ˈæ.p.iː|hard:h.ɑː.d|harder:h.ˈɑː.d.ə|harvest:h.ˈɑː.v.ə.s.t|has:h.æ.z|hat:h.æ.t|have:h.æ.v|haven't:h.ˈæ.v.ə.n.t|having:h.ˈæ.v.ɪ.ŋ|he:h.iː|he's:h.iː.z|head:h.e.d|headache:h.ˈe.d.eɪ.k|headline:h.ˈe.d.l.aɪ.n|health:h.e.l.θ|healthy:h.ˈe.l.θ.iː|hear:h.ɪə|heard:h.ɜː.d|heart:h.ɑː.t|heat:h.iː.t|heavy:h.ˈe.v.i|hectare:h.ˈe.k.t.eə|hectares:h.ˈe.k.t.eə.z|held:h.e.l.d|hello:h.ə.l.ˈəʊ|helmet:h.ˈe.l.m.ə.t|help:h.e.l.p|helpful:h.ˈe.l.p.f.ə.l|herb:h.ɜː.b|herbs:h.ɜː.b.z|here:h.ɪə|here's:h.ɪə.z|hi:h.aɪ|high:h.aɪ|higher:h.ˈaɪ.ə|him:h.ɪ.m|his:h.ɪ.z|history:h.ˈɪ.s.t.ə.r.iː|hit:h.ɪ.t|hmm:h.m|hobby:h.ˈɒ.b.iː|hold:h.əʊ.l.d|hole:h.əʊ.l|holiday:h.ˈɒ.l.ə.d.eɪ|home:h.əʊ.m|homework:h.ˈəʊ.m.w.ɜː.k|hospital:h.ˈɒ.s.p.ɪ.t.ə.l|hot:h.ɒ.t|hotel:h.əʊ.t.ˈe.l|hotline:h.ˈɒ.t.l.aɪ.n|hour:ˈaʊ.ə|hours:ˈaʊ.ə.z|house:h.aʊ.s|how:h.aʊ|hundred:h.ˈʌ.n.d.r.ə.d|hurt:h.ɜː.t|hurts:h.ɜː.t.s|hut:h.ʌ.t|i:aɪ|i'd:aɪ.d|i'll:aɪ.l|i'm:aɪ.m|i've:aɪ.v|ice:aɪ.s|iced:aɪ.s.t|id:aɪ.d.ˈiː|idea:aɪ.d.ˈɪə|ideas:aɪ.d.ˈɪə.z|if:ɪ.f|illegal:ɪ.l.ˈiː.g.ə.l|illness:ˈɪ.l.n.ə.s|image:ˈɪ.m.ə.dʒ|import:ɪ.m.p.ˈɔː.t|improve:ɪ.m.p.r.ˈuː.v|in:ɪ.n|include:ɪ.n.k.l.ˈuː.d|included:ɪ.n.k.l.ˈuː.d.ɪ.d|including:ɪ.n.k.l.ˈuː.d.ɪ.ŋ|income:ˈɪ.n.k.ʌ.m|increase:ɪ.n.k.r.ˈiː.s|increased:ɪ.n.k.r.ˈiː.s.t|indefinite:ɪ.n.d.ˈe.f.ə.n.ə.t|industry:ˈɪ.n.d.ə.s.t.r.iː|infection:ɪ.n.f.ˈe.k.ʃ.ə.n|influencer:ˈɪ.n.f.l.u.ə.n.s.ə|influencers:ˈɪ.n.f.l.u.ə.n.s.ə.z|insect:ˈɪ.n.s.e.k.t|insects:ˈɪ.n.s.e.k.t.s|inspect:ɪ.n.s.p.ˈe.k.t|inspection:ɪ.n.s.p.ˈe.k.ʃ.ə.n|instagram:ˈɪ.n.s.t.ə.g.r.æ.m|install:ɪ.n.s.t.ˈɔː.l|instruction:ɪ.n.s.t.r.ˈʌ.k.ʃ.ə.n|instructions:ɪ.n.s.t.r.ˈʌ.k.ʃ.ə.n.z|insurance:ɪ.n.ʃ.ˈʊə.r.ə.n.s|interest:ˈɪ.n.t.r.ə.s.t|interesting:ˈɪ.n.t.r.ə.s.t.ɪ.ŋ|interior:ɪ.n.t.ˈɪə.r.i.ə|intermediate:ɪ.n.t.ə.m.ˈiː.d.i.ə.t|internet:ˈɪ.n.t.ə.n.e.t|interview:ˈɪ.n.t.ə.v.j.uː|into:ˈɪ.n.t.uː|introduce:ɪ.n.t.r.ə.d.j.ˈuː.s|inventory:ˈɪ.n.v.ə.n.t.r.i|inverter:ɪ.n.v.ˈɜː.t.ə|invest:ɪ.n.v.ˈe.s.t|investment:ɪ.n.v.ˈe.s.t.m.ə.n.t|investor:ɪ.n.v.ˈe.s.t.ə|invitation:ɪ.n.v.ɪ.t.ˈeɪ.ʃ.ə.n|invoice:ˈɪ.n.v.ɔɪ.s|irrigation:ɪə.r.ə.g.ˈeɪ.ʃ.ə.n|is:ɪ.z|isn't:ˈɪ.z.ə.n.t|issue:ˈɪ.ʃ.uː|it:ɪ.t|it's:ɪ.t.s|italian:ɪ.t.ˈæ.l.j.ə.n|item:ˈaɪ.t.ə.m|items:ˈaɪ.t.ə.m.z|itinerary:aɪ.t.ˈɪ.n.ə.r.ə.r.iː|jacket:dʒ.ˈæ.k.ɪ.t|jake:dʒ.eɪ.k|jam:dʒ.æ.m|japan:dʒ.ə.p.ˈæ.n|japanese:dʒ.æ.p.ə.n.ˈiː.z|jeep:dʒ.iː.p|jet:dʒ.e.t|job:dʒ.ɒ.b|join:dʒ.ɔɪ.n|joke:dʒ.əʊ.k|journalist:dʒ.ˈɜː.n.ə.l.ə.s.t|juice:dʒ.uː.s|june:dʒ.uː.n|jury:dʒ.ˈʊə.r.iː|just:dʒ.ʌ.s.t|keep:k.iː.p|key:k.iː|keyword:k.ˈiː.w.ɜː.d|kids:k.ɪ.d.z|kilo:k.ˈɪ.l.əʊ|kilos:k.ˈiː.l.əʊ.z|kilowatt:k.ˈɪ.l.ə.w.ɒ.t|kilowatts:k.ˈɪ.l.ə.w.ɒ.t.s|kind:k.aɪ.n.d|king:k.ɪ.ŋ|kitchen:k.ˈɪ.tʃ.ɪ.n|know:n.əʊ|kyoto:k.i.ˈəʊ.t.əʊ|label:l.ˈeɪ.b.ə.l|labels:l.ˈeɪ.b.ə.l.z|labor:l.ˈeɪ.b.ə|laboratory:l.ə.b.ˈɒ.r.ə.t.r.i|lading:l.ˈeɪ.d.ɪ.ŋ|lake:l.eɪ.k|land:l.æ.n.d|landlord:l.ˈæ.n.d.l.ɔː.d|large:l.ɑː.dʒ|last:l.ɑː.s.t|late:l.eɪ.t|later:l.ˈeɪ.t.ə|latest:l.ˈeɪ.t.ɪ.s.t|latte:l.ˈɑː.t.eɪ|launch:l.ɔː.n.tʃ|launched:l.ɔː.n.tʃ.t|launching:l.ˈɔː.n.tʃ.ɪ.ŋ|law:l.ɔː|lawyer:l.ˈɔː.j.ə|layers:l.ˈeɪ.ə.z|layout:l.ˈeɪ.aʊ.t|lead:l.iː.d|leader:l.ˈiː.d.ə|leaf:l.iː.f|learn:l.ɜː.n|lease:l.iː.s|least:l.iː.s.t|leave:l.iː.v|leaves:l.iː.v.z|led:l.e.d|lee:l.iː|left:l.e.f.t|leg:l.e.g|legal:l.ˈiː.g.ə.l|lend:l.e.n.d|length:l.e.ŋ.k.θ|lesson:l.ˈe.s.ə.n|let:l.e.t|let's:l.e.t.s|letter:l.ˈe.t.ə|level:l.ˈe.v.ə.l|liability:l.aɪ.ə.b.ˈɪ.l.ɪ.t.i|license:l.ˈaɪ.s.ə.n.s|life:l.aɪ.f|light:l.aɪ.t|lighter:l.ˈaɪ.t.ə|lights:l.aɪ.t.s|like:l.aɪ.k|likes:l.aɪ.k.s|limited:l.ˈɪ.m.ə.t.ə.d|line:l.aɪ.n|linh:l.ɪ.n|link:l.ɪ.ŋ.k|list:l.ɪ.s.t|listing:l.ˈɪ.s.t.ɪ.ŋ|little:l.ˈɪ.t.ə.l|live:l.ɪ.v|livestream:l.ˈaɪ.v.s.t.r.iː.m|living:l.ˈɪ.v.ɪ.ŋ|load:l.əʊ.d|loan:l.əʊ.n|local:l.ˈəʊ.k.ə.l|location:l.əʊ.k.ˈeɪ.ʃ.ə.n|log:l.ɒ.g|login:l.ˈɒ.g.ɪ.n|logo:l.ˈəʊ.g.əʊ|long:l.ɒ.ŋ|look:l.ʊ.k|looking:l.ˈʊ.k.ɪ.ŋ|looks:l.ʊ.k.s|lose:l.uː.z|lost:l.ɒ.s.t|lot:l.ɒ.t|lots:l.ɒ.t.s|loud:l.aʊ.d|love:l.ʌ.v|lower:l.ˈəʊ.ə|loyal:l.ˈɔɪ.ə.l|lozenge:l.ˈɒ.z.ɪ.n.dʒ|lozenges:l.ˈɒ.z.ɪ.n.dʒ.ɪ.z|lucky:l.ˈʌ.k.iː|luggage:l.ˈʌ.g.ɪ.dʒ|lunch:l.ʌ.n.tʃ|m:e.m|machine:m.ə.ʃ.ˈiː.n|mai:m.aɪ|main:m.eɪ.n|mainly:m.ˈeɪ.n.l.iː|maintenance:m.ˈeɪ.n.t.ə.n.ə.n.s|make:m.eɪ.k|male:m.eɪ.l|man:m.æ.n|manage:m.ˈæ.n.ɪ.dʒ|manager:m.ˈæ.n.ɪ.dʒ.ə|many:m.ˈe.n.iː|map:m.æ.p|march:m.ɑː.tʃ|mark:m.ɑː.k|market:m.ˈɑː.k.ɪ.t|marketing:m.ˈɑː.k.ɪ.t.ɪ.ŋ|married:m.ˈæ.r.iː.d|massage:m.ə.s.ˈɑː.ʒ|match:m.æ.tʃ|material:m.ə.t.ˈɪə.r.i.ə.l|materials:m.ə.t.ˈɪə.r.i.ə.l.z|math:m.æ.θ|may:m.eɪ|maybe:m.ˈeɪ.b.iː|me:m.iː|meal:m.iː.l|meals:m.iː.l.z|meanwhile:m.ˈiː.n.w.aɪ.l|measure:m.ˈe.ʒ.ə|media:m.ˈiː.d.iː.ə|medical:m.ˈe.d.ɪ.k.ə.l|medicine:m.ˈe.d.s.ə.n|medium:m.ˈiː.d.iː.ə.m|meet:m.iː.t|meeting:m.ˈiː.t.ɪ.ŋ|megawatt:m.ˈe.g.ə.w.ɒ.t|men:m.e.n|menu:m.ˈe.n.j.uː|message:m.ˈe.s.ɪ.dʒ|messages:m.ˈe.s.ə.dʒ.ə.z|meter:m.ˈiː.t.ə|meters:m.ˈiː.t.ə.z|method:m.ˈe.θ.ə.d|methods:m.ˈe.θ.ə.d.z|mid:m.ɪ.d|midnight:m.ˈɪ.d.n.aɪ.t|might:m.aɪ.t|mild:m.aɪ.l.d|milk:m.ɪ.l.k|millimeter:m.ˈɪ.l.ə.m.iː.t.ə|million:m.ˈɪ.l.j.ə.n|mind:m.aɪ.n.d|mine:m.aɪ.n|minh:m.ɪ.n|minimum:m.ˈɪ.n.ə.m.ə.m|minute:m.ˈɪ.n.ɪ.t|minutes:m.ˈɪ.n.ɪ.t.s|miss:m.ɪ.s|mix:m.ɪ.k.s|mockup:m.ˈɒ.k.ʌ.p|modem:m.ˈəʊ.d.ə.m|modern:m.ˈɒ.d.ə.n|moisture:m.ˈɔɪ.s.tʃ.ə|moisturizer:m.ˈɔɪ.s.tʃ.ə.r.aɪ.z.ə|moments:m.ˈəʊ.m.ə.n.t.s|monday:m.ˈʌ.n.d.i|money:m.ˈʌ.n.iː|month:m.ʌ.n.θ|monthly:m.ˈʌ.n.θ.l.iː|months:m.ʌ.n.θ.s|more:m.ɔː|morning:m.ˈɔː.n.ɪ.ŋ|mortgage:m.ˈɔː.g.ə.dʒ|most:m.əʊ.s.t|mostly:m.ˈəʊ.s.t.l.iː|mother:m.ˈʌ.ð.ə|motorbikes:m.ˈəʊ.t.ə.b.aɪ.k.s|mouth:m.aʊ.θ|move:m.uː.v|moved:m.uː.v.d|movie:m.ˈuː.v.iː|much:m.ʌ.tʃ|music:m.j.ˈuː.z.ɪ.k|must:m.ʌ.s.t|my:m.aɪ|nam:n.æ.m|name:n.eɪ.m|nation:n.ˈeɪ.ʃ.ə.n|natural:n.ˈæ.tʃ.ə.r.ə.l|near:n.ɪə|need:n.iː.d|needs:n.iː.d.z|negotiable:n.ə.g.ˈəʊ.ʃ.ə.b.ə.l|negotiate:n.ɪ.g.ˈəʊ.ʃ.iː.eɪ.t|net:n.e.t|nets:n.e.t.s|network:n.ˈe.t.w.ɜː.k|never:n.ˈe.v.ə|new:n.j.uː|news:n.j.uː.z|newsroom:n.j.ˈuː.z.r.uː.m|next:n.e.k.s.t|nguyen:n.uː.j.ˈe.n|nice:n.aɪ.s|night:n.aɪ.t|nights:n.aɪ.t.s|nine:n.aɪ.n|nineteen:n.aɪ.n.t.ˈiː.n|ninety:n.ˈaɪ.n.t.iː|nitrogen:n.ˈaɪ.t.r.ə.dʒ.ə.n|no:n.əʊ|noise:n.ɔɪ.z|none:n.ʌ.n|noodle:n.ˈuː.d.ə.l|normal:n.ˈɔː.m.ə.l|nose:n.əʊ.z|not:n.ɒ.t|notary:n.ˈəʊ.t.ə.r.i|note:n.əʊ.t|notice:n.ˈəʊ.t.ə.s|now:n.aʊ|number:n.ˈʌ.m.b.ə|numbers:n.ˈʌ.m.b.ə.z|nurse:n.ɜː.s|nut:n.ʌ.t|o'clock:ə.k.l.ˈɒ.k|of:ə.v|off:ɒ.f|offer:ˈɒ.f.ə|offered:ˈɒ.f.ə.d|office:ˈɒ.f.ɪ.s|often:ˈɒ.f.ə.n|oh:əʊ|oil:ɔɪ.l|oily:ˈɔɪ.l.i|ok:əʊ.k.ˈeɪ|old:əʊ.l.d|older:ˈəʊ.l.d.ə|on:ɒ.n|once:w.ʌ.n.s|one:w.ʌ.n|ones:w.ʌ.n.z|online:ɒ.n.l.ˈaɪ.n|only:ˈəʊ.n.l.i|open:ˈəʊ.p.ə.n|opposite:ˈɒ.p.ə.z.ɪ.t|option:ˈɒ.p.ʃ.ə.n|options:ˈɒ.p.ʃ.ə.n.z|or:ɔː|orange:ˈɒ.r.ɪ.n.dʒ|orchard:ˈɔː.tʃ.ə.d|order:ˈɔː.d.ə|ordered:ˈɔː.d.ə.d|orders:ˈɔː.d.ə.z|organic:ɔː.g.ˈæ.n.ɪ.k|origin:ˈɔː.r.ə.dʒ.ə.n|other:ˈʌ.ð.ə|our:ˈaʊ.ə|out:aʊ.t|output:ˈaʊ.t.p.ʊ.t|over:ˈəʊ.v.ə|overhead:ˈəʊ.v.ə.h.e.d|overtime:ˈəʊ.v.ə.t.aɪ.m|owner:ˈəʊ.n.ə|ownership:ˈəʊ.n.ə.ʃ.ɪ.p|p:p.iː|pack:p.æ.k|package:p.ˈæ.k.ə.dʒ|packaging:p.ˈæ.k.ɪ.dʒ.ɪ.ŋ|packing:p.ˈæ.k.ɪ.ŋ|page:p.eɪ.dʒ|paid:p.eɪ.d|pair:p.eə|panel:p.ˈæ.n.ə.l|panels:p.ˈæ.n.ə.l.z|pants:p.æ.n.t.s|parent:p.ˈeə.r.ə.n.t|parents:p.ˈeə.r.ə.n.t.s|park:p.ɑː.k|parking:p.ˈɑː.k.ɪ.ŋ|part:p.ɑː.t|partner:p.ˈɑː.t.n.ə|party:p.ˈɑː.t.i|pass:p.æ.s|passenger:p.ˈæ.s.ə.n.dʒ.ə|passport:p.ˈɑː.s.p.ɔː.t|password:p.ˈɑː.s.w.ɜː.d|patient:p.ˈeɪ.ʃ.ə.n.t|patients:p.ˈeɪ.ʃ.ə.n.t.s|pay:p.eɪ|payable:p.ˈeɪ.ə.b.ə.l|payback:p.ˈeɪ.b.æ.k|payment:p.ˈeɪ.m.ə.n.t|payments:p.ˈeɪ.m.ə.n.t.s|pays:p.eɪ.z|pea:p.iː|peer:p.ɪə|pen:p.e.n|penicillin:p.e.n.ɪ.s.ˈɪ.l.ɪ.n|penny:p.ˈe.n.i|people:p.ˈiː.p.ə.l|per:p.ɜː|percent:p.ə.s.ˈe.n.t|perfect:p.ˈɜː.f.ɪ.k.t|perfectly:p.ˈɜː.f.ɪ.k.t.l.iː|perform:p.ə.f.ˈɔː.m|period:p.ˈɪə.r.i.ə.d|permit:p.ə.m.ˈɪ.t|person:p.ˈɜː.s.ə.n|pest:p.e.s.t|pesticide:p.ˈe.s.t.ə.s.aɪ.d|pesticides:p.ˈe.s.t.ə.s.aɪ.d.z|pharmacist:f.ˈɑː.m.ə.s.ɪ.s.t|pharmacy:f.ˈɑː.m.ə.s.iː|phone:f.əʊ.n|phones:f.əʊ.n.z|photo:f.ˈəʊ.t.əʊ|photographer:f.ə.t.ˈɒ.g.r.ə.f.ə|photos:f.ˈəʊ.t.əʊ.z|pick:p.ɪ.k|picture:p.ˈɪ.k.tʃ.ə|pig:p.ɪ.g|pink:p.ɪ.ŋ.k|place:p.l.eɪ.s|placement:p.l.ˈeɪ.s.m.ə.n.t|plan:p.l.æ.n|plans:p.l.æ.n.z|plant:p.l.æ.n.t|plants:p.l.æ.n.t.s|plate:p.l.eɪ.t|platform:p.l.ˈæ.t.f.ɔː.m|play:p.l.eɪ|please:p.l.iː.z|plenty:p.l.ˈe.n.t.iː|plus:p.l.ʌ.s|point:p.ɔɪ.n.t|police:p.ə.l.ˈiː.s|policy:p.ˈɒ.l.ə.s.iː|policyholder:p.ˈɒ.l.ə.s.i.h.əʊ.l.d.ə|polite:p.ə.l.ˈaɪ.t|pool:p.uː.l|poor:p.ʊə|popular:p.ˈɒ.p.j.ə.l.ə|pore:p.ɔː|pores:p.ɔː.z|port:p.ɔː.t|portfolio:p.ɔː.t.f.ˈəʊ.l.iː.əʊ|position:p.ə.z.ˈɪ.ʃ.ə.n|possible:p.ˈɒ.s.ə.b.ə.l|post:p.əʊ.s.t|poster:p.ˈəʊ.s.t.ə|posters:p.ˈəʊ.s.t.ə.z|power:p.ˈaʊ.ə|prefer:p.r.ɪ.f.ˈɜː|premium:p.r.ˈiː.m.i.ə.m|prepare:p.r.ɪ.p.ˈeə|prepared:p.r.ɪ.p.ˈeə.d|prescribe:p.r.ə.s.k.r.ˈaɪ.b|prescription:p.r.ɪ.s.k.r.ˈɪ.p.ʃ.ə.n|presentation:p.r.e.z.ə.n.t.ˈeɪ.ʃ.ə.n|press:p.r.e.s|pressure:p.r.ˈe.ʃ.ə|price:p.r.aɪ.s|print:p.r.ɪ.n.t|priority:p.r.aɪ.ˈɒ.r.ə.t.iː|probation:p.r.ə.b.ˈeɪ.ʃ.ə.n|problem:p.r.ˈɒ.b.l.ə.m|problems:p.r.ˈɒ.b.l.ə.m.z|process:p.r.ˈəʊ.s.e.s|produce:p.r.ə.d.ˈuː.s|product:p.r.ˈɒ.d.ʌ.k.t|production:p.r.ə.d.ˈʌ.k.ʃ.ə.n|products:p.r.ˈɒ.d.ə.k.t.s|professional:p.r.ə.f.ˈe.ʃ.ə.n.ə.l|profit:p.r.ˈɒ.f.ɪ.t|progress:p.r.ˈəʊ.g.r.e.s|project:p.r.ˈɒ.dʒ.e.k.t|promote:p.r.ə.m.ˈəʊ.t|proof:p.r.uː.f|protect:p.r.ə.t.ˈe.k.t|publish:p.ˈʌ.b.l.ɪ.ʃ|pull:p.ʊ.l|put:p.ʊ.t|quality:k.w.ˈɒ.l.ə.t.i|quantity:k.w.ˈɒ.n.t.ə.t.i|quarter:k.w.ˈɔː.t.ə|question:k.w.ˈe.s.tʃ.ə.n|questions:k.w.ˈe.s.tʃ.ə.n.z|quick:k.w.ɪ.k|quickly:k.w.ˈɪ.k.l.iː|quiet:k.w.ˈaɪ.ə.t|quite:k.w.aɪ.t|quotation:k.w.əʊ.t.ˈeɪ.ʃ.ə.n|quote:k.w.əʊ.t|rain:r.eɪ.n|rainy:r.ˈeɪ.n.iː|ran:r.æ.n|rang:r.æ.ŋ|rare:r.eə|rate:r.eɪ.t|rates:r.eɪ.t.s|rating:r.ˈeɪ.t.ɪ.ŋ|raw:r.ɔː|reach:r.iː.tʃ|reached:r.iː.tʃ.t|read:r.iː.d|readable:r.ˈiː.d.ə.b.ə.l|reading:r.ˈiː.d.ɪ.ŋ|ready:r.ˈe.d.iː|real:r.iː.l|really:r.ˈɪə.l.iː|rebook:r.iː.b.ˈʊ.k|receipt:r.ɪ.s.ˈiː.t|receipts:r.ɪ.s.ˈiː.t.s|receivable:r.ɪ.s.ˈiː.v.ə.b.ə.l|receive:r.ə.s.ˈiː.v|recently:r.ˈiː.s.ə.n.t.l.iː|reception:r.ɪ.s.ˈe.p.ʃ.ə.n|recommend:r.e.k.ə.m.ˈe.n.d|reconciliation:r.e.k.ə.n.s.ɪ.l.iː.ˈeɪ.ʃ.ə.n|record:r.ɪ.k.ˈɔː.d|records:r.ˈe.k.ɔː.d.z|recruit:r.ɪ.k.r.ˈuː.t|red:r.e.d|reduce:r.ə.d.ˈuː.s|refund:r.ˈiː.f.ʌ.n.d|region:r.ˈiː.dʒ.ə.n|register:r.ˈe.dʒ.ɪ.s.t.ə|registration:r.e.dʒ.ɪ.s.t.r.ˈeɪ.ʃ.ə.n|regulation:r.e.g.j.ə.l.ˈeɪ.ʃ.ə.n|reimburse:r.iː.ɪ.m.b.ˈɜː.s|reject:r.ɪ.dʒ.ˈe.k.t|relax:r.ɪ.l.ˈæ.k.s|release:r.ɪ.l.ˈiː.s|reminder:r.ɪ.m.ˈaɪ.n.d.ə|reminders:r.ɪ.m.ˈaɪ.n.d.ə.z|remove:r.iː.m.ˈuː.v|renew:r.ɪ.n.ˈuː|renewable:r.iː.n.ˈuː.ə.b.ə.l|renovate:r.ˈe.n.ə.v.eɪ.t|rent:r.e.n.t|repair:r.ɪ.p.ˈeə|replace:r.ɪ.p.l.ˈeɪ.s|replacing:r.ɪ.p.l.ˈeɪ.s.ɪ.ŋ|replying:r.ɪ.p.l.ˈaɪ.ɪ.ŋ|report:r.ɪ.p.ˈɔː.t|reporter:r.ɪ.p.ˈɔː.t.ə|reports:r.ɪ.p.ˈɔː.t.s|request:r.ɪ.k.w.ˈe.s.t|requirement:r.ɪ.k.w.ˈaɪ.ə.m.ə.n.t|reservation:r.e.z.ə.v.ˈeɪ.ʃ.ə.n|reset:r.iː.s.ˈe.t|rest:r.e.s.t|restart:r.iː.s.t.ˈɑː.t|restaurant:r.ˈe.s.t.ə.r.ɑː.n.t|restock:r.iː.s.t.ˈɒ.k|result:r.ɪ.z.ˈʌ.l.t|results:r.ɪ.z.ˈʌ.l.t.s|return:r.ɪ.t.ˈɜː.n|revenue:r.ˈe.v.ə.n.j.uː|review:r.ɪ.v.j.ˈuː|revision:r.iː.v.ˈɪ.ʒ.ə.n|revisions:r.iː.v.ˈɪ.ʒ.ə.n.z|rice:r.aɪ.s|right:r.aɪ.t|risk:r.ɪ.s.k|road:r.əʊ.d|role:r.əʊ.l|rolls:r.əʊ.l.z|roof:r.uː.f|rooftop:r.ˈuː.f.t.ɒ.p|room:r.uː.m|rooms:r.uː.m.z|round:r.aʊ.n.d|rounds:r.aʊ.n.d.z|routine:r.uː.t.ˈiː.n|run:r.ʌ.n|running:r.ˈʌ.n.ɪ.ŋ|runny:r.ˈʌ.n.iː|safe:s.eɪ.f|safety:s.ˈeɪ.f.t.i|salad:s.ˈæ.l.ə.d|salary:s.ˈæ.l.ə.r.iː|sale:s.eɪ.l|sales:s.eɪ.l.z|same:s.eɪ.m|sample:s.ˈæ.m.p.ə.l|samples:s.ˈæ.m.p.ə.l.z|sand:s.æ.n.d|satisfied:s.ˈæ.t.ɪ.s.f.aɪ.d|saturday:s.ˈæ.t.ə.d.eɪ|save:s.eɪ.v|saved:s.eɪ.v.d|saves:s.eɪ.v.z|savings:s.ˈeɪ.v.ɪ.ŋ.z|saw:s.ɔː|say:s.eɪ|says:s.e.z|scale:s.k.eɪ.l|schedule:ʃ.ˈe.dʒ.uː.l|school:s.k.uː.l|screen:s.k.r.iː.n|sea:s.iː|seafood:s.ˈiː.f.uː.d|season:s.ˈiː.z.ə.n|seat:s.iː.t|second:s.ˈe.k.ə.n.d|security:s.ɪ.k.j.ˈʊə.r.ə.t.iː|see:s.iː|seed:s.iː.d|seems:s.iː.m.z|sell:s.e.l|seller:s.ˈe.l.ə|selling:s.ˈe.l.ɪ.ŋ|sells:s.e.l.z|send:s.e.n.d|sensor:s.ˈe.n.s.ə|sent:s.e.n.t|sentence:s.ˈe.n.t.ə.n.s|sentences:s.ˈe.n.t.ə.n.s.ə.z|serious:s.ˈɪə.r.iː.ə.s|serve:s.ɜː.v|server:s.ˈɜː.v.ə|service:s.ˈɜː.v.ɪ.s|set:s.e.t|seven:s.ˈe.v.ə.n|seventy:s.ˈe.v.ə.n.t.i|severance:s.ˈe.v.ə.r.ə.n.s|share:ʃ.eə|shareholder:ʃ.ˈeə.h.əʊ.l.d.ə|shares:ʃ.eə.z|she:ʃ.iː|she's:ʃ.iː.z|sheep:ʃ.iː.p|sheet:ʃ.iː.t|shelf:ʃ.e.l.f|shift:ʃ.ɪ.f.t|shifts:ʃ.ɪ.f.t.s|ship:ʃ.ɪ.p|shipment:ʃ.ˈɪ.p.m.ə.n.t|shipping:ʃ.ˈɪ.p.ɪ.ŋ|shirt:ʃ.ɜː.t|shirts:ʃ.ɜː.t.s|shoe:ʃ.uː|shoes:ʃ.uː.z|shop:ʃ.ɒ.p|shops:ʃ.ɒ.p.s|short:ʃ.ɔː.t|shot:ʃ.ɒ.t|should:ʃ.ʊ.d|shoulder:ʃ.ˈəʊ.l.d.ə|show:ʃ.əʊ|shower:ʃ.ˈaʊ.ə|showing:ʃ.ˈəʊ.ɪ.ŋ|shut:ʃ.ʌ.t|sick:s.ɪ.k|side:s.aɪ.d|sightseeing:s.ˈaɪ.t.s.iː.ɪ.ŋ|sign:s.aɪ.n|sin:s.ɪ.n|since:s.ɪ.n.s|sing:s.ɪ.ŋ|singapore:s.ˈɪ.ŋ.ə.p.ɔː|single:s.ˈɪ.ŋ.g.ə.l|sink:s.ɪ.ŋ.k|sip:s.ɪ.p|sister:s.ˈɪ.s.t.ə|sisters:s.ˈɪ.s.t.ə.z|sit:s.ɪ.t|site:s.aɪ.t|six:s.ɪ.k.s|sixty:s.ˈɪ.k.s.t.iː|size:s.aɪ.z|skill:s.k.ɪ.l|skin:s.k.ɪ.n|sleepy:s.l.ˈiː.p.iː|slightly:s.l.ˈaɪ.t.l.iː|slot:s.l.ɒ.t|slow:s.l.əʊ|slowly:s.l.ˈəʊ.l.iː|small:s.m.ɔː.l|smaller:s.m.ˈɔː.l.ə|smart:s.m.ɑː.t|smith:s.m.ɪ.θ|snack:s.n.æ.k|so:s.əʊ|social:s.ˈəʊ.ʃ.ə.l|sofa:s.ˈəʊ.f.ə|soft:s.ɒ.f.t|software:s.ˈɒ.f.t.w.eə|solar:s.ˈəʊ.l.ə|solution:s.ə.l.ˈuː.ʃ.ə.n|solve:s.ɒ.l.v|solved:s.ɒ.l.v.d|some:s.ʌ.m|someday:s.ˈʌ.m.d.eɪ|someone:s.ˈʌ.m.w.ʌ.n|something:s.ˈʌ.m.θ.ɪ.ŋ|sometimes:s.ˈʌ.m.t.aɪ.m.z|son:s.ʌ.n|song:s.ɒ.ŋ|sore:s.ɔː|sorry:s.ˈɒ.r.iː|sort:s.ɔː.t|sounds:s.aʊ.n.d.z|soup:s.uː.p|source:s.ɔː.s|south:s.aʊ.θ|souvenir:s.uː.v.ə.n.ˈɪə|space:s.p.eɪ.s|speak:s.p.iː.k|speaking:s.p.ˈiː.k.ɪ.ŋ|specification:s.p.e.s.ɪ.f.ɪ.k.ˈeɪ.ʃ.ə.n|spend:s.p.e.n.d|spicy:s.p.ˈaɪ.s.iː|sponsor:s.p.ˈɒ.n.s.ə|spot:s.p.ɒ.t|spots:s.p.ɒ.t.s|spray:s.p.r.eɪ|spring:s.p.r.ɪ.ŋ|square:s.k.w.eə|stand:s.t.æ.n.d|standard:s.t.ˈæ.n.d.ə.d|standards:s.t.ˈæ.n.d.ə.d.z|start:s.t.ɑː.t|started:s.t.ˈɑː.t.ɪ.d|starts:s.t.ɑː.t.s|statement:s.t.ˈeɪ.t.m.ə.n.t|statements:s.t.ˈeɪ.t.m.ə.n.t.s|station:s.t.ˈeɪ.ʃ.ə.n|stay:s.t.eɪ|stayed:s.t.eɪ.d|staying:s.t.ˈeɪ.ɪ.ŋ|stays:s.t.eɪ.z|steel:s.t.iː.l|steps:s.t.e.p.s|still:s.t.ɪ.l|stock:s.t.ɒ.k|stocks:s.t.ɒ.k.s|stop:s.t.ɒ.p|stopped:s.t.ɒ.p.t|stories:s.t.ˈɔː.r.i.z|story:s.t.ˈɔː.r.i|straight:s.t.r.eɪ.t|straighten:s.t.r.ˈeɪ.t.ə.n|street:s.t.r.iː.t|strength:s.t.r.e.ŋ.θ|stripe:s.t.r.aɪ.p|strong:s.t.r.ɒ.ŋ|student:s.t.j.ˈuː.d.ə.n.t|students:s.t.j.ˈuː.d.ə.n.t.s|studied:s.t.ˈʌ.d.iː.d|study:s.t.ˈʌ.d.i|style:s.t.aɪ.l|subject:s.ə.b.dʒ.ˈe.k.t|success:s.ə.k.s.ˈe.s|sue:s.uː|sugar:ʃ.ˈʊ.g.ə|suggest:s.ə.dʒ.ˈe.s.t|suit:s.uː.t|sum:s.ʌ.m|summer:s.ˈʌ.m.ə|sun:s.ʌ.n|sunday:s.ˈʌ.n.d.eɪ|sunny:s.ˈʌ.n.iː|sunscreen:s.ə.n.s.k.r.ˈiː.n|supermarket:s.ˈuː.p.ə.m.ɑː.k.ɪ.t|supermarkets:s.ˈuː.p.ə.m.ɑː.k.ɪ.t.s|supplier:s.ə.p.l.ˈaɪ.ə|support:s.ə.p.ˈɔː.t|sure:ʃ.ʊə|surgery:s.ˈɜː.dʒ.ə.r.i|survey:s.ˈɜː.v.eɪ|sustainable:s.ə.s.t.ˈeɪ.n.ə.b.ə.l|swam:s.w.æ.m|swim:s.w.ɪ.m|switch:s.w.ɪ.tʃ|switches:s.w.ˈɪ.tʃ.ə.z|swollen:s.w.ˈəʊ.l.ə.n|sydney:s.ˈɪ.d.n.i|symptom:s.ˈɪ.m.p.t.ə.m|symptoms:s.ˈɪ.m.p.t.ə.m.z|system:s.ˈɪ.s.t.ə.m|table:t.ˈeɪ.b.ə.l|tablet:t.ˈæ.b.l.ə.t|tablets:t.ˈæ.b.l.ə.t.s|take:t.eɪ.k|talk:t.ɔː.k|talking:t.ˈɔː.k.ɪ.ŋ|target:t.ˈɑː.g.ɪ.t|tariff:t.ˈæ.r.ɪ.f|task:t.ɑː.s.k|tax:t.æ.k.s|taxes:t.ˈæ.k.s.ə.z|taxi:t.ˈæ.k.s.iː|tea:t.iː|teacher:t.ˈiː.tʃ.ə|team:t.iː.m|teas:t.iː.z|tech:t.e.k|technical:t.ˈe.k.n.ɪ.k.ə.l|technician:t.e.k.n.ˈɪ.ʃ.ə.n|television:t.ˈe.l.ɪ.v.ɪ.ʒ.ə.n|tell:t.e.l|temperature:t.ˈe.m.p.r.ə.tʃ.ə|temple:t.ˈe.m.p.ə.l|ten:t.e.n|tenant:t.ˈe.n.ə.n.t|tenth:t.e.n.θ|term:t.ɜː.m|terminal:t.ˈɜː.m.ɪ.n.ə.l|terms:t.ɜː.m.z|test:t.e.s.t|text:t.e.k.s.t|than:ð.æ.n|thank:θ.æ.ŋ.k|thanks:θ.æ.ŋ.k.s|that:ð.æ.t|that's:ð.æ.t.s|the:ð.ə|their:ð.eə|them:ð.e.m|themselves:ð.ə.m.s.ˈe.l.v.z|then:ð.e.n|therapist:θ.ˈe.r.ə.p.ɪ.s.t|there:ð.eə|there's:ð.eə.z|these:ð.iː.z|they:ð.eɪ|thin:θ.ɪ.n|thing:θ.ɪ.ŋ|think:θ.ɪ.ŋ.k|thinks:θ.ɪ.ŋ.k.s|third:θ.ɜː.d|thirty:θ.ˈɜː.t.iː|this:ð.ɪ.s|those:ð.əʊ.z|though:ð.əʊ|thousand:θ.ˈaʊ.z.ə.n.d|three:θ.r.iː|throat:θ.r.əʊ.t|through:θ.r.uː|thursday:θ.ˈɜː.z.d.eɪ|ticket:t.ˈɪ.k.ɪ.t|tie:t.aɪ|tiktok:t.ˈɪ.k.t.ɒ.k|tile:t.aɪ.l|time:t.aɪ.m|timeline:t.ˈaɪ.m.l.aɪ.n|times:t.aɪ.m.z|tin:t.ɪ.n|tip:t.ɪ.p|tired:t.ˈaɪ.ə.d|title:t.ˈaɪ.t.ə.l|to:t.uː|today:t.ə.d.ˈeɪ|today's:t.ə.d.ˈeɪ.z|together:t.ə.g.ˈe.ð.ə|toil:t.ɔɪ.l|tokyo:t.ˈəʊ.k.i.əʊ|tomorrow:t.ə.m.ˈɒ.r.əʊ|ton:t.ʌ.n|tone:t.əʊ.n|tons:t.ʌ.n.z|too:t.uː|top:t.ɒ.p|total:t.ˈəʊ.t.ə.l|tour:t.ʊə|tourist:t.ˈʊə.r.ɪ.s.t|towel:t.ˈaʊ.ə.l|town:t.aʊ.n|toy:t.ɔɪ|tracking:t.r.ˈæ.k.ɪ.ŋ|traffic:t.r.ˈæ.f.ɪ.k|train:t.r.eɪ.n|transaction:t.r.æ.n.z.ˈæ.k.ʃ.ə.n|transfer:t.r.æ.n.s.f.ˈɜː|transit:t.r.ˈæ.n.z.ɪ.t|travel:t.r.ˈæ.v.ə.l|treatment:t.r.ˈiː.t.m.ə.n.t|tree:t.r.iː|trial:t.r.ˈaɪ.ə.l|trials:t.r.ˈaɪ.ə.l.z|tried:t.r.aɪ.d|trip:t.r.ɪ.p|truck:t.r.ʌ.k|trust:t.r.ʌ.s.t|try:t.r.aɪ|trying:t.r.ˈaɪ.ɪ.ŋ|tuesday:t.j.ˈuː.z.d.eɪ|turbine:t.ˈɜː.b.aɪ.n|turbulence:t.ˈɜː.b.j.ə.l.ə.n.s|turn:t.ɜː.n|turning:t.ˈɜː.n.ɪ.ŋ|tutor:t.ˈuː.t.ə|twelfth:t.w.e.l.f.θ|twelve:t.w.e.l.v|twenty:t.w.ˈe.n.t.iː|twice:t.w.aɪ.s|two:t.uː|type:t.aɪ.p|typical:t.ˈɪ.p.ɪ.k.ə.l|umbrella:ʌ.m.b.r.ˈe.l.ə|under:ˈʌ.n.d.ə|understand:ʌ.n.d.ə.s.t.ˈæ.n.d|understanding:ʌ.n.d.ə.s.t.ˈæ.n.d.ɪ.ŋ|unit:j.ˈuː.n.ɪ.t|units:j.ˈuː.n.ɪ.t.s|university:j.uː.n.ɪ.v.ˈɜː.s.ə.t.iː|until:ə.n.t.ˈɪ.l|up:ʌ.p|update:ʌ.p.d.ˈeɪ.t|upload:ˈʌ.p.l.əʊ.d|urea:j.ʊə.r.ˈiː.ə|urgent:ˈɜː.dʒ.ə.n.t|us:ʌ.s|use:j.uː.z|user:j.ˈuː.z.ə|uses:j.ˈuː.s.ə.z|using:j.ˈuː.z.ɪ.ŋ|usual:j.ˈuː.ʒ.u.ə.l|usually:j.ˈuː.ʒ.u.ə.l.iː|utilities:j.uː.t.ˈɪ.l.ə.t.iː.z|vacation:v.ə.k.ˈeɪ.ʃ.ə.n|value:v.ˈæ.l.j.uː|van:v.æ.n|vegetable:v.ˈe.dʒ.t.ə.b.ə.l|vegetables:v.ˈe.dʒ.t.ə.b.ə.l.z|version:v.ˈɜː.ʃ.ə.n|very:v.ˈe.r.iː|vessel:v.ˈe.s.ə.l|vest:v.e.s.t|video:v.ˈɪ.d.iː.əʊ|videos:v.ˈɪ.d.iː.əʊ.z|vietnam:v.j.e.t.n.ˈæ.m|vietnamese:v.j.e.t.n.ə.m.ˈiː.z|view:v.j.uː|viewing:v.j.ˈuː.ɪ.ŋ|views:v.j.uː.z|vine:v.aɪ.n|visit:v.ˈɪ.z.ɪ.t|visits:v.ˈɪ.z.ɪ.t.s|vocabulary:v.ə.k.ˈæ.b.j.ə.l.ə.r.i|voice:v.ɔɪ.s|volume:v.ˈɒ.l.j.uː.m|voucher:v.ˈaʊ.tʃ.ə|wait:w.eɪ.t|waiter:w.ˈeɪ.t.ə|waiting:w.ˈeɪ.t.ɪ.ŋ|walk:w.ɔː.k|wall:w.ɔː.l|wallet:w.ˈɒ.l.ɪ.t|want:w.ɒ.n.t|ward:w.ɔː.d|warehouse:w.ˈeə.h.aʊ.s|warm:w.ɔː.m|warranty:w.ˈɔː.r.ə.n.t.i|was:w.ɒ.z|wash:w.ɒ.ʃ|wasn't:w.ˈɒ.z.ə.n.t|watch:w.ɒ.tʃ|water:w.ˈɔː.t.ə|way:w.eɪ|we:w.iː|we'd:w.iː.d|we'll:w.iː.l|we're:w.ɪə|we've:w.iː.v|weak:w.iː.k|wear:w.eə|weather:w.ˈe.ð.ə|websites:w.ˈe.b.s.aɪ.t.s|wednesday:w.ˈe.n.z.d.eɪ|week:w.iː.k|weekday:w.ˈiː.k.d.eɪ|weekdays:w.ˈiː.k.d.eɪ.z|weekend:w.iː.k.ˈe.n.d|weekends:w.iː.k.ˈe.n.d.z|weeks:w.iː.k.s|welcome:w.ˈe.l.k.ə.m|well:w.e.l|went:w.e.n.t|were:w.ɜː|west:w.e.s.t|wet:w.e.t|what:w.ɒ.t|what's:w.ɒ.t.s|when:w.e.n|when's:w.e.n.z|where:w.eə|which:w.ɪ.tʃ|while:w.aɪ.l|white:w.aɪ.t|whiteboard:w.ˈaɪ.t.b.ɔː.d|who:h.uː|why:w.aɪ|wi:w.aɪ|wife:w.aɪ.f|will:w.ɪ.l|wind:w.ɪ.n.d|window:w.ˈɪ.n.d.əʊ|windows:w.ˈɪ.n.d.əʊ.z|windy:w.ˈɪ.n.d.iː|wine:w.aɪ.n|winter:w.ˈɪ.n.t.ə|with:w.ɪ.ð|within:w.ɪ.ð.ˈɪ.n|without:w.ɪ.θ.ˈaʊ.t|witness:w.ˈɪ.t.n.ə.s|women:w.ˈɪ.m.ɪ.n|won't:w.əʊ.n.t|word:w.ɜː.d|words:w.ɜː.d.z|work:w.ɜː.k|worked:w.ɜː.k.t|worker:w.ˈɜː.k.ə|workers:w.ˈɜː.k.ə.z|working:w.ˈɜː.k.ɪ.ŋ|works:w.ɜː.k.s|worn:w.ɔː.n|worry:w.ˈʌ.r.i|worse:w.ɜː.s|would:w.ʊ.d|wow:w.aʊ|write:r.aɪ.t|written:r.ˈɪ.t.ə.n|wrong:r.ɒ.ŋ|year:j.ɪə|year's:j.ɪə.z|years:j.ɪə.z|yellow:j.ˈe.l.əʊ|yes:j.e.s|yesterday:j.ˈe.s.t.ə.d.eɪ|yet:j.e.t|yield:j.iː.l.d|you:j.uː|you'll:j.uː.l|you're:j.ɔː|young:j.ʌ.ŋ|younger:j.ˈʌ.ŋ.g.ə|your:j.ɔː|yourself:j.ɔː.s.ˈe.l.f|zero:z.ˈɪə.r.əʊ|zip:z.ɪ.p|zoo:z.uː";
+const IPA_SRC = "a:ə|a.m:eɪ.ˈe.m|about:ə.b.ˈaʊ.t|abroad:ə.b.r.ˈɔː.d|accept:æ.k.s.ˈe.p.t|acceptable:æ.k.s.ˈe.p.t.ə.b.ə.l|access:ˈæ.k.s.e.s|accident:ˈæ.k.s.ə.d.ə.n.t|accidents:ˈæ.k.s.ə.d.ə.n.t.s|account:ə.k.ˈaʊ.n.t|accounting:ə.k.ˈaʊ.n.t.ɪ.ŋ|accounts:ə.k.ˈaʊ.n.t.s|action:ˈæ.k.ʃ.ə.n|activity:æ.k.t.ˈɪ.v.ə.t.i|actually:ˈæ.k.tʃ.uː.ə.l.iː|ad:æ.d|add:æ.d|address:ˈæ.d.r.e.s|admin:ˈæ.d.m.ɪ.n|ads:æ.d.z|advertisement:ə.d.v.ˈɜː.t.ɪ.s.m.ə.n.t|advice:æ.d.v.ˈaɪ.s|afraid:ə.f.r.ˈeɪ.d|after:ˈæ.f.t.ə|afternoon:æ.f.t.ə.n.ˈuː.n|again:ə.g.ˈe.n|age:eɪ.dʒ|agenda:ə.dʒ.ˈe.n.d.ə|agent:ˈeɪ.dʒ.ə.n.t|ago:ə.g.ˈəʊ|agree:ə.g.r.ˈiː|agreed:ə.g.r.ˈiː.d|agreement:ə.g.r.ˈiː.m.ə.n.t|ah:ɑː|air:eə|aircraft:ˈeə.k.r.æ.f.t|airport:ˈeə.p.ɔː.t|aisle:aɪ.l|alcohol:ˈæ.l.k.ə.h.ɒ.l|all:ɔː.l|allergic:ə.l.ˈɜː.dʒ.ɪ.k|allergies:ˈæ.l.ə.dʒ.iː.z|allergy:ˈæ.l.ə.dʒ.iː|allowance:ə.l.ˈaʊ.ə.n.s|almost:ˈɔː.l.m.əʊ.s.t|aloud:ə.l.ˈaʊ.d|already:ɔː.l.r.ˈe.d.iː|alright:ɔː.l.r.ˈaɪ.t|also:ˈɔː.l.s.əʊ|always:ˈɔː.l.w.eɪ.z|amazing:ə.m.ˈeɪ.z.ɪ.ŋ|an:ə.n|and:ə.n.d|anna:ˈæ.n.ə|announcement:ə.n.ˈaʊ.n.s.m.ə.n.t|annual:ˈæ.n.j.uː.ə.l|another:ə.n.ˈʌ.ð.ə|answer:ˈæ.n.s.ə|antibiotic:æ.n.t.iː.b.aɪ.ˈɒ.t.ɪ.k|antibiotics:æ.n.t.iː.b.aɪ.ˈɒ.t.ɪ.k.s|any:ˈe.n.iː|anyone:ˈe.n.i.w.ʌ.n|anything:ˈe.n.iː.θ.ɪ.ŋ|anytime:ˈe.n.iː.t.aɪ.m|apartment:ə.p.ˈɑː.t.m.ə.n.t|apologize:ə.p.ˈɒ.l.ə.dʒ.aɪ.z|app:æ.p|application:æ.p.l.ə.k.ˈeɪ.ʃ.ə.n|apply:ə.p.l.ˈaɪ|appointment:ə.p.ˈɔɪ.n.t.m.ə.n.t|appointments:ə.p.ˈɔɪ.n.t.m.ə.n.t.s|appreciate:ə.p.r.ˈiː.ʃ.i.eɪ.t|approve:ə.p.r.ˈuː.v|arbitration:ɑː.b.ɪ.t.r.ˈeɪ.ʃ.ə.n|architect:ˈɑː.k.ə.t.e.k.t|are:ɑː|area:ˈeə.r.i.ə|arm:ɑː.m|around:ə.r.ˈaʊ.n.d|arrange:ə.r.ˈeɪ.n.dʒ|arrive:ə.r.ˈaɪ.v|arrives:ə.r.ˈaɪ.v.z|article:ˈɑː.t.ə.k.ə.l|as:æ.z|ask:æ.s.k|asking:ˈæ.s.k.ɪ.ŋ|asset:ˈæ.s.e.t|assign:ə.s.ˈaɪ.n|at:æ.t|ate:eɪ.t|atm:ˈeɪ.t.iː.ˈe.m|attendance:ə.t.ˈe.n.d.ə.n.s|attendant:ə.t.ˈe.n.d.ə.n.t|audience:ˈɔː.d.iː.ə.n.s|audit:ˈɔː.d.ɪ.t|auditor:ˈɔː.d.ɪ.t.ə|australia:ɔː.s.t.r.ˈeɪ.l.j.ə|automatic:ɔː.t.ə.m.ˈæ.t.ɪ.k|autumn:ˈɔː.t.ə.m|available:ə.v.ˈeɪ.l.ə.b.ə.l|average:ˈæ.v.ə.r.ɪ.dʒ|avoid:ə.v.ˈɔɪ.d|away:ə.w.ˈeɪ|baby:b.ˈeɪ.b.iː|back:b.æ.k|background:b.ˈæ.k.g.r.aʊ.n.d|backpack:b.ˈæ.k.p.æ.k|backup:b.ˈæ.k.ʌ.p|bad:b.æ.d|badminton:b.ˈæ.d.m.ɪ.n.t.ə.n|bag:b.æ.g|baggage:b.ˈæ.g.ə.dʒ|bags:b.æ.g.z|balance:b.ˈæ.l.ə.n.s|balcony:b.ˈæ.l.k.ə.n.i|ball:b.ɔː.l|ban:b.æ.n|banana:b.ə.n.ˈæ.n.ə|bang:b.æ.ŋ|bank:b.æ.ŋ.k|banks:b.æ.ŋ.k.s|banner:b.ˈæ.n.ə|bar:b.ɑː|bars:b.ɑː.z|bat:b.æ.t|batch:b.æ.tʃ|bath:b.æ.θ|bathroom:b.ˈæ.θ.r.uː.m|bathrooms:b.ˈæ.θ.r.uː.m.z|battery:b.ˈæ.t.ə.r.iː|be:b.iː|beach:b.iː.tʃ|bear:b.eə|beat:b.iː.t|beautiful:b.j.ˈuː.t.ə.f.ə.l|because:b.ɪ.k.ˈɒ.z|bed:b.e.d|bedroom:b.ˈe.d.r.uː.m|bedrooms:b.ˈe.d.r.uː.m.z|bee:b.iː|beef:b.iː.f|been:b.ɪ.n|beer:b.ɪə|before:b.ɪ.f.ˈɔː|beginner:b.ɪ.g.ˈɪ.n.ə|behavior:b.ɪ.h.ˈeɪ.v.j.ə|behind:b.ɪ.h.ˈaɪ.n.d|being:b.ˈiː.ɪ.ŋ|belt:b.e.l.t|benefit:b.ˈe.n.ə.f.ɪ.t|best:b.e.s.t|better:b.ˈe.t.ə|between:b.ɪ.t.w.ˈiː.n|big:b.ɪ.g|bigger:b.ˈɪ.g.ə|biggest:b.ˈɪ.g.ə.s.t|bike:b.aɪ.k|bill:b.ɪ.l|billion:b.ˈɪ.l.j.ə.n|bills:b.ɪ.l.z|bin:b.ɪ.n|bird:b.ɜː.d|birth:b.ɜː.θ|birthday:b.ˈɜː.θ.d.eɪ|bit:b.ɪ.t|black:b.l.æ.k|blocked:b.l.ɒ.k.t|blockers:b.l.ˈɒ.k.ə.z|blood:b.l.ʌ.d|blow:b.l.əʊ|blows:b.l.əʊ.z|blue:b.l.uː|boarding:b.ˈɔː.d.ɪ.ŋ|boat:b.əʊ.t|body:b.ˈɒ.d.iː|boiling:b.ˈɔɪ.l.ɪ.ŋ|bold:b.əʊ.l.d|bolder:b.ˈəʊ.l.d.ə|bond:b.ɒ.n.d|bonds:b.ɒ.n.d.z|book:b.ʊ.k|booked:b.ʊ.k.t|booking:b.ˈʊ.k.ɪ.ŋ|books:b.ʊ.k.s|boots:b.uː.t.s|boring:b.ˈɔː.r.ɪ.ŋ|born:b.ɔː.n|borrow:b.ˈɒ.r.əʊ|borrowed:b.ˈɒ.r.əʊ.d|boss:b.ɒ.s|boston:b.ˈɒ.s.t.ə.n|both:b.əʊ.θ|bother:b.ˈɒ.ð.ə|box:b.ɒ.k.s|boy:b.ɔɪ|brand:b.r.æ.n.d|breach:b.r.iː.tʃ|breached:b.r.iː.tʃ.t|break:b.r.eɪ.k|breakdown:b.r.ˈeɪ.k.d.aʊ.n|breakfast:b.r.ˈe.k.f.ə.s.t|breaking:b.r.ˈeɪ.k.ɪ.ŋ|brick:b.r.ɪ.k|bridge:b.r.ɪ.dʒ|brief:b.r.iː.f|bring:b.r.ɪ.ŋ|brings:b.r.ɪ.ŋ.z|broke:b.r.əʊ.k|broken:b.r.ˈəʊ.k.ə.n|brother:b.r.ˈʌ.ð.ə|brothers:b.r.ˈʌ.ð.ə.z|brown:b.r.aʊ.n|budget:b.ˈʌ.dʒ.ɪ.t|bug:b.ʌ.g|burn:b.ɜː.n|bus:b.ʌ.s|business:b.ˈɪ.z.n.ə.s|busy:b.ˈɪ.z.iː|but:b.ʌ.t|buy:b.aɪ|buyer:b.ˈaɪ.ə|buzz:b.ʌ.z|by:b.aɪ|cab:k.æ.b|cabin:k.ˈæ.b.ə.n|cable:k.ˈeɪ.b.ə.l|caf:k.æ.f.ˈeɪ|café:k.æ.f.ˈeɪ|cake:k.eɪ.k|calculate:k.ˈæ.l.k.j.ə.l.eɪ.t|call:k.ɔː.l|called:k.ɔː.l.d|calling:k.ˈɔː.l.ɪ.ŋ|calls:k.ɔː.l.z|camera:k.ˈæ.m.ə.r.ə|campaign:k.æ.m.p.ˈeɪ.n|can:k.æ.n|can't:k.ɑː.n.t|cancel:k.ˈæ.n.s.ə.l|candidate:k.ˈæ.n.d.ə.d.eɪ.t|cap:k.æ.p|capacity:k.ə.p.ˈæ.s.ə.t.i|capital:k.ˈæ.p.ə.t.ə.l|capsule:k.ˈæ.p.s.ə.l|captain:k.ˈæ.p.t.ə.n|car:k.ɑː|card:k.ɑː.d|care:k.eə|careful:k.ˈeə.f.ə.l|carry:k.ˈæ.r.i|cart:k.ɑː.t|case:k.eɪ.s|cash:k.æ.ʃ|cat:k.æ.t|catch:k.æ.tʃ|category:k.ˈæ.t.ə.g.ə.r.i|celebrate:s.ˈe.l.ə.b.r.eɪ.t|cement:s.ə.m.ˈe.n.t|centimeter:s.ˈe.n.t.ə.m.iː.t.ə|centimeters:s.ˈe.n.t.ə.m.iː.t.ə.z|central:s.ˈe.n.t.r.ə.l|certainly:s.ˈɜː.t.ə.n.l.iː|certificate:s.ə.t.ˈɪ.f.ɪ.k.ə.t|chair:tʃ.eə|challenge:tʃ.ˈæ.l.ə.n.dʒ|chance:tʃ.æ.n.s|chances:tʃ.ˈæ.n.s.ə.z|change:tʃ.eɪ.n.dʒ|charge:tʃ.ɑː.dʒ|cheap:tʃ.iː.p|cheaper:tʃ.ˈiː.p.ə|check:tʃ.e.k|checked:tʃ.e.k.t|checking:tʃ.ˈe.k.ɪ.ŋ|checkout:tʃ.ˈe.k.aʊ.t|cheer:tʃ.ɪə|chemical:k.ˈe.m.ə.k.ə.l|chemicals:k.ˈe.m.ɪ.k.ə.l.z|chicken:tʃ.ˈɪ.k.ə.n|chin:tʃ.ɪ.n|chip:tʃ.ɪ.p|choice:tʃ.ɔɪ.s|choke:tʃ.əʊ.k|choose:tʃ.uː.z|chose:tʃ.əʊ.z|chosen:tʃ.ˈəʊ.z.ə.n|city:s.ˈɪ.t.iː|claim:k.l.eɪ.m|claims:k.l.eɪ.m.z|class:k.l.ɑː.s|clause:k.l.ɔː.z|cleaning:k.l.ˈiː.n.ɪ.ŋ|cleanser:k.l.ˈe.n.z.ə|cleansing:k.l.ˈe.n.z.ɪ.ŋ|clear:k.l.ɪə|clearance:k.l.ˈɪə.r.ə.n.s|click:k.l.ɪ.k|client:k.l.ˈaɪ.ə.n.t|clients:k.l.ˈaɪ.ə.n.t.s|clinical:k.l.ˈɪ.n.ə.k.ə.l|clock:k.l.ɒ.k|close:k.l.əʊ.z|clothes:k.l.əʊ.ð.z|cloudy:k.l.ˈaʊ.d.iː|code:k.əʊ.d|coffee:k.ˈɒ.f.iː|coin:k.ɔɪ.n|cold:k.əʊ.l.d|collaborate:k.ə.l.ˈæ.b.ə.r.eɪ.t|collateral:k.ə.l.ˈæ.t.ə.r.ə.l|colleague:k.ˈɒ.l.iː.g|collect:k.ə.l.ˈe.k.t|color:k.ˈʌ.l.ə|colors:k.ˈʌ.l.ə.z|come:k.ʌ.m|comes:k.ʌ.m.z|comfortable:k.ˈʌ.m.f.ə.t.ə.b.ə.l|common:k.ˈɒ.m.ə.n|company:k.ˈʌ.m.p.ə.n.iː|company's:k.ˈʌ.m.p.ə.n.iː.z|compare:k.ə.m.p.ˈeə|compared:k.ə.m.p.ˈeə.d|compensation:k.ɒ.m.p.ə.n.s.ˈeɪ.ʃ.ə.n|competitor:k.ə.m.p.ˈe.t.ə.t.ə|competitors:k.ə.m.p.ˈe.t.ə.t.ə.z|complain:k.ə.m.p.l.ˈeɪ.n|complaint:k.ə.m.p.l.ˈeɪ.n.t|completely:k.ə.m.p.l.ˈiː.t.l.i|compliance:k.ə.m.p.l.ˈaɪ.ə.n.s|compliment:k.ˈɒ.m.p.l.ɪ.m.ə.n.t|computer:k.ə.m.p.j.ˈuː.t.ə|concept:k.ˈɒ.n.s.e.p.t|concepts:k.ˈɒ.n.s.e.p.t.s|concert:k.ˈɒ.n.s.ə.t|concrete:k.ə.n.k.r.ˈiː.t|conditioner:k.ə.n.d.ˈɪ.ʃ.ə.n.ə|conditioning:k.ə.n.d.ˈɪ.ʃ.ə.n.ɪ.ŋ|cone:k.əʊ.n|confirm:k.ə.n.f.ˈɜː.m|confirmation:k.ɒ.n.f.ə.m.ˈeɪ.ʃ.ə.n|congratulations:k.ə.n.g.r.æ.tʃ.ə.l.ˈeɪ.ʃ.ə.n.z|connect:k.ə.n.ˈe.k.t|connecting:k.ə.n.ˈe.k.t.ɪ.ŋ|connection:k.ə.n.ˈe.k.ʃ.ə.n|construction:k.ə.n.s.t.r.ˈʌ.k.ʃ.ə.n|consumption:k.ə.n.s.ˈʌ.m.p.ʃ.ə.n|contact:k.ˈɒ.n.t.æ.k.t|container:k.ə.n.t.ˈeɪ.n.ə|containers:k.ə.n.t.ˈeɪ.n.ə.z|content:k.ˈɒ.n.t.e.n.t|contest:k.ˈɒ.n.t.e.s.t|contract:k.ˈɒ.n.t.r.æ.k.t|contractor:k.ˈɒ.n.t.r.æ.k.t.ə|control:k.ə.n.t.r.ˈəʊ.l|conversion:k.ə.n.v.ˈɜː.ʒ.ə.n|cook:k.ʊ.k|cooking:k.ˈʊ.k.ɪ.ŋ|cool:k.uː.l|corner:k.ˈɔː.n.ə|corporate:k.ˈɔː.p.ə.r.ə.t|corrected:k.ə.r.ˈe.k.t.ə.d|cost:k.ɒ.s.t|costs:k.ɒ.s.t.s|cough:k.ɒ.f|could:k.ʊ.d|couldn't:k.ˈʊ.d.ə.n.t|count:k.aʊ.n.t|counter:k.ˈaʊ.n.t.ə|country:k.ˈʌ.n.t.r.iː|course:k.ɔː.s|court:k.ɔː.t|cover:k.ˈʌ.v.ə|coverage:k.ˈʌ.v.ə.r.ə.dʒ|covered:k.ˈʌ.v.ə.d|covers:k.ˈʌ.v.ə.z|crane:k.r.eɪ.n|cream:k.r.iː.m|creative:k.r.iː.ˈeɪ.t.ɪ.v|credit:k.r.ˈe.d.ɪ.t|crew:k.r.uː|crop:k.r.ɒ.p|cross:k.r.ɒ.s|cup:k.ʌ.p|cure:k.j.ʊə|curl:k.ɜː.l|currency:k.ˈʌ.r.ə.n.s.iː|current:k.ˈʌ.r.ə.n.t|customer:k.ˈʌ.s.t.ə.m.ə|customers:k.ˈʌ.s.t.ə.m.ə.z|customs:k.ˈʌ.s.t.ə.m.z|cut:k.ʌ.t|da:d.ɑː|daily:d.ˈeɪ.l.i|damage:d.ˈæ.m.ə.dʒ|damaged:d.ˈæ.m.ə.dʒ.d|dark:d.ɑː.k|data:d.ˈeɪ.t.ə|database:d.ˈeɪ.t.ə.b.eɪ.s|date:d.eɪ.t|david:d.ˈeɪ.v.ɪ.d|day:d.eɪ|days:d.eɪ.z|deadline:d.ˈe.d.l.aɪ.n|deal:d.iː.l|dear:d.ɪə|decide:d.ɪ.s.ˈaɪ.d|decision:d.ɪ.s.ˈɪ.ʒ.ə.n|declare:d.ɪ.k.l.ˈeə|decrease:d.ɪ.k.r.ˈiː.s|deductible:d.ɪ.d.ˈʌ.k.t.ə.b.ə.l|deep:d.iː.p|defect:d.ˈiː.f.e.k.t|definitely:d.ˈe.f.ə.n.ə.t.l.iː|degree:d.ɪ.g.r.ˈiː|degrees:d.ɪ.g.r.ˈiː.z|delay:d.ɪ.l.ˈeɪ|delayed:d.ɪ.l.ˈeɪ.d|delicious:d.ɪ.l.ˈɪ.ʃ.ə.s|deliver:d.ɪ.l.ˈɪ.v.ə|delivers:d.ɪ.l.ˈɪ.v.ə.z|delivery:d.ɪ.l.ˈɪ.v.ə.r.iː|demo:d.ˈe.m.əʊ|den:d.e.n|departure:d.ɪ.p.ˈɑː.tʃ.ə|depending:d.ɪ.p.ˈe.n.d.ɪ.ŋ|depends:d.ɪ.p.ˈe.n.d.z|deploy:d.ɪ.p.l.ˈɔɪ|deposit:d.ɪ.p.ˈɒ.z.ɪ.t|depreciation:d.ɪ.p.r.iː.ʃ.iː.ˈeɪ.ʃ.ə.n|describe:d.ɪ.s.k.r.ˈaɪ.b|description:d.ɪ.s.k.r.ˈɪ.p.ʃ.ə.n|deserve:d.ɪ.z.ˈɜː.v|design:d.ɪ.z.ˈaɪ.n|designer:d.ɪ.z.ˈaɪ.n.ə|desk:d.e.s.k|detailed:d.ɪ.t.ˈeɪ.l.d|details:d.ɪ.t.ˈeɪ.l.z|developer:d.ɪ.v.ˈe.l.ə.p.ə|device:d.ɪ.v.ˈaɪ.s|devices:d.ɪ.v.ˈaɪ.s.ɪ.z|diagnosis:d.aɪ.ə.g.n.ˈəʊ.s.ɪ.s|dictionary:d.ˈɪ.k.ʃ.ə.n.r.i|did:d.ɪ.d|didn't:d.ˈɪ.d.ə.n.t|die:d.aɪ|died:d.aɪ.d|difference:d.ˈɪ.f.ə.r.ə.n.s|different:d.ˈɪ.f.ə.r.ə.n.t|dining:d.ˈaɪ.n.ɪ.ŋ|dinner:d.ˈɪ.n.ə|direction:d.ə.r.ˈe.k.ʃ.ə.n|directly:d.ə.r.ˈe.k.t.l.i|director:d.ə.r.ˈe.k.t.ə|dirty:d.ˈɜː.t.iː|disappointed:d.ɪ.s.ə.p.ˈɔɪ.n.t.ɪ.d|discount:d.ˈɪ.s.k.aʊ.n.t|discounts:d.ɪ.s.k.ˈaʊ.n.t.s|discuss:d.ɪ.s.k.ˈʌ.s|disease:d.ɪ.z.ˈiː.z|dish:d.ɪ.ʃ|dispute:d.ɪ.s.p.j.ˈuː.t|dissolve:d.ɪ.z.ˈɒ.l.v|dissolved:d.ɪ.z.ˈɒ.l.v.d|district:d.ˈɪ.s.t.r.ɪ.k.t|diversify:d.aɪ.v.ˈɜː.s.ɪ.f.aɪ|do:d.uː|doctor:d.ˈɒ.k.t.ə|document:d.ˈɒ.k.j.ə.m.e.n.t|documents:d.ˈɒ.k.j.ə.m.ə.n.t.s|does:d.ʌ.z|doesn't:d.ˈʌ.z.ə.n.t|dog:d.ɒ.g|doing:d.ˈuː.ɪ.ŋ|dollar:d.ˈɒ.l.ə|dollars:d.ˈɒ.l.ə.z|don't:d.əʊ.n.t|dong:d.ɒ.ŋ|door:d.ɔː|dorm:d.ɔː.m|dosage:d.ˈəʊ.s.ə.dʒ|dose:d.əʊ.s|double:d.ˈʌ.b.ə.l|dough:d.əʊ|down:d.aʊ.n|downtime:d.ˈaʊ.n.t.aɪ.m|dr:d.ˈɒ.k.t.ə|draft:d.r.æ.f.t|drawing:d.r.ˈɔː.ɪ.ŋ|drawings:d.r.ˈɔː.ɪ.ŋ.z|dress:d.r.e.s|drink:d.r.ɪ.ŋ.k|drinks:d.r.ɪ.ŋ.k.s|drip:d.r.ɪ.p|drive:d.r.aɪ.v|driver:d.r.ˈaɪ.v.ə|driver's:d.r.ˈaɪ.v.ə.z|drug:d.r.ʌ.g|dry:d.r.aɪ|durian:d.ˈʊə.r.i.ə.n|durians:d.ˈʊə.r.i.ə.n.z|during:d.ˈʊə.r.ɪ.ŋ|duty:d.ˈuː.t.i|dye:d.aɪ|dyeing:d.ˈaɪ.ɪ.ŋ|each:iː.tʃ|ear:ɪə|early:ˈɜː.l.iː|easily:ˈiː.z.ə.l.iː|east:iː.s.t|easy:ˈiː.z.iː|eat:iː.t|eaten:ˈiː.t.ə.n|economy:ɪ.k.ˈɒ.n.ə.m.i|edition:ə.d.ˈɪ.ʃ.ə.n|editor:ˈe.d.ə.t.ə|effect:ɪ.f.ˈe.k.t|effects:ɪ.f.ˈe.k.t.s|efficient:ɪ.f.ˈɪ.ʃ.ə.n.t|egg:e.g|eight:eɪ.t|eighteen:eɪ.t.ˈiː.n|eighty:ˈeɪ.t.iː|electricity:ɪ.l.e.k.t.r.ˈɪ.s.ə.t.iː|eleven:ɪ.l.ˈe.v.ə.n|else:e.l.s|email:ˈiː.m.eɪ.l|emails:ˈiː.m.eɪ.l.z|emergency:ɪ.m.ˈɜː.dʒ.ə.n.s.i|employee:e.m.p.l.ˈɔɪ.i|employer:e.m.p.l.ˈɔɪ.ə|empty:ˈe.m.p.t.i|end:e.n.d|ending:ˈe.n.d.ɪ.ŋ|energy:ˈe.n.ə.dʒ.i|engagement:ɪ.n.g.ˈeɪ.dʒ.m.ə.n.t|engineer:e.n.dʒ.ɪ.n.ˈɪə|english:ˈɪ.ŋ.g.l.ɪ.ʃ|enjoy:ɪ.n.dʒ.ˈɔɪ|enjoying:ɪ.n.dʒ.ˈɔɪ.ɪ.ŋ|enough:ɪ.n.ˈʌ.f|enter:ˈe.n.t.ə|entitled:e.n.t.ˈaɪ.t.ə.l.d|equipment:ɪ.k.w.ˈɪ.p.m.ə.n.t|error:ˈe.r.ə|estimate:ˈe.s.t.ə.m.ə.t|even:ˈiː.v.ɪ.n|evening:ˈiː.v.n.ɪ.ŋ|evenings:ˈiː.v.n.ɪ.ŋ.z|event:ɪ.v.ˈe.n.t|ever:ˈe.v.ə|every:ˈe.v.r.iː|everyone:ˈe.v.r.iː.w.ʌ.n|everything:ˈe.v.r.iː.θ.ɪ.ŋ|evidence:ˈe.v.ɪ.d.ə.n.s|exam:ɪ.g.z.ˈæ.m|examine:ɪ.g.z.ˈæ.m.ɪ.n|example:ɪ.g.z.ˈɑː.m.p.ə.l|excel:ˈe.k.s.e.l|exchange:ɪ.k.s.tʃ.ˈeɪ.n.dʒ|exciting:ɪ.k.s.ˈaɪ.t.ɪ.ŋ|excuse:ɪ.k.s.k.j.ˈuː.z|exhausted:ɪ.g.z.ˈɔː.s.t.ɪ.d|exit:ˈe.g.z.ɪ.t|expand:ɪ.k.s.p.ˈæ.n.d|expect:ɪ.k.s.p.ˈe.k.t|expecting:ɪ.k.s.p.ˈe.k.t.ɪ.ŋ|expense:ɪ.k.s.p.ˈe.n.s|expenses:ɪ.k.s.p.ˈe.n.s.ɪ.z|expensive:ɪ.k.s.p.ˈe.n.s.ɪ.v|experience:ɪ.k.s.p.ˈɪə.r.iː.ə.n.s|expiry:e.k.s.p.ˈaɪ.r.i|explain:ɪ.k.s.p.l.ˈeɪ.n|export:ˈe.k.s.p.ɔː.t|express:ɪ.k.s.p.r.ˈe.s|extra:ˈe.k.s.t.r.ə|fabric:f.ˈæ.b.r.ɪ.k|face:f.eɪ.s|facebook:f.ˈeɪ.s.b.ʊ.k|faces:f.ˈeɪ.s.ə.z|facial:f.ˈeɪ.ʃ.ə.l|facing:f.ˈeɪ.s.ɪ.ŋ|fact:f.æ.k.t|factory:f.ˈæ.k.t.ə.r.i|facts:f.æ.k.t.s|fair:f.eə|families:f.ˈæ.m.ə.l.i.z|family:f.ˈæ.m.ə.l.iː|fan:f.æ.n|far:f.ɑː|farm:f.ɑː.m|farmer:f.ˈɑː.m.ə|fast:f.ɑː.s.t|fasten:f.ˈæ.s.ə.n|faster:f.ˈɑː.s.t.ə|father:f.ˈɑː.ð.ə|fault:f.ɔː.l.t|favor:f.ˈeɪ.v.ə|favorite:f.ˈeɪ.v.ə.r.ɪ.t|feature:f.ˈiː.tʃ.ə|fee:f.iː|feedback:f.ˈiː.d.b.æ.k|feel:f.iː.l|feeling:f.ˈiː.l.ɪ.ŋ|fees:f.iː.z|female:f.ˈiː.m.eɪ.l|fertilizer:f.ˈɜː.t.ə.l.aɪ.z.ə|fever:f.ˈiː.v.ə|few:f.j.uː|fi:f.aɪ|field:f.iː.l.d|fifteen:f.ɪ.f.t.ˈiː.n|fifteenth:f.ɪ.f.t.ˈiː.n.θ|fifty:f.ˈɪ.f.t.iː|file:f.aɪ.l|files:f.aɪ.l.z|fill:f.ɪ.l|film:f.ɪ.l.m|fin:f.ɪ.n|final:f.ˈaɪ.n.ə.l|finance:f.ˈaɪ.n.æ.n.s|financial:f.aɪ.n.ˈæ.n.ʃ.ə.l|find:f.aɪ.n.d|finding:f.ˈaɪ.n.d.ɪ.ŋ|fine:f.aɪ.n|finish:f.ˈɪ.n.ɪ.ʃ|finished:f.ˈɪ.n.ɪ.ʃ.t|fire:f.ˈaɪ.ə|fired:f.ˈaɪ.ə.d|first:f.ɜː.s.t|fish:f.ɪ.ʃ|fit:f.ɪ.t|fits:f.ɪ.t.s|fitting:f.ˈɪ.t.ɪ.ŋ|five:f.aɪ.v|fixed:f.ɪ.k.s.t|flash:f.l.æ.ʃ|flexible:f.l.ˈe.k.s.ə.b.ə.l|flight:f.l.aɪ.t|flood:f.l.ʌ.d|floor:f.l.ɔː|floors:f.l.ɔː.z|flow:f.l.əʊ|flower:f.l.ˈaʊ.ə|flowers:f.l.ˈaʊ.ə.z|fly:f.l.aɪ|flying:f.l.ˈaɪ.ɪ.ŋ|focus:f.ˈəʊ.k.ə.s|folder:f.ˈəʊ.l.d.ə|follow:f.ˈɒ.l.əʊ|follower:f.ˈɒ.l.əʊ.ə|font:f.ɒ.n.t|food:f.uː.d|fool:f.uː.l|foot:f.ʊ.t|football:f.ˈʊ.t.b.ɔː.l|for:f.ɔː|forecast:f.ˈɔː.k.ɑː.s.t|forgets:f.ə.g.ˈe.t.s|forklift:f.ˈɔː.k.l.ɪ.f.t|form:f.ɔː.m|formal:f.ˈɔː.m.ə.l|forty:f.ˈɔː.t.i|found:f.aʊ.n.d|foundation:f.aʊ.n.d.ˈeɪ.ʃ.ə.n|four:f.ɔː|free:f.r.iː|freight:f.r.eɪ.t|friday:f.r.ˈaɪ.d.eɪ|friend:f.r.e.n.d|friendly:f.r.ˈe.n.d.l.i|friends:f.r.e.n.d.z|from:f.r.ɒ.m|front:f.r.ʌ.n.t|frustration:f.r.ə.s.t.r.ˈeɪ.ʃ.ə.n|full:f.ʊ.l|fun:f.ʌ.n|fund:f.ʌ.n.d|furniture:f.ˈɜː.n.ɪ.tʃ.ə|game:g.eɪ.m|garage:g.ˈæ.r.ɑː.ʒ|garages:g.ˈæ.r.ɑː.ʒ.ɪ.z|gate:g.eɪ.t|gentle:dʒ.ˈe.n.t.ə.l|get:g.e.t|gets:g.e.t.s|getting:g.ˈe.t.ɪ.ŋ|gift:g.ɪ.f.t|gin:dʒ.ɪ.n|girl:g.ɜː.l|give:g.ɪ.v|giving:g.ˈɪ.v.ɪ.ŋ|glass:g.l.ɑː.s|global:g.l.ˈəʊ.b.ə.l|go:g.əʊ|going:g.ˈəʊ.ɪ.ŋ|gold:g.əʊ.l.d|good:g.ʊ.d|goods:g.ʊ.d.z|got:g.ɒ.t|grab:g.r.æ.b|grade:g.r.eɪ.d|graduate:g.r.ˈæ.dʒ.u.eɪ.t|graduated:g.r.ˈæ.dʒ.u.eɪ.t.ɪ.d|grandparents:g.r.ˈæ.n.p.eə.r.ə.n.t.s|grass:g.r.ɑː.s|great:g.r.eɪ.t|greatest:g.r.ˈeɪ.t.ɪ.s.t|green:g.r.iː.n|greenhouse:g.r.ˈiː.n.h.aʊ.s|grid:g.r.ɪ.d|grilled:g.r.ɪ.l.d|ground:g.r.aʊ.n.d|group:g.r.uː.p|groups:g.r.uː.p.s|grow:g.r.əʊ|growing:g.r.ˈəʊ.ɪ.ŋ|grown:g.r.əʊ.n|guarantee:g.æ.r.ə.n.t.ˈiː|guaranteed:g.æ.r.ə.n.t.ˈiː.d|guess:g.e.s|guest:g.e.s.t|guests:g.e.s.t.s|guide:g.aɪ.d|gym:dʒ.ɪ.m|ha:h.ɑː|had:h.æ.d|hair:h.eə|haircut:h.ˈeə.k.ʌ.t|hairdresser:h.ˈeə.d.r.e.s.ə|half:h.æ.f|hand:h.æ.n.d|handle:h.ˈæ.n.d.ə.l|hanoi:h.æ.n.ˈɔɪ|happen:h.ˈæ.p.ə.n|happened:h.ˈæ.p.ə.n.d|happening:h.ˈæ.p.ə.n.ɪ.ŋ|happy:h.ˈæ.p.iː|hard:h.ɑː.d|harder:h.ˈɑː.d.ə|harvest:h.ˈɑː.v.ə.s.t|has:h.æ.z|hat:h.æ.t|have:h.æ.v|haven't:h.ˈæ.v.ə.n.t|having:h.ˈæ.v.ɪ.ŋ|he:h.iː|he's:h.iː.z|head:h.e.d|headache:h.ˈe.d.eɪ.k|headline:h.ˈe.d.l.aɪ.n|health:h.e.l.θ|healthy:h.ˈe.l.θ.iː|hear:h.ɪə|heard:h.ɜː.d|heart:h.ɑː.t|heat:h.iː.t|heavy:h.ˈe.v.i|hectare:h.ˈe.k.t.eə|hectares:h.ˈe.k.t.eə.z|held:h.e.l.d|hello:h.ə.l.ˈəʊ|helmet:h.ˈe.l.m.ə.t|helmets:h.ˈe.l.m.ə.t.s|help:h.e.l.p|helpful:h.ˈe.l.p.f.ə.l|her:h.ɜː|herb:h.ɜː.b|herbs:h.ɜː.b.z|here:h.ɪə|here's:h.ɪə.z|hey:h.eɪ|hi:h.aɪ|high:h.aɪ|higher:h.ˈaɪ.ə|him:h.ɪ.m|his:h.ɪ.z|history:h.ˈɪ.s.t.ə.r.iː|hit:h.ɪ.t|hmm:h.m|hobby:h.ˈɒ.b.iː|hold:h.əʊ.l.d|hole:h.əʊ.l|holiday:h.ˈɒ.l.ə.d.eɪ|home:h.əʊ.m|homestay:h.ˈəʊ.m.s.t.eɪ|homework:h.ˈəʊ.m.w.ɜː.k|honest:ˈɒ.n.ə.s.t|hospital:h.ˈɒ.s.p.ɪ.t.ə.l|hot:h.ɒ.t|hotel:h.əʊ.t.ˈe.l|hotline:h.ˈɒ.t.l.aɪ.n|hour:ˈaʊ.ə|hours:ˈaʊ.ə.z|house:h.aʊ.s|how:h.aʊ|hundred:h.ˈʌ.n.d.r.ə.d|hurt:h.ɜː.t|hurts:h.ɜː.t.s|hut:h.ʌ.t|i:aɪ|i'd:aɪ.d|i'll:aɪ.l|i'm:aɪ.m|i've:aɪ.v|ice:aɪ.s|iced:aɪ.s.t|id:aɪ.d.ˈiː|idea:aɪ.d.ˈɪə|ideas:aɪ.d.ˈɪə.z|if:ɪ.f|illegal:ɪ.l.ˈiː.g.ə.l|illness:ˈɪ.l.n.ə.s|image:ˈɪ.m.ə.dʒ|import:ɪ.m.p.ˈɔː.t|important:ɪ.m.p.ˈɔː.t.ə.n.t|improve:ɪ.m.p.r.ˈuː.v|in:ɪ.n|include:ɪ.n.k.l.ˈuː.d|included:ɪ.n.k.l.ˈuː.d.ɪ.d|including:ɪ.n.k.l.ˈuː.d.ɪ.ŋ|income:ˈɪ.n.k.ʌ.m|increase:ɪ.n.k.r.ˈiː.s|increased:ɪ.n.k.r.ˈiː.s.t|indefinite:ɪ.n.d.ˈe.f.ə.n.ə.t|industry:ˈɪ.n.d.ə.s.t.r.iː|infection:ɪ.n.f.ˈe.k.ʃ.ə.n|influencer:ˈɪ.n.f.l.u.ə.n.s.ə|influencers:ˈɪ.n.f.l.u.ə.n.s.ə.z|insect:ˈɪ.n.s.e.k.t|insects:ˈɪ.n.s.e.k.t.s|inside:ɪ.n.s.ˈaɪ.d|inspect:ɪ.n.s.p.ˈe.k.t|inspection:ɪ.n.s.p.ˈe.k.ʃ.ə.n|instagram:ˈɪ.n.s.t.ə.g.r.æ.m|install:ɪ.n.s.t.ˈɔː.l|instead:ɪ.n.s.t.ˈe.d|instruction:ɪ.n.s.t.r.ˈʌ.k.ʃ.ə.n|instructions:ɪ.n.s.t.r.ˈʌ.k.ʃ.ə.n.z|insurance:ɪ.n.ʃ.ˈʊə.r.ə.n.s|interest:ˈɪ.n.t.r.ə.s.t|interested:ˈɪ.n.t.r.ə.s.t.ɪ.d|interesting:ˈɪ.n.t.r.ə.s.t.ɪ.ŋ|interior:ɪ.n.t.ˈɪə.r.i.ə|intermediate:ɪ.n.t.ə.m.ˈiː.d.i.ə.t|internet:ˈɪ.n.t.ə.n.e.t|interview:ˈɪ.n.t.ə.v.j.uː|into:ˈɪ.n.t.uː|introduce:ɪ.n.t.r.ə.d.j.ˈuː.s|inventory:ˈɪ.n.v.ə.n.t.r.i|inverter:ɪ.n.v.ˈɜː.t.ə|invest:ɪ.n.v.ˈe.s.t|investment:ɪ.n.v.ˈe.s.t.m.ə.n.t|investor:ɪ.n.v.ˈe.s.t.ə|invitation:ɪ.n.v.ɪ.t.ˈeɪ.ʃ.ə.n|invite:ɪ.n.v.ˈaɪ.t|invoice:ˈɪ.n.v.ɔɪ.s|irrigation:ɪə.r.ə.g.ˈeɪ.ʃ.ə.n|is:ɪ.z|island:ˈaɪ.l.ə.n.d|isn't:ˈɪ.z.ə.n.t|issue:ˈɪ.ʃ.uː|it:ɪ.t|it'll:ˈɪ.t.ə.l|it's:ɪ.t.s|italian:ɪ.t.ˈæ.l.j.ə.n|item:ˈaɪ.t.ə.m|items:ˈaɪ.t.ə.m.z|itinerary:aɪ.t.ˈɪ.n.ə.r.ə.r.iː|jacket:dʒ.ˈæ.k.ɪ.t|jake:dʒ.eɪ.k|jam:dʒ.æ.m|japan:dʒ.ə.p.ˈæ.n|japanese:dʒ.æ.p.ə.n.ˈiː.z|jeep:dʒ.iː.p|jet:dʒ.e.t|job:dʒ.ɒ.b|join:dʒ.ɔɪ.n|joke:dʒ.əʊ.k|journalist:dʒ.ˈɜː.n.ə.l.ə.s.t|juice:dʒ.uː.s|june:dʒ.uː.n|jury:dʒ.ˈʊə.r.iː|just:dʒ.ʌ.s.t|keep:k.iː.p|key:k.iː|keys:k.iː.z|keyword:k.ˈiː.w.ɜː.d|kids:k.ɪ.d.z|kilo:k.ˈɪ.l.əʊ|kilos:k.ˈiː.l.əʊ.z|kilowatt:k.ˈɪ.l.ə.w.ɒ.t|kilowatts:k.ˈɪ.l.ə.w.ɒ.t.s|kind:k.aɪ.n.d|king:k.ɪ.ŋ|kitchen:k.ˈɪ.tʃ.ɪ.n|knock:n.ɒ.k|know:n.əʊ|kyoto:k.i.ˈəʊ.t.əʊ|label:l.ˈeɪ.b.ə.l|labels:l.ˈeɪ.b.ə.l.z|labor:l.ˈeɪ.b.ə|laboratory:l.ə.b.ˈɒ.r.ə.t.r.i|lading:l.ˈeɪ.d.ɪ.ŋ|lake:l.eɪ.k|land:l.æ.n.d|landlord:l.ˈæ.n.d.l.ɔː.d|large:l.ɑː.dʒ|lasagna:l.ə.z.ˈæ.n.j.ə|last:l.ɑː.s.t|lasts:l.ɑː.s.t.s|lat:l.ɑː.t|late:l.eɪ.t|later:l.ˈeɪ.t.ə|latest:l.ˈeɪ.t.ɪ.s.t|latte:l.ˈɑː.t.eɪ|launch:l.ɔː.n.tʃ|launched:l.ɔː.n.tʃ.t|launching:l.ˈɔː.n.tʃ.ɪ.ŋ|law:l.ɔː|lawyer:l.ˈɔː.j.ə|layers:l.ˈeɪ.ə.z|layout:l.ˈeɪ.aʊ.t|lead:l.iː.d|leader:l.ˈiː.d.ə|leaf:l.iː.f|learn:l.ɜː.n|lease:l.iː.s|least:l.iː.s.t|leave:l.iː.v|leaves:l.iː.v.z|led:l.e.d|lee:l.iː|left:l.e.f.t|leg:l.e.g|legal:l.ˈiː.g.ə.l|lend:l.e.n.d|length:l.e.ŋ.k.θ|lesson:l.ˈe.s.ə.n|let:l.e.t|let's:l.e.t.s|letter:l.ˈe.t.ə|level:l.ˈe.v.ə.l|liability:l.aɪ.ə.b.ˈɪ.l.ɪ.t.i|license:l.ˈaɪ.s.ə.n.s|life:l.aɪ.f|light:l.aɪ.t|lighter:l.ˈaɪ.t.ə|lights:l.aɪ.t.s|like:l.aɪ.k|liked:l.aɪ.k.t|likes:l.aɪ.k.s|limit:l.ˈɪ.m.ə.t|limited:l.ˈɪ.m.ə.t.ə.d|line:l.aɪ.n|linh:l.ɪ.n|link:l.ɪ.ŋ.k|list:l.ɪ.s.t|listing:l.ˈɪ.s.t.ɪ.ŋ|little:l.ˈɪ.t.ə.l|live:l.ɪ.v|livestream:l.ˈaɪ.v.s.t.r.iː.m|living:l.ˈɪ.v.ɪ.ŋ|load:l.əʊ.d|loan:l.əʊ.n|local:l.ˈəʊ.k.ə.l|location:l.əʊ.k.ˈeɪ.ʃ.ə.n|log:l.ɒ.g|login:l.ˈɒ.g.ɪ.n|logo:l.ˈəʊ.g.əʊ|long:l.ɒ.ŋ|look:l.ʊ.k|looking:l.ˈʊ.k.ɪ.ŋ|looks:l.ʊ.k.s|lose:l.uː.z|lost:l.ɒ.s.t|lot:l.ɒ.t|lots:l.ɒ.t.s|loud:l.aʊ.d|love:l.ʌ.v|lovely:l.ˈʌ.v.l.iː|lower:l.ˈəʊ.ə|loyal:l.ˈɔɪ.ə.l|lozenge:l.ˈɒ.z.ɪ.n.dʒ|lozenges:l.ˈɒ.z.ɪ.n.dʒ.ɪ.z|lucky:l.ˈʌ.k.iː|luggage:l.ˈʌ.g.ɪ.dʒ|lunch:l.ʌ.n.tʃ|m:e.m|machine:m.ə.ʃ.ˈiː.n|made:m.eɪ.d|mai:m.aɪ|main:m.eɪ.n|mainly:m.ˈeɪ.n.l.iː|maintenance:m.ˈeɪ.n.t.ə.n.ə.n.s|make:m.eɪ.k|making:m.ˈeɪ.k.ɪ.ŋ|male:m.eɪ.l|man:m.æ.n|manage:m.ˈæ.n.ɪ.dʒ|manager:m.ˈæ.n.ɪ.dʒ.ə|manual:m.ˈæ.n.j.uː.ə.l|many:m.ˈe.n.iː|map:m.æ.p|march:m.ɑː.tʃ|mark:m.ɑː.k|market:m.ˈɑː.k.ɪ.t|marketing:m.ˈɑː.k.ɪ.t.ɪ.ŋ|married:m.ˈæ.r.iː.d|marvel:m.ˈɑː.v.ə.l|massage:m.ə.s.ˈɑː.ʒ|match:m.æ.tʃ|material:m.ə.t.ˈɪə.r.i.ə.l|materials:m.ə.t.ˈɪə.r.i.ə.l.z|math:m.æ.θ|may:m.eɪ|maybe:m.ˈeɪ.b.iː|me:m.iː|meal:m.iː.l|meals:m.iː.l.z|mean:m.iː.n|means:m.iː.n.z|meanwhile:m.ˈiː.n.w.aɪ.l|measure:m.ˈe.ʒ.ə|media:m.ˈiː.d.iː.ə|medical:m.ˈe.d.ɪ.k.ə.l|medicine:m.ˈe.d.s.ə.n|medium:m.ˈiː.d.iː.ə.m|meet:m.iː.t|meeting:m.ˈiː.t.ɪ.ŋ|megawatt:m.ˈe.g.ə.w.ɒ.t|men:m.e.n|menu:m.ˈe.n.j.uː|message:m.ˈe.s.ɪ.dʒ|messages:m.ˈe.s.ə.dʒ.ə.z|meter:m.ˈiː.t.ə|meters:m.ˈiː.t.ə.z|method:m.ˈe.θ.ə.d|methods:m.ˈe.θ.ə.d.z|mid:m.ɪ.d|midnight:m.ˈɪ.d.n.aɪ.t|might:m.aɪ.t|mild:m.aɪ.l.d|milk:m.ɪ.l.k|millimeter:m.ˈɪ.l.ə.m.iː.t.ə|million:m.ˈɪ.l.j.ə.n|mind:m.aɪ.n.d|mine:m.aɪ.n|minh:m.ɪ.n|minimum:m.ˈɪ.n.ə.m.ə.m|minute:m.ˈɪ.n.ɪ.t|minutes:m.ˈɪ.n.ɪ.t.s|mirror:m.ˈɪ.r.ə|miss:m.ɪ.s|missed:m.ɪ.s.t|mix:m.ɪ.k.s|mockup:m.ˈɒ.k.ʌ.p|modem:m.ˈəʊ.d.ə.m|modern:m.ˈɒ.d.ə.n|moisture:m.ˈɔɪ.s.tʃ.ə|moisturizer:m.ˈɔɪ.s.tʃ.ə.r.aɪ.z.ə|mom:m.ɒ.m|moments:m.ˈəʊ.m.ə.n.t.s|monday:m.ˈʌ.n.d.i|money:m.ˈʌ.n.iː|month:m.ʌ.n.θ|monthly:m.ˈʌ.n.θ.l.iː|months:m.ʌ.n.θ.s|more:m.ɔː|morning:m.ˈɔː.n.ɪ.ŋ|mortgage:m.ˈɔː.g.ə.dʒ|most:m.əʊ.s.t|mostly:m.ˈəʊ.s.t.l.iː|mother:m.ˈʌ.ð.ə|motorbike:m.ˈəʊ.t.ə.b.aɪ.k|motorbikes:m.ˈəʊ.t.ə.b.aɪ.k.s|mouth:m.aʊ.θ|move:m.uː.v|moved:m.uː.v.d|movie:m.ˈuː.v.iː|mr:m.ˈɪ.s.t.ə|mrs:m.ˈɪ.s.ɪ.z|much:m.ʌ.tʃ|music:m.j.ˈuː.z.ɪ.k|must:m.ʌ.s.t|my:m.aɪ|nam:n.æ.m|name:n.eɪ.m|nation:n.ˈeɪ.ʃ.ə.n|natural:n.ˈæ.tʃ.ə.r.ə.l|near:n.ɪə|need:n.iː.d|needs:n.iː.d.z|negotiable:n.ə.g.ˈəʊ.ʃ.ə.b.ə.l|negotiate:n.ɪ.g.ˈəʊ.ʃ.iː.eɪ.t|neighbor:n.ˈeɪ.b.ə|neighborhood:n.ˈeɪ.b.ə.h.ʊ.d|nervous:n.ˈɜː.v.ə.s|net:n.e.t|nets:n.e.t.s|network:n.ˈe.t.w.ɜː.k|never:n.ˈe.v.ə|new:n.j.uː|news:n.j.uː.z|newsroom:n.j.ˈuː.z.r.uː.m|next:n.e.k.s.t|nguyen:n.uː.j.ˈe.n|nice:n.aɪ.s|night:n.aɪ.t|nights:n.aɪ.t.s|nine:n.aɪ.n|nineteen:n.aɪ.n.t.ˈiː.n|ninety:n.ˈaɪ.n.t.iː|nitrogen:n.ˈaɪ.t.r.ə.dʒ.ə.n|no:n.əʊ|noise:n.ɔɪ.z|none:n.ʌ.n|noodle:n.ˈuː.d.ə.l|noodles:n.ˈuː.d.ə.l.z|normal:n.ˈɔː.m.ə.l|nose:n.əʊ.z|not:n.ɒ.t|notary:n.ˈəʊ.t.ə.r.i|note:n.əʊ.t|nothing:n.ˈʌ.θ.ɪ.ŋ|notice:n.ˈəʊ.t.ə.s|now:n.aʊ|number:n.ˈʌ.m.b.ə|numbers:n.ˈʌ.m.b.ə.z|nurse:n.ɜː.s|nut:n.ʌ.t|o'clock:ə.k.l.ˈɒ.k|of:ə.v|off:ɒ.f|offer:ˈɒ.f.ə|offered:ˈɒ.f.ə.d|office:ˈɒ.f.ɪ.s|often:ˈɒ.f.ə.n|oh:əʊ|oil:ɔɪ.l|oily:ˈɔɪ.l.i|ok:əʊ.k.ˈeɪ|okay:əʊ.k.ˈeɪ|old:əʊ.l.d|older:ˈəʊ.l.d.ə|on:ɒ.n|once:w.ʌ.n.s|one:w.ʌ.n|ones:w.ʌ.n.z|online:ɒ.n.l.ˈaɪ.n|only:ˈəʊ.n.l.i|open:ˈəʊ.p.ə.n|opposite:ˈɒ.p.ə.z.ɪ.t|option:ˈɒ.p.ʃ.ə.n|options:ˈɒ.p.ʃ.ə.n.z|or:ɔː|orange:ˈɒ.r.ɪ.n.dʒ|orchard:ˈɔː.tʃ.ə.d|order:ˈɔː.d.ə|ordered:ˈɔː.d.ə.d|orders:ˈɔː.d.ə.z|organic:ɔː.g.ˈæ.n.ɪ.k|origin:ˈɔː.r.ə.dʒ.ə.n|other:ˈʌ.ð.ə|otherwise:ˈʌ.ð.ə.w.aɪ.z|our:ˈaʊ.ə|out:aʊ.t|output:ˈaʊ.t.p.ʊ.t|outside:aʊ.t.s.ˈaɪ.d|over:ˈəʊ.v.ə|overhead:ˈəʊ.v.ə.h.e.d|oversleep:əʊ.v.ə.s.l.ˈiː.p|overslept:əʊ.v.ə.s.l.ˈe.p.t|overtime:ˈəʊ.v.ə.t.aɪ.m|owner:ˈəʊ.n.ə|ownership:ˈəʊ.n.ə.ʃ.ɪ.p|p:p.iː|p.m:p.iː.ˈe.m|pack:p.æ.k|package:p.ˈæ.k.ə.dʒ|packaging:p.ˈæ.k.ɪ.dʒ.ɪ.ŋ|packing:p.ˈæ.k.ɪ.ŋ|page:p.eɪ.dʒ|paid:p.eɪ.d|pair:p.eə|panel:p.ˈæ.n.ə.l|panels:p.ˈæ.n.ə.l.z|pants:p.æ.n.t.s|paper:p.ˈeɪ.p.ə|parent:p.ˈeə.r.ə.n.t|parents:p.ˈeə.r.ə.n.t.s|park:p.ɑː.k|parking:p.ˈɑː.k.ɪ.ŋ|part:p.ɑː.t|particular:p.ə.t.ˈɪ.k.j.ə.l.ə|partner:p.ˈɑː.t.n.ə|party:p.ˈɑː.t.i|pass:p.æ.s|passenger:p.ˈæ.s.ə.n.dʒ.ə|passport:p.ˈɑː.s.p.ɔː.t|password:p.ˈɑː.s.w.ɜː.d|patient:p.ˈeɪ.ʃ.ə.n.t|patients:p.ˈeɪ.ʃ.ə.n.t.s|pay:p.eɪ|payable:p.ˈeɪ.ə.b.ə.l|payback:p.ˈeɪ.b.æ.k|payment:p.ˈeɪ.m.ə.n.t|payments:p.ˈeɪ.m.ə.n.t.s|pays:p.eɪ.z|pea:p.iː|peer:p.ɪə|pen:p.e.n|penicillin:p.e.n.ɪ.s.ˈɪ.l.ɪ.n|penny:p.ˈe.n.i|people:p.ˈiː.p.ə.l|per:p.ɜː|percent:p.ə.s.ˈe.n.t|perfect:p.ˈɜː.f.ɪ.k.t|perfectly:p.ˈɜː.f.ɪ.k.t.l.iː|perform:p.ə.f.ˈɔː.m|period:p.ˈɪə.r.i.ə.d|permit:p.ə.m.ˈɪ.t|person:p.ˈɜː.s.ə.n|pest:p.e.s.t|pesticide:p.ˈe.s.t.ə.s.aɪ.d|pesticides:p.ˈe.s.t.ə.s.aɪ.d.z|pharmacist:f.ˈɑː.m.ə.s.ɪ.s.t|pharmacy:f.ˈɑː.m.ə.s.iː|phone:f.əʊ.n|phones:f.əʊ.n.z|photo:f.ˈəʊ.t.əʊ|photographer:f.ə.t.ˈɒ.g.r.ə.f.ə|photos:f.ˈəʊ.t.əʊ.z|pick:p.ɪ.k|picture:p.ˈɪ.k.tʃ.ə|pig:p.ɪ.g|pink:p.ɪ.ŋ.k|place:p.l.eɪ.s|placement:p.l.ˈeɪ.s.m.ə.n.t|plan:p.l.æ.n|plans:p.l.æ.n.z|plant:p.l.æ.n.t|plants:p.l.æ.n.t.s|plate:p.l.eɪ.t|platform:p.l.ˈæ.t.f.ɔː.m|play:p.l.eɪ|please:p.l.iː.z|plenty:p.l.ˈe.n.t.iː|plus:p.l.ʌ.s|point:p.ɔɪ.n.t|police:p.ə.l.ˈiː.s|policy:p.ˈɒ.l.ə.s.iː|policyholder:p.ˈɒ.l.ə.s.i.h.əʊ.l.d.ə|polite:p.ə.l.ˈaɪ.t|pool:p.uː.l|poor:p.ʊə|popular:p.ˈɒ.p.j.ə.l.ə|pore:p.ɔː|pores:p.ɔː.z|port:p.ɔː.t|portfolio:p.ɔː.t.f.ˈəʊ.l.iː.əʊ|position:p.ə.z.ˈɪ.ʃ.ə.n|possible:p.ˈɒ.s.ə.b.ə.l|post:p.əʊ.s.t|poster:p.ˈəʊ.s.t.ə|posters:p.ˈəʊ.s.t.ə.z|power:p.ˈaʊ.ə|practice:p.r.ˈæ.k.t.ə.s|prefer:p.r.ɪ.f.ˈɜː|premium:p.r.ˈiː.m.i.ə.m|prepare:p.r.ɪ.p.ˈeə|prepared:p.r.ɪ.p.ˈeə.d|prescribe:p.r.ə.s.k.r.ˈaɪ.b|prescription:p.r.ɪ.s.k.r.ˈɪ.p.ʃ.ə.n|presentation:p.r.e.z.ə.n.t.ˈeɪ.ʃ.ə.n|press:p.r.e.s|pressure:p.r.ˈe.ʃ.ə|price:p.r.aɪ.s|print:p.r.ɪ.n.t|priority:p.r.aɪ.ˈɒ.r.ə.t.iː|probably:p.r.ˈɒ.b.ə.b.l.iː|probation:p.r.ə.b.ˈeɪ.ʃ.ə.n|problem:p.r.ˈɒ.b.l.ə.m|problems:p.r.ˈɒ.b.l.ə.m.z|process:p.r.ˈəʊ.s.e.s|produce:p.r.ə.d.ˈuː.s|product:p.r.ˈɒ.d.ʌ.k.t|production:p.r.ə.d.ˈʌ.k.ʃ.ə.n|products:p.r.ˈɒ.d.ə.k.t.s|professional:p.r.ə.f.ˈe.ʃ.ə.n.ə.l|profit:p.r.ˈɒ.f.ɪ.t|progress:p.r.ˈəʊ.g.r.e.s|project:p.r.ˈɒ.dʒ.e.k.t|promote:p.r.ə.m.ˈəʊ.t|promotion:p.r.ə.m.ˈəʊ.ʃ.ə.n|proof:p.r.uː.f|protect:p.r.ə.t.ˈe.k.t|proud:p.r.aʊ.d|publish:p.ˈʌ.b.l.ɪ.ʃ|pull:p.ʊ.l|put:p.ʊ.t|quality:k.w.ˈɒ.l.ə.t.i|quantity:k.w.ˈɒ.n.t.ə.t.i|quarter:k.w.ˈɔː.t.ə|question:k.w.ˈe.s.tʃ.ə.n|questions:k.w.ˈe.s.tʃ.ə.n.z|quick:k.w.ɪ.k|quickly:k.w.ˈɪ.k.l.iː|quiet:k.w.ˈaɪ.ə.t|quite:k.w.aɪ.t|quotation:k.w.əʊ.t.ˈeɪ.ʃ.ə.n|quote:k.w.əʊ.t|rain:r.eɪ.n|rainy:r.ˈeɪ.n.iː|ran:r.æ.n|rang:r.æ.ŋ|rare:r.eə|rate:r.eɪ.t|rates:r.eɪ.t.s|rather:r.ˈɑː.ð.ə|rating:r.ˈeɪ.t.ɪ.ŋ|raw:r.ɔː|reach:r.iː.tʃ|reached:r.iː.tʃ.t|read:r.iː.d|readable:r.ˈiː.d.ə.b.ə.l|reading:r.ˈiː.d.ɪ.ŋ|ready:r.ˈe.d.iː|real:r.iː.l|really:r.ˈɪə.l.iː|rebook:r.iː.b.ˈʊ.k|receipt:r.ɪ.s.ˈiː.t|receipts:r.ɪ.s.ˈiː.t.s|receivable:r.ɪ.s.ˈiː.v.ə.b.ə.l|receive:r.ə.s.ˈiː.v|recently:r.ˈiː.s.ə.n.t.l.iː|reception:r.ɪ.s.ˈe.p.ʃ.ə.n|recommend:r.e.k.ə.m.ˈe.n.d|reconciliation:r.e.k.ə.n.s.ɪ.l.iː.ˈeɪ.ʃ.ə.n|record:r.ɪ.k.ˈɔː.d|records:r.ˈe.k.ɔː.d.z|recruit:r.ɪ.k.r.ˈuː.t|red:r.e.d|reduce:r.ə.d.ˈuː.s|refund:r.ˈiː.f.ʌ.n.d|refuse:r.ɪ.f.j.ˈuː.z|region:r.ˈiː.dʒ.ə.n|register:r.ˈe.dʒ.ɪ.s.t.ə|registration:r.e.dʒ.ɪ.s.t.r.ˈeɪ.ʃ.ə.n|regulation:r.e.g.j.ə.l.ˈeɪ.ʃ.ə.n|reimburse:r.iː.ɪ.m.b.ˈɜː.s|reject:r.ɪ.dʒ.ˈe.k.t|relax:r.ɪ.l.ˈæ.k.s|release:r.ɪ.l.ˈiː.s|reminder:r.ɪ.m.ˈaɪ.n.d.ə|reminders:r.ɪ.m.ˈaɪ.n.d.ə.z|remove:r.iː.m.ˈuː.v|renew:r.ɪ.n.ˈuː|renewable:r.iː.n.ˈuː.ə.b.ə.l|renovate:r.ˈe.n.ə.v.eɪ.t|rent:r.e.n.t|repair:r.ɪ.p.ˈeə|repairman:r.ɪ.p.ˈeə.m.æ.n|replace:r.ɪ.p.l.ˈeɪ.s|replacing:r.ɪ.p.l.ˈeɪ.s.ɪ.ŋ|replying:r.ɪ.p.l.ˈaɪ.ɪ.ŋ|report:r.ɪ.p.ˈɔː.t|reporter:r.ɪ.p.ˈɔː.t.ə|reports:r.ɪ.p.ˈɔː.t.s|request:r.ɪ.k.w.ˈe.s.t|requirement:r.ɪ.k.w.ˈaɪ.ə.m.ə.n.t|reservation:r.e.z.ə.v.ˈeɪ.ʃ.ə.n|reserve:r.ɪ.z.ˈɜː.v|reset:r.iː.s.ˈe.t|rest:r.e.s.t|restart:r.iː.s.t.ˈɑː.t|restaurant:r.ˈe.s.t.ə.r.ɑː.n.t|restock:r.iː.s.t.ˈɒ.k|result:r.ɪ.z.ˈʌ.l.t|results:r.ɪ.z.ˈʌ.l.t.s|return:r.ɪ.t.ˈɜː.n|revenue:r.ˈe.v.ə.n.j.uː|review:r.ɪ.v.j.ˈuː|revision:r.iː.v.ˈɪ.ʒ.ə.n|revisions:r.iː.v.ˈɪ.ʒ.ə.n.z|rice:r.aɪ.s|right:r.aɪ.t|risk:r.ɪ.s.k|road:r.əʊ.d|role:r.əʊ.l|rolls:r.əʊ.l.z|roof:r.uː.f|rooftop:r.ˈuː.f.t.ɒ.p|room:r.uː.m|rooms:r.uː.m.z|round:r.aʊ.n.d|rounds:r.aʊ.n.d.z|routine:r.uː.t.ˈiː.n|run:r.ʌ.n|running:r.ˈʌ.n.ɪ.ŋ|runny:r.ˈʌ.n.iː|sad:s.æ.d|safe:s.eɪ.f|safety:s.ˈeɪ.f.t.i|salad:s.ˈæ.l.ə.d|salary:s.ˈæ.l.ə.r.iː|sale:s.eɪ.l|sales:s.eɪ.l.z|same:s.eɪ.m|sample:s.ˈæ.m.p.ə.l|samples:s.ˈæ.m.p.ə.l.z|sand:s.æ.n.d|sarah:s.ˈeə.r.ə|satisfied:s.ˈæ.t.ɪ.s.f.aɪ.d|saturday:s.ˈæ.t.ə.d.eɪ|save:s.eɪ.v|saved:s.eɪ.v.d|saves:s.eɪ.v.z|savings:s.ˈeɪ.v.ɪ.ŋ.z|saw:s.ɔː|say:s.eɪ|says:s.e.z|scale:s.k.eɪ.l|scene:s.iː.n|scenes:s.iː.n.z|schedule:ʃ.ˈe.dʒ.uː.l|school:s.k.uː.l|screen:s.k.r.iː.n|sea:s.iː|seafood:s.ˈiː.f.uː.d|season:s.ˈiː.z.ə.n|seat:s.iː.t|second:s.ˈe.k.ə.n.d|security:s.ɪ.k.j.ˈʊə.r.ə.t.iː|see:s.iː|seed:s.iː.d|seems:s.iː.m.z|seen:s.iː.n|sell:s.e.l|seller:s.ˈe.l.ə|selling:s.ˈe.l.ɪ.ŋ|sells:s.e.l.z|send:s.e.n.d|sensor:s.ˈe.n.s.ə|sent:s.e.n.t|sentence:s.ˈe.n.t.ə.n.s|sentences:s.ˈe.n.t.ə.n.s.ə.z|serious:s.ˈɪə.r.iː.ə.s|serve:s.ɜː.v|server:s.ˈɜː.v.ə|service:s.ˈɜː.v.ɪ.s|set:s.e.t|seven:s.ˈe.v.ə.n|seventy:s.ˈe.v.ə.n.t.i|severance:s.ˈe.v.ə.r.ə.n.s|shame:ʃ.eɪ.m|share:ʃ.eə|shareholder:ʃ.ˈeə.h.əʊ.l.d.ə|shares:ʃ.eə.z|she:ʃ.iː|she's:ʃ.iː.z|sheep:ʃ.iː.p|sheet:ʃ.iː.t|shelf:ʃ.e.l.f|shift:ʃ.ɪ.f.t|shifts:ʃ.ɪ.f.t.s|ship:ʃ.ɪ.p|shipment:ʃ.ˈɪ.p.m.ə.n.t|shipping:ʃ.ˈɪ.p.ɪ.ŋ|shirt:ʃ.ɜː.t|shirts:ʃ.ɜː.t.s|shoe:ʃ.uː|shoes:ʃ.uː.z|shop:ʃ.ɒ.p|shops:ʃ.ɒ.p.s|short:ʃ.ɔː.t|shorter:ʃ.ˈɔː.t.ə|shot:ʃ.ɒ.t|should:ʃ.ʊ.d|shoulder:ʃ.ˈəʊ.l.d.ə|show:ʃ.əʊ|shower:ʃ.ˈaʊ.ə|showing:ʃ.ˈəʊ.ɪ.ŋ|shut:ʃ.ʌ.t|sick:s.ɪ.k|side:s.aɪ.d|sides:s.aɪ.d.z|sightseeing:s.ˈaɪ.t.s.iː.ɪ.ŋ|sign:s.aɪ.n|sin:s.ɪ.n|since:s.ɪ.n.s|sing:s.ɪ.ŋ|singapore:s.ˈɪ.ŋ.ə.p.ɔː|single:s.ˈɪ.ŋ.g.ə.l|sink:s.ɪ.ŋ.k|sip:s.ɪ.p|sir:s.ɜː|sister:s.ˈɪ.s.t.ə|sisters:s.ˈɪ.s.t.ə.z|sit:s.ɪ.t|site:s.aɪ.t|six:s.ɪ.k.s|sixty:s.ˈɪ.k.s.t.iː|size:s.aɪ.z|skill:s.k.ɪ.l|skin:s.k.ɪ.n|sleepy:s.l.ˈiː.p.iː|slightly:s.l.ˈaɪ.t.l.iː|slot:s.l.ɒ.t|slow:s.l.əʊ|slowly:s.l.ˈəʊ.l.iː|small:s.m.ɔː.l|smaller:s.m.ˈɔː.l.ə|smart:s.m.ɑː.t|smell:s.m.e.l|smells:s.m.e.l.z|smith:s.m.ɪ.θ|snack:s.n.æ.k|so:s.əʊ|social:s.ˈəʊ.ʃ.ə.l|sofa:s.ˈəʊ.f.ə|soft:s.ɒ.f.t|software:s.ˈɒ.f.t.w.eə|solar:s.ˈəʊ.l.ə|solution:s.ə.l.ˈuː.ʃ.ə.n|solve:s.ɒ.l.v|solved:s.ɒ.l.v.d|some:s.ʌ.m|someday:s.ˈʌ.m.d.eɪ|someone:s.ˈʌ.m.w.ʌ.n|something:s.ˈʌ.m.θ.ɪ.ŋ|sometimes:s.ˈʌ.m.t.aɪ.m.z|son:s.ʌ.n|song:s.ɒ.ŋ|sore:s.ɔː|sorry:s.ˈɒ.r.iː|sort:s.ɔː.t|sounds:s.aʊ.n.d.z|soup:s.uː.p|source:s.ɔː.s|south:s.aʊ.θ|souvenir:s.uː.v.ə.n.ˈɪə|space:s.p.eɪ.s|speak:s.p.iː.k|speaking:s.p.ˈiː.k.ɪ.ŋ|specification:s.p.e.s.ɪ.f.ɪ.k.ˈeɪ.ʃ.ə.n|spend:s.p.e.n.d|spicy:s.p.ˈaɪ.s.iː|sponsor:s.p.ˈɒ.n.s.ə|spot:s.p.ɒ.t|spots:s.p.ɒ.t.s|spray:s.p.r.eɪ|spring:s.p.r.ɪ.ŋ|square:s.k.w.eə|stamp:s.t.æ.m.p|stand:s.t.æ.n.d|standard:s.t.ˈæ.n.d.ə.d|standards:s.t.ˈæ.n.d.ə.d.z|start:s.t.ɑː.t|started:s.t.ˈɑː.t.ɪ.d|starts:s.t.ɑː.t.s|statement:s.t.ˈeɪ.t.m.ə.n.t|statements:s.t.ˈeɪ.t.m.ə.n.t.s|station:s.t.ˈeɪ.ʃ.ə.n|stay:s.t.eɪ|stayed:s.t.eɪ.d|staying:s.t.ˈeɪ.ɪ.ŋ|stays:s.t.eɪ.z|steel:s.t.iː.l|steps:s.t.e.p.s|still:s.t.ɪ.l|stock:s.t.ɒ.k|stocks:s.t.ɒ.k.s|stop:s.t.ɒ.p|stopped:s.t.ɒ.p.t|stories:s.t.ˈɔː.r.i.z|story:s.t.ˈɔː.r.i|straight:s.t.r.eɪ.t|straighten:s.t.r.ˈeɪ.t.ə.n|strange:s.t.r.eɪ.n.dʒ|street:s.t.r.iː.t|strength:s.t.r.e.ŋ.θ|stripe:s.t.r.aɪ.p|strong:s.t.r.ɒ.ŋ|student:s.t.j.ˈuː.d.ə.n.t|students:s.t.j.ˈuː.d.ə.n.t.s|studied:s.t.ˈʌ.d.iː.d|study:s.t.ˈʌ.d.i|style:s.t.aɪ.l|subject:s.ə.b.dʒ.ˈe.k.t|success:s.ə.k.s.ˈe.s|sue:s.uː|sugar:ʃ.ˈʊ.g.ə|suggest:s.ə.dʒ.ˈe.s.t|suit:s.uː.t|suitcase:s.ˈuː.t.k.eɪ.s|suits:s.uː.t.s|sum:s.ʌ.m|summer:s.ˈʌ.m.ə|sun:s.ʌ.n|sunday:s.ˈʌ.n.d.eɪ|sunny:s.ˈʌ.n.iː|sunscreen:s.ə.n.s.k.r.ˈiː.n|sunset:s.ˈʌ.n.s.e.t|supermarket:s.ˈuː.p.ə.m.ɑː.k.ɪ.t|supermarkets:s.ˈuː.p.ə.m.ɑː.k.ɪ.t.s|supplier:s.ə.p.l.ˈaɪ.ə|support:s.ə.p.ˈɔː.t|sure:ʃ.ʊə|surgery:s.ˈɜː.dʒ.ə.r.i|survey:s.ˈɜː.v.eɪ|sustainable:s.ə.s.t.ˈeɪ.n.ə.b.ə.l|swam:s.w.æ.m|swim:s.w.ɪ.m|swimsuit:s.w.ˈɪ.m.s.uː.t|switch:s.w.ɪ.tʃ|switches:s.w.ˈɪ.tʃ.ə.z|swollen:s.w.ˈəʊ.l.ə.n|sydney:s.ˈɪ.d.n.i|symptom:s.ˈɪ.m.p.t.ə.m|symptoms:s.ˈɪ.m.p.t.ə.m.z|system:s.ˈɪ.s.t.ə.m|table:t.ˈeɪ.b.ə.l|tablet:t.ˈæ.b.l.ə.t|tablets:t.ˈæ.b.l.ə.t.s|take:t.eɪ.k|taking:t.ˈeɪ.k.ɪ.ŋ|talk:t.ɔː.k|talking:t.ˈɔː.k.ɪ.ŋ|tank:t.æ.ŋ.k|target:t.ˈɑː.g.ɪ.t|tariff:t.ˈæ.r.ɪ.f|task:t.ɑː.s.k|tax:t.æ.k.s|taxes:t.ˈæ.k.s.ə.z|taxi:t.ˈæ.k.s.iː|tea:t.iː|teacher:t.ˈiː.tʃ.ə|team:t.iː.m|teas:t.iː.z|tech:t.e.k|technical:t.ˈe.k.n.ɪ.k.ə.l|technician:t.e.k.n.ˈɪ.ʃ.ə.n|television:t.ˈe.l.ɪ.v.ɪ.ʒ.ə.n|tell:t.e.l|temperature:t.ˈe.m.p.r.ə.tʃ.ə|temple:t.ˈe.m.p.ə.l|ten:t.e.n|tenant:t.ˈe.n.ə.n.t|tenth:t.e.n.θ|term:t.ɜː.m|terminal:t.ˈɜː.m.ɪ.n.ə.l|terms:t.ɜː.m.z|terrible:t.ˈe.r.ə.b.ə.l|test:t.e.s.t|text:t.e.k.s.t|than:ð.æ.n|thank:θ.æ.ŋ.k|thanks:θ.æ.ŋ.k.s|that:ð.æ.t|that's:ð.æ.t.s|the:ð.ə|their:ð.eə|them:ð.e.m|themselves:ð.ə.m.s.ˈe.l.v.z|then:ð.e.n|therapist:θ.ˈe.r.ə.p.ɪ.s.t|there:ð.eə|there's:ð.eə.z|these:ð.iː.z|they:ð.eɪ|they're:ð.eə|thin:θ.ɪ.n|thing:θ.ɪ.ŋ|things:θ.ɪ.ŋ.z|think:θ.ɪ.ŋ.k|thinks:θ.ɪ.ŋ.k.s|third:θ.ɜː.d|thirty:θ.ˈɜː.t.iː|this:ð.ɪ.s|those:ð.əʊ.z|though:ð.əʊ|thought:θ.ɔː.t|thousand:θ.ˈaʊ.z.ə.n.d|three:θ.r.iː|throat:θ.r.əʊ.t|through:θ.r.uː|thursday:θ.ˈɜː.z.d.eɪ|ticket:t.ˈɪ.k.ɪ.t|tickets:t.ˈɪ.k.ə.t.s|tie:t.aɪ|tiktok:t.ˈɪ.k.t.ɒ.k|tile:t.aɪ.l|time:t.aɪ.m|timeline:t.ˈaɪ.m.l.aɪ.n|times:t.aɪ.m.z|tin:t.ɪ.n|tip:t.ɪ.p|tips:t.ɪ.p.s|tired:t.ˈaɪ.ə.d|title:t.ˈaɪ.t.ə.l|to:t.uː|today:t.ə.d.ˈeɪ|today's:t.ə.d.ˈeɪ.z|together:t.ə.g.ˈe.ð.ə|toil:t.ɔɪ.l|tokyo:t.ˈəʊ.k.i.əʊ|tomorrow:t.ə.m.ˈɒ.r.əʊ|ton:t.ʌ.n|tone:t.əʊ.n|tons:t.ʌ.n.z|too:t.uː|top:t.ɒ.p|total:t.ˈəʊ.t.ə.l|tour:t.ʊə|tourist:t.ˈʊə.r.ɪ.s.t|towel:t.ˈaʊ.ə.l|town:t.aʊ.n|toy:t.ɔɪ|track:t.r.æ.k|tracking:t.r.ˈæ.k.ɪ.ŋ|traffic:t.r.ˈæ.f.ɪ.k|train:t.r.eɪ.n|transaction:t.r.æ.n.z.ˈæ.k.ʃ.ə.n|transfer:t.r.æ.n.s.f.ˈɜː|transit:t.r.ˈæ.n.z.ɪ.t|travel:t.r.ˈæ.v.ə.l|treat:t.r.iː.t|treatment:t.r.ˈiː.t.m.ə.n.t|tree:t.r.iː|trial:t.r.ˈaɪ.ə.l|trials:t.r.ˈaɪ.ə.l.z|tried:t.r.aɪ.d|trim:t.r.ɪ.m|trip:t.r.ɪ.p|truck:t.r.ʌ.k|trust:t.r.ʌ.s.t|try:t.r.aɪ|trying:t.r.ˈaɪ.ɪ.ŋ|tuesday:t.j.ˈuː.z.d.eɪ|turbine:t.ˈɜː.b.aɪ.n|turbulence:t.ˈɜː.b.j.ə.l.ə.n.s|turn:t.ɜː.n|turning:t.ˈɜː.n.ɪ.ŋ|turns:t.ɜː.n.z|tutor:t.ˈuː.t.ə|twelfth:t.w.e.l.f.θ|twelve:t.w.e.l.v|twenty:t.w.ˈe.n.t.iː|twice:t.w.aɪ.s|two:t.uː|type:t.aɪ.p|typical:t.ˈɪ.p.ɪ.k.ə.l|umbrella:ʌ.m.b.r.ˈe.l.ə|under:ˈʌ.n.d.ə|understand:ʌ.n.d.ə.s.t.ˈæ.n.d|understanding:ʌ.n.d.ə.s.t.ˈæ.n.d.ɪ.ŋ|unit:j.ˈuː.n.ɪ.t|units:j.ˈuː.n.ɪ.t.s|university:j.uː.n.ɪ.v.ˈɜː.s.ə.t.iː|until:ə.n.t.ˈɪ.l|up:ʌ.p|update:ʌ.p.d.ˈeɪ.t|upload:ˈʌ.p.l.əʊ.d|upset:ə.p.s.ˈe.t|urea:j.ʊə.r.ˈiː.ə|urgent:ˈɜː.dʒ.ə.n.t|us:ʌ.s|use:j.uː.z|user:j.ˈuː.z.ə|uses:j.ˈuː.s.ə.z|using:j.ˈuː.z.ɪ.ŋ|usual:j.ˈuː.ʒ.u.ə.l|usually:j.ˈuː.ʒ.u.ə.l.iː|utilities:j.uː.t.ˈɪ.l.ə.t.iː.z|vacation:v.ə.k.ˈeɪ.ʃ.ə.n|value:v.ˈæ.l.j.uː|van:v.æ.n|vegetable:v.ˈe.dʒ.t.ə.b.ə.l|vegetables:v.ˈe.dʒ.t.ə.b.ə.l.z|version:v.ˈɜː.ʃ.ə.n|very:v.ˈe.r.iː|vessel:v.ˈe.s.ə.l|vest:v.e.s.t|video:v.ˈɪ.d.iː.əʊ|videos:v.ˈɪ.d.iː.əʊ.z|vietnam:v.j.e.t.n.ˈæ.m|vietnamese:v.j.e.t.n.ə.m.ˈiː.z|view:v.j.uː|viewing:v.j.ˈuː.ɪ.ŋ|views:v.j.uː.z|vine:v.aɪ.n|visit:v.ˈɪ.z.ɪ.t|visited:v.ˈɪ.z.ɪ.t.ɪ.d|visits:v.ˈɪ.z.ɪ.t.s|vocabulary:v.ə.k.ˈæ.b.j.ə.l.ə.r.i|voice:v.ɔɪ.s|volume:v.ˈɒ.l.j.uː.m|voucher:v.ˈaʊ.tʃ.ə|wait:w.eɪ.t|waiter:w.ˈeɪ.t.ə|waiting:w.ˈeɪ.t.ɪ.ŋ|walk:w.ɔː.k|walking:w.ˈɔː.k.ɪ.ŋ|wall:w.ɔː.l|wallet:w.ˈɒ.l.ɪ.t|want:w.ɒ.n.t|wanted:w.ˈɒ.n.t.ɪ.d|ward:w.ɔː.d|warehouse:w.ˈeə.h.aʊ.s|warm:w.ɔː.m|warranty:w.ˈɔː.r.ə.n.t.i|was:w.ɒ.z|wash:w.ɒ.ʃ|wasn't:w.ˈɒ.z.ə.n.t|watch:w.ɒ.tʃ|water:w.ˈɔː.t.ə|way:w.eɪ|we:w.iː|we'd:w.iː.d|we'll:w.iː.l|we're:w.ɪə|we've:w.iː.v|weak:w.iː.k|wear:w.eə|weather:w.ˈe.ð.ə|websites:w.ˈe.b.s.aɪ.t.s|wednesday:w.ˈe.n.z.d.eɪ|week:w.iː.k|weekday:w.ˈiː.k.d.eɪ|weekdays:w.ˈiː.k.d.eɪ.z|weekend:w.iː.k.ˈe.n.d|weekends:w.iː.k.ˈe.n.d.z|weeks:w.iː.k.s|weight:w.eɪ.t|welcome:w.ˈe.l.k.ə.m|well:w.e.l|went:w.e.n.t|were:w.ɜː|west:w.e.s.t|wet:w.e.t|what:w.ɒ.t|what's:w.ɒ.t.s|when:w.e.n|when's:w.e.n.z|where:w.eə|which:w.ɪ.tʃ|while:w.aɪ.l|white:w.aɪ.t|whiteboard:w.ˈaɪ.t.b.ɔː.d|who:h.uː|why:w.aɪ|wi:w.aɪ|wife:w.aɪ.f|will:w.ɪ.l|wilson:w.ˈɪ.l.s.ə.n|wind:w.ɪ.n.d|window:w.ˈɪ.n.d.əʊ|windows:w.ˈɪ.n.d.əʊ.z|windy:w.ˈɪ.n.d.iː|wine:w.aɪ.n|winter:w.ˈɪ.n.t.ə|with:w.ɪ.ð|within:w.ɪ.ð.ˈɪ.n|without:w.ɪ.θ.ˈaʊ.t|witness:w.ˈɪ.t.n.ə.s|women:w.ˈɪ.m.ɪ.n|won't:w.əʊ.n.t|wonderful:w.ˈʌ.n.d.ə.f.ə.l|word:w.ɜː.d|words:w.ɜː.d.z|work:w.ɜː.k|worked:w.ɜː.k.t|worker:w.ˈɜː.k.ə|workers:w.ˈɜː.k.ə.z|working:w.ˈɜː.k.ɪ.ŋ|works:w.ɜː.k.s|worn:w.ɔː.n|worry:w.ˈʌ.r.i|worse:w.ɜː.s|worst:w.ɜː.s.t|worth:w.ɜː.θ|would:w.ʊ.d|wow:w.aʊ|write:r.aɪ.t|written:r.ˈɪ.t.ə.n|wrong:r.ɒ.ŋ|yeah:j.eə|year:j.ɪə|year's:j.ɪə.z|years:j.ɪə.z|yellow:j.ˈe.l.əʊ|yes:j.e.s|yesterday:j.ˈe.s.t.ə.d.eɪ|yet:j.e.t|yield:j.iː.l.d|you:j.uː|you'll:j.uː.l|you're:j.ɔː|you've:j.uː.v|young:j.ʌ.ŋ|younger:j.ˈʌ.ŋ.g.ə|your:j.ɔː|yourself:j.ɔː.s.ˈe.l.f|zero:z.ˈɪə.r.əʊ|zip:z.ɪ.p|zoo:z.uː";
 const IPA_DICT = {}; IPA_SRC.split("|").forEach(e => { const i = e.indexOf(":"); IPA_DICT[e.slice(0, i)] = e.slice(i + 1).replace(/\./g, " "); });
 /* ===================== PHIÊN ÂM BẤM ĐƯỢC DƯỚI CHỮ =====================
    Tiếng Anh: IPA từng từ (IPA_DICT), bấm từng âm để nghe bản thu thật của âm đó.
@@ -2629,7 +3528,7 @@ function pySplitWord(w, n){
     if(left === 0) return memo[key] = null;
     for(let L = Math.min(7, w.length - pos); L >= 1; L--){
       const part = w.slice(pos, pos + L);
-      if(pyIsSyl(part)){ const rest = go(pos + L, left - 1); if(rest){ return memo[key] = [part].concat(rest); } }
+      if(pyIsSyl(part) && !(pos > 0 && /^[aeiouüvāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/i.test(part))){ const rest = go(pos + L, left - 1); if(rest){ return memo[key] = [part].concat(rest); } }
     }
     return memo[key] = null;
   };
@@ -3139,12 +4038,12 @@ function renderHome(){
   };
   const all = lessonsOf(L); let k = 0;
   const cards = UNITS.map(u => { const part = all.slice(k, k + u.n); const start = k; k += u.n;
-    return part.length ? `<h3 class="grp-h">${esc(u.name)}</h3><div class="list grid2">${part.map((les, i) => card(les, start + i)).join("")}</div>` : ""; }).join("")
+    return part.length ? (u.lvl ? `<h2 class="lvl-h">${esc(u.lvl[L])}</h2>` : "") + `<h3 class="grp-h">${esc(u.name)}</h3><div class="list grid2">${part.map((les, i) => card(les, start + i)).join("")}</div>` : ""; }).join("")
     + (k < all.length ? `<div class="list grid2">${all.slice(k).map((les, i) => card(les, k + i)).join("")}</div>` : "");
   return `
     <section class="intro">
       <h2 class="intro-h">${L==="zh"?"Tiếng Trung":"Tiếng Anh"} giao tiếp cơ bản</h2>
-      <p>20 tình huống giao tiếp cơ bản chia thành 6 chặng, từ làm quen đến xử lý tình huống. Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
+      <p>${all.length} tình huống giao tiếp chia thành ${UNITS.length} chặng. Phần 1 (chặng 1–6) dành cho người mới bắt đầu, phần 2 (chặng 7–11) nâng lên trình độ ${L==="zh"?"HSK 3–4":"A2–B1"}: rủ rê, kể chuyện, nêu ý kiến, xử lý sự cố. Nghe hội thoại, nói theo từng câu, rồi tự đóng vai. Ngữ pháp để sau, khi bạn đã nói được.</p>
     </section>
     <div class="page wide">
     ${voiceWarn(L)}
@@ -3496,7 +4395,7 @@ function playVocabFrom(i){
 function renderVocabSection(){
   const L = store.prefs.lang, all = lessonsOf(L); let k = 0;
   const blocks = UNITS.map(u => { const part = all.slice(k, k + u.n); const start = k; k += u.n;
-    return `<h3 class="grp-h">${esc(u.name)}</h3>` + part.map((les, j) => { const li = start + j;
+    return (u.lvl ? `<h2 class="lvl-h">${esc(u.lvl[L])}</h2>` : "") + `<h3 class="grp-h">${esc(u.name)}</h3>` + part.map((les, j) => { const li = start + j;
       return `<div class="vblock"><div class="vhead"><b>${li+1}. ${esc(les.title)}</b><button class="linkbtn" data-act="open" data-id="${les.id}">Mở bài học</button></div>
         <div class="vgrid">${vocabOf(les.id).map((w,i) => exBtn(w, L, `W${li}_${i}`)).join("")}</div></div>`; }).join(""); }).join("");
   return `<section class="intro"><h2 class="intro-h">Từ vựng ${L==="zh"?"tiếng Trung":"tiếng Anh"} theo bài</h2>
