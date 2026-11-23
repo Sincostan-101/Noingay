@@ -268,6 +268,16 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .news-t{font-size:17px;line-height:1.3}.news-t.zh{font-family:var(--font-zh);font-size:19px}.news-cb small{color:var(--muted);font-size:13.5px}
 .news-meta{font-size:12.5px;color:var(--muted)}.news-lv{color:var(--accent)}.news-done{color:var(--accent);font-weight:700}
 .news-page{max-width:820px;align-self:center}
+.news-page.split{max-width:1320px}
+.news-row{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.news-page.split .news-row + .news-row{border-top:1px dashed var(--line);padding-top:14px}
+.news-cols span{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.news-cols{position:sticky;top:0;z-index:3;background:var(--bg);padding:6px 0;border-bottom:2px solid var(--line)}
+.news-page.split .news-cols + .news-row{border-top:0}
+.news-trc{font-size:18px;line-height:1.75;color:var(--ink);opacity:.92;border-left:3px solid var(--accent);padding-left:16px}
+h2.news-trc{font-weight:700;color:var(--accent)}
+.news-wait{color:var(--muted);font-size:14px}
+@media (max-width:800px){.news-row{grid-template-columns:1fr;gap:6px}.news-cols{display:none}}
 .news-art{display:flex;flex-direction:column;gap:14px}
 .news-h{font-size:clamp(26px,3vw,34px);line-height:1.25;margin:0;letter-spacing:-.01em}.news-h.zh{font-family:var(--font-zh)}
 .news-sum{margin:0;color:var(--muted);font-style:italic}
@@ -4641,7 +4651,7 @@ Object.assign(I18N_DICT, {
   "Các bài luyện đọc ở đây do SFY tự viết theo phong cách tin tức để luyện đọc, không phải tin thời sự thật.": ["These practice articles are written by SFY in a news style for reading practice; they are not real news.", "这些阅读练习是 SFY 以新闻风格编写的，用于练习阅读，并非真实新闻。"],
   "Muốn đọc tin thật? Thử các trang báo cho người học:": ["Want real news? Try these sites for learners:", "想读真实新闻？试试这些面向学习者的网站："],
   ". Đọc ở đó rồi chép đoạn bạn thích vào mục “Đọc bài báo bạn tự tìm”.": [". Read there, then copy the parts you like into “Read an article you found”.", "。在那里阅读后，把喜欢的段落复制到“阅读你自己找的文章”。"],
-  "✓ Đã đọc": ["✓ Read", "✓ 已读"], "← Tất cả bài báo": ["← All articles", "← 全部文章"], "Đọc bài": ["Reading", "阅读"], "🔊 Đọc cả bài": ["🔊 Read aloud", "🔊 朗读全文"], "🌐 Dịch cả bài": ["🌐 Translate all", "🌐 翻译全文"],
+  "✓ Đã đọc": ["✓ Read", "✓ 已读"], "← Tất cả bài báo": ["← All articles", "← 全部文章"], "Đọc bài": ["Reading", "阅读"], "🌐 Song ngữ (dịch cả bài)": ["🌐 Bilingual (translate all)", "🌐 双语对照（翻译全文）"], "📖 Chỉ xem bản gốc": ["📖 Original only", "📖 只看原文"],
   "🗑 Xoá bài này": ["🗑 Delete article", "🗑 删除这篇"], "Bài bạn đã dán": ["Your pasted article", "你粘贴的文章"], "Bài luyện đọc do SFY biên soạn": ["Practice article written by SFY", "SFY 编写的阅读练习"],
   "Bấm vào một từ hoặc bôi đen câu để dịch.": ["Click a word or select a sentence to translate it.", "点击单词或选中句子即可翻译。"],
   "Đọc đoạn này": ["Read this paragraph", "朗读这一段"], "Dịch đoạn này": ["Translate this paragraph", "翻译这一段"], "📋 Đọc bài báo bạn tự tìm": ["📋 Read an article you found", "📋 阅读你自己找的文章"],
@@ -5284,24 +5294,25 @@ function renderNews(){
     </div>`;
 }
 function renderNewsArticle(a){
-  const nu = newsUi(), L = a.lang, ns = newsState();
+  const nu = newsUi(), L = a.lang, ns = newsState(), split = !!nu.showTr;
   if(!ns.read[a.id]){ ns.read[a.id] = ymd(new Date()); saveStore(); }
-  const paras = a.paras.map((p, i) => { const k = a.id + ":" + i, tr = nu.tr[k], show = tr && (tr.open || nu.showTr);
-    return `<div class="news-p">
-      <div class="news-pt ${L}">${newsTokens(p, L)}</div>
-      ${show ? `<div class="news-tr">${tr.busy ? "Đang dịch…" : tr.err ? `<span class="dc-err">${esc(tr.err)}</span>` : esc(tr.text)}</div>` : ""}</div>`; }).join("");
-  return `<div class="page news-page">
+  const trOf = k => { const tr = nu.tr[a.id + ":" + k]; return !tr || tr.busy ? `<span class="news-wait">Đang dịch…</span>` : tr.err ? `<span class="dc-err">${esc(tr.err)}</span>` : esc(tr.text || ""); };
+  const tl = Dict.tl(L), tlName = tl === "vi" ? "Tiếng Việt" : tl === "en" ? "English" : "中文";
+  const paras = a.paras.map((p, i) => split
+    ? `<div class="news-row"><div class="news-pt ${L}">${newsTokens(p, L)}</div><div class="news-trc">${trOf(i)}</div></div>`
+    : `<div class="news-p"><div class="news-pt ${L}">${newsTokens(p, L)}</div></div>`).join("");
+  return `<div class="page news-page ${split ? "split" : ""}">
     <button class="back pback" data-act="newshome">← Tất cả bài báo</button>
     <div class="toolbar prail"><span class="prail-h">Đọc bài</span>
-      <button class="chip" data-act="newssayall">🔊 Đọc cả bài</button>
-      <button class="chip" data-act="newstrall" aria-pressed="${!!nu.showTr}">🌐 Dịch cả bài</button>
+      <button class="chip" data-act="newstrall" aria-pressed="${split}">${split ? "📖 Chỉ xem bản gốc" : "🌐 Song ngữ (dịch cả bài)"}</button>
       <span class="prail-h">Tùy chọn</span>
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>${voicePicker(L)}
       ${a.mine ? `<button class="chip" data-act="newsdel">🗑 Xoá bài này</button>` : ""}</div>
     <article class="news-art">
       <div class="news-meta"><b class="news-lv">${esc(a.lv || "")}</b>${a.topic ? ` · ${esc(a.topic)}` : ""} · ${a.mine ? "Bài bạn đã dán" : "Bài luyện đọc do SFY biên soạn"}</div>
-      <h2 class="news-h ${L}">${newsTokens(a.title, L)}</h2>
-      ${a.sum ? `<p class="news-sum">${esc(a.sum)}</p>` : ""}
+      ${split ? `<div class="news-row news-cols"><span>${L === "zh" ? "中文" : "English"}</span><span>${tlName}</span></div>
+        <div class="news-row"><h2 class="news-h ${L}">${newsTokens(a.title, L)}</h2><h2 class="news-h news-trc">${trOf("t")}</h2></div>`
+      : `<h2 class="news-h ${L}">${newsTokens(a.title, L)}</h2>${a.sum ? `<p class="news-sum">${esc(a.sum)}</p>` : ""}`}
       <p class="news-note">Bấm vào một từ hoặc bôi đen câu để dịch.</p>
       ${paras}
     </article></div>`;
@@ -5343,12 +5354,12 @@ function newsAct(act, el){
   const tr = async i => {
     const k = a.id + ":" + i; if(nu.tr[k] && (nu.tr[k].text || nu.tr[k].busy)) return;
     nu.tr[k] = Object.assign(nu.tr[k] || {}, {busy:true}); render();
-    try{ const r = await Dict.translate(a.paras[i], a.lang === "zh" ? "zh-CN" : "en", Dict.tl(a.lang)); nu.tr[k] = Object.assign(nu.tr[k], {busy:false, text:r.tr, err:null}); }
+    try{ const r = await Dict.translate(i === "t" ? a.title : a.paras[i], a.lang === "zh" ? "zh-CN" : "en", Dict.tl(a.lang)); nu.tr[k] = Object.assign(nu.tr[k], {busy:false, text:r.tr, err:null}); }
     catch(e){ nu.tr[k] = Object.assign(nu.tr[k], {busy:false, err:"Không dịch được. Kiểm tra kết nối mạng rồi thử lại."}); }
     render();
   };
   if(act === "newstr"){ const i = +el.dataset.v, k = a.id + ":" + i; nu.tr[k] = nu.tr[k] || {}; nu.tr[k].open = !nu.tr[k].open; if(nu.tr[k].err) nu.tr[k].err = null; render(); if(nu.tr[k].open) tr(i); return true; }
-  if(act === "newstrall"){ nu.showTr = !nu.showTr; render(); if(nu.showTr) a.paras.forEach((_, i) => tr(i)); return true; }
+  if(act === "newstrall"){ nu.showTr = !nu.showTr; render(); if(nu.showTr){ tr("t"); a.paras.forEach((_, i) => tr(i)); } return true; }
   return false;
 }
 
