@@ -302,6 +302,12 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(-
 .dc-alt,.dc-def{font-size:14px}.dc-alt i,.dc-def i{font-style:normal;font-weight:700;color:var(--muted);margin-right:4px}.dc-def em{display:block;color:var(--muted);font-size:13px;margin-top:1px}
 .dc-err{font-size:13px;color:#b45309}
 .dc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:4px}
+.dc-savewrap{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap}
+.savemenu{display:flex;flex-direction:column;gap:4px;margin-top:6px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--bg)}
+.sm-opt{display:flex;align-items:center;gap:6px;width:100%;text-align:left;border:0;background:transparent;color:var(--ink);font:inherit;font-size:14px;font-weight:600;padding:8px 10px;border-radius:9px}
+.sm-opt:hover:not([disabled]){background:color-mix(in srgb,var(--accent) 12%,transparent)}.sm-opt small{font-weight:400;color:var(--muted)}
+.sm-opt.on{opacity:.6;cursor:default}
+.sm-new{display:flex;gap:6px;margin-top:4px;padding-top:8px;border-top:1px dashed var(--line)}.sm-new input{flex:1;min-width:0;font:inherit;font-size:14px;padding:7px 10px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .dc-links{font-size:12.5px;color:var(--muted)}.dc-links a{color:var(--accent)}.dc-saved{font-weight:700;color:var(--accent);font-size:14px}
 .wpop{position:fixed;z-index:80;max-width:min(380px,calc(100vw - 16px));background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:8px}
 .wpop.info,.wpop.trans{width:360px;padding:14px 16px}
@@ -4605,6 +4611,10 @@ I18N_RX.unshift(
   [/^Kiểm tra lại (\d+) từ sai$/, "Retry $1 missed words", "重测 $1 个答错的词"],
   [/^(\d+) câu$/, "$1 questions", "$1 题"]
 );
+Object.assign(I18N_DICT, {"Lưu vào": ["Save to", "保存到"], "📒 Sổ từ vựng": ["📒 Vocabulary notebook", "📒 生词本"], "(chưa xếp chủ đề)": ["(no topic)", "（未分主题）"],
+  "✓ đã có": ["✓ already in", "✓ 已在其中"], "Tên chủ đề mới…": ["New topic name…", "新主题名称…"], "Tên chủ đề mới": ["New topic name", "新主题名称"], "＋ Tạo và lưu": ["＋ Create and save", "＋ 创建并保存"],
+  "＋ Lưu vào sổ ▾": ["＋ Save ▾", "＋ 保存 ▾"], "📁 Thêm vào chủ đề ▾": ["📁 Add to topic ▾", "📁 加入主题 ▾"]});
+I18N_RX.unshift([/^· (\d+) từ$/, "· $1 words", "· $1 个词"], [/^✓ Đã lưu “(.+)” vào chủ đề 📁 (.+)$/, "✓ Saved “$1” to 📁 $2", "✓ 已将“$1”存入 📁 $2"]);
 const I18N_SECS = {"phát âm":["Pronunciation","发音"], "giao tiếp cơ bản":["Basic conversation","基础会话"], "giao tiếp công việc":["Work conversation","职场会话"], "từ vựng":["Vocabulary","词汇"]};
 const I18N = {
   lang(){ return (store.prefs && store.prefs.ui) || "vi"; },
@@ -4738,8 +4748,24 @@ const NB = {
   remove(id){ store.notebook = this.list().filter(x => x.id !== id); saveStore(); }
 };
 /* Phần hiển thị thông tin một từ: dùng chung cho bảng tra từ và sổ từ vựng */
+/* Bảng chọn nơi lưu: sổ từ vựng hoặc một chủ đề người học đã tạo (hoặc tạo chủ đề mới) */
+function saveMenu(info, saved, A, cur){
+  const topics = NBT.list().filter(t => t.lang === info.lang).sort((a, b) => (b.id === cur) - (a.id === cur));
+  const inT = id => saved && (saved.topics || []).includes(id);
+  return `<div class="savemenu"><div class="dc-h">Lưu vào</div>
+    ${saved ? "" : `<button class="sm-opt" ${A("saveto")} data-topic="">📒 Sổ từ vựng <small>(chưa xếp chủ đề)</small></button>`}
+    ${topics.map(t => `<button class="sm-opt ${inT(t.id) ? "on" : ""}" ${A("saveto")} data-topic="${t.id}" ${inT(t.id) ? "disabled" : ""}>📁 ${esc(t.name)} <small>${inT(t.id) ? "✓ đã có" : `· ${NBT.count(t.id)} từ`}</small></button>`).join("")}
+    <div class="sm-new"><input data-save-newt maxlength="40" placeholder="Tên chủ đề mới…" aria-label="Tên chủ đề mới"><button class="btn ghost" ${A("savenew")}>＋ Tạo và lưu</button></div></div>`;
+}
+/* Lưu từ vào sổ, nếu có topic thì xếp luôn vào chủ đề đó */
+function nbSaveTo(info, topic){
+  const w = NB.add(info); if(!w) return null;
+  if(topic && NBT.get(topic)) w.topics = Array.from(new Set([...(w.topics || []), topic]));
+  saveStore(); return w;
+}
 function dictCard(info, opt = {}){
   if(!info) return "";
+  const A = n => opt.ctx === "nb" ? `data-act="nb${n}"` : `data-wp="${n}"`;
   const L = info.lang, saved = NB.find(L, info.t);
   const pron = L === "zh" ? (info.p ? `<span class="dc-ph">${esc(info.p)}</span>` : "") : (info.ipa ? `<span class="dc-ph">/${esc(info.ipa)}/</span>` : "");
   const lv = info.lv !== undefined ? lvTag(info, L) : "";
@@ -4747,13 +4773,14 @@ function dictCard(info, opt = {}){
   const defs = (info.defs || []).slice(0, 3).map(d => `<div class="dc-def"><i>${esc(d.pos)}</i> ${esc(d.d)}${d.ex ? `<em>“${esc(d.ex)}”</em>` : ""}</div>`).join("");
   const links = Dict.links(info.t, L).map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ");
   return `<div class="dc">
-    <div class="dc-top"><b class="dc-w ${L}">${esc(info.t)}</b>${pron}${lv}<button class="dc-say" data-wp="say" data-t="${esc(info.t)}" data-l="${L}" title="Nghe" aria-label="Nghe">${ICON_PLAY}</button></div>
+    <div class="dc-top"><b class="dc-w ${L}">${esc(info.t)}</b>${pron}${lv}<button class="dc-say" ${A("sayq")} data-t="${esc(info.t)}" data-l="${L}" title="Nghe" aria-label="Nghe">${ICON_PLAY}</button></div>
     ${info.v ? `<div class="dc-v">${esc(info.v)}</div>` : ""}${info.v2 ? `<div class="dc-v2">Nghĩa khác: ${esc(info.v2)}</div>` : ""}
     ${alts ? `<div class="dc-sec">${alts}</div>` : ""}
     ${defs ? `<div class="dc-sec"><div class="dc-h">Định nghĩa tiếng Anh</div>${defs}</div>` : ""}
     ${info.err ? `<div class="dc-err">${esc(info.err)}</div>` : ""}
     <div class="dc-foot"><span class="dc-links">Xem thêm: ${links}</span>
-      ${opt.noSave ? "" : saved ? `<span class="dc-saved">✓ Đã có trong sổ</span>` : `<button class="btn dc-save" data-wp="save">＋ Lưu vào sổ</button>`}</div></div>`;
+      ${opt.noSave ? "" : `<span class="dc-savewrap">${saved ? `<span class="dc-saved">✓ Đã có trong sổ</span>` : ""}<button class="btn dc-save ${saved ? "ghost" : ""}" ${A("saveopen")} aria-expanded="${!!opt.saveOpen}">${saved ? "📁 Thêm vào chủ đề" : "＋ Lưu vào sổ"} ▾</button></span>`}</div>
+    ${opt.saveOpen && !opt.noSave ? saveMenu(info, saved, A, opt.cur) : ""}</div>`;
 }
 /* Bảng nhỏ khi bấm một từ hoặc bôi đen chữ: Tra từ · Dịch · Lưu vào sổ */
 const WordPop = {
@@ -4766,6 +4793,7 @@ const WordPop = {
     el.addEventListener("click", e => { const b = e.target.closest("[data-wp]"); if(!b) return; e.stopPropagation(); this.act(b.dataset.wp, b); });
     document.addEventListener("mousedown", e => { if(this.el && !this.el.hidden && !this.el.contains(e.target)) this.close(); }, true);
     document.addEventListener("keydown", e => { if(e.key === "Escape") this.close(); });
+    el.addEventListener("keydown", e => { if(e.key === "Enter" && e.target.matches("[data-save-newt]")){ e.preventDefault(); const b = el.querySelector('[data-wp="savenew"]'); if(b) this.act("savenew", b); } });
     window.addEventListener("scroll", () => { if(this.el && !this.el.hidden && this.view === "menu") this.close(); }, {passive:true});
     return el;
   },
@@ -4773,7 +4801,7 @@ const WordPop = {
     text = String(text || "").trim().replace(/\s+/g, " "); if(!text || text.length > 300) return;
     lang = lang || Dict.detect(text);
     if(lang !== "vi" && text.split(" ").length <= 4){ const n = Dict.norm(text, lang); if(n) text = n; }
-    this.ensure(); this.text = text; this.lang = lang; this.view = "menu"; this.info = null; this.tr = null; this.rect = rect;
+    this.ensure(); this.text = text; this.lang = lang; this.view = "menu"; this.saveOpen = false; this.savedTo = ""; this.info = null; this.tr = null; this.rect = rect;
     this.paint();
   },
   close(){ if(this.el){ this.el.hidden = true; this.el.innerHTML = ""; } },
@@ -4787,7 +4815,7 @@ const WordPop = {
         <button data-wp="trans">🌐 Dịch</button>
         ${this.isWord() ? (NB.find(this.lang, Dict.norm(this.text, this.lang)) ? `<span class="wp-ok">✓ Trong sổ</span>` : `<button data-wp="save">＋ Lưu vào sổ</button>`) : ""}</div>`;
     } else if(this.view === "info"){
-      body = this.busy ? `<div class="wp-load">Đang tra “${esc(short)}”…</div>` : dictCard(this.info);
+      body = this.busy ? `<div class="wp-load">Đang tra “${esc(short)}”…</div>` : dictCard(this.info, {saveOpen:this.saveOpen});
     } else if(this.view === "trans"){
       body = this.busy ? `<div class="wp-load">Đang dịch…</div>` : this.tr && this.tr.err ? `<div class="dc-err">${esc(this.tr.err)}</div>`
         : `<div class="wp-tr"><div class="wp-src ${this.lang}">${esc(this.text)}</div>${this.tr && this.tr.rom ? `<div class="dc-ph">${esc(this.tr.rom)}</div>` : ""}<div class="wp-out">${esc(this.tr ? this.tr.tr : "")}</div>
@@ -4795,7 +4823,7 @@ const WordPop = {
           ${this.isWord() ? `<button class="btn ghost" data-wp="info">🔍 Tra từ</button>` : ""}
           ${this.isWord() && !NB.find(this.lang, Dict.norm(this.text, this.lang)) ? `<button class="btn dc-save" data-wp="save">＋ Lưu vào sổ</button>` : ""}</div></div>`;
     } else if(this.view === "saved"){
-      body = `<div class="wp-menu"><span class="wp-ok">✓ Đã lưu “${esc(short)}” vào sổ từ vựng</span><button data-wp="opennb">Mở sổ</button></div>`;
+      body = `<div class="wp-menu"><span class="wp-ok">${this.savedTo ? `✓ Đã lưu “${esc(short)}” vào chủ đề 📁 ${esc(this.savedTo)}` : `✓ Đã lưu “${esc(short)}” vào sổ từ vựng`}</span><button data-wp="opennb">Mở sổ</button></div>`;
     }
     el.className = "wpop " + this.view; el.innerHTML = (this.view === "menu" || this.view === "saved" ? "" : `<button class="wp-x" data-wp="close" aria-label="Đóng">×</button>`) + body;
     el.hidden = false;
@@ -4811,13 +4839,21 @@ const WordPop = {
   },
   async act(a, b){
     if(a === "close"){ this.close(); return; }
+    if(a === "sayq") a = "say";
     if(a === "say"){ const l = b.dataset.l; if(this.info && this.info.audio && l === "en" && this.info.t === b.dataset.t){ try{ new Audio(this.info.audio).play(); return; }catch(e){} } TTS.speak(b.dataset.t, l); return; }
     if(a === "opennb"){ this.close(); ui.section = "vocab"; ui.view = "home"; ui.vt = {view:"notebook"}; render(); window.scrollTo(0, 0); return; }
-    if(a === "info" || a === "save"){
-      if(!this.info){ this.view = a === "info" ? "info" : this.view; this.busy = true; if(a === "info") this.paint();
+    if(a === "info" || a === "save" || a === "saveopen"){
+      if(!this.info){ this.view = "info"; this.busy = true; this.paint();
         this.info = await Dict.lookup(this.text, this.lang); this.busy = false; }
-      if(a === "save"){ if(NB.add(this.info)){ this.view = "saved"; if(ui.section === "vocab" && ui.vt && ui.vt.view === "notebook") render(); } }
-      else this.view = "info";
+      this.view = "info";
+      if(a === "info") this.saveOpen = false;
+      else this.saveOpen = a === "save" ? true : !this.saveOpen;
+      this.paint(); return;
+    }
+    if(a === "saveto" || a === "savenew"){
+      let topic = b.dataset.topic || "";
+      if(a === "savenew"){ const i = this.el.querySelector("[data-save-newt]"), name = (i ? i.value : "").trim(); if(!name){ if(i) i.focus(); return; } topic = NBT.add(name, this.info.lang).id; }
+      if(nbSaveTo(this.info, topic)){ this.saveOpen = false; this.savedTo = topic ? NBT.get(topic).name : ""; this.view = "saved"; if(ui.section === "vocab" && ui.vt && ui.vt.view === "notebook") render(); }
       this.paint(); return;
     }
     if(a === "trans"){
@@ -4888,7 +4924,7 @@ function renderNotebook(){
       <button class="btn" data-act="nbstudy" data-v="quiz" data-src="sel">✅ Kiểm tra ${nSel} từ này</button>
       <button class="btn ghost" data-act="nbstudy" data-v="cards" data-src="sel">🃏 Ôn bằng thẻ</button>
       <button class="linkbtn" data-act="nbselnone">Bỏ chọn</button></div>` : "";
-  const preview = nb.busy ? `<div class="wp-load">Đang tra…</div>` : nb.info ? dictCard(nb.info).replace('data-wp="save"', 'data-act="nbadd"').replace(/data-wp="say"/g, 'data-act="nbsayq"') : "";
+  const preview = nb.busy ? `<div class="wp-load">Đang tra…</div>` : nb.info ? dictCard(nb.info, {ctx:"nb", saveOpen:nb.saveOpen, cur:nb.topic}) : "";
   const canStudy = rows.length > 0;
   return `<div class="page wide">
     <button class="back pback" data-act="vthome">← Từ vựng theo chủ đề</button>
@@ -4971,16 +5007,26 @@ function renderNbStudy(){
 }
 async function nbLookup(){
   const nb = nbState(), inp = document.querySelector("[data-nb-q]"); if(inp) nb.q = inp.value;
-  const q = (nb.q || "").trim(); if(!q){ nb.info = null; render(); return; }
+  clearTimeout(nbLookup.t);
+  const q = (nb.q || "").trim(); if(!q){ nb.info = null; nb.lastQ = ""; render(); return; }
+  if(q === nb.lastQ && (nb.info || nb.busy)) return;
+  nb.lastQ = q;
   let lang = Dict.detect(q); if(lang === "vi") lang = store.prefs.lang;
-  nb.busy = true; render();
+  nb.busy = true; nb.saveOpen = false; render();
   const info = await Dict.lookup(q, lang); nb.busy = false;
   if((nbState().q || "").trim() === q){ nb.info = info; render(); }
 }
 function nbAct(act, el){
   const nb = nbState(), byId = id => NB.list().find(y => y.id === id);
   if(act === "nblook"){ nbLookup(); return true; }
-  if(act === "nbadd"){ const w = nb.info && NB.add(nb.info); if(w){ if(nb.topic !== "all"){ w.topics = Array.from(new Set([...(w.topics || []), nb.topic])); saveStore(); } nb.q = ""; nb.info = null; const i = document.querySelector("[data-nb-q]"); if(i) i.value = ""; } render(); return true; }
+  if(act === "nbsaveopen"){ nb.saveOpen = !nb.saveOpen; render(); return true; }
+  if(act === "nbsaveto" || act === "nbsavenew"){
+    let topic = el.dataset.topic || "";
+    if(act === "nbsavenew"){ const i = document.querySelector(".nb-add [data-save-newt]"), name = (i ? i.value : "").trim(); if(!name){ if(i) i.focus(); return true; } topic = NBT.add(name, nb.info.lang).id; }
+    if(nb.info && nbSaveTo(nb.info, topic)){ nb.q = ""; nb.lastQ = ""; nb.info = null; nb.saveOpen = false; if(topic) nb.topic = topic; const i = document.querySelector("[data-nb-q]"); if(i) i.value = ""; }
+    render(); return true;
+  }
+  if(act === "nbadd"){ const w = nb.info && NB.add(nb.info); if(w){ if(nb.topic !== "all"){ w.topics = Array.from(new Set([...(w.topics || []), nb.topic])); saveStore(); } nb.q = ""; nb.lastQ = ""; nb.info = null; const i = document.querySelector("[data-nb-q]"); if(i) i.value = ""; } render(); return true; }
   if(act === "nbsayq"){ TTS.speak(el.dataset.t, el.dataset.l); return true; }
   if(act === "nbsay"){ const x = byId(el.dataset.v); if(x){ if(x.audio && x.lang === "en"){ try{ new Audio(x.audio).play(); return true; }catch(e){} } TTS.speak(x.t, x.lang); } return true; }
   if(act === "nbknow"){ const x = byId(el.dataset.v); if(x){ x.known = !x.known; saveStore(); render(); } return true; }
@@ -5040,6 +5086,7 @@ document.addEventListener("change", e => {
   }
 });
 document.addEventListener("keydown", e => {
+  if(e.key === "Enter" && e.target.matches && e.target.matches(".nb-add [data-save-newt]")){ e.preventDefault(); const b = document.querySelector('[data-act="nbsavenew"]'); if(b) b.click(); }
   if(e.key === "Enter" && e.target.matches && e.target.matches("[data-nb-tname]")){ e.preventDefault(); const b = document.querySelector('[data-act="nbtsave"]'); if(b) b.click(); }
   if(e.key === "Escape" && ui.nb && ui.nb.edit){ ui.nb.edit = null; render(); }
 });
