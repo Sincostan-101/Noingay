@@ -4651,7 +4651,7 @@ Object.assign(I18N_DICT, {
   "Các bài luyện đọc ở đây do SFY tự viết theo phong cách tin tức để luyện đọc, không phải tin thời sự thật.": ["These practice articles are written by SFY in a news style for reading practice; they are not real news.", "这些阅读练习是 SFY 以新闻风格编写的，用于练习阅读，并非真实新闻。"],
   "Muốn đọc tin thật? Thử các trang báo cho người học:": ["Want real news? Try these sites for learners:", "想读真实新闻？试试这些面向学习者的网站："],
   ". Đọc ở đó rồi chép đoạn bạn thích vào mục “Đọc bài báo bạn tự tìm”.": [". Read there, then copy the parts you like into “Read an article you found”.", "。在那里阅读后，把喜欢的段落复制到“阅读你自己找的文章”。"],
-  "✓ Đã đọc": ["✓ Read", "✓ 已读"], "← Tất cả bài báo": ["← All articles", "← 全部文章"], "Đọc bài": ["Reading", "阅读"], "🌐 Song ngữ (dịch cả bài)": ["🌐 Bilingual (translate all)", "🌐 双语对照（翻译全文）"], "📖 Chỉ xem bản gốc": ["📖 Original only", "📖 只看原文"],
+  "✓ Đã đọc": ["✓ Read", "✓ 已读"], "← Tất cả bài báo": ["← All articles", "← 全部文章"], "Đọc bài": ["Reading", "阅读"], "🌐 Song ngữ": ["🌐 Bilingual", "🌐 双语对照"], "📖 Chỉ xem bản gốc": ["📖 Original only", "📖 只看原文"],
   "🗑 Xoá bài này": ["🗑 Delete article", "🗑 删除这篇"], "Bài bạn đã dán": ["Your pasted article", "你粘贴的文章"], "Bài luyện đọc do SFY biên soạn": ["Practice article written by SFY", "SFY 编写的阅读练习"],
   "Bấm vào một từ hoặc bôi đen câu để dịch.": ["Click a word or select a sentence to translate it.", "点击单词或选中句子即可翻译。"],
   "Đọc đoạn này": ["Read this paragraph", "朗读这一段"], "Dịch đoạn này": ["Translate this paragraph", "翻译这一段"], "📋 Đọc bài báo bạn tự tìm": ["📋 Read an article you found", "📋 阅读你自己找的文章"],
@@ -5304,7 +5304,7 @@ function renderNewsArticle(a){
   return `<div class="page news-page ${split ? "split" : ""}">
     <button class="back pback" data-act="newshome">← Tất cả bài báo</button>
     <div class="toolbar prail"><span class="prail-h">Đọc bài</span>
-      <button class="chip" data-act="newstrall" aria-pressed="${split}">${split ? "📖 Chỉ xem bản gốc" : "🌐 Song ngữ (dịch cả bài)"}</button>
+      <button class="chip" data-act="newstrall" aria-pressed="${split}">${split ? "📖 Chỉ xem bản gốc" : "🌐 Song ngữ"}</button>
       <span class="prail-h">Tùy chọn</span>
       <button class="chip" data-act="pref" data-v="slow" aria-pressed="${store.prefs.slow}">Đọc chậm</button>${voicePicker(L)}
       ${a.mine ? `<button class="chip" data-act="newsdel">🗑 Xoá bài này</button>` : ""}</div>
