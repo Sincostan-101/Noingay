@@ -3,7 +3,10 @@
 Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với **Luyện nói** (tiếng Anh + tiếng Trung), sau đó mở rộng sang các phần khác.
 
 - Web chạy tại: https://sincostan-101.github.io/Noingay/ (GitHub Pages, nhánh `gh-pages`, thư mục gốc)
-- Toàn bộ web nằm trong một file `index.html` (HTML + CSS + JS, không cần máy chủ).
+- **Đọc `CODEMAP.md` trước khi sửa**: bản đồ mọi nhóm chức năng, hàm nào ở file nào dòng nào, nhóm nào gọi nhóm nào. Dùng nó để tìm đúng chỗ thay vì đọc lại chat cũ.
+- Code: `index.html` (khung, CSS, logic) + dữ liệu tách riêng trong `data/` (bài học, phát âm, từ vựng, IPA, báo, từ vựng chủ đề) và `i18n/strings.js` (câu dịch giao diện). Các file dữ liệu là script thường, nạp trước script chính, khai báo `const` dùng chung (không cần máy chủ, không cần build).
+- Sửa nội dung bài học, từ vựng, bản dịch: sửa trong `data/` hoặc `i18n/`, không sửa index.html.
+- Trước mỗi lần đẩy lên: chạy `python3 tools/codemap.py` (cập nhật CODEMAP.md và mã `?v=` để trình duyệt tải bản mới). Hàm mới: gán nhóm trong `tools/modules.json`.
 - Mỗi lần sửa xong: commit lên nhánh `gh-pages` là web tự cập nhật sau khoảng 1 phút.
 
 ## Định hướng sản phẩm
@@ -37,7 +40,7 @@ Web học **giao tiếp** ngoại ngữ cho người Việt. Bắt đầu với 
 - Sơ đồ code (22 nhóm, 345 khai báo, 1.029 chỗ gọi nhau): https://claude.ai/artifact/DRmCikiTMAyGu84MvDcQJf
 - Nút trung tâm: store, ui, esc (gần như mọi màn hình dùng). Khoảng 60% dung lượng index.html là dữ liệu.
 - Dự án mới: chia nhiều file nhỏ ngay từ đầu (core/, speech/, features/, pages/, data/, i18n/, css/), dùng ES module, không cần build.
-- SFY nếu tách: 1) dữ liệu ra data/ + i18n/, 2) CSS ra css/, 3) lõi ra core/, 4) giọng nói ra speech/, 5) từng trang ra pages/.
+- SFY tách dần: 1) dữ liệu ra data/ + i18n/ (ĐÃ XONG 24/11/2026, index.html giảm từ 1,16 triệu còn 0,48 triệu ký tự, dữ liệu kiểm tra khớp 100%), 2) CSS ra css/, 3) lõi ra core/, 4) giọng nói ra speech/, 5) từng trang ra pages/.
 
 ## Việc tiếp theo (chọn khi làm tiếp)
 - **Chấm phát âm chuyên dụng (ghi chú 24/11/2026):** hiện web chấm bằng nhận giọng nói của trình duyệt, chỉ biết chữ máy nghe được nên chỉ suy ra lỗi khi máy nghe nhầm thành từ/chữ khác; chưa bắt được trọng âm, ngữ điệu, độ dài âm hay lỗi nhỏ mà máy vẫn đoán đúng từ. Muốn chấm tới từng âm cần dịch vụ chấm phát âm có trả phí, gợi ý:
